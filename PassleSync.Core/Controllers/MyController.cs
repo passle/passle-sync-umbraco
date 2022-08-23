@@ -1,4 +1,5 @@
-﻿using PassleDotCom.PasslePlugin.Core.Helpers;
+﻿using PassleSync.Core.API.SyncHandlers;
+using PassleSync.Core.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -11,85 +12,27 @@ namespace PassleSync.Core.Controllers
     public class MyController : Umbraco.Web.WebApi.UmbracoApiController
     {
         private IKeyValueService _keyValueService;
-        public IContentService _contentService { get; set; }
+        public IContentService _contentService;
+        public ISyncHandler _postHandler;
 
 
-        public MyController(IKeyValueService keyValueService, IContentService contentService)
+        public MyController(IKeyValueService keyValueService, IContentService contentService, ISyncHandler postHandler)
         {
             _keyValueService = keyValueService;
             _contentService = contentService;
+            _postHandler = postHandler;
         }
 
 
         [HttpPost]
         public IHttpActionResult SyncPost(PostShortcodeModel post)
         {
-            var syncedPosts = ApiHelper.GetPosts();
-
-            // TODO: Move this into a config service?
-            var postsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.postsParentNodeId"));
-            var postsParentNode = _contentService.GetById(postsParentNodeId);
-
-            // Delete any existing posts with the same shortcode
-            if (_contentService.HasChildren(postsParentNodeId))
+            if (_postHandler.SyncOne(post.Shortcode))
             {
-                IEnumerable<IContent> children = _contentService.GetPagedChildren(postsParentNodeId, 0, 100, out long totalChildren).ToList();
-
-                foreach (var child in children)
-                {
-                    if (child.GetValue<string>("postShortcode") == post.Shortcode)
-                    {
-                        _contentService.Delete(child);
-                    }
-                }
-            }
-
-            // Create a new post
-            var syncedPost = syncedPosts.Posts.FirstOrDefault(x => x.PostShortcode == post.Shortcode);
-            if (syncedPost != null)
-            {
-                // TODO: Const for "post"
-                var node = _contentService.Create(syncedPost.PostTitle, postsParentNode.Id, "post");
-
-                // TODO: Should these strings be consts?
-                // TODO: Capitalisation?
-                node.SetValue("PostContentHtml", syncedPost.PostContentHtml);
-                node.SetValue("FeaturedItemHtml", syncedPost.FeaturedItemHtml);
-                node.SetValue("FeaturedItemPosition", syncedPost.FeaturedItemPosition);
-                node.SetValue("QuoteText", syncedPost.QuoteText);
-                node.SetValue("QuoteUrl", syncedPost.QuoteUrl);
-                node.SetValue("Tweets", syncedPost.Tweets);
-                node.SetValue("IsFeaturedOnPasslePage", syncedPost.IsFeaturedOnPasslePage);
-                node.SetValue("IsFeaturedOnPostPage", syncedPost.IsFeaturedOnPostPage);
-                node.SetValue("PostShortcode", syncedPost.PostShortcode);
-                node.SetValue("PassleShortcode", syncedPost.PassleShortcode);
-                node.SetValue("PostUrl", syncedPost.PostUrl);
-                node.SetValue("PostTitle", syncedPost.PostTitle);
-                node.SetValue("Authors", syncedPost.Authors);
-                node.SetValue("CoAuthors", syncedPost.CoAuthors);
-                node.SetValue("ShareViews", syncedPost.ShareViews);
-                node.SetValue("ContentTextSnippet", syncedPost.ContentTextSnippet);
-                node.SetValue("PublishedDate", syncedPost.PublishedDate);
-                node.SetValue("Tags", syncedPost.Tags);
-                node.SetValue("FeaturedItemMediaType", syncedPost.FeaturedItemMediaType);
-                node.SetValue("FeaturedItemEmbedType", syncedPost.FeaturedItemEmbedType);
-                node.SetValue("FeaturedItemEmbedProvider", syncedPost.FeaturedItemEmbedProvider);
-                node.SetValue("ImageUrl", syncedPost.ImageUrl);
-                node.SetValue("TotalShares", syncedPost.TotalShares);
-                node.SetValue("IsRepost", syncedPost.IsRepost);
-                node.SetValue("EstimatedReadTimeInSeconds", syncedPost.EstimatedReadTimeInSeconds);
-                node.SetValue("TotalLikes", syncedPost.TotalLikes);
-                node.SetValue("OpensInNewTab", syncedPost.OpensInNewTab);
-
-                _contentService.SaveAndPublish(node);
-
-                // do something to persist timetable
-                // TODO: What does this mean?
                 return Ok();
             }
             else
             {
-                // Clearly we've not managed to delete all the existing posts if one still exists
                 return BadRequest();
             }
         }

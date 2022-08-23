@@ -1,21 +1,12 @@
-﻿using Umbraco.Core;
-using Umbraco.Core.Logging;
-using Umbraco.Core.Composing;
-using Umbraco.Core.Migrations;
-using Umbraco.Core.Migrations.Upgrade;
-using Umbraco.Core.Scoping;
-using Umbraco.Core.Services;
-using NPoco;
-using Umbraco.Core.Persistence.DatabaseAnnotations;
+﻿using Umbraco.Core.Services;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
 using System.Web.Http;
-using PassleDotCom.PasslePlugin.Core.Helpers;
+using PassleSync.Core.Helpers;
 using System.Collections.Generic;
 using Umbraco.Core.Models;
 using System.Linq;
-using Umbraco.Core.Services.Implement;
-using SubscribeToPublishEventComposer;
+using PassleSync.Core.API.SyncHandlers;
 
 namespace PassleSync.Core.Controllers
 {
@@ -23,22 +14,16 @@ namespace PassleSync.Core.Controllers
     [PluginController("myPassleSync")]
     public class MyPassleSyncController : UmbracoAuthorizedApiController
     {
-        private IScopeProvider _scopeProvider;
-        private IMigrationBuilder _migrationBuilder;
         private IKeyValueService _keyValueService;
-        private ILogger _logger;
-        public IContentService _contentService { get; set; }
-        private INotificationService _notificationService;
+        public IContentService _contentService;
+        public ISyncHandler _postHandler;
 
 
-        public MyPassleSyncController(INotificationService notificationService, IScopeProvider scopeProvider, IMigrationBuilder migrationBuilder, IKeyValueService keyValueService, ILogger logger, IContentService contentService)
+        public MyPassleSyncController(IKeyValueService keyValueService, IContentService contentService, ISyncHandler postHandler)
         {
-            _scopeProvider = scopeProvider;
-            _migrationBuilder = migrationBuilder;
             _keyValueService = keyValueService;
-            _logger = logger;
             _contentService = contentService;
-            _notificationService = notificationService;
+            _postHandler = postHandler;
         }
 
         [HttpGet]
