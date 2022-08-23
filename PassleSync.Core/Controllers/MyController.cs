@@ -1,176 +1,179 @@
 ﻿using PassleDotCom.PasslePlugin.Core.Helpers;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Mvc;
-using Umbraco.Core.Migrations;
 using Umbraco.Core.Models;
-using Umbraco.Core.Scoping;
 using Umbraco.Core.Services;
-using Umbraco.Web.Mvc;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 
 namespace PassleDotCom.PasslePlugin.Core.Controllers
 {
     public class MyController : Umbraco.Web.WebApi.UmbracoApiController
     {
-        private IScopeProvider _scopeProvider;
-        private IMigrationBuilder _migrationBuilder;
         private IKeyValueService _keyValueService;
         public IContentService _contentService { get; set; }
-        private INotificationService _notificationService;
 
 
-        public MyController(INotificationService notificationService, IScopeProvider scopeProvider, IMigrationBuilder migrationBuilder, IKeyValueService keyValueService, IContentService contentService)
+        public MyController(IKeyValueService keyValueService, IContentService contentService)
         {
-            _scopeProvider = scopeProvider;
-            _migrationBuilder = migrationBuilder;
             _keyValueService = keyValueService;
             _contentService = contentService;
-            _notificationService = notificationService;
         }
 
 
         [HttpPost]
-        public IHttpActionResult SyncPost(postingModel model)
+        public IHttpActionResult SyncPost(PostShortcodeModel post)
         {
-            var posts = ApiHelper.GetPosts();
+            var syncedPosts = ApiHelper.GetPosts();
+
+            // TODO: Move this into a config service?
             var postsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.postsParentNodeId"));
             var postsParentNode = _contentService.GetById(postsParentNodeId);
 
-
+            // Delete any existing posts with the same shortcode
             if (_contentService.HasChildren(postsParentNodeId))
             {
-                long totalChildren;
-                IEnumerable<IContent> children = _contentService.GetPagedChildren(postsParentNodeId, 0, 100, out totalChildren).ToList();
+                IEnumerable<IContent> children = _contentService.GetPagedChildren(postsParentNodeId, 0, 100, out long totalChildren).ToList();
 
                 foreach (var child in children)
                 {
-                    if (child.GetValue<string>("postShortcode") == model.shortcode)
+                    if (child.GetValue<string>("postShortcode") == post.Shortcode)
                     {
                         _contentService.Delete(child);
                     }
                 }
             }
 
-            var post = posts.Posts.FirstOrDefault(x => x.PostShortcode == model.shortcode);
-
-
-            if (post != null)
+            // Create a new post
+            var syncedPost = syncedPosts.Posts.FirstOrDefault(x => x.PostShortcode == post.Shortcode);
+            if (syncedPost != null)
             {
+                // TODO: Const for "post"
+                var node = _contentService.Create(syncedPost.PostTitle, postsParentNode.Id, "post");
 
-                var node = _contentService.Create(post.PostTitle, postsParentNode.Id, "post");
-
-                node.SetValue("PostContentHtml", post.PostContentHtml);
-                node.SetValue("FeaturedItemHtml", post.FeaturedItemHtml);
-                node.SetValue("FeaturedItemPosition", post.FeaturedItemPosition);
-                node.SetValue("QuoteText", post.QuoteText);
-
-
-                node.SetValue("QuoteUrl", post.QuoteUrl);
-                node.SetValue("Tweets", post.Tweets);
-                node.SetValue("IsFeaturedOnPasslePage", post.IsFeaturedOnPasslePage);
-                node.SetValue("IsFeaturedOnPostPage", post.IsFeaturedOnPostPage);
-                node.SetValue("PostShortcode", post.PostShortcode);
-                node.SetValue("PassleShortcode", post.PassleShortcode);
-                node.SetValue("PostUrl", post.PostUrl);
-                node.SetValue("PostTitle", post.PostTitle);
-                node.SetValue("Authors", post.Authors);
-                node.SetValue("CoAuthors", post.CoAuthors);
-                node.SetValue("ShareViews", post.ShareViews);
-                node.SetValue("ContentTextSnippet", post.ContentTextSnippet);
-                node.SetValue("PublishedDate", post.PublishedDate);
-                node.SetValue("Tags", post.Tags);
-                node.SetValue("FeaturedItemMediaType", post.FeaturedItemMediaType);
-                node.SetValue("FeaturedItemEmbedType", post.FeaturedItemEmbedType);
-                node.SetValue("FeaturedItemEmbedProvider", post.FeaturedItemEmbedProvider);
-                node.SetValue("ImageUrl", post.ImageUrl);
-                node.SetValue("TotalShares", post.TotalShares);
-
-                node.SetValue("IsRepost", post.IsRepost);
-                node.SetValue("EstimatedReadTimeInSeconds", post.EstimatedReadTimeInSeconds);
-                node.SetValue("TotalLikes", post.TotalLikes);
-                node.SetValue("OpensInNewTab", post.OpensInNewTab);
+                // TODO: Should these strings be consts?
+                // TODO: Capitalisation?
+                node.SetValue("PostContentHtml", syncedPost.PostContentHtml);
+                node.SetValue("FeaturedItemHtml", syncedPost.FeaturedItemHtml);
+                node.SetValue("FeaturedItemPosition", syncedPost.FeaturedItemPosition);
+                node.SetValue("QuoteText", syncedPost.QuoteText);
+                node.SetValue("QuoteUrl", syncedPost.QuoteUrl);
+                node.SetValue("Tweets", syncedPost.Tweets);
+                node.SetValue("IsFeaturedOnPasslePage", syncedPost.IsFeaturedOnPasslePage);
+                node.SetValue("IsFeaturedOnPostPage", syncedPost.IsFeaturedOnPostPage);
+                node.SetValue("PostShortcode", syncedPost.PostShortcode);
+                node.SetValue("PassleShortcode", syncedPost.PassleShortcode);
+                node.SetValue("PostUrl", syncedPost.PostUrl);
+                node.SetValue("PostTitle", syncedPost.PostTitle);
+                node.SetValue("Authors", syncedPost.Authors);
+                node.SetValue("CoAuthors", syncedPost.CoAuthors);
+                node.SetValue("ShareViews", syncedPost.ShareViews);
+                node.SetValue("ContentTextSnippet", syncedPost.ContentTextSnippet);
+                node.SetValue("PublishedDate", syncedPost.PublishedDate);
+                node.SetValue("Tags", syncedPost.Tags);
+                node.SetValue("FeaturedItemMediaType", syncedPost.FeaturedItemMediaType);
+                node.SetValue("FeaturedItemEmbedType", syncedPost.FeaturedItemEmbedType);
+                node.SetValue("FeaturedItemEmbedProvider", syncedPost.FeaturedItemEmbedProvider);
+                node.SetValue("ImageUrl", syncedPost.ImageUrl);
+                node.SetValue("TotalShares", syncedPost.TotalShares);
+                node.SetValue("IsRepost", syncedPost.IsRepost);
+                node.SetValue("EstimatedReadTimeInSeconds", syncedPost.EstimatedReadTimeInSeconds);
+                node.SetValue("TotalLikes", syncedPost.TotalLikes);
+                node.SetValue("OpensInNewTab", syncedPost.OpensInNewTab);
 
                 _contentService.SaveAndPublish(node);
 
+                // do something to persist timetable
+                // TODO: What does this mean?
+                return Ok();
             }
-
-
-            // do something to persist timetable
-            return Ok();
+            else
+            {
+                // Clearly we've not managed to delete all the existing posts if one still exists
+                return BadRequest();
+            }
         }
 
 
         [HttpPost]
-        public IHttpActionResult SyncAuthor(postingModel model)
+        public IHttpActionResult SyncAuthor(AuthorShortcodeModel author)
         {
-            var authors = ApiHelper.GetAuthors();
+            var syncedAuthors = ApiHelper.GetAuthors();
+
+            // TODO: Move this into a config service?
             var authorsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.peopleParentNodeId"));
             var authorsParentNode = _contentService.GetById(authorsParentNodeId);
 
+            // Delete any existing authors with the same shortcode
             if (_contentService.HasChildren(authorsParentNodeId))
             {
-                long totalChildren;
-                IEnumerable<IContent> children = _contentService.GetPagedChildren(authorsParentNodeId, 0, 100, out totalChildren).ToList();
+                IEnumerable<IContent> children = _contentService.GetPagedChildren(authorsParentNodeId, 0, 100, out long totalChildren).ToList();
 
                 foreach (var child in children)
                 {
-                    if (child.GetValue<string>("shortcode") == model.shortcode)
+                    if (child.GetValue<string>("shortcode") == author.Shortcode)
                     {
                         _contentService.Delete(child);
                     }
                 }
             }
 
-            var author = authors.People.FirstOrDefault(x => x.Shortcode == model.shortcode);
-
-            if (author != null)
+            // Create a new author
+            var syncedAuthor = syncedAuthors.People.FirstOrDefault(x => x.Shortcode == author.Shortcode);
+            if (syncedAuthor != null)
             {
-                var node = _contentService.Create(author.Name, authorsParentNode.Id, "person");
-                node.SetValue("description", author.Description);
+                // TODO: Const for "person"
+                var node = _contentService.Create(syncedAuthor.Name, authorsParentNode.Id, "person");
 
-                node.SetValue("shortcode", author.Shortcode);
-                node.SetValue("imageUrl", author.ImageUrl);
-                node.SetValue("roleInfo", author.RoleInfo);
-                node.SetValue("avatarUrl", author.AvatarUrl);
-                node.SetValue("subscribeLink", author.SubscribeLink);
-                node.SetValue("tagLineCompany", author.TagLineCompany);
-                node.SetValue("locationCountry", author.LocationCountry);
-                node.SetValue("locationDetail", author.LocationDetail);
-                node.SetValue("personalLinks", author.PersonalLinks);
-                node.SetValue("instagramProfileLink", author.InstagramProfileLink);
-                node.SetValue("pinterestProfileLink", author.PinterestProfileLink);
-                node.SetValue("stumbleUponProfileLink", author.StumbleUponProfileLink);
-                node.SetValue("youTubeProfileLink", author.YouTubeProfileLink);
-                node.SetValue("vimeoProfileLink", author.VimeoProfileLink);
-                node.SetValue("skypeProfileLink", author.SkypeProfileLink);
-                node.SetValue("xingProfileLink", author.XingProfileLink);
-                node.SetValue("facebookProfileLink", author.FacebookProfileLink);
-                node.SetValue("linkedInProfileLink", author.LinkedInProfileLink);
-                node.SetValue("phoneNumber", author.PhoneNumber);
-                node.SetValue("emailAddress", author.EmailAddress);
-                node.SetValue("twitterScreenName", author.TwitterScreenName);
-                node.SetValue("profileUrl", author.ProfileUrl);
+                // TODO: Should these strings be consts?
+                // TODO: Capitalisation?
+                node.SetValue("description", syncedAuthor.Description);
+                node.SetValue("shortcode", syncedAuthor.Shortcode);
+                node.SetValue("imageUrl", syncedAuthor.ImageUrl);
+                node.SetValue("roleInfo", syncedAuthor.RoleInfo);
+                node.SetValue("avatarUrl", syncedAuthor.AvatarUrl);
+                node.SetValue("subscribeLink", syncedAuthor.SubscribeLink);
+                node.SetValue("tagLineCompany", syncedAuthor.TagLineCompany);
+                node.SetValue("locationCountry", syncedAuthor.LocationCountry);
+                node.SetValue("locationDetail", syncedAuthor.LocationDetail);
+                node.SetValue("personalLinks", syncedAuthor.PersonalLinks);
+                node.SetValue("instagramProfileLink", syncedAuthor.InstagramProfileLink);
+                node.SetValue("pinterestProfileLink", syncedAuthor.PinterestProfileLink);
+                node.SetValue("stumbleUponProfileLink", syncedAuthor.StumbleUponProfileLink);
+                node.SetValue("youTubeProfileLink", syncedAuthor.YouTubeProfileLink);
+                node.SetValue("vimeoProfileLink", syncedAuthor.VimeoProfileLink);
+                node.SetValue("skypeProfileLink", syncedAuthor.SkypeProfileLink);
+                node.SetValue("xingProfileLink", syncedAuthor.XingProfileLink);
+                node.SetValue("facebookProfileLink", syncedAuthor.FacebookProfileLink);
+                node.SetValue("linkedInProfileLink", syncedAuthor.LinkedInProfileLink);
+                node.SetValue("phoneNumber", syncedAuthor.PhoneNumber);
+                node.SetValue("emailAddress", syncedAuthor.EmailAddress);
+                node.SetValue("twitterScreenName", syncedAuthor.TwitterScreenName);
+                node.SetValue("profileUrl", syncedAuthor.ProfileUrl);
 
                 _contentService.SaveAndPublish(node);
 
+                // do something to persist timetable
+                // TODO: What does this mean?
+                return Ok();
             }
-
-            // do something to persist timetable
-            return Ok();
+            else
+            {
+                // Clearly we've not managed to delete all the existing authors if one still exists
+                return BadRequest();
+            }
         }
-
-
-
     }
 
-    public class postingModel
+    public class SyncableObjectModel
     {
-        public string shortcode { get; set; }
+        public string Shortcode { get; set; }
     }
+
+    public class PostShortcodeModel : SyncableObjectModel
+    { }
+
+    public class AuthorShortcodeModel : SyncableObjectModel
+    { }
 
 }
