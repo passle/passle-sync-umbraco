@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PassleDotCom.PasslePlugin.Core.Models.PassleSync
+namespace PassleSync.Core.Models.PassleSync
 {
     public class PassleTweet
     {

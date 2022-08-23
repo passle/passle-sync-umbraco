@@ -1,11 +1,11 @@
-﻿using PassleDotCom.PasslePlugin.Core.Models.PassleSync;
+﻿using PassleSync.Core.Models.PassleSync;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PassleDotCom.PasslePlugin.Core.Models.Admin
+namespace PassleSync.Core.Models.Admin
 {
     public class PaginatedResponse
     {

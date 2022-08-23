@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PassleDotCom.PasslePlugin.Core.Models.Admin
+namespace PassleSync.Core.Models.Admin
 {
     public class Post
     {

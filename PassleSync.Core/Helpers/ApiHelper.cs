@@ -13,14 +13,14 @@ using Umbraco.Core.Services;
 using Umbraco.Web.Composing;
 using Umbraco.Core;
 
-namespace PassleDotCom.PasslePlugin.Core.Helpers
+namespace PassleSync.Core.Helpers
 {
     public static class ApiHelper
     {
-        public static PassleDotCom.PasslePlugin.Core.Models.Admin.PaginatedResponse GetPosts()
+        public static PassleSync.Core.Models.Admin.PaginatedResponse GetPosts()
         {
             IKeyValueService kv = Current.Factory.GetInstance<IKeyValueService>();
-            var result = new PassleDotCom.PasslePlugin.Core.Models.Admin.PaginatedResponse();
+            var result = new PassleSync.Core.Models.Admin.PaginatedResponse();
 
             HttpClient client = new HttpClient();
             string baseApiAddress = kv.GetValue("Passle.apiUrl");
@@ -34,16 +34,16 @@ namespace PassleDotCom.PasslePlugin.Core.Helpers
             HttpResponseMessage response = client.GetAsync("/api/v2/passlesync/posts?PassleShortcode=" + shortCode + "&ItemsPerPage=100").Result;
             if (response.IsSuccessStatusCode)
             {
-                result = response.Content.ReadAsAsync<PassleDotCom.PasslePlugin.Core.Models.Admin.PaginatedResponse>().Result;
+                result = response.Content.ReadAsAsync<PassleSync.Core.Models.Admin.PaginatedResponse>().Result;
             }
 
             return result;
         }
 
-        public static PassleDotCom.PasslePlugin.Core.Models.Admin.PaginatedResponse GetAuthors()
+        public static PassleSync.Core.Models.Admin.PaginatedResponse GetAuthors()
         {
             IKeyValueService kv = Current.Factory.GetInstance<IKeyValueService>();
-            var result = new PassleDotCom.PasslePlugin.Core.Models.Admin.PaginatedResponse();
+            var result = new PassleSync.Core.Models.Admin.PaginatedResponse();
 
             HttpClient client = new HttpClient();
             string baseApiAddress = kv.GetValue("Passle.apiUrl");
@@ -58,7 +58,7 @@ namespace PassleDotCom.PasslePlugin.Core.Helpers
             HttpResponseMessage response = client.GetAsync("/api/v2/passlesync/people?PassleShortcode=" + shortCode + "&ItemsPerPage=100").Result;
             if (response.IsSuccessStatusCode)
             {
-                result = response.Content.ReadAsAsync<PassleDotCom.PasslePlugin.Core.Models.Admin.PaginatedResponse>().Result;
+                result = response.Content.ReadAsAsync<PassleSync.Core.Models.Admin.PaginatedResponse>().Result;
             }
 
             return result;

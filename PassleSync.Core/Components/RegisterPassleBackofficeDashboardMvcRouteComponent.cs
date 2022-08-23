@@ -8,7 +8,7 @@ using System.Web.Routing;
 using Umbraco.Core.Composing;
 using Umbraco.Core.Configuration;
 
-namespace PassleDotCom.PasslePlugin.Core.Components
+namespace PassleSync.Core.Components
 {
     public class RegisterPassleBackofficeDashboardMvcRouteComponent : IComponent
     {

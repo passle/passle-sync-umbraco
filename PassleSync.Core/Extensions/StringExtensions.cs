@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace PassleDotCom.PasslePlugin.Core.Extensions
+namespace PassleSync.Core.Extensions
 {
     public static class StringExtensions
     {

@@ -1,9 +1,9 @@
-﻿using PassleDotCom.PasslePlugin.Core.Components;
-using PassleDotCom.PasslePlugin.Core.Controllers;
+﻿using PassleSync.Core.Components;
+using PassleSync.Core.Controllers;
 using Umbraco.Core;
 using Umbraco.Core.Composing;
 
-namespace PassleDotCom.PasslePlugin.Core.Composers
+namespace PassleSync.Core.Composers
 {
     public class RegisterCustomBackofficeMvcRouteComposer : IUserComposer
     {

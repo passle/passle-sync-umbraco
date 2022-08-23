@@ -4,7 +4,7 @@ using Umbraco.Core.Logging;
 using Umbraco.Core.Services;
 using Umbraco.Web.Scheduling;
 
-namespace PassleDotCom.PasslePlugin.Core.Components
+namespace PassleSync.Core.Components
 {
     public class TaskRunnerComponent : IComponent
     {
