@@ -26,7 +26,6 @@ namespace SubscribeToPublishEventComposer
 
                     // Explain why the publish event is cancelled
                     e.Messages.Add(new Umbraco.Core.Events.EventMessage("Error", "Posts are not changeable!", Umbraco.Core.Events.EventMessageType.Error));
-
                 }
             }
 
@@ -39,11 +38,9 @@ namespace SubscribeToPublishEventComposer
 
                     // Explain why the publish event is cancelled
                     e.Messages.Add(new Umbraco.Core.Events.EventMessage("Error", "This document is not changeable!", Umbraco.Core.Events.EventMessageType.Error));
-
                 }
             }
         }
-
 
         public void Terminate()
         {

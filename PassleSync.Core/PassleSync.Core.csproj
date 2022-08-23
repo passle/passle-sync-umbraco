@@ -410,16 +410,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
-    <Compile Include="Components\RegisterPassleBackofficeDashboardMvcRouteComponent.cs" />
+    <Compile Include="Components\RegisterBackofficeRouteComponent.cs" />
     <Compile Include="Components\SubscribeToPublishEventComponent.cs" />
     <Compile Include="Components\TaskRunnerComponent.cs" />
     <Compile Include="Composers\IOCComposer.cs" />
     <Compile Include="Composers\RegisterCustomBackofficeMvcRouteComposer.cs" />
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
-    <Compile Include="Controllers\MyController.cs" />
-    <Compile Include="Controllers\MyPassleSyncController.cs" />
     <Compile Include="Dashboards\PassleSync.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Controllers\WebhookController.cs" />
+    <Compile Include="Controllers\PassleSyncController.cs" />
     <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Models\Admin\PaginatedResponse.cs" />
     <Compile Include="Models\Admin\Person.cs" />

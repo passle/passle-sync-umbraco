@@ -71,7 +71,8 @@ namespace PassleSync.Core.SyncHandlers
                 {
                     return false;
                 }
-            } catch (ArgumentNullException ex)
+            }
+            catch (ArgumentNullException)
             {
                 return false;
             }
