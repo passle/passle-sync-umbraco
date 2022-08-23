@@ -1,5 +1,6 @@
 ﻿using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.Helpers;
+using PassleSync.Core.Models.Admin;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -13,10 +14,10 @@ namespace PassleSync.Core.Controllers
     {
         private IKeyValueService _keyValueService;
         public IContentService _contentService;
-        public ISyncHandler _postHandler;
+        public ISyncHandler<Post> _postHandler;
 
 
-        public MyController(IKeyValueService keyValueService, IContentService contentService, ISyncHandler postHandler)
+        public MyController(IKeyValueService keyValueService, IContentService contentService, ISyncHandler<Post> postHandler)
         {
             _keyValueService = keyValueService;
             _contentService = contentService;

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Umbraco.Core.Models;
 using System.Linq;
 using PassleSync.Core.API.SyncHandlers;
+using PassleSync.Core.Models.Admin;
 
 namespace PassleSync.Core.Controllers
 {
@@ -16,10 +17,13 @@ namespace PassleSync.Core.Controllers
     {
         private IKeyValueService _keyValueService;
         public IContentService _contentService;
-        public ISyncHandler _postHandler;
+        public ISyncHandler<Post> _postHandler;
 
 
-        public MyPassleSyncController(IKeyValueService keyValueService, IContentService contentService, ISyncHandler postHandler)
+        public MyPassleSyncController(
+            IKeyValueService keyValueService,
+            IContentService contentService,
+            ISyncHandler<Post> postHandler)
         {
             _keyValueService = keyValueService;
             _contentService = contentService;
@@ -53,6 +57,8 @@ namespace PassleSync.Core.Controllers
         [HttpPost]
         public IHttpActionResult Sync()
         {
+            bool successful = false;
+
             var authors = ApiHelper.GetAuthors();
             var authorsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.peopleParentNodeId"));
             var authorsParentNode = _contentService.GetById(authorsParentNodeId);
@@ -102,132 +108,32 @@ namespace PassleSync.Core.Controllers
                 }
             }
 
-            var posts = ApiHelper.GetPosts();
-            var postsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.postsParentNodeId"));
-            var postsParentNode = _contentService.GetById(postsParentNodeId);
 
-            if (_contentService.HasChildren(postsParentNodeId))
+            successful |= _postHandler.SyncAll();
+
+            if (successful)
             {
-                long totalChildren;
-                IEnumerable<IContent> children = _contentService.GetPagedChildren(postsParentNodeId, 0, 100, out totalChildren).ToList();
-
-                foreach (var child in children)
-                {
-                    _contentService.Delete(child);
-                }
+                return Ok();
             }
-
-
-            if (postsParentNode != null && posts != null && posts.Posts != null)
+            else
             {
-                foreach (var post in posts.Posts)
-                {
-                    var node = _contentService.Create(post.PostTitle, postsParentNode.Id, "post");
-
-                    node.SetValue("PostContentHtml", post.PostContentHtml);
-                    node.SetValue("FeaturedItemHtml", post.FeaturedItemHtml);
-                    node.SetValue("FeaturedItemPosition", post.FeaturedItemPosition);
-                    node.SetValue("QuoteText", post.QuoteText);
-
-
-                    node.SetValue("QuoteUrl", post.QuoteUrl);
-                    //node.SetValue("Tweets", post.Tweets);
-                    node.SetValue("IsFeaturedOnPasslePage", post.IsFeaturedOnPasslePage);
-                    node.SetValue("IsFeaturedOnPostPage", post.IsFeaturedOnPostPage);
-                    node.SetValue("PostShortcode", post.PostShortcode);
-                    node.SetValue("PassleShortcode", post.PassleShortcode);
-                    node.SetValue("PostUrl", post.PostUrl);
-                    node.SetValue("PostTitle", post.PostTitle);
-                    //node.SetValue("Authors", post.Authors);
-                    //node.SetValue("CoAuthors", post.CoAuthors);
-                    //node.SetValue("ShareViews", post.ShareViews);
-                    node.SetValue("ContentTextSnippet", post.ContentTextSnippet);
-                    node.SetValue("PublishedDate", post.PublishedDate);
-                    //node.SetValue("Tags", post.Tags);
-                    node.SetValue("FeaturedItemMediaType", post.FeaturedItemMediaType);
-                    node.SetValue("FeaturedItemEmbedType", post.FeaturedItemEmbedType);
-                    node.SetValue("FeaturedItemEmbedProvider", post.FeaturedItemEmbedProvider);
-                    node.SetValue("ImageUrl", post.ImageUrl);
-                    node.SetValue("TotalShares", post.TotalShares);
-
-                    node.SetValue("IsRepost", post.IsRepost);
-                    node.SetValue("EstimatedReadTimeInSeconds", post.EstimatedReadTimeInSeconds);
-                    node.SetValue("TotalLikes", post.TotalLikes);
-                    node.SetValue("OpensInNewTab", post.OpensInNewTab);
-
-                    _contentService.SaveAndPublish(node);
-                }
-            }
-
-
-            // do something to persist timetable
-            return Ok();
+                return BadRequest();
+            } 
+                
         }
 
 
         [HttpPost]
         public IHttpActionResult SyncPosts()
         {
-            var posts = ApiHelper.GetPosts();
-            var postsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.postsParentNodeId"));
-            var postsParentNode = _contentService.GetById(postsParentNodeId);
-
-            if (_contentService.HasChildren(postsParentNodeId))
+            if (_postHandler.SyncAll())
             {
-                long totalChildren;
-                IEnumerable<IContent> children = _contentService.GetPagedChildren(postsParentNodeId, 0, 100, out totalChildren).ToList();
-
-                foreach (var child in children)
-                {
-                    _contentService.Delete(child);
-                }
+                return Ok();
             }
-
-
-            if (postsParentNode != null && posts != null && posts.Posts != null)
+            else
             {
-                foreach (var post in posts.Posts)
-                {
-                    var node = _contentService.Create(post.PostTitle, postsParentNode.Id, "post");
-
-                    node.SetValue("PostContentHtml", post.PostContentHtml);
-                    node.SetValue("FeaturedItemHtml", post.FeaturedItemHtml);
-                    node.SetValue("FeaturedItemPosition", post.FeaturedItemPosition);
-                    node.SetValue("QuoteText", post.QuoteText);
-
-
-                    node.SetValue("QuoteUrl", post.QuoteUrl);
-                    node.SetValue("Tweets", post.Tweets);
-                    node.SetValue("IsFeaturedOnPasslePage", post.IsFeaturedOnPasslePage);
-                    node.SetValue("IsFeaturedOnPostPage", post.IsFeaturedOnPostPage);
-                    node.SetValue("PostShortcode", post.PostShortcode);
-                    node.SetValue("PassleShortcode", post.PassleShortcode);
-                    node.SetValue("PostUrl", post.PostUrl);
-                    node.SetValue("PostTitle", post.PostTitle);
-                    node.SetValue("Authors", post.Authors);
-                    node.SetValue("CoAuthors", post.CoAuthors);
-                    node.SetValue("ShareViews", post.ShareViews);
-                    node.SetValue("ContentTextSnippet", post.ContentTextSnippet);
-                    node.SetValue("PublishedDate", post.PublishedDate);
-                    node.SetValue("Tags", post.Tags);
-                    node.SetValue("FeaturedItemMediaType", post.FeaturedItemMediaType);
-                    node.SetValue("FeaturedItemEmbedType", post.FeaturedItemEmbedType);
-                    node.SetValue("FeaturedItemEmbedProvider", post.FeaturedItemEmbedProvider);
-                    node.SetValue("ImageUrl", post.ImageUrl);
-                    node.SetValue("TotalShares", post.TotalShares);
-
-                    node.SetValue("IsRepost", post.IsRepost);
-                    node.SetValue("EstimatedReadTimeInSeconds", post.EstimatedReadTimeInSeconds);
-                    node.SetValue("TotalLikes", post.TotalLikes);
-                    node.SetValue("OpensInNewTab", post.OpensInNewTab);
-
-                    _contentService.SaveAndPublish(node);
-                }
+                return BadRequest();
             }
-
-
-            // do something to persist timetable
-            return Ok();
         }
 
         [HttpPost]
