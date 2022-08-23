@@ -413,6 +413,7 @@
     <Compile Include="Components\RegisterPassleBackofficeDashboardMvcRouteComponent.cs" />
     <Compile Include="Components\SubscribeToPublishEventComponent.cs" />
     <Compile Include="Components\TaskRunnerComponent.cs" />
+    <Compile Include="Composers\IOCComposer.cs" />
     <Compile Include="Composers\RegisterCustomBackofficeMvcRouteComposer.cs" />
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
     <Compile Include="Controllers\MyController.cs" />
