@@ -9,8 +9,8 @@ namespace PassleSync.Core.Composers
     {
         public void Compose(Composition composition)
         {
-            composition.Register<MyPassleSyncController>(Lifetime.Request);
-            composition.Components().Append<RegisterPassleBackofficeDashboardMvcRouteComponent>();
+            composition.Register<PassleSyncController>(Lifetime.Request);
+            composition.Components().Append<RegisterBackofficeRouteComponent>();
         }
     }
 }

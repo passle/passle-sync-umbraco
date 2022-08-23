@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PassleSync.Core.Extensions
 {
     public static class StringExtensions
     {
-        public static string ToTelephoneLink(this String phoneNumber)
+        public static string ToTelephoneLink(this string phoneNumber)
         {
-            return String.Format("tel:{0}", Regex.Replace(phoneNumber, @"[^0-9]", ""));
+            return string.Format("tel:{0}", Regex.Replace(phoneNumber, @"[^0-9]", ""));
         }
 
         public static string RemoveParagraphWrapperTags(this string text)

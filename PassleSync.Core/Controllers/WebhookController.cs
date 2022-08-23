@@ -8,14 +8,12 @@ namespace PassleSync.Core.Controllers
 {
     public class MyController : Umbraco.Web.WebApi.UmbracoApiController
     {
-        private IKeyValueService _keyValueService;
         public IContentService _contentService;
         public ISyncHandler<Post> _postHandler;
         public ISyncHandler<Person> _personHandler;
 
-        public MyController(IKeyValueService keyValueService, IContentService contentService, ISyncHandler<Post> postHandler)
+        public MyController(IContentService contentService, ISyncHandler<Post> postHandler)
         {
-            _keyValueService = keyValueService;
             _contentService = contentService;
             _postHandler = postHandler;
         }
@@ -59,5 +57,4 @@ namespace PassleSync.Core.Controllers
 
     public class AuthorShortcodeModel : SyncableObjectModel
     { }
-
 }
