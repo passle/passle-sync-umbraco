@@ -19,11 +19,13 @@ namespace PassleSync.Core.Controllers
         public MyPassleSyncController(
             IKeyValueService keyValueService,
             IContentService contentService,
-            ISyncHandler<Post> postHandler)
+            ISyncHandler<Post> postHandler,
+            ISyncHandler<Person> peopleHandler)
         {
             _keyValueService = keyValueService;
             _contentService = contentService;
             _postHandler = postHandler;
+            _peopleHandler = peopleHandler;
         }
 
         [HttpGet]
