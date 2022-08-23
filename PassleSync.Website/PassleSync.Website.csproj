@@ -369,18 +369,25 @@
     <Content Include="Views\Master.cshtml" />
     <Content Include="Views\Person.cshtml" />
     <Content Include="Views\Post.cshtml" />
+    <Content Include="Views\Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-	<None Include="Web.Staging.config">
-		<DependentUpon>Web.config</DependentUpon>
-	</None>
-	<None Include="Web.Production.config">
-		<DependentUpon>Web.config</DependentUpon>
-	</None>
+    <None Include="Web.Staging.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Production.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PassleSync.Core\PassleSync.Core.csproj">
+      <Project>{9741725c-ea3c-481e-b8e4-fc88ca450c17}</Project>
+      <Name>PassleSync.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
