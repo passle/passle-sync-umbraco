@@ -2,10 +2,6 @@
 using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
 using System.Web.Http;
-using PassleSync.Core.Helpers;
-using System.Collections.Generic;
-using Umbraco.Core.Models;
-using System.Linq;
 using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.Models.Admin;
 
@@ -18,7 +14,7 @@ namespace PassleSync.Core.Controllers
         private IKeyValueService _keyValueService;
         public IContentService _contentService;
         public ISyncHandler<Post> _postHandler;
-
+        public ISyncHandler<Person> _peopleHandler;
 
         public MyPassleSyncController(
             IKeyValueService keyValueService,
@@ -33,22 +29,24 @@ namespace PassleSync.Core.Controllers
         [HttpGet]
         public SettingsData Get()
         {
-            var data = new SettingsData();
-            data.shortcode = _keyValueService.GetValue("Passle.shortcode");
-            data.apiKey = _keyValueService.GetValue("Passle.apiKey");
-            data.apiUrl = _keyValueService.GetValue("Passle.apiUrl");
-
-            data.pluginApiKey = _keyValueService.GetValue("Passle.pluginApiKey");
-            data.postPermalinkPrefix = _keyValueService.GetValue("Passle.postPermalinkPrefix");
-            data.personPermalinkPrefix = _keyValueService.GetValue("Passle.personPermalinkPrefix");
-
-            if (!string.IsNullOrWhiteSpace(_keyValueService.GetValue("Passle.peopleParentNodeId")))
+            var data = new SettingsData
             {
-                data.peopleParentNodeId = int.Parse(_keyValueService.GetValue("Passle.peopleParentNodeId"));
+                Shortcode = _keyValueService.GetValue("PassleSync.Shortcode"),
+                ApiKey = _keyValueService.GetValue("PassleSync.ApiKey"),
+                ApiUrl = _keyValueService.GetValue("PassleSync.ApiUrl"),
+                PluginApiKey = _keyValueService.GetValue("PassleSync.PluginApiKey"),
+                PostPermalinkPrefix = _keyValueService.GetValue("PassleSync.PostPermalinkPrefix"),
+                PersonPermalinkPrefix = _keyValueService.GetValue("PassleSync.PersonPermalinkPrefix")
+            };
+
+            if (!string.IsNullOrWhiteSpace(_keyValueService.GetValue("PassleSync.PeopleParentNodeId")))
+            {
+                data.PeopleParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PeopleParentNodeId"));
             }
-            if (!string.IsNullOrWhiteSpace(_keyValueService.GetValue("Passle.postsParentNodeId")))
+
+            if (!string.IsNullOrWhiteSpace(_keyValueService.GetValue("PassleSync.PostsParentNodeId")))
             {
-                data.postsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.postsParentNodeId"));
+                data.PostsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
             }
 
             return data;
@@ -57,59 +55,10 @@ namespace PassleSync.Core.Controllers
         [HttpPost]
         public IHttpActionResult Sync()
         {
-            bool successful = false;
-
-            var authors = ApiHelper.GetAuthors();
-            var authorsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.peopleParentNodeId"));
-            var authorsParentNode = _contentService.GetById(authorsParentNodeId);
-
-            if (_contentService.HasChildren(authorsParentNodeId))
-            {
-                long totalChildren;
-                IEnumerable<IContent> children = _contentService.GetPagedChildren(authorsParentNodeId, 0, 100, out totalChildren).ToList();
-
-                foreach (var child in children)
-                {
-                    _contentService.Delete(child);
-                }
-            }
-
-            if (authorsParentNode != null && authors != null && authors.People != null)
-            {
-                foreach (var author in authors.People)
-                {
-                    var node = _contentService.Create(author.Name, authorsParentNode.Id, "person");
-                    node.SetValue("description", author.Description);
-
-                    node.SetValue("shortcode", author.Shortcode);
-                    node.SetValue("imageUrl", author.ImageUrl);
-                    node.SetValue("roleInfo", author.RoleInfo);
-                    node.SetValue("avatarUrl", author.AvatarUrl);
-                    node.SetValue("subscribeLink", author.SubscribeLink);
-                    node.SetValue("tagLineCompany", author.TagLineCompany);
-                    node.SetValue("locationCountry", author.LocationCountry);
-                    node.SetValue("locationDetail", author.LocationDetail);
-                    //node.SetValue("personalLinks", author.PersonalLinks);
-                    node.SetValue("instagramProfileLink", author.InstagramProfileLink);
-                    node.SetValue("pinterestProfileLink", author.PinterestProfileLink);
-                    node.SetValue("stumbleUponProfileLink", author.StumbleUponProfileLink);
-                    node.SetValue("youTubeProfileLink", author.YouTubeProfileLink);
-                    node.SetValue("vimeoProfileLink", author.VimeoProfileLink);
-                    node.SetValue("skypeProfileLink", author.SkypeProfileLink);
-                    node.SetValue("xingProfileLink", author.XingProfileLink);
-                    node.SetValue("facebookProfileLink", author.FacebookProfileLink);
-                    node.SetValue("linkedInProfileLink", author.LinkedInProfileLink);
-                    node.SetValue("phoneNumber", author.PhoneNumber);
-                    node.SetValue("emailAddress", author.EmailAddress);
-                    node.SetValue("twitterScreenName", author.TwitterScreenName);
-                    node.SetValue("profileUrl", author.ProfileUrl);
-
-                    _contentService.SaveAndPublish(node);
-                }
-            }
-
+            var successful = false;
 
             successful |= _postHandler.SyncAll();
+            successful |= _peopleHandler.SyncAll();
 
             if (successful)
             {
@@ -118,10 +67,8 @@ namespace PassleSync.Core.Controllers
             else
             {
                 return BadRequest();
-            } 
-                
+            }
         }
-
 
         [HttpPost]
         public IHttpActionResult SyncPosts()
@@ -139,78 +86,34 @@ namespace PassleSync.Core.Controllers
         [HttpPost]
         public IHttpActionResult SyncAuthors()
         {
-            var authors = ApiHelper.GetAuthors();
-            var authorsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.peopleParentNodeId"));
-            var authorsParentNode = _contentService.GetById(authorsParentNodeId);
-
-            if (_contentService.HasChildren(authorsParentNodeId))
+            if (_peopleHandler.SyncAll())
             {
-                long totalChildren;
-                IEnumerable<IContent> children = _contentService.GetPagedChildren(authorsParentNodeId, 0, 100, out totalChildren).ToList();
-
-                foreach (var child in children)
-                {
-                    _contentService.Delete(child);
-                }
+                return Ok();
             }
-
-            if (authorsParentNode != null && authors != null && authors.People != null)
+            else
             {
-                foreach (var author in authors.People)
-                {
-                    var node = _contentService.Create(author.Name, authorsParentNode.Id, "person");
-                    node.SetValue("description", author.Description);
-
-                    node.SetValue("shortcode", author.Shortcode);
-                    node.SetValue("imageUrl", author.ImageUrl);
-                    node.SetValue("roleInfo", author.RoleInfo);
-                    node.SetValue("avatarUrl", author.AvatarUrl);
-                    node.SetValue("subscribeLink", author.SubscribeLink);
-                    node.SetValue("tagLineCompany", author.TagLineCompany);
-                    node.SetValue("locationCountry", author.LocationCountry);
-                    node.SetValue("locationDetail", author.LocationDetail);
-                    //node.SetValue("personalLinks", author.PersonalLinks);
-                    node.SetValue("instagramProfileLink", author.InstagramProfileLink);
-                    node.SetValue("pinterestProfileLink", author.PinterestProfileLink);
-                    node.SetValue("stumbleUponProfileLink", author.StumbleUponProfileLink);
-                    node.SetValue("youTubeProfileLink", author.YouTubeProfileLink);
-                    node.SetValue("vimeoProfileLink", author.VimeoProfileLink);
-                    node.SetValue("skypeProfileLink", author.SkypeProfileLink);
-                    node.SetValue("xingProfileLink", author.XingProfileLink);
-                    node.SetValue("facebookProfileLink", author.FacebookProfileLink);
-                    node.SetValue("linkedInProfileLink", author.LinkedInProfileLink);
-                    node.SetValue("phoneNumber", author.PhoneNumber);
-                    node.SetValue("emailAddress", author.EmailAddress);
-                    node.SetValue("twitterScreenName", author.TwitterScreenName);
-                    node.SetValue("profileUrl", author.ProfileUrl);
-
-                    _contentService.SaveAndPublish(node);
-                }
+                return BadRequest();
             }
-
-            // do something to persist timetable
-            return Ok();
         }
 
         [HttpPost]
         public IHttpActionResult Save(SettingsData timetable)
         {
-            _keyValueService.SetValue("Passle.shortcode", timetable.shortcode);
-            _keyValueService.SetValue("Passle.apiKey", timetable.apiKey);
-            _keyValueService.SetValue("Passle.apiUrl", timetable.apiUrl);
+            _keyValueService.SetValue("PassleSync.Shortcode", timetable.Shortcode);
+            _keyValueService.SetValue("PassleSync.ApiKey", timetable.ApiKey);
+            _keyValueService.SetValue("PassleSync.ApiUrl", timetable.ApiUrl);
 
-            _keyValueService.SetValue("Passle.pluginApiKey", timetable.pluginApiKey);
-            _keyValueService.SetValue("Passle.postPermalinkPrefix", timetable.postPermalinkPrefix);
-            _keyValueService.SetValue("Passle.personPermalinkPrefix", timetable.personPermalinkPrefix);
+            _keyValueService.SetValue("PassleSync.PluginApiKey", timetable.PluginApiKey);
+            _keyValueService.SetValue("PassleSync.PostPermalinkPrefix", timetable.PostPermalinkPrefix);
+            _keyValueService.SetValue("PassleSync.PersonPermalinkPrefix", timetable.PersonPermalinkPrefix);
 
-
-            if (timetable.peopleParentNodeId > 0)
+            if (timetable.PeopleParentNodeId > 0)
             {
-                _keyValueService.SetValue("Passle.peopleParentNodeId", timetable.peopleParentNodeId.ToString());
+                _keyValueService.SetValue("PassleSync.PeopleParentNodeId", timetable.PeopleParentNodeId.ToString());
             }
-            if (timetable.postsParentNodeId > 0)
+            if (timetable.PostsParentNodeId > 0)
             {
-                _keyValueService.SetValue("Passle.postsParentNodeId", timetable.postsParentNodeId.ToString());
+                _keyValueService.SetValue("PassleSync.PostsParentNodeId", timetable.PostsParentNodeId.ToString());
             }
 
             // do something to persist timetable
@@ -220,15 +123,13 @@ namespace PassleSync.Core.Controllers
     }
     public class SettingsData
     {
-        public string shortcode { get; set; }
-        public string apiKey { get; set; }
-        public string apiUrl { get; set; }
-
-        public string pluginApiKey { get; set; }
-        public string postPermalinkPrefix { get; set; }
-        public string personPermalinkPrefix { get; set; }
-        public int peopleParentNodeId { get; set; }
-        public int postsParentNodeId { get; set; }
-
+        public string Shortcode { get; set; }
+        public string ApiKey { get; set; }
+        public string ApiUrl { get; set; }
+        public string PluginApiKey { get; set; }
+        public string PostPermalinkPrefix { get; set; }
+        public string PersonPermalinkPrefix { get; set; }
+        public int PeopleParentNodeId { get; set; }
+        public int PostsParentNodeId { get; set; }
     }
 }

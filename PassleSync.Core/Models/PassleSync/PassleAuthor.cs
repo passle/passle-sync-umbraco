@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PassleSync.Core.Models.PassleSync
+﻿namespace PassleSync.Core.Models.PassleSync
 {
     public class PassleAuthor
     {
         public string Name { get; set; }
-
         public string Shortcode { get; set; }
         public string ProfileUrl { get; set; }
         public string AvatarUrl { get; set; }
@@ -18,40 +11,20 @@ namespace PassleSync.Core.Models.PassleSync
         public string Description { get; set; }
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
-
-        //linkedin_profile_link
         public string LinkedinProfileLink { get; set; }
-        //facebook_profile_link
         public string FacebookProfileLink { get; set; }
-
-        //twitter_screen_name
         public string TwitterScreenName { get; set; }
-
-        //xing_profile_link
-        public string xing_profile_link { get; set; }
-
-        //skype_profile_link
-        public string skype_profile_link { get; set; }
-
-        //vimeo_profile_link
-        public string vimeo_profile_link { get; set; }
-
-        public string youtube_profile_link { get; set; }
-
-        public string stumbleupon_profile_link { get; set; }
-
-        public string pinterest_profile_link { get; set; }
-
-        public string instagram_profile_link { get; set; }
-
-        public string personal_links { get; set; }
-
-        public string location_detail { get; set; }
-
-        public string location_country { get; set; }
-
-        public string location_full { get; set; }
-
-        public string company_tagline { get; set; }
+        public string XingProfileLink { get; set; }
+        public string SkypeProfileLink { get; set; }
+        public string VimeoProfileLink { get; set; }
+        public string YoutubeProfileLink { get; set; }
+        public string StumbleuponProfileLink { get; set; }
+        public string PinterestProfileLink { get; set; }
+        public string InstagramProfileLink { get; set; }
+        public string PersonalLinks { get; set; }
+        public string LocationDetail { get; set; }
+        public string LocationCountry { get; set; }
+        public string LocationFull { get; set; }
+        public string CompanyTagline { get; set; }
     }
 }

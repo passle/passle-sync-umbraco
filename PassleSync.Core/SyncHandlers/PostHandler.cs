@@ -34,7 +34,7 @@ namespace PassleSync.Core.SyncHandlers
             int postsParentNodeId;
             try
             {
-                postsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.postsParentNodeId"));
+                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
 
                 if (_contentService.GetById(postsParentNodeId) == null)
                 {
@@ -65,7 +65,7 @@ namespace PassleSync.Core.SyncHandlers
             int postsParentNodeId;
             try
             {
-                postsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.postsParentNodeId"));
+                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
 
                 if (_contentService.GetById(postsParentNodeId) == null)
                 {
@@ -164,7 +164,7 @@ namespace PassleSync.Core.SyncHandlers
             var postsFromApi = ApiHelper.GetPosts();
 
             // TODO: Move this into a config service?
-            var postsParentNodeId = int.Parse(_keyValueService.GetValue("Passle.postsParentNodeId"));
+            var postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
             var postsParentNode = _contentService.GetById(postsParentNodeId);
 
             // Delete any existing posts with the same shortcode
@@ -174,7 +174,7 @@ namespace PassleSync.Core.SyncHandlers
 
                 foreach (var child in children)
                 {
-                    if (child.GetValue<string>("postShortcode") == Shortcode)
+                    if (child.GetValue<string>("PostShortcode") == Shortcode)
                     {
                         _contentService.Delete(child);
                     }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PassleSync.Core.Models.Admin
 {
@@ -10,7 +6,6 @@ namespace PassleSync.Core.Models.Admin
     {
         public string PostContentHtml { get; set; }
         public string FeaturedItemHtml { get; set; }
-
         public int FeaturedItemPosition { get; set; }
         public string QuoteText { get; set; }
         public string QuoteUrl { get; set; }
@@ -22,13 +17,10 @@ namespace PassleSync.Core.Models.Admin
         public string PostTitle { get; set; }
         public object Authors { get; set; }
         public object CoAuthors { get; set; }
-
         public object ShareViews { get; set; }
-
         public string ContentTextSnippet { get; set; }
         public DateTime PublishedDate { get; set; }
         public object Tags { get; set; }
-
         public int FeaturedItemMediaType { get; set; }
         public int FeaturedItemEmbedType { get; set; }
         public string FeaturedItemEmbedProvider { get; set; }
@@ -38,7 +30,6 @@ namespace PassleSync.Core.Models.Admin
         public int EstimatedReadTimeInSeconds { get; set; }
         public int TotalLikes { get; set; }
         public bool OpensInNewTab { get; set; }
-
         public object Tweets { get; set; }
     }
 }
