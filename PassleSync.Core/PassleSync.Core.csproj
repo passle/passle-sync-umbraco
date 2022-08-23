@@ -427,6 +427,7 @@
     <Compile Include="Models\PassleSync\PassleShareViewsNetwork.cs" />
     <Compile Include="Models\PassleSync\PassleTag.cs" />
     <Compile Include="Models\PassleSync\PassleTweet.cs" />
+    <Compile Include="SyncHandlers\PostHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
