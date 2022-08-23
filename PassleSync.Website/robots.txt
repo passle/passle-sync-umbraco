@@ -1,0 +1,11 @@
+User-agent: PowerMapper
+Allow: /
+
+User-agent: SemrushBot-SA
+Allow: /
+
+User-agent: SemrushBot-SI
+Allow: /
+
+User-agent: *
+Disallow: /

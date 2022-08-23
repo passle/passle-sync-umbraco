@@ -1,16 +1,16 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PassleSync.Website")]
+[assembly: AssemblyTitle("PassleDotCom.PasslePlugin.Web")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PassleSync.Website")]
-[assembly: AssemblyCopyright("Copyright © Passle Ltd 2022")]
+[assembly: AssemblyProduct("PassleDotCom.PasslePlugin.Web")]
+[assembly: AssemblyCopyright("Copyright �  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e679af08-5f2a-4101-b832-e9b5a1223acc")]
+[assembly: Guid("90730775-c053-497f-aa21-530308c75b1d")]
 
 // Version information for an assembly consists of the following four values:
 //

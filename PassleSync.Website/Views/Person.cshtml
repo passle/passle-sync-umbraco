@@ -1,4 +1,66 @@
-﻿@{
-	Layout = "master.cshtml";
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+	Layout = "Master.cshtml";
 }
-<p>Nothing to see, but we could make a lesson to display a person</p>
+
+
+<article id="post-4848" class="mb-8 post-4848 passle-author type-passle-author status-publish hentry">
+    <div class="flex flex-col gap-12">
+        <div class="flex max-w-6xl w-full mx-auto">
+            <div class="w-1/3">
+                <div class="flex flex-col gap-12">
+                    <div class="-ml-4 w-[calc(100%+theme(spacing.4))] relative aspect-square">
+                        <img class="w-full aspect-square object-cover border border-gray-300 absolute top-6 left-4" src="@Umbraco.AssignedContentItem.Value("avatarUrl")" alt="@Umbraco.AssignedContentItem.Name">
+                        <div class="absolute top-full -rotate-90 font-bodoni uppercase text-right origin-bottom-right -right-2 leading-none text-7xl text-gray-300 select-none whitespace-nowrap">@Umbraco.AssignedContentItem.Name</div>
+                    </div>
+                    <div class="pl-8 flex flex-col gap-12">
+                        <div class="flex gap-8 text-3xl mt-8">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-2/3 bg-white border-t-4 border-primary min-h-[48rem] px-20 py-12">
+                <h1 class="text-5xl font-extrabold mb-6 font-bodoni">@Umbraco.AssignedContentItem.Name</h1>
+                <div class="text-2xl font-bodoni mb-4"></div>
+                <div class="w-14 border-b-4 border-primary mb-14"></div>
+                <div class="text-2xl font-bodoni font-bold mb-4">About me</div>
+                <div class="post-content text-lg">
+                    @Html.Raw(Umbraco.AssignedContentItem.Value("description"))
+                </div>
+            </div>
+        </div>
+        <div class="px-20 py-12 max-w-6xl mx-auto w-full bg-white">
+            <div class="flex flex-col items-center gap-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 border-b-4 border-primary"></div>
+                    <div class="text-2xl font-semibold font-bodoni">
+                        @Umbraco.AssignedContentItem.Name's Posts
+                    </div>
+                    <div class="w-14 border-b-4 border-primary"></div>
+                </div>
+                @*<div class="grid grid-cols-2 gap-6 w-full">
+
+                    <article id="post-4841" class="post-4841 passle-post type-passle-post status-publish hentry">
+
+                        <div class="h-80 relative group">
+                            <img class="w-full h-full object-cover" src="https://images.passle.it/400x400/Passle/6274f91bf636ea11ec5bfe4c/SearchServiceImages/2022-05-25-13-51-06-846-628e344af636eb0828af03f9.jpg" alt="Rail Union elects to strike - what does that mean for us?">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-primary group-hover:bg-opacity-100 transition-colors text-white">
+                                <a href="https://mercierandvelezviewpoints.com/p/vp43qw/rail-union-elects-to-strike-what-does-that-mean-for-us" class="h-full p-16 flex flex-col gap-4">
+                                    <h2 class="entry-title font-bodoni text-3xl leading-tight mb-1 line-clamp-3">Rail Union elects to strike - what does that mean for us?</h2>
+                                    <time datetime="25 May 2022" itemprop="datePublished" class="font-bodoni group-hover:hidden">
+                                        25 May 2022
+                                    </time>
+                                    <span class="hidden group-hover:line-clamp-3">
+                                        Tony Miles, a writer for Modern Railways magazine, told the BBC that there may be some public sympathy for RMT members if no pay rise is...
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </article>
+                </div>*@
+            </div>
+        </div>
+    </div>
+</article>

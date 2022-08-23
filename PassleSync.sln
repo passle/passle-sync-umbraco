@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassleSync.Website", "PassleSync.Website\PassleSync.Website.csproj", "{E679AF08-5F2A-4101-B832-E9B5A1223ACC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassleSync.Core", "PassleSync.Core\PassleSync.Core.csproj", "{9741725C-EA3C-481E-B8E4-FC88CA450C17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E679AF08-5F2A-4101-B832-E9B5A1223ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E679AF08-5F2A-4101-B832-E9B5A1223ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E679AF08-5F2A-4101-B832-E9B5A1223ACC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9741725C-EA3C-481E-B8E4-FC88CA450C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9741725C-EA3C-481E-B8E4-FC88CA450C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9741725C-EA3C-481E-B8E4-FC88CA450C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9741725C-EA3C-481E-B8E4-FC88CA450C17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
