@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Dashboards;
 
-namespace PassleDotCom.PasslePlugin.Core.Dashboards
+namespace PassleSync.Core.Dashboards
 {
     //[Weight(-10)]
     public class PassleSync : IDashboard
