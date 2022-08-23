@@ -17,7 +17,7 @@ using System.Linq;
 using Umbraco.Core.Services.Implement;
 using SubscribeToPublishEventComposer;
 
-namespace PassleDotCom.PasslePlugin.Core.Controllers
+namespace PassleSync.Core.Controllers
 {
     ///umbraco/backoffice/myPassleSync/myPassleSync/Save
     [PluginController("myPassleSync")]

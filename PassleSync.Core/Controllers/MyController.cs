@@ -6,7 +6,7 @@ using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 
-namespace PassleDotCom.PasslePlugin.Core.Controllers
+namespace PassleSync.Core.Controllers
 {
     public class MyController : Umbraco.Web.WebApi.UmbracoApiController
     {
