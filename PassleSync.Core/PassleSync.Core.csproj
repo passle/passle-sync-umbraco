@@ -417,6 +417,7 @@
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
     <Compile Include="Controllers\MyController.cs" />
     <Compile Include="Controllers\MyPassleSyncController.cs" />
+    <Compile Include="Dashboards\PassleSync.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Models\Admin\PaginatedResponse.cs" />
