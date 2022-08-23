@@ -13,14 +13,14 @@
         }).then(function (response) {
             console.log(response.data);
 
-            vm.shortcode = response.data.shortcode;
-            vm.apiKey = response.data.apiKey;
-            vm.apiUrl = response.data.apiUrl;
-            vm.peopleParentNodeId = response.data.peopleParentNodeId;
-            vm.postsParentNodeId = response.data.postsParentNodeId;
-            vm.postPermalinkPrefix = response.data.postPermalinkPrefix;
-            vm.personPermalinkPrefix = response.data.personPermalinkPrefix;
-            vm.pluginApiKey = response.data.pluginApiKey;
+            vm.shortcode = response.data.Shortcode;
+            vm.apiKey = response.data.ApiKey;
+            vm.apiUrl = response.data.ApiUrl;
+            vm.peopleParentNodeId = response.data.PeopleParentNodeId;
+            vm.postsParentNodeId = response.data.PostsParentNodeId;
+            vm.postPermalinkPrefix = response.data.PostPermalinkPrefix;
+            vm.personPermalinkPrefix = response.data.PersonPermalinkPrefix;
+            vm.pluginApiKey = response.data.PluginApiKey;
         });
     };
 
