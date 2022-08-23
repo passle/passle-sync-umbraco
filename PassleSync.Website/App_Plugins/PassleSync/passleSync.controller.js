@@ -3,7 +3,8 @@
     vm.UserName = "guest";
     vm.UserLogHistory = [];
     vm.buttonState = 'init';
-    vm.buttonStateSync = 'init';
+    vm.buttonPostsStateSync = 'init';
+    vm.buttonAuthorsStateSync = 'init';
     vm.loading = false;
 
     vm.init = function () {        
@@ -48,14 +49,14 @@
             vm.loading = false;
             vm.buttonState = 'init';
 
-            notificationsService.success("Success", "Settings bas been saved");
+            notificationsService.success("Success", "Settings have been saved");
 
             
         });
     };
 
-    vm.clickButtonSync = function () {
-        vm.buttonStateSync = 'busy';
+    /* vm.clickButtonSync = function () {
+        vm.buttonPostsStateSync = 'busy';
         vm.loading = true;
 
         $http({
@@ -63,17 +64,17 @@
             method: "POST"
         }).then(function (response) {
             vm.loading = false;
-            vm.buttonStateSync = 'init';
+            vm.buttonPostsStateSync = 'init';
 
             notificationsService.success("Success", "Authors and post have been synced");
 
             navigationService.syncTree({ tree: 'content', path: ["-1", vm.postsParentNodeId], forceReload: true }); 
             navigationService.syncTree({ tree: 'content', path: ["-1", vm.peopleParentNodeId], forceReload: true }); 
         });
-    };
+    }; */
 
     vm.clickButtonSyncAuthors = function () {
-        vm.buttonStateSync = 'busy';
+        vm.buttonAuthorsStateSync = 'busy';
         vm.loading = true;
 
         $http({
@@ -81,7 +82,7 @@
             method: "POST"
         }).then(function (response) {
             vm.loading = false;
-            vm.buttonStateSync = 'init';
+            vm.buttonAuthorsStateSync = 'init';
 
             notificationsService.success("Success", "Authors have been synced");
 
@@ -90,7 +91,7 @@
     };
 
     vm.clickButtonSyncPosts = function () {
-        vm.buttonStateSync = 'busy';
+        vm.buttonPostsStateSync = 'busy';
         vm.loading = true;
 
         $http({
@@ -98,7 +99,7 @@
             method: "POST"
         }).then(function (response) {
             vm.loading = false;
-            vm.buttonStateSync = 'init';
+            vm.buttonPostsStateSync = 'init';
 
             notificationsService.success("Success", "Post have been synced");
 
