@@ -2,51 +2,10 @@
 @{
     Layout = "Master.cshtml";
 
-    var itemresult = PassleDotCom.PasslePlugin.Core.Helpers.ApiHelper.GetPosts();
+    var itemresult = PassleSync.Core.Helpers.ApiHelper.GetPosts();
 
-    var authors = PassleDotCom.PasslePlugin.Core.Helpers.ApiHelper.GetAuthors();
+    var authors = PassleSync.Core.Helpers.ApiHelper.GetAuthors();
 }
-
-@*@foreach (var item in itemresult.Posts)
-    {
-        <p>@item.PostTitle</p>
-    }
-    <br />
-    <hr />
-    <br />
-
-    @foreach (var item in authors.People)
-    {
-        <p>@item.Name</p>
-    }*@
-
-
-
-
-@*<div class="section">
-
-    <h2 class="section__heading">Forthcoming events</h2>
-    <div class="section__decoration">Events</div>
-
-    <article id="post-102" class="post-102 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized tag-clean-energy tag-climate tag-climate-change tag-environment tag-events">
-
-        <div class="h-[28rem] relative group">
-            <img class="w-full h-full object-cover" src="https://mercierandvelezviewpoints.com/wp-content/uploads/2022/05/event-photo.png" alt="Join us at the International Conference on Clean Energy Technologies" />
-            <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-primary group-hover:bg-opacity-100 transition-colors text-white">
-                <a href="https://mercierandvelezviewpoints.com/join-us-at-the-international-conferenceon-clean-energy-technologies/" class="h-full p-16 flex flex-col gap-4">
-                    <h2 class="entry-title font-bodoni text-3xl leading-tight mb-1 line-clamp-3">Join us at the International Conference on Clean Energy Technologies</h2>        <time datetime="25 May 2022" itemprop="datePublished" class="font-bodoni group-hover:hidden">
-                        25 May 2022
-                    </time>
-                    <span class="hidden group-hover:line-clamp-3">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rhoncus dui ante, at vulputate urna mattis eget. Duis auctor justo orci, ac viverra nunc commodo in. Mauris gravida, nunc non cursus luctus, dolor massa porttitor leo, id sodales nunc velit a nibh. Cras ut congue elit. Donec molestie egestas mi eget placerat. Sed aliquam erat [&hellip;]</p>
-                    </span>
-                </a>
-            </div>
-        </div>
-
-    </article>
-
-</div>*@
 
 
 <div class="section">
@@ -92,55 +51,5 @@
 
 
 </div>
-
-
-@*<div class="section">
-
-    <h2 class="section__heading">Latest white papers</h2>
-    <div class="section__decoration">Papers</div>
-
-    <div class="grid grid-cols-2 gap-6">
-        <article id="post-110" class="post-110 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized tag-housing tag-white-papers">
-
-            <div class="h-80 relative group">
-                <img class="w-full h-full object-cover" src="https://mercierandvelezviewpoints.com/wp-content/uploads/2022/05/7smhtvj0ota-roman-kraft-scaled.jpg" alt="Modern Housing Report" />
-                <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-primary group-hover:bg-opacity-100 transition-colors text-white">
-                    <a href="https://mercierandvelezviewpoints.com/modern-housing-report/" class="h-full p-16 flex flex-col gap-4">
-                        <h2 class="entry-title font-bodoni text-3xl leading-tight mb-1 line-clamp-3">Modern Housing Report</h2>        <time datetime="25 May 2022" itemprop="datePublished" class="font-bodoni group-hover:hidden">
-                            25 May 2022
-                        </time>
-                        <span class="hidden group-hover:line-clamp-3">
-                            <p>Aliquam risus ipsum, tincidunt quis mi vel, tempor ultrices ligula. Mauris sit amet nisl condimentum mi vestibulum hendrerit vel id quam. Nulla at odio vel elit semper bibendum ac vitae enim. Suspendisse nec felis non est congue dapibus. Donec est nibh, ultrices nec neque eu, ultricies pharetra felis. Donec eu scelerisque lectus. Nunc sodales tellus [&hellip;]</p>
-                        </span>
-                    </a>
-                </div>
-            </div>
-
-        </article>
-        <article id="post-106" class="post-106 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized tag-clean-energy tag-climate tag-climate-change tag-environment tag-white-papers tag-zero-net">
-
-            <div class="h-80 relative group">
-                <img class="w-full h-full object-cover" src="https://mercierandvelezviewpoints.com/wp-content/uploads/2022/05/Screenshot-2022-05-25-at-14.00.21.png" alt="Powering our Net Zero Future" />
-                <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-primary group-hover:bg-opacity-100 transition-colors text-white">
-                    <a href="https://mercierandvelezviewpoints.com/powering-our-net-zero-future/" class="h-full p-16 flex flex-col gap-4">
-                        <h2 class="entry-title font-bodoni text-3xl leading-tight mb-1 line-clamp-3">Powering our Net Zero Future</h2>        <time datetime="25 May 2022" itemprop="datePublished" class="font-bodoni group-hover:hidden">
-                            25 May 2022
-                        </time>
-                        <span class="hidden group-hover:line-clamp-3">
-                            <p>Pellentesque nec sagittis orci. Donec vitae nulla at massa aliquam pretium. Morbi pulvinar lectus quis urna feugiat, ut efficitur turpis aliquam. Mauris molestie rutrum fringilla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam accumsan tortor at tempus semper. Morbi vitae nisi lectus. Maecenas in nulla vitae felis consectetur congue sed sit amet [&hellip;]</p>
-                        </span>
-                    </a>
-                </div>
-            </div>
-
-        </article>
-    </div>
-
-    <div class="flex justify-center">
-        <a href="/white-papers" class="section__button">More white papers</a>
-    </div>
-
-
-</div>*@
 
 
