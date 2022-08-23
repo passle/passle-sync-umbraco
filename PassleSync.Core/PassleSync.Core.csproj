@@ -409,6 +409,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
     <Compile Include="Components\RegisterPassleBackofficeDashboardMvcRouteComponent.cs" />
     <Compile Include="Components\SubscribeToPublishEventComponent.cs" />
     <Compile Include="Components\TaskRunnerComponent.cs" />
