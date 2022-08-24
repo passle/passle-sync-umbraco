@@ -506,11 +506,9 @@
     <None Include="Models\GeneratedModels.mb" />
     <None Include="Utils\.gitinclude" />
     <None Include="Helpers\.gitinclude" />
-    <None Include="Models\ViewModels\.gitinclude" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.1\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
