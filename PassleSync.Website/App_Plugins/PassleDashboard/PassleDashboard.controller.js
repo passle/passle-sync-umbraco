@@ -1,6 +1,6 @@
 ﻿angular.module("umbraco").controller(
     "PassleDashboardController",
-    function ($scope) {
+    function () {
         var vm = this;
 
         vm.tabs = [

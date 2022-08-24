@@ -36,6 +36,7 @@
                 vm.selectedCount = 0;
             }, (error) => {
                 console.error(error);
+                notificationsService.error("Error", error);
             });
         }
         onload();
@@ -45,7 +46,6 @@
 
             passlePostsResource.refreshAll().then(() => {
                 passlePostsResource.getAll().then((response) => {
-                    console.log(response);
                     vm.posts = response.Posts.map((post) => getPostDataObject(post));
 
                     vm.syncedCount = vm.posts.filter((post) => post.synced).length;
@@ -54,13 +54,18 @@
                     vm.selectedCount = 0;
                     vm.isRefreshing = false;
 
+                    //TODO: Use correct nodeId
                     navigationService.syncTree({ tree: 'content', path: ["-1", vm.postsParentNodeId], forceReload: true });
                 }, (error) => {
                     console.error(error);
+                    notificationsService.error("Error", error);
+
                     vm.isRefreshing = false;
                 });
             }, (error) => {
                 console.error(error);
+                notificationsService.error("Error", error);
+
                 vm.isRefreshing = false;
             });
         }
@@ -99,13 +104,18 @@
 
                     notificationsService.success("Success", "Posts have been synced");
 
+                    //TODO: Use correct nodeId
                     navigationService.syncTree({ tree: 'content', path: ["-1", vm.postsParentNodeId], forceReload: true });
                 }, (error) => {
                     console.error(error);
+                    notificationsService.error("Error", error);
+
                     vm.isSyncing = false;
                 });
             }, (error) => {
                 console.error(error);
+                notificationsService.error("Error", error);
+
                 vm.isSyncing = false;
             });
         }
@@ -142,13 +152,18 @@
 
                     notificationsService.success("Success", "Posts have been deleted");
 
+                    //TODO: Use correct nodeId
                     navigationService.syncTree({ tree: 'content', path: ["-1", vm.postsParentNodeId], forceReload: true });
                 }, (error) => {
                     console.error(error);
+                    notificationsService.error("Error", error);
+
                     vm.isDeleting = false;
                 });
             }, (error) => {
                 console.error(error);
+                notificationsService.error("Error", error);
+
                 vm.isDeleting = false;
             });
         }

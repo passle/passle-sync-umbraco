@@ -1,22 +1,26 @@
-﻿<div class="app" ng-controller="PassleDashboardController as vm">
-    <div className="wrap">
-        <h1 className="wp-heading-inline">Passle Sync</h1>
-        <hr className="wp-header-end" />
+﻿﻿<umb-box>
+    <umb-box-header>
+        <h3>Passle Sync Dashboard</h3>
+    </umb-box-header>
+    <umb-box-content>
+        <div class="app" ng-controller="PassleDashboardController as vm">
+            <umb-load-indicator ng-if="vm.loading"></umb-load-indicator>
 
-        <ng-form name="tabsForm" val-form-manager>
-            <umb-tabs-nav tabs="vm.tabs"
-                          on-tab-change="vm.changeTab(tab)">
-            </umb-tabs-nav>
+            <ng-form name="tabsForm" val-form-manager>
+                <umb-tabs-nav tabs="vm.tabs"
+                              on-tab-change="vm.changeTab(tab)">
+                </umb-tabs-nav>
 
-            <umb-tab-content ng-repeat="tab in vm.tabs"
-                             ng-show="tab.active"
-                             tab="tab">
-                <div ng-switch="tab.label">
-                    <sync-settings ng-switch-when="Settings"></sync-settings>
-                    <posts-table ng-switch-when="Posts"></posts-table>
-                    <authors-table ng-switch-when="Authors"></authors-table>
-                </div>
-            </umb-tab-content>
-        </ng-form>
-    </div>
-</div>
+                <umb-tab-content ng-repeat="tab in vm.tabs"
+                                 ng-show="tab.active"
+                                 tab="tab">
+                    <div ng-switch="tab.label">
+                        <sync-settings ng-switch-when="Settings"></sync-settings>
+                        <posts-table ng-switch-when="Posts"></posts-table>
+                        <authors-table ng-switch-when="Authors"></authors-table>
+                    </div>
+                </umb-tab-content>
+            </ng-form>
+        </div>
+    </umb-box-content>
+</umb-box>
