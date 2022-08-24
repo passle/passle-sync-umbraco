@@ -45,59 +45,22 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
             Synced = true;
         }
 
-        //public PassleDashboardPostViewModel(IPublishedContent from)
-        //{
-        //    Title = from.GetValueOrDefault<string>("PostTitle");
-        //    Body = from.GetValueOrDefault<string>("PostBody");
-        //    PublishedDate = from.GetValueOrDefault<DateTime>("PublishedDate");
-        //    Shortcode = from.GetValueOrDefault<string>("PostShortcode");
-        //    PassleShortcode = from.GetValueOrDefault<string>("PassleShortcode");
-        //    Authors = from.GetValueOrDefault<string>("Authors");
-        //    IsRepost = from.GetValueOrDefault<bool>("IsRepost");
-        //    EstimatedReadTime = from.GetValueOrDefault<int>("EstimatedReadTimeInSeconds");
-        //    Tags = from.GetValueOrDefault<string>("Tags");
-        //    //PostUrl = from?.Url() ?? "";
-        //    ImageUrl = from.GetValueOrDefault<string>("ImageURL");
-        //    FeaturedItemHTML = from.GetValueOrDefault<string>("FeaturedItemHTML");
-        //    Excerpt = from.GetValueOrDefault<string>("ContentTextSnippet");
-        //    Id = from?.Id ?? 0;
-        //    Synced = true;
-        //}
-
-        public PassleDashboardPostViewModel(Post from)
+        public PassleDashboardPostViewModel(PasslePost from)
         {
             Title = from.PostTitle;
             Body = from.PostContentHtml;
-            PublishedDate = from.PublishedDate;
+            PublishedDate = DateTime.Parse(from.PublishedDate);
             Shortcode = from.PostShortcode;
             PassleShortcode = from.PassleShortcode;
-            //Authors = string.Join(", ", from.Authors.Select(a => a.Name));
+            Authors = string.Join(", ", from.Authors.Select(a => a.Name));
             IsRepost = from.IsRepost;
             EstimatedReadTime = from.EstimatedReadTimeInSeconds;
-            //Tags = string.Join(", ", from.Tags);
+            Tags = string.Join(", ", from.Tags);
             PostUrl = from.PostUrl;
             ImageUrl = from.ImageUrl;
             Excerpt = from.ContentTextSnippet;
-            FeaturedItemHTML = from.FeaturedItemHtml;
+            FeaturedItemHTML = from.FeaturedItemHTML;
             Synced = false;
         }
-
-        //public PassleDashboardPostViewModel(PasslePost from)
-        //{
-        //    Title = from.PostTitle;
-        //    Body = from.PostContentHtml;
-        //    PublishedDate = DateTime.Parse(from.PublishedDate);
-        //    Shortcode = from.PostShortcode;
-        //    PassleShortcode = from.PassleShortcode;
-        //    Authors = string.Join(", ", from.Authors.Select(a => a.Name));
-        //    IsRepost = from.IsRepost;
-        //    EstimatedReadTime = from.EstimatedReadTimeInSeconds;
-        //    Tags = string.Join(", ", from.Tags);
-        //    PostUrl = from.PostUrl;
-        //    ImageUrl = from.ImageUrl;
-        //    Excerpt = from.ContentTextSnippet;
-        //    FeaturedItemHTML = from.FeaturedItemHTML;
-        //    Synced = false;
-        //}
     }
 }

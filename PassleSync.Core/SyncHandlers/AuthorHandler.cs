@@ -5,14 +5,14 @@ using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using PassleSync.Core.Helpers;
 using PassleSync.Core.API.SyncHandlers;
-using PassleSync.Core.Models.Admin;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
+using PassleSync.Core.Models;
 
 namespace PassleSync.Core.SyncHandlers
 {
-    public class AuthorHandler : ISyncHandler<Person>
+    public class AuthorHandler : ISyncHandler<PassleAuthor>
     {
         private IKeyValueService _keyValueService;
         public IContentService _contentService;
@@ -222,17 +222,17 @@ namespace PassleSync.Core.SyncHandlers
             DeleteMany(new string[] { Shortcode }, parentNodeId);
         }
 
-        public void CreateAll(IEnumerable<Person> people, int parentNodeId)
+        public void CreateAll(IEnumerable<PassleAuthor> people, int parentNodeId)
         {
-            foreach (Person person in people)
+            foreach (PassleAuthor person in people)
             {
                 CreateOne(person, parentNodeId);
             }
         }
 
-        public void CreateMany(IEnumerable<Person> people, int parentNodeId, string[] Shortcodes)
+        public void CreateMany(IEnumerable<PassleAuthor> people, int parentNodeId, string[] Shortcodes)
         {
-            foreach (Person person in people)
+            foreach (PassleAuthor person in people)
             {
                 if (Shortcodes.Contains(person.Shortcode))
                 {
@@ -241,7 +241,7 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public void CreateOne(Person person, int parentNodeId)
+        public void CreateOne(PassleAuthor person, int parentNodeId)
         {
             // TODO: Const for "person"
             var node = _contentService.Create(person.Name, parentNodeId, "person");

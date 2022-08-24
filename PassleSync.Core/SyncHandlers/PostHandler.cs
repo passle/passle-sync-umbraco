@@ -9,10 +9,11 @@ using PassleSync.Core.Models.Admin;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
+using PassleSync.Core.Models;
 
 namespace PassleSync.Core.SyncHandlers
 {
-    public class PostHandler : ISyncHandler<Post>
+    public class PostHandler : ISyncHandler<PasslePost>
     {
         private IKeyValueService _keyValueService;
         public IContentService _contentService;
@@ -221,17 +222,17 @@ namespace PassleSync.Core.SyncHandlers
             DeleteMany(new string[] { Shortcode }, parentNodeId);
         }
 
-        public void CreateAll(IEnumerable<Post> posts, int parentNodeId)
+        public void CreateAll(IEnumerable<PasslePost> posts, int parentNodeId)
         {
-            foreach (Post post in posts)
+            foreach (PasslePost post in posts)
             {
                 CreateOne(post, parentNodeId);
             }
         }
 
-        public void CreateMany(IEnumerable<Post> posts, int parentNodeId, string[] Shortcodes)
+        public void CreateMany(IEnumerable<PasslePost> posts, int parentNodeId, string[] Shortcodes)
         {
-            foreach (Post post in posts)
+            foreach (PasslePost post in posts)
             {
                 if (Shortcodes.Contains(post.PostShortcode))
                 {
@@ -240,7 +241,7 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public void CreateOne(Post post, int parentNodeId)
+        public void CreateOne(PasslePost post, int parentNodeId)
         {
             // TODO: Const for "post"
             var node = _contentService.Create(post.PostTitle, parentNodeId, "post");

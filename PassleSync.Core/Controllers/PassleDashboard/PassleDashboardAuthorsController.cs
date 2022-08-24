@@ -6,15 +6,16 @@ using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.Models.Admin;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Controllers.RequestModels;
+using PassleSync.Core.Models;
 
 namespace PassleSync.Core.Controllers.PassleDashboard
 {
     [PluginController("passleSync")]
     public class PassleDashboardAuthorsController : UmbracoAuthorizedJsonController
     {
-        private readonly ISyncHandler<Person> _authorHandler;
+        private readonly ISyncHandler<PassleAuthor> _authorHandler;
 
-        public PassleDashboardAuthorsController(ISyncHandler<Person> authorHandler)
+        public PassleDashboardAuthorsController(ISyncHandler<PassleAuthor> authorHandler)
         {
             _authorHandler = authorHandler;
         }

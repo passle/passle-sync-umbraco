@@ -44,28 +44,28 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
         //    Synced = true;
         //}
 
-        public PassleDashboardAuthorViewModel(Person from)
-        {
-            Name = from.Name;
-            Shortcode = from.Shortcode;
-            //PassleShortcode = from.PassleShortcode;
-            ProfileUrl = from.ProfileUrl;
-            AvatarUrl = from.AvatarUrl;
-            Role = from.RoleInfo;
-            Description = from.Description;
-            Synced = false;
-        }
-
-        //public PassleDashboardAuthorViewModel(PassleAuthor from)
+        //public PassleDashboardAuthorViewModel(Person from)
         //{
         //    Name = from.Name;
         //    Shortcode = from.Shortcode;
-        //    PassleShortcode = from.PassleShortcode;
+        //    //PassleShortcode = from.PassleShortcode;
         //    ProfileUrl = from.ProfileUrl;
         //    AvatarUrl = from.AvatarUrl;
         //    Role = from.RoleInfo;
         //    Description = from.Description;
         //    Synced = false;
         //}
+
+        public PassleDashboardAuthorViewModel(PassleAuthor from)
+        {
+            Name = from.Name;
+            Shortcode = from.Shortcode;
+            PassleShortcode = from.PassleShortcode;
+            ProfileUrl = from.ProfileUrl;
+            AvatarUrl = from.AvatarUrl;
+            Role = from.RoleInfo;
+            Description = from.Description;
+            Synced = false;
+        }
     }
 }
