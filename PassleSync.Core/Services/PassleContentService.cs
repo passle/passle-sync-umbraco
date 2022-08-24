@@ -13,8 +13,7 @@ namespace PassleSync.Core.Services.Content
     public class PassleContentService
     {
         protected readonly ApiService _apiService;
-        public IEnumerable<string> _passleShortcodes;
-        public IEnumerable<string> PassleShortcodes { get => _passleShortcodes; }
+        protected readonly ConfigService _configService;
 
         protected IEnumerable<PasslePost> _passlePosts;
         public IEnumerable<PasslePost> PasslePosts { get => _passlePosts; }
@@ -22,17 +21,19 @@ namespace PassleSync.Core.Services.Content
         protected IEnumerable<PassleAuthor> _passleAuthors;
         public IEnumerable<PassleAuthor> PassleAuthors { get => _passleAuthors; }
 
-        public PassleContentService(ApiService apiService)
+        public PassleContentService(
+            ApiService apiService,
+            ConfigService configService)
         {
             _apiService = apiService;
-            _passleShortcodes = ConfigService.Passle.PassleShortcodes;
+            _configService = configService;
         }
 
         public async Task<IEnumerable<PasslePost>> GetPasslePosts()
         {
             IEnumerable<PasslePost> result = new List<PasslePost>();
 
-            foreach (var shortcode in _passleShortcodes)
+            foreach (var shortcode in _configService.PassleShortcodes)
             {
                 var passlePosts = await GetPosts(shortcode);
                 result = result.Concat(passlePosts);
@@ -86,7 +87,7 @@ namespace PassleSync.Core.Services.Content
         {
             IEnumerable<PassleAuthor> result = new List<PassleAuthor>();
 
-            foreach (var shortcode in _passleShortcodes)
+            foreach (var shortcode in _configService.PassleShortcodes)
             {
                 var passleAuthors = await GetAuthors(shortcode);
                 result = result.Concat(passleAuthors);

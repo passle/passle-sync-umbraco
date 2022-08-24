@@ -12,6 +12,7 @@ namespace PassleSync.Core.Services.Content
     {
         public IExamineManager _examineManager;
         protected readonly IContentService _contentService;
+        protected readonly ConfigService _configService;
         protected readonly ILogger _logger;
 
         private readonly string _postDocumentType = "passlePost";
@@ -24,21 +25,23 @@ namespace PassleSync.Core.Services.Content
         public UmbracoContentService(
             IExamineManager examineManager,
             IContentService contentService,
+            ConfigService configService,
             ILogger logger)
         {
             _examineManager = examineManager;
             _contentService = contentService;
+            _configService = configService;
             _logger = logger;
         }
 
         public IEnumerable<IContent> GetExistingPosts()
         {
-            return GetExistingContent(ConfigService.Passle.PostRootNodeId);
+            return GetExistingContent(_configService.PostsParentNodeId);
         }
 
         public IEnumerable<IContent> GetExistingAuthors()
         {
-            return GetExistingContent(ConfigService.Passle.AuthorRootNodeId);
+            return GetExistingContent(_configService.AuthorsParentNodeId);
         }
 
         public IEnumerable<IContent> GetExistingContent(int parentNodeId)
