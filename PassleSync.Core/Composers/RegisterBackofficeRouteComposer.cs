@@ -5,7 +5,7 @@ using Umbraco.Core.Composing;
 
 namespace PassleSync.Core.Composers
 {
-    public class RegisterCustomBackofficeMvcRouteComposer : IUserComposer
+    public class RegisterBackofficeRouteComposer : IUserComposer
     {
         public void Compose(Composition composition)
         {

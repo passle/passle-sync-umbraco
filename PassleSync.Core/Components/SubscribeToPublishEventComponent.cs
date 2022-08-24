@@ -1,13 +1,8 @@
-﻿using Umbraco.Core;
-using Umbraco.Core.Composing;
+﻿using Umbraco.Core.Composing;
 using Umbraco.Core.Services.Implement;
 
-namespace SubscribeToPublishEventComposer
+namespace PassleSync.Core.Components
 {
-    [RuntimeLevel(MinLevel = RuntimeLevel.Run)]
-    public class SubscribeToPublishEventComposer : ComponentComposer<SubscribeToPublishEventComponent>
-    { }
-
     public class SubscribeToPublishEventComponent : IComponent
     {
         public void Initialize()

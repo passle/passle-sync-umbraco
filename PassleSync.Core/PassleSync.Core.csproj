@@ -7,8 +7,8 @@
     <ProjectGuid>{9741725C-EA3C-481E-B8E4-FC88CA450C17}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PassleDotCom.PasslePlugin.Core</RootNamespace>
-    <AssemblyName>PassleDotCom.PasslePlugin.Core</AssemblyName>
+    <RootNamespace>PassleSync.Core</RootNamespace>
+    <AssemblyName>PassleSync.Core</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -411,10 +411,12 @@
   <ItemGroup>
     <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
     <Compile Include="Components\RegisterBackofficeRouteComponent.cs" />
+    <Compile Include="Components\RegisterDocumentTypesComponent.cs" />
     <Compile Include="Components\SubscribeToPublishEventComponent.cs" />
     <Compile Include="Components\TaskRunnerComponent.cs" />
     <Compile Include="Composers\IOCComposer.cs" />
-    <Compile Include="Composers\RegisterCustomBackofficeMvcRouteComposer.cs" />
+    <Compile Include="Composers\RegisterBackofficeRouteComposer.cs" />
+    <Compile Include="Composers\RegisterDocumentTypesComposer.cs" />
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
     <Compile Include="Dashboards\PassleSync.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
