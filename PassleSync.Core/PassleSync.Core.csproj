@@ -476,7 +476,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Controllers\WebhookController.cs" />
     <Compile Include="Helpers\ApiHelper.cs" />
-    <Compile Include="Models\Admin\PaginatedResponse.cs" />
     <Compile Include="Models\Admin\Person.cs" />
     <Compile Include="Models\Admin\Post.cs" />
     <Compile Include="Models\SettingsData.cs" />
