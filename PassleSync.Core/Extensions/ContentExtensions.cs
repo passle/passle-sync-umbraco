@@ -5,7 +5,7 @@ namespace PassleSync.Core.Extensions
 {
     public static class ContentExtensions
     {
-        public static T GetValueOrDefault<T>(this IContent content, string key, T defaultValue = default(T))
+        public static T GetValueOrDefault<T>(this IContent content, string key, T defaultValue = default)
         {
             try
             {

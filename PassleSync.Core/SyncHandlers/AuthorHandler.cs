@@ -244,17 +244,17 @@ namespace PassleSync.Core.SyncHandlers
         public void CreateOne(PassleAuthor person, int parentNodeId)
         {
             // TODO: Const for "person"
-            var node = _contentService.Create(person.Name, parentNodeId, "person");
+            var node = _contentService.Create(person.Name, parentNodeId, "passleAuthor");
 
             // TODO: Should these strings be consts?
             // TODO: Capitalisation?
             node.SetValue("Shortcode", person.Shortcode);
-            node.SetValue("AuthorName", person.Name);
+            node.SetValue("Name", person.Name);
             //node.SetValue("ImageUrl", person.ImageUrl);
-            //node.SetValue("ProfileUrl", person.ProfileUrl);
+            node.SetValue("ProfileUrl", person.ProfileUrl);
             //node.SetValue("Role", person.Role);
             //node.SetValue("Synced", person.Synced);
-            //node.SetValue("Description", person.Description);
+            node.SetValue("Description", person.Description);
             //node.SetValue("EmailAddress", person.EmailAddress);
             //node.SetValue("PhoneNumber", person.PhoneNumber);
             //node.SetValue("LinkedInProfileLink", person.LinkedInProfileLink);
@@ -272,8 +272,8 @@ namespace PassleSync.Core.SyncHandlers
             //node.SetValue("LocationCountry", person.LocationCountry);
             //node.SetValue("TagLineCompany", person.TagLineCompany);
             //node.SetValue("SubscribeLink", person.SubscribeLink);
-            //node.SetValue("AvatarUrl", person.AvatarUrl);
-            //node.SetValue("RoleInfo", person.RoleInfo);
+            node.SetValue("AvatarUrl", person.AvatarUrl);
+            node.SetValue("RoleInfo", person.RoleInfo);
 
             _contentService.SaveAndPublish(node);
         }
