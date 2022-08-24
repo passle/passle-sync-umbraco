@@ -7,6 +7,11 @@
                     $http.get(baseUrl + "Get"),
                     "Failed to fetch the settings");
             },
+            save: function (settings) {
+                return umbRequestHelper.resourcePromise(
+                    $http.post(baseUrl + "Save", settings),
+                    "Failed to save the settings");
+            },
         };
     }
 );

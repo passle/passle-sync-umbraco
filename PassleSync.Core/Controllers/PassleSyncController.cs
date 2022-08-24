@@ -33,17 +33,17 @@ namespace PassleSync.Core.Controllers
         {
             var data = new Settings
             {
-                Shortcode = _keyValueService.GetValue("PassleSync.Shortcode"),
-                ApiKey = _keyValueService.GetValue("PassleSync.ApiKey"),
+                PassleShortcodes = _keyValueService.GetValue("PassleSync.Shortcode"),
+                ClientApiKey = _keyValueService.GetValue("PassleSync.ApiKey"),
                 ApiUrl = _keyValueService.GetValue("PassleSync.ApiUrl"),
                 PluginApiKey = _keyValueService.GetValue("PassleSync.PluginApiKey"),
                 PostPermalinkPrefix = _keyValueService.GetValue("PassleSync.PostPermalinkPrefix"),
-                PersonPermalinkPrefix = _keyValueService.GetValue("PassleSync.PersonPermalinkPrefix")
+                AuthorPermalinkPrefix = _keyValueService.GetValue("PassleSync.PersonPermalinkPrefix")
             };
 
             if (!string.IsNullOrWhiteSpace(_keyValueService.GetValue("PassleSync.PeopleParentNodeId")))
             {
-                data.PeopleParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PeopleParentNodeId"));
+                data.AuthorsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PeopleParentNodeId"));
             }
 
             if (!string.IsNullOrWhiteSpace(_keyValueService.GetValue("PassleSync.PostsParentNodeId")))
@@ -99,19 +99,19 @@ namespace PassleSync.Core.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Save(Settings settings)
+        public IHttpActionResult Save([FromBody] Settings settings)
         {
-            _keyValueService.SetValue("PassleSync.Shortcode", settings.Shortcode);
-            _keyValueService.SetValue("PassleSync.ApiKey", settings.ApiKey);
-            _keyValueService.SetValue("PassleSync.ApiUrl", settings.ApiUrl);
+            _keyValueService.SetValue("PassleSync.Shortcode", settings.PassleShortcodes);
+            _keyValueService.SetValue("PassleSync.ApiKey", settings.ClientApiKey);
+            _keyValueService.SetValue("PassleSync.ApiUrl", "http://clientwebapi.passle.localhost/");
 
             _keyValueService.SetValue("PassleSync.PluginApiKey", settings.PluginApiKey);
             _keyValueService.SetValue("PassleSync.PostPermalinkPrefix", settings.PostPermalinkPrefix);
-            _keyValueService.SetValue("PassleSync.PersonPermalinkPrefix", settings.PersonPermalinkPrefix);
+            _keyValueService.SetValue("PassleSync.PersonPermalinkPrefix", settings.AuthorPermalinkPrefix);
 
-            if (settings.PeopleParentNodeId > 0)
+            if (settings.AuthorsParentNodeId > 0)
             {
-                _keyValueService.SetValue("PassleSync.PeopleParentNodeId", settings.PeopleParentNodeId.ToString());
+                _keyValueService.SetValue("PassleSync.PeopleParentNodeId", settings.AuthorsParentNodeId.ToString());
             }
             if (settings.PostsParentNodeId > 0)
             {
@@ -124,13 +124,13 @@ namespace PassleSync.Core.Controllers
 
     public class Settings
     {
-        public string Shortcode { get; set; }
-        public string ApiKey { get; set; }
+        public string PassleShortcodes { get; set; }
+        public string ClientApiKey { get; set; }
         public string ApiUrl { get; set; }
         public string PluginApiKey { get; set; }
         public string PostPermalinkPrefix { get; set; }
-        public string PersonPermalinkPrefix { get; set; }
-        public int PeopleParentNodeId { get; set; }
+        public string AuthorPermalinkPrefix { get; set; }
         public int PostsParentNodeId { get; set; }
+        public int AuthorsParentNodeId { get; set; }
     }
 }

@@ -24,10 +24,13 @@ namespace PassleSync.Core.Controllers.PassleDashboard
             _logger = logger;
         }
 
+        [HttpGet]
         public IPassleDashboardViewModel RefreshAll()
         {
             return _authorHandler.GetAll();
         }
+
+        [HttpGet]
         public IPassleDashboardViewModel GetAll()
         {
             return _authorHandler.GetAll();
