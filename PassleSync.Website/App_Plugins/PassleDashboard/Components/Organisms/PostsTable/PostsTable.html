@@ -1,0 +1,18 @@
+﻿<div ng-controller="PostsTableController as vm">
+    <div class="table-actions">
+        <button class="left-button btn-primary" ng-class="{'disabled': vm.isRefreshing}" ng-click="vm.refresh()">Refresh all</button>
+        <button class="left-button btn-primary" ng-class="{'disabled': vm.isSyncing || vm.unsyncedCount == 0}" ng-click="vm.sync()">Sync {{vm.selectedCount == 0 ? "all" : "selected"}}</button>
+        <button class="right-button btn-danger" ng-class="{'disabled': vm.isDeleting || vm.syncedCount == 0}" ng-click="vm.delete()">Delete {{vm.selectedCount == 0 ? "all" : "selected"}}</button>
+    </div>
+
+    <umb-table ng-if="vm.posts"
+                items="vm.posts"
+                item-properties="vm.rowProperties"
+                allow-select-all="vm.allowSelectAll"
+                on-select="vm.onSelectItem(item)"
+                on-select-all="vm.onSelectAll()"
+                on-selected-all="vm.onSelectedAll()"
+                on-sorting-direction="vm.onSortDirection(col, direction)"
+                on-sort="vm.onSort(field, allow)">
+    </umb-table>
+</div>
