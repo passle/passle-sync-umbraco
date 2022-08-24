@@ -3,7 +3,6 @@ using Umbraco.Web.Editors;
 using Umbraco.Web.Mvc;
 using System.Web.Http;
 using PassleSync.Core.API.SyncHandlers;
-using PassleSync.Core.Models.Admin;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Controllers.RequestModels;
 using PassleSync.Core.Models;

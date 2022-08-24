@@ -476,8 +476,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Controllers\WebhookController.cs" />
     <Compile Include="Helpers\ApiHelper.cs" />
-    <Compile Include="Models\Admin\Person.cs" />
-    <Compile Include="Models\Admin\Post.cs" />
     <Compile Include="Models\SettingsData.cs" />
     <Compile Include="Models\PaginatedResponseBase.cs" />
     <Compile Include="Models\PassleAuthor.cs" />
@@ -486,9 +484,7 @@
     <Compile Include="Models\PasslePosts.cs" />
     <Compile Include="Models\PassleSync\PassleAuthor.cs" />
     <Compile Include="Models\PassleSync\PassleLink.cs" />
-    <Compile Include="Models\PassleSync\PasslePost.cs" />
     <Compile Include="Models\PassleSync\PassleShareViewsNetwork.cs" />
-    <Compile Include="Models\PassleSync\PassleTag.cs" />
     <Compile Include="Models\PassleSync\PassleTweet.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ConfigService.cs" />

@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using PassleSync.Core.Models.PassleSync;
+using System.Collections.Generic;
 
 namespace PassleSync.Core.Models
 {
@@ -11,5 +13,22 @@ namespace PassleSync.Core.Models
         public string AvatarUrl { get; set; }
         public string RoleInfo { get; set; }
         public string Description { get; set; }
+        public string EmailAddress { get; set; }
+        public string PhoneNumber { get; set; }
+        public string LinkedInProfileLink { get; set; }
+        public string FacebookProfileLink { get; set; }
+        public string TwitterScreenName { get; set; }
+        public string XingProfileLink { get; set; }
+        public string SkypeProfileLink { get; set; }
+        public string VimeoProfileLink { get; set; }
+        public string YouTubeProfileLink { get; set; }
+        public string StumbleUponProfileLink { get; set; }
+        public string PinterestProfileLink { get; set; }
+        public string InstagramProfileLink { get; set; }
+        public IEnumerable<PassleLink> PersonalLinks { get; set; }
+        public string LocationDetail { get; set; }
+        public string LocationCountry { get; set; }
+        public string TagLineCompany { get; set; }
+        public string SubscribeLink { get; set; }
     }
 }

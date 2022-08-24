@@ -5,7 +5,6 @@ using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using PassleSync.Core.Helpers;
 using PassleSync.Core.API.SyncHandlers;
-using PassleSync.Core.Models.Admin;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
@@ -249,32 +248,32 @@ namespace PassleSync.Core.SyncHandlers
             // TODO: Should these strings be consts?
             // TODO: Capitalisation?
             node.SetValue("PostContentHtml", post.PostContentHtml);
-            //node.SetValue("FeaturedItemHtml", post.FeaturedItemHtml);
-            //node.SetValue("FeaturedItemPosition", post.FeaturedItemPosition);
-            //node.SetValue("QuoteText", post.QuoteText);
-            //node.SetValue("QuoteUrl", post.QuoteUrl);
-            //node.SetValue("Tweets", post.Tweets);
-            //node.SetValue("IsFeaturedOnPasslePage", post.IsFeaturedOnPasslePage);
-            //node.SetValue("IsFeaturedOnPostPage", post.IsFeaturedOnPostPage);
+            node.SetValue("FeaturedItemHtml", post.FeaturedItemHtml);
+            node.SetValue("FeaturedItemPosition", post.FeaturedItemPosition);
+            node.SetValue("QuoteText", post.QuoteText);
+            node.SetValue("QuoteUrl", post.QuoteUrl);
+            node.SetValue("Tweets", post.Tweets);
+            node.SetValue("IsFeaturedOnPasslePage", post.IsFeaturedOnPasslePage);
+            node.SetValue("IsFeaturedOnPostPage", post.IsFeaturedOnPostPage);
             node.SetValue("PostShortcode", post.PostShortcode);
             node.SetValue("PassleShortcode", post.PassleShortcode);
             node.SetValue("PostUrl", post.PostUrl);
             node.SetValue("PostTitle", post.PostTitle);
             node.SetValue("Authors", post.Authors);
-            //node.SetValue("CoAuthors", post.CoAuthors);
-            //node.SetValue("ShareViews", post.ShareViews);
+            node.SetValue("CoAuthors", post.CoAuthors);
+            node.SetValue("ShareViews", post.ShareViews);
             node.SetValue("ContentTextSnippet", post.ContentTextSnippet);
             node.SetValue("PublishedDate", post.PublishedDate);
             node.SetValue("Tags", post.Tags);
-            //node.SetValue("FeaturedItemMediaType", post.FeaturedItemMediaType);
-            //node.SetValue("FeaturedItemEmbedType", post.FeaturedItemEmbedType);
-            //node.SetValue("FeaturedItemEmbedProvider", post.FeaturedItemEmbedProvider);
+            node.SetValue("FeaturedItemMediaType", post.FeaturedItemMediaType);
+            node.SetValue("FeaturedItemEmbedType", post.FeaturedItemEmbedType);
+            node.SetValue("FeaturedItemEmbedProvider", post.FeaturedItemEmbedProvider);
             node.SetValue("ImageUrl", post.ImageUrl);
-            //node.SetValue("TotalShares", post.TotalShares);
+            node.SetValue("TotalShares", post.TotalShares);
             node.SetValue("IsRepost", post.IsRepost);
             node.SetValue("EstimatedReadTimeInSeconds", post.EstimatedReadTimeInSeconds);
-            //node.SetValue("TotalLikes", post.TotalLikes);
-            //node.SetValue("OpensInNewTab", post.OpensInNewTab);
+            node.SetValue("TotalLikes", post.TotalLikes);
+            node.SetValue("OpensInNewTab", post.OpensInNewTab);
 
             _contentService.SaveAndPublish(node);
         }

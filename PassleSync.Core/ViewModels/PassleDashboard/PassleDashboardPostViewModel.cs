@@ -1,10 +1,8 @@
 ﻿using PassleSync.Core.Extensions;
 using PassleSync.Core.Models;
-using PassleSync.Core.Models.Admin;
 using System;
 using System.Linq;
 using Umbraco.Core.Models;
-using Umbraco.Core.Models.PublishedContent;
 
 namespace PassleSync.Core.ViewModels.PassleDashboard
 {
@@ -59,7 +57,7 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
             PostUrl = from.PostUrl;
             ImageUrl = from.ImageUrl;
             Excerpt = from.ContentTextSnippet;
-            FeaturedItemHTML = from.FeaturedItemHTML;
+            FeaturedItemHTML = from.FeaturedItemHtml;
             Synced = false;
         }
     }
