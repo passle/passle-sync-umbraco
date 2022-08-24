@@ -2,15 +2,15 @@
   "$schema": "https://json.schemastore.org/package.manifest",
   "sections": [
     {
-      "alias": "myPassleSync",
+      "alias": "PassleSync",
       "name": "Passle Sync"
     }
   ],
   "dashboards": [
     {
-      "alias": "myPassleSync",
+      "alias": "PassleSync",
       "view": "/App_Plugins/PassleSync/dashboard.html",
-      "sections": [ "myPassleSync" ],
+      "sections": [ "PassleSync" ],
       "weight": -10
     }
   ],

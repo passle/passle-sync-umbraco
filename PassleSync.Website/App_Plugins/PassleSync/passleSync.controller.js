@@ -9,7 +9,7 @@
 
     vm.init = function () {        
         $http({
-            url: "/umbraco/backoffice/myPassleSync/myPassleSync/Get",
+            url: "/umbraco/backoffice/PassleSync/passleSync/Get",
             method: "GET"
         }).then(function (response) {
             console.log(response.data);
@@ -32,7 +32,7 @@
         vm.loading = true;
 
         $http({
-            url: "/umbraco/backoffice/myPassleSync/myPassleSync/Save",
+            url: "/umbraco/backoffice/PassleSync/passleSync/Save",
             method: "POST",
             data: {
                 shortcode: vm.shortcode,
@@ -60,7 +60,7 @@
         vm.loading = true;
 
         $http({
-            url: "/umbraco/backoffice/myPassleSync/myPassleSync/Sync",
+            url: "/umbraco/backoffice/PassleSync/passleSync/Sync",
             method: "POST"
         }).then(function (response) {
             vm.loading = false;
@@ -78,7 +78,7 @@
         vm.loading = true;
 
         $http({
-            url: "/umbraco/backoffice/myPassleSync/myPassleSync/SyncAuthors",
+            url: "/umbraco/backoffice/PassleSync/passleSync/SyncAuthors",
             method: "POST"
         }).then(function (response) {
             vm.loading = false;
@@ -95,7 +95,7 @@
         vm.loading = true;
 
         $http({
-            url: "/umbraco/backoffice/myPassleSync/myPassleSync/SyncPosts",
+            url: "/umbraco/backoffice/PassleSync/passleSync/SyncPosts",
             method: "POST"
         }).then(function (response) {
             vm.loading = false;
