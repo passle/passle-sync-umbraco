@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 
 namespace PassleSync.Core.Extensions
@@ -30,6 +31,26 @@ namespace PassleSync.Core.Extensions
 
             // Remove paragraph wrapper tags
             return trimmedText.Substring(3, trimmedText.Length - 7);
-        } 
+        }
+
+        public static string FirstCharToUpper(this string input)
+        {
+            switch (input)
+            {
+                case null: throw new ArgumentNullException(nameof(input));
+                case "": throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
+                default: return input[0].ToString().ToUpper() + input.Substring(1);
+            }
+        }
+
+        public static string FirstCharToLower(this string input)
+        {
+            switch (input)
+            {
+                case null: throw new ArgumentNullException(nameof(input));
+                case "": throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
+                default: return input[0].ToString().ToLower() + input.Substring(1);
+            }
+        }
     }      
 }

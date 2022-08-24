@@ -1,4 +1,4 @@
-﻿using SubscribeToPublishEventComposer;
+﻿using PassleSync.Core.Components;
 using Umbraco.Core;
 using Umbraco.Core.Composing;
 
