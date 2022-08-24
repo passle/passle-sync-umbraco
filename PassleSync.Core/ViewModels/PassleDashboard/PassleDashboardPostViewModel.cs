@@ -32,8 +32,8 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
             Shortcode = from.GetValueOrDefault<string>("PostShortcode");
             PassleShortcode = from.GetValueOrDefault<string>("PassleShortcode");
             Authors = from.GetValueOrDefault<string>("Authors");
-            IsRepost = from.GetValueOrDefault<bool>("IsRepost");
-            EstimatedReadTime = from.GetValueOrDefault<int>("EstimatedReadTimeInSeconds");
+            IsRepost = Convert.ToBoolean(from.GetValueOrDefault<int>("IsRepost"));
+            EstimatedReadTime = int.Parse(from.GetValueOrDefault<string>("EstimatedReadTimeInSeconds"));
             Tags = from.GetValueOrDefault<string>("Tags");
             //PostUrl = from?.Url() ?? "";
             ImageUrl = from.GetValueOrDefault<string>("ImageURL");

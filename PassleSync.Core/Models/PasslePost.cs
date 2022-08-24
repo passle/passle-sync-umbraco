@@ -31,6 +31,6 @@ namespace PassleSync.Core.Models
         public int TotalShares { get; set; }
         public int TotalLikes { get; set; }
         public bool OpensInNewTab { get; set; }
-        public IEnumerable<string> Tweets { get; set; }
+        public IEnumerable<object> Tweets { get; set; } // TODO: Don't use object type here
     }
 }
