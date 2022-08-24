@@ -153,7 +153,6 @@ namespace PassleSync.Core.Components
             AddPropertyToContentType(passleAuthorContentType, "Textstring", "ImageUrl");
             AddPropertyToContentType(passleAuthorContentType, "Textstring", "ProfileUrl");
             AddPropertyToContentType(passleAuthorContentType, "Textstring", "Role");
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", "Synced");
             AddPropertyToContentType(passleAuthorContentType, "Textarea", "Description");
             AddPropertyToContentType(passleAuthorContentType, "Textstring", "EmailAddress");
             AddPropertyToContentType(passleAuthorContentType, "Textstring", "PhoneNumber");
