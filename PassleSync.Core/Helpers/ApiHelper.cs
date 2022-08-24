@@ -4,16 +4,16 @@ using System.Net.Http;
 using Umbraco.Core.Services;
 using Umbraco.Web.Composing;
 using Umbraco.Core;
-using PassleSync.Core.Models.Admin;
+using PassleSync.Core.Models;
 
 namespace PassleSync.Core.Helpers
 {
     public static class ApiHelper
     {
-        public static PaginatedResponse GetPosts()
+        public static PasslePosts GetPosts()
         {
             IKeyValueService kv = Current.Factory.GetInstance<IKeyValueService>();
-            var result = new PaginatedResponse();
+            var result = new PasslePosts();
 
             HttpClient client = new HttpClient();
             string baseApiAddress = kv.GetValue("PassleSync.ApiUrl");
@@ -27,16 +27,16 @@ namespace PassleSync.Core.Helpers
             HttpResponseMessage response = client.GetAsync("/api/v2/passlesync/posts?PassleShortcode=" + shortCode + "&ItemsPerPage=100").Result;
             if (response.IsSuccessStatusCode)
             {
-                result = response.Content.ReadAsAsync<PaginatedResponse>().Result;
+                result = response.Content.ReadAsAsync<PasslePosts>().Result;
             }
 
             return result;
         }
 
-        public static PaginatedResponse GetAuthors()
+        public static PassleAuthors GetAuthors()
         {
             IKeyValueService kv = Current.Factory.GetInstance<IKeyValueService>();
-            var result = new PaginatedResponse();
+            var result = new PassleAuthors();
 
             HttpClient client = new HttpClient();
             string baseApiAddress = kv.GetValue("PassleSync.ApiUrl");
@@ -51,7 +51,7 @@ namespace PassleSync.Core.Helpers
             HttpResponseMessage response = client.GetAsync("/api/v2/passlesync/people?PassleShortcode=" + shortCode + "&ItemsPerPage=100").Result;
             if (response.IsSuccessStatusCode)
             {
-                result = response.Content.ReadAsAsync<PaginatedResponse>().Result;
+                result = response.Content.ReadAsAsync<PassleAuthors>().Result;
             }
 
             return result;
