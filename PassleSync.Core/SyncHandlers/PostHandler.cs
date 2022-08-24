@@ -5,7 +5,6 @@ using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using PassleSync.Core.Helpers;
 using PassleSync.Core.API.SyncHandlers;
-using PassleSync.Core.Models.Admin;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
