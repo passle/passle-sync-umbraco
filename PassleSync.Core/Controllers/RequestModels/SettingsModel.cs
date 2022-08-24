@@ -1,9 +1,13 @@
-﻿namespace Passle.BackOffice.Controllers.RequestModels
+﻿namespace PassleSync.Core.Controllers.RequestModels
 {
     public class SettingsModel
     {
-        public string APIKey;
-        public string ClientWebAPIKey;
-        public string Shortcodes;
+        public string PassleShortcodes { get; set; }
+        public string ClientApiKey { get; set; }
+        public string PluginApiKey { get; set; }
+        public string PostPermalinkPrefix { get; set; }
+        public string AuthorPermalinkPrefix { get; set; }
+        public int PostsParentNodeId { get; set; }
+        public int AuthorsParentNodeId { get; set; }
     }
 }

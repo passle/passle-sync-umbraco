@@ -1,10 +1,9 @@
-﻿using Passle.BackOffice.Controllers.RequestModels;
-using PassleSync.Core.API.SyncHandlers;
+﻿using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.API.ViewModels;
+using PassleSync.Core.Controllers.RequestModels;
 using PassleSync.Core.Models.Admin;
 using System.Linq;
 using System.Web.Http;
-using Umbraco.Core.Logging;
 using Umbraco.Web.Editors;
 using Umbraco.Web.Mvc;
 
@@ -14,14 +13,10 @@ namespace PassleSync.Core.Controllers.PassleDashboard
     public class PassleDashboardPostsController : UmbracoAuthorizedJsonController
     {
         private readonly ISyncHandler<Post> _postHandler;
-        protected readonly ILogger _logger;
 
-        public PassleDashboardPostsController(
-            ISyncHandler<Post> postHandler,
-            ILogger logger)
+        public PassleDashboardPostsController(ISyncHandler<Post> postHandler)
         {
             _postHandler = postHandler;
-            _logger = logger;
         }
 
         [HttpGet]

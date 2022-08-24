@@ -10,18 +10,17 @@ namespace PassleSync.Core.Services.API
 {
     public class ApiService
     {
-        private readonly string _apiKey = "";
-        public string ApiKey { get => _apiKey; }
+        private readonly ConfigService _configService;
 
-        public ApiService()
+        public ApiService(ConfigService configService)
         {
-            _apiKey = ConfigService.Passle.ClientWebAPIKey;
+            _configService = configService;
         }
 
         public async Task<T> GetAsync<T>(string url)
         {
             var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("apiKey", _apiKey);
+            client.DefaultRequestHeaders.Add("apiKey", _configService.ClientApiKey);
 
             var streamTask = client.GetStreamAsync(url);
             var result = await JsonSerializer.DeserializeAsync<T>(await streamTask);
