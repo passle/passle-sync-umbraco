@@ -1,10 +1,15 @@
-﻿using PassleSync.Core.API.ViewModels;
+﻿using PassleSync.Core.Controllers.RequestModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace PassleSync.Core.ViewModels.PassleDashboard
+namespace PassleSync.Core.Models
 {
-    public class PassleDashboardSettingsViewModel : IPassleDashboardViewModel
+    public class SettingsData
     {
-        public string PassleShortcodes { get; set; }
+        public IEnumerable<string> PassleShortcodes { get; set; }
         public string ClientApiKey { get; set; }
         public string PluginApiKey { get; set; }
         public string PostPermalinkPrefix { get; set; }

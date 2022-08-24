@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Passle.BackOffice.Controllers.RequestModels
+namespace PassleSync.Core.Controllers.RequestModels
 {
     public class ShortcodesModel
     {

@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using Umbraco.Web.Editors;
 using Umbraco.Web.Mvc;
-using Umbraco.Core.Logging;
 using System.Web.Http;
-using Passle.BackOffice.Controllers.RequestModels;
 using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.Models.Admin;
 using PassleSync.Core.API.ViewModels;
+using PassleSync.Core.Controllers.RequestModels;
 
 namespace PassleSync.Core.Controllers.PassleDashboard
 {
@@ -14,14 +13,10 @@ namespace PassleSync.Core.Controllers.PassleDashboard
     public class PassleDashboardAuthorsController : UmbracoAuthorizedJsonController
     {
         private readonly ISyncHandler<Person> _authorHandler;
-        protected readonly ILogger _logger;
 
-        public PassleDashboardAuthorsController(
-            ISyncHandler<Person> authorHandler,
-            ILogger logger)
+        public PassleDashboardAuthorsController(ISyncHandler<Person> authorHandler)
         {
             _authorHandler = authorHandler;
-            _logger = logger;
         }
 
         [HttpGet]
@@ -52,7 +47,6 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         [HttpPost]
         public IHttpActionResult SyncMany([FromBody] ShortcodesModel model)
         {
-            //var posts = await _passleContentService.GetPosts(model.Shortcodes);
             if (_authorHandler.SyncMany(model.Shortcodes.ToArray()))
             {
                 return Ok();
