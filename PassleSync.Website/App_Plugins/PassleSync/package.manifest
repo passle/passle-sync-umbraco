@@ -2,22 +2,14 @@
   "$schema": "https://json.schemastore.org/package.manifest",
   "sections": [
     {
-      "alias": "myPassleSync",
+      "alias": "PassleSync",
       "name": "Passle Sync"
-    }
-  ],
-  "dashboards": [
-    {
-      "alias": "myPassleSync",
-      "view": "/App_Plugins/PassleSync/dashboard.html",
-      "sections": [ "myPassleSync" ],
-      "weight": -10
     }
   ],
   "javascript": [
     "~/App_Plugins/PassleSync/passleSync.controller.js"
   ],
   "css": [
-    "~/App_Plugins/PassleSync/style.css"
+    "~/App_Plugins/PassleSync/styles.css"
   ]
 }

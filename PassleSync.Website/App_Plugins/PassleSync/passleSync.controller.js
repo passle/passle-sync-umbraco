@@ -9,7 +9,7 @@
 
     vm.init = function () {        
         $http({
-            url: "/umbraco/backoffice/myPassleSync/myPassleSync/Get",
+            url: "/umbraco/backoffice/PassleSync/passleSync/Get",
             method: "GET"
         }).then(function (response) {
             console.log(response.data);
@@ -32,7 +32,7 @@
         vm.loading = true;
 
         $http({
-            url: "/umbraco/backoffice/myPassleSync/myPassleSync/Save",
+            url: "/umbraco/backoffice/PassleSync/passleSync/Save",
             method: "POST",
             data: {
                 shortcode: vm.shortcode,
@@ -55,30 +55,12 @@
         });
     };
 
-    /* vm.clickButtonSync = function () {
-        vm.buttonPostsStateSync = 'busy';
-        vm.loading = true;
-
-        $http({
-            url: "/umbraco/backoffice/myPassleSync/myPassleSync/Sync",
-            method: "POST"
-        }).then(function (response) {
-            vm.loading = false;
-            vm.buttonPostsStateSync = 'init';
-
-            notificationsService.success("Success", "Authors and post have been synced");
-
-            navigationService.syncTree({ tree: 'content', path: ["-1", vm.postsParentNodeId], forceReload: true }); 
-            navigationService.syncTree({ tree: 'content', path: ["-1", vm.peopleParentNodeId], forceReload: true }); 
-        });
-    }; */
-
     vm.clickButtonSyncAuthors = function () {
         vm.buttonAuthorsStateSync = 'busy';
         vm.loading = true;
 
         $http({
-            url: "/umbraco/backoffice/myPassleSync/myPassleSync/SyncAuthors",
+            url: "/umbraco/backoffice/PassleSync/passleSync/SyncAuthors",
             method: "POST"
         }).then(function (response) {
             vm.loading = false;
@@ -95,7 +77,7 @@
         vm.loading = true;
 
         $http({
-            url: "/umbraco/backoffice/myPassleSync/myPassleSync/SyncPosts",
+            url: "/umbraco/backoffice/PassleSync/passleSync/SyncPosts",
             method: "POST"
         }).then(function (response) {
             vm.loading = false;

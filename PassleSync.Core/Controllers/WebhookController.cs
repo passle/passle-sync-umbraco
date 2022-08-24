@@ -6,16 +6,17 @@ using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 
 namespace PassleSync.Core.Controllers
 {
-    public class MyController : Umbraco.Web.WebApi.UmbracoApiController
+    public class WebhookController : Umbraco.Web.WebApi.UmbracoApiController
     {
         public IContentService _contentService;
         public ISyncHandler<Post> _postHandler;
         public ISyncHandler<Person> _personHandler;
 
-        public MyController(IContentService contentService, ISyncHandler<Post> postHandler)
+        public WebhookController(IContentService contentService, ISyncHandler<Post> postHandler, ISyncHandler<Person> personHandler)
         {
             _contentService = contentService;
             _postHandler = postHandler;
+            _personHandler = personHandler;
         }
 
 

@@ -6,19 +6,75 @@ using Umbraco.Core.Services;
 using PassleSync.Core.Helpers;
 using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.Models.Admin;
+using PassleSync.Core.ViewModels.PassleDashboard;
+using Umbraco.Core.Logging;
+using PassleSync.Core.API.ViewModels;
 
 namespace PassleSync.Core.SyncHandlers
 {
     public class PostHandler : ISyncHandler<Post>
     {
         private IKeyValueService _keyValueService;
-        public IContentService _contentService { get; set; }
+        public IContentService _contentService;
+        protected readonly ILogger _logger;
 
 
-        public PostHandler(IKeyValueService keyValueService, IContentService contentService)
+        public PostHandler(
+            IKeyValueService keyValueService,
+            IContentService contentService,
+            ILogger logger)
         {
             _keyValueService = keyValueService;
             _contentService = contentService;
+            _logger = logger;
+        }
+
+        public IPassleDashboardViewModel GetAll()
+        {
+            var postsFromApi = ApiHelper.GetPosts();
+            if (postsFromApi == null || postsFromApi.Posts == null)
+            {
+                // Failed to get posts from the API
+                return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
+            }
+
+            // TODO: Move this into a config service?
+            int postsParentNodeId;
+            try
+            {
+                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
+
+                if (_contentService.GetById(postsParentNodeId) == null)
+                {
+                    return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
+                return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
+            }
+
+            var umbracoPosts = GetAllUmbraco(postsParentNodeId);
+
+            // Create viewmodels
+            var umbracoPostModels = umbracoPosts.Select(post => new PassleDashboardPostViewModel(post));
+            var apiPostModels = postsFromApi.Posts.Select(post => new PassleDashboardPostViewModel(post));
+
+            var umbracoShortcodes = umbracoPostModels.Select(x => x.Shortcode);
+            // Merge Enumerables
+            var allModels = umbracoPostModels.Concat(apiPostModels.Where(x => !umbracoShortcodes.Contains(x.Shortcode)));
+
+            return new PassleDashboardPostsViewModel(allModels);
+        }
+
+        public IEnumerable<IContent> GetAllUmbraco(int parentNodeId)
+        {
+            if (_contentService.HasChildren(parentNodeId))
+            {
+                return _contentService.GetPagedChildren(parentNodeId, 0, 100, out long totalChildren).ToList();
+            }
+            return Enumerable.Empty<IContent>();
         }
 
         public bool SyncAll()
@@ -43,11 +99,12 @@ namespace PassleSync.Core.SyncHandlers
             }
             catch (ArgumentNullException ex)
             {
+                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
                 return false;
             }
 
             DeleteAll(postsParentNodeId);
-            CreateMany(postsFromApi.Posts, postsParentNodeId);
+            CreateAll(postsFromApi.Posts, postsParentNodeId);
 
             return true;
         }
@@ -72,14 +129,37 @@ namespace PassleSync.Core.SyncHandlers
                     return false;
                 }
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
+                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
                 return false;
             }
 
             DeleteMany(Shortcodes, postsParentNodeId);
-            CreateMany(postsFromApi.Posts, postsParentNodeId);
+            CreateMany(postsFromApi.Posts, postsParentNodeId, Shortcodes);
 
+            return true;
+        }
+
+        public bool DeleteAll()
+        {
+            int postsParentNodeId;
+            try
+            {
+                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
+
+                if (_contentService.GetById(postsParentNodeId) == null)
+                {
+                    return false;
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
+                return false;
+            }
+
+            DeleteAll(postsParentNodeId);
             return true;
         }
 
@@ -95,6 +175,28 @@ namespace PassleSync.Core.SyncHandlers
                     _contentService.Delete(child);
                 }
             }
+        }
+
+        public bool DeleteMany(string[] Shortcodes)
+        {
+            int postsParentNodeId;
+            try
+            {
+                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
+
+                if (_contentService.GetById(postsParentNodeId) == null)
+                {
+                    return false;
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
+                return false;
+            }
+
+            DeleteMany(Shortcodes, postsParentNodeId);
+            return true;
         }
 
         public void DeleteMany(string[] Shortcodes, int parentNodeId)
@@ -114,11 +216,27 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public void CreateMany(IEnumerable<Post> posts, int parentNodeId)
+        public void DeleteOne(string Shortcode, int parentNodeId)
+        {
+            DeleteMany(new string[] { Shortcode }, parentNodeId);
+        }
+
+        public void CreateAll(IEnumerable<Post> posts, int parentNodeId)
         {
             foreach (Post post in posts)
             {
                 CreateOne(post, parentNodeId);
+            }
+        }
+
+        public void CreateMany(IEnumerable<Post> posts, int parentNodeId, string[] Shortcodes)
+        {
+            foreach (Post post in posts)
+            {
+                if (Shortcodes.Contains(post.PostShortcode))
+                {
+                    CreateOne(post, parentNodeId);
+                }
             }
         }
 
@@ -129,33 +247,33 @@ namespace PassleSync.Core.SyncHandlers
 
             // TODO: Should these strings be consts?
             // TODO: Capitalisation?
-            node.SetValue("PostContentHtml", post.PostContentHtml);
-            node.SetValue("FeaturedItemHtml", post.FeaturedItemHtml);
-            node.SetValue("FeaturedItemPosition", post.FeaturedItemPosition);
-            node.SetValue("QuoteText", post.QuoteText);
-            node.SetValue("QuoteUrl", post.QuoteUrl);
-            node.SetValue("Tweets", post.Tweets);
-            node.SetValue("IsFeaturedOnPasslePage", post.IsFeaturedOnPasslePage);
-            node.SetValue("IsFeaturedOnPostPage", post.IsFeaturedOnPostPage);
+            //node.SetValue("PostContentHtml", post.PostContentHtml);
+            //node.SetValue("FeaturedItemHtml", post.FeaturedItemHtml);
+            //node.SetValue("FeaturedItemPosition", post.FeaturedItemPosition);
+            //node.SetValue("QuoteText", post.QuoteText);
+            //node.SetValue("QuoteUrl", post.QuoteUrl);
+            //node.SetValue("Tweets", post.Tweets);
+            //node.SetValue("IsFeaturedOnPasslePage", post.IsFeaturedOnPasslePage);
+            //node.SetValue("IsFeaturedOnPostPage", post.IsFeaturedOnPostPage);
             node.SetValue("PostShortcode", post.PostShortcode);
-            node.SetValue("PassleShortcode", post.PassleShortcode);
-            node.SetValue("PostUrl", post.PostUrl);
+            //node.SetValue("PassleShortcode", post.PassleShortcode);
+            //node.SetValue("PostUrl", post.PostUrl);
             node.SetValue("PostTitle", post.PostTitle);
-            node.SetValue("Authors", post.Authors);
-            node.SetValue("CoAuthors", post.CoAuthors);
-            node.SetValue("ShareViews", post.ShareViews);
-            node.SetValue("ContentTextSnippet", post.ContentTextSnippet);
-            node.SetValue("PublishedDate", post.PublishedDate);
-            node.SetValue("Tags", post.Tags);
-            node.SetValue("FeaturedItemMediaType", post.FeaturedItemMediaType);
-            node.SetValue("FeaturedItemEmbedType", post.FeaturedItemEmbedType);
-            node.SetValue("FeaturedItemEmbedProvider", post.FeaturedItemEmbedProvider);
-            node.SetValue("ImageUrl", post.ImageUrl);
-            node.SetValue("TotalShares", post.TotalShares);
-            node.SetValue("IsRepost", post.IsRepost);
-            node.SetValue("EstimatedReadTimeInSeconds", post.EstimatedReadTimeInSeconds);
-            node.SetValue("TotalLikes", post.TotalLikes);
-            node.SetValue("OpensInNewTab", post.OpensInNewTab);
+            //node.SetValue("Authors", post.Authors);
+            //node.SetValue("CoAuthors", post.CoAuthors);
+            //node.SetValue("ShareViews", post.ShareViews);
+            //node.SetValue("ContentTextSnippet", post.ContentTextSnippet);
+            //node.SetValue("PublishedDate", post.PublishedDate);
+            //node.SetValue("Tags", post.Tags);
+            //node.SetValue("FeaturedItemMediaType", post.FeaturedItemMediaType);
+            //node.SetValue("FeaturedItemEmbedType", post.FeaturedItemEmbedType);
+            //node.SetValue("FeaturedItemEmbedProvider", post.FeaturedItemEmbedProvider);
+            //node.SetValue("ImageUrl", post.ImageUrl);
+            //node.SetValue("TotalShares", post.TotalShares);
+            //node.SetValue("IsRepost", post.IsRepost);
+            //node.SetValue("EstimatedReadTimeInSeconds", post.EstimatedReadTimeInSeconds);
+            //node.SetValue("TotalLikes", post.TotalLikes);
+            //node.SetValue("OpensInNewTab", post.OpensInNewTab);
 
             _contentService.SaveAndPublish(node);
         }
@@ -163,71 +281,39 @@ namespace PassleSync.Core.SyncHandlers
         public bool SyncOne(string Shortcode)
         {
             var postsFromApi = ApiHelper.GetPosts();
-
-            // TODO: Move this into a config service?
-            var postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
-            var postsParentNode = _contentService.GetById(postsParentNodeId);
-
-            // Delete any existing posts with the same shortcode
-            if (_contentService.HasChildren(postsParentNodeId))
+            if (postsFromApi == null || postsFromApi.Posts == null)
             {
-                IEnumerable<IContent> children = _contentService.GetPagedChildren(postsParentNodeId, 0, 100, out long totalChildren).ToList();
-
-                foreach (var child in children)
-                {
-                    if (child.GetValue<string>("PostShortcode") == Shortcode)
-                    {
-                        _contentService.Delete(child);
-                    }
-                }
-            }
-
-            // Create a new post
-            var postfromApi = postsFromApi.Posts.FirstOrDefault(x => x.PostShortcode == Shortcode);
-            if (postfromApi != null)
-            {
-                // TODO: Const for "post"
-                var node = _contentService.Create(postfromApi.PostTitle, postsParentNode.Id, "post");
-
-                // TODO: Should these strings be consts?
-                // TODO: Capitalisation?
-                node.SetValue("PostContentHtml", postfromApi.PostContentHtml);
-                node.SetValue("FeaturedItemHtml", postfromApi.FeaturedItemHtml);
-                node.SetValue("FeaturedItemPosition", postfromApi.FeaturedItemPosition);
-                node.SetValue("QuoteText", postfromApi.QuoteText);
-                node.SetValue("QuoteUrl", postfromApi.QuoteUrl);
-                node.SetValue("Tweets", postfromApi.Tweets);
-                node.SetValue("IsFeaturedOnPasslePage", postfromApi.IsFeaturedOnPasslePage);
-                node.SetValue("IsFeaturedOnPostPage", postfromApi.IsFeaturedOnPostPage);
-                node.SetValue("PostShortcode", postfromApi.PostShortcode);
-                node.SetValue("PassleShortcode", postfromApi.PassleShortcode);
-                node.SetValue("PostUrl", postfromApi.PostUrl);
-                node.SetValue("PostTitle", postfromApi.PostTitle);
-                node.SetValue("Authors", postfromApi.Authors);
-                node.SetValue("CoAuthors", postfromApi.CoAuthors);
-                node.SetValue("ShareViews", postfromApi.ShareViews);
-                node.SetValue("ContentTextSnippet", postfromApi.ContentTextSnippet);
-                node.SetValue("PublishedDate", postfromApi.PublishedDate);
-                node.SetValue("Tags", postfromApi.Tags);
-                node.SetValue("FeaturedItemMediaType", postfromApi.FeaturedItemMediaType);
-                node.SetValue("FeaturedItemEmbedType", postfromApi.FeaturedItemEmbedType);
-                node.SetValue("FeaturedItemEmbedProvider", postfromApi.FeaturedItemEmbedProvider);
-                node.SetValue("ImageUrl", postfromApi.ImageUrl);
-                node.SetValue("TotalShares", postfromApi.TotalShares);
-                node.SetValue("IsRepost", postfromApi.IsRepost);
-                node.SetValue("EstimatedReadTimeInSeconds", postfromApi.EstimatedReadTimeInSeconds);
-                node.SetValue("TotalLikes", postfromApi.TotalLikes);
-                node.SetValue("OpensInNewTab", postfromApi.OpensInNewTab);
-
-                _contentService.SaveAndPublish(node);
-
-                return true;
-            }
-            else
-            {
-                // Clearly we've not managed to delete all the existing posts if one still exists
+                // Failed to get posts from the API
                 return false;
             }
+
+            // TODO: Move this into a config service?
+            int postsParentNodeId;
+            try
+            {
+                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
+
+                if (_contentService.GetById(postsParentNodeId) == null)
+                {
+                    return false;
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
+                return false;
+            }
+
+            var postFromApi = postsFromApi.Posts.FirstOrDefault(x => x.PostShortcode == Shortcode);
+            if (postFromApi == null)
+            {
+                return false;
+            }
+
+            DeleteOne(Shortcode, postsParentNodeId);
+            CreateOne(postFromApi, postsParentNodeId);
+
+            return true;
         }
     }
 }
