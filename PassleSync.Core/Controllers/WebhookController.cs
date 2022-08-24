@@ -1,5 +1,5 @@
 ﻿using PassleSync.Core.API.SyncHandlers;
-using PassleSync.Core.Models.Admin;
+using PassleSync.Core.Models;
 using System.Web.Http;
 using Umbraco.Core.Services;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
@@ -9,10 +9,10 @@ namespace PassleSync.Core.Controllers
     public class WebhookController : Umbraco.Web.WebApi.UmbracoApiController
     {
         public IContentService _contentService;
-        public ISyncHandler<Post> _postHandler;
-        public ISyncHandler<Person> _personHandler;
+        public ISyncHandler<PasslePost> _postHandler;
+        public ISyncHandler<PassleAuthor> _personHandler;
 
-        public WebhookController(IContentService contentService, ISyncHandler<Post> postHandler, ISyncHandler<Person> personHandler)
+        public WebhookController(IContentService contentService, ISyncHandler<PasslePost> postHandler, ISyncHandler<PassleAuthor> personHandler)
         {
             _contentService = contentService;
             _postHandler = postHandler;
