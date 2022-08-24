@@ -10,7 +10,7 @@ using Umbraco.Core.Scoping;
 using Umbraco.Core.Services;
 using Umbraco.Web.PropertyEditors;
 
-namespace PassleDotCom.PasslePlugin.Core.Components
+namespace PassleSync.Core.Components
 {
     public class RegisterDocumentTypesComponent : IComponent
     {

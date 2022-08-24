@@ -1,8 +1,8 @@
 ﻿using Umbraco.Core.Composing;
 using Umbraco.Core;
-using PassleDotCom.PasslePlugin.Core.Components;
+using PassleSync.Core.Components;
 
-namespace PassleDotCom.PasslePlugin.Core.Composers
+namespace PassleSync.Core.Composers
 {
     [RuntimeLevel(MinLevel = RuntimeLevel.Run)]
     public class RegisterDocumentTypesComposer : ComponentComposer<RegisterDocumentTypesComponent>
