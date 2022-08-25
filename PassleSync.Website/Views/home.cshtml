@@ -1,10 +1,7 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+﻿@using Umbraco.Core;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage
 @{
-    Layout = "Master.cshtml";
-
-    var itemresult = PassleSync.Core.Helpers.ApiHelper.GetPosts();
-
-    var authors = PassleSync.Core.Helpers.ApiHelper.GetAuthors();
+    Layout = "LayoutAlex.cshtml";
 }
 
 
@@ -17,7 +14,7 @@
     <div class="grid grid-cols-2 gap-6">
 
         @{
-            var posts = Umbraco.Content(1069).Children;
+            var posts = Umbraco.ContentAtRoot().FirstOrDefault().Children().Where(x => x.IsVisible());
         }
 
         @foreach (var post in posts)
@@ -25,15 +22,15 @@
             <article id="post-@post.Id" class="post-@post.Id passle-post type-passle-post status-publish hentry">
 
                 <div class="h-80 relative group">
-                    <img class="w-full h-full object-cover" src="@post.Value("imageUrl")" alt="@post.Name" />
+                    <img class="w-full h-full object-cover" src="@(post.Value<string>("ImageUrl"))" alt="@(post.Value<string>("PostTitle"))" />
                     <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-primary group-hover:bg-opacity-100 transition-colors text-white">
                         <a href="@post.Url()" class="h-full p-16 flex flex-col gap-4">
-                            <h2 class="entry-title font-bodoni text-3xl leading-tight mb-1 line-clamp-3">@post.Name</h2>
+                            <h2 class="entry-title font-bodoni text-3xl leading-tight mb-1 line-clamp-3">@(post.Value<string>("PostTitle"))</h2>
                             <time datetime="25 May 2022" itemprop="datePublished" class="font-bodoni group-hover:hidden">
-                                @post.Value("publishedDate")
+                                @DateTime.Parse(post.Value<string>("publishedDate")).ToString("dd MMMM yyyy");
                             </time>
                             <span class="hidden group-hover:line-clamp-3">
-                                @Html.Raw(post.Value("postContentHtml"))                                
+                                @Html.Raw(post.Value("ContentTextSnippet"))                                
                             </span>
                         </a>
                     </div>
@@ -45,11 +42,9 @@
 
     </div>
 
-    <div class="flex justify-center">
-        <a href="/insights" class="section__button">More insights</a>
-    </div>
+    <!--<div class="flex justify-center">-->
+    <!--    <a href="/insights" class="section__button">More insights</a>-->
+    <!--</div>-->
 
 
 </div>
-
-

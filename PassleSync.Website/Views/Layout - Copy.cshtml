@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Mercier and Velez</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Passle" />
+    <meta name="distribution" content="Local" />
+    <meta name="twitter:dnt" content="on">
+    <link rel="stylesheet" href="https://dukb55syzud3u.cloudfront.net/Content/fontawesome/all.min.css?v=5.3.3">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bodoni+Moda">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans">
+
+    <style>
+        body {
+            background-color: #efefef !important;
+            color: #333333;
+            font-family: "PT Sans", sans-serif !important;
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #fff;
+        }
+
+            .navbar .navbar-brand {
+                color: #333;
+            }
+
+        .navbar-header > .logo {
+            height: 60px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Bodoni Moda", sans-serif !important;
+        }
+
+        .page-container {
+            background-color: #efefef;
+            margin: 80px 0 0 0;
+            padding: 20px 0;
+            padding-bottom: 0;
+        }
+
+        .page-subnav {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .subnav-left {
+            display: flex;
+        }
+
+        .page-body {
+            margin-top: 20px;
+            display: flex;
+            margin-bottom: 60px;
+            word-break: break-word;
+        }
+
+        .breadcrumb {
+            margin-bottom: 0px !important;
+            background-color: inherit !important;
+            font-weight: bold;
+            color: #FF5271;
+            font-family: "Bodoni Moda", sans-serif !important;
+            line-height: 1.8;
+        }
+
+            .breadcrumb > a, .breadcrumb > span {
+                margin: 0 10px;
+                text-decoration: none;
+                color: #FF5271;
+            }
+
+                .breadcrumb > a:hover {
+                    text-decoration: none;
+                    color: #f14c6a;
+                }
+
+        .search-bar-container {
+            position: relative;
+            color: #999;
+        }
+
+            .search-bar-container > i {
+                position: absolute;
+                top: 30%;
+                left: 10px;
+            }
+
+        .search-bar {
+            width: 240px;
+            padding: 8px 10px 8px 40px;
+        }
+
+            .search-bar:focus-visible {
+                border: 1px solid #FF5271;
+                outline: #FF5271 auto 1px;
+            }
+
+        .full-width-container {
+            display: flex;
+            width: calc(100% + 80px);
+            background-color: #fff;
+            margin-left: -40px;
+            margin-right: -40px;
+            position: relative;
+        }
+    </style>
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="container title-container">
+            <div class="navbar-header">
+                <a href="/" class="logo-link">
+                    <img class="logo" src="https://passle-staging.s3.amazonaws.com/CustomDesign/6049eb3217b38b10b892935c/2021-03-11-10-31-46-143-6049f19217b38b10b89294e3.png" />
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content passle-content">
+        @RenderBody()
+        <hr />
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+    <!-- CWv2 Toolbar -->
+    <script type="text/javascript" src="https://clientweb.passle.localhost/v1/RemoteHostingBundle"></script>
+</body>
+</html>

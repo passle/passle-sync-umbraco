@@ -1,19 +1,26 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
-@using System;
+﻿@using System;
 @using System.Web;
+@using System.Text.Json;
 @using System.Linq;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.PassleAuthor>
-@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using PassleSync.Core.Extensions;
+@using ContentModels = Umbraco.Web.PublishedModels;
+@using PostAuthor = PassleSync.Core.Models.Content.PassleApi.PostAuthor;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.PassleAuthor>
 @{
     Layout = "Layout.cshtml";
 
-    var person = (Umbraco.Cms.Web.Common.PublishedModels.PassleAuthor)Umbraco.AssignedContentItem;
+    var person = (ContentModels.PassleAuthor)Umbraco.AssignedContentItem;
     var SubscribeUrl = "";
-    var TwitterProfileUrl = "";
-    var LinkedInProfileUrl = "";
     var Location = "";
     var Email = "";
-    var FirstName = person.Value<string>("authorName").Split(" ").FirstOrDefault();
+    string authorName = person.Value<string>("authorName");
+    string FirstName = authorName.Split(' ').FirstOrDefault();
+    
+    var umbracoPosts = Umbraco.Content(Guid.Parse("ed25e8b7-48a1-4c40-9d53-16efc93a0348"))
+        .ChildrenOfType("passlePost")
+        .Where(x => x.IsVisible());
+        
+    var AuthorPosts = umbracoPosts.Where(x => JsonSerializer.Deserialize<List<PostAuthor>>(x.Value<string>("authors")).Select(y => y.Name).Contains(authorName));
 }
 
 <div class="page-container">
@@ -34,38 +41,38 @@
             <div class="below-profile-picture">
                 <div class="profile-links">
                     <div class="profile-social-links">
-                        @if (!string.IsNullOrEmpty(TwitterProfileUrl))
+                        @if (!string.IsNullOrEmpty(person.Value<string>("TwitterScreenName")))
                         {
-                            <a class="profile-social-twitter" href="@TwitterProfileUrl" target="_blank" rel="noreferrer noopener">
+                            <a class="profile-social-twitter" href="https://twitter.com/@person.Value("TwitterScreenName")" target="_blank" rel="noreferrer noopener">
                                 <i class="fab fa-twitter"></i>
                             </a>
                         }
-                        @if (!string.IsNullOrEmpty(LinkedInProfileUrl))
+                        @if (!string.IsNullOrEmpty(person.Value<string>("LinkedInProfileLink")))
                         {
-                            <a class="profile-social-linkedin" href="https://@LinkedInProfileUrl" target="_blank" rel="noreferrer noopener">
+                            <a class="profile-social-linkedin" href="https://@person.Value("LinkedInProfileLink")" target="_blank" rel="noreferrer noopener">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>
                         }
                     </div>
                     <div class="profile-personal-info">
-                        @if (!string.IsNullOrEmpty(Location))
+                        @if (!string.IsNullOrEmpty(person.Value<string>("LocationDetail")) || !string.IsNullOrEmpty(person.Value<string>("LocationCountry")))
                         {
                             <div class="profile-location">
                                 <i class="fas fa-map-marker-alt"></i>
-                                <span>@Location</span>
+                                <span>@person.Value("LocationDetail")@(!string.IsNullOrEmpty(person.Value<string>("LocationDetail")) && !string.IsNullOrEmpty(person.Value<string>("LocationCountry")) ? ","  : "")@person.Value("LocationCountry")</span>
                             </div>
                         }
-                        @if (!string.IsNullOrEmpty(Email))
+                        @if (!string.IsNullOrEmpty(person.Value<string>("EmailAddress")))
                         {
                             <div class="profile-email">
                                 <i class="fas fa-envelope"></i>
-                                <span>@Email</span>
+                                <span>@(person.Value<string>("EmailAddress"))</span>
                             </div>
                         }
                     </div>
                 </div>
                 <div class="profile-name-stylistic">
-                    @(((string)FirstName).ToUpper())
+                    @(FirstName.ToUpper())
                 </div>
             </div>
         </div>
@@ -99,6 +106,25 @@
                 <h3>About me</h3>
                 @Html.Raw(person.Value<string>("description"))
             </div>
+        </div>
+    </div>
+    <div class="full-width-container">
+        <div class="author-posts">
+            <div class="author-posts-header">
+                <h3>@FirstName's Posts</h3>
+            </div>
+            @foreach (var post in AuthorPosts.Take(4))
+            {
+                <a class="post" href="@post.Url()">
+                    <img src="@(post.Value<string>("imageUrl"))" />
+                    <div class="post-image-overlay"></div>
+                    <div>
+                        <h3>@(post.Value<string>("postTitle").Truncate())</h3>
+                        <h4 class="post-date">@(DateTime.Parse(post.Value<string>("publishedDate")).ToString("dd MMMM yyyy"))</h4>
+                        <span class="post-preview">@Html.Raw(post.Value<string>("ContentTextSnippet"))</span>
+                    </div>
+                </a>
+            }
         </div>
     </div>
 </div>

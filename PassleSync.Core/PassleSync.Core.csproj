@@ -473,6 +473,7 @@
     <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Controllers\WebhookController.cs" />
+    <Compile Include="Helpers\PostHelper.cs" />
     <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostMediaType.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostFeaturedItemPosition.cs" />

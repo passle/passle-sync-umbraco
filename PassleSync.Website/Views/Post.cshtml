@@ -1,15 +1,28 @@
 ﻿@using System.Web;
 @using System.Linq;
+@using System.Text.Json;
+@using PassleSync.Core.Helpers;
 @using ContentModels = Umbraco.Web.PublishedModels;
+@using PostAuthor = PassleSync.Core.Models.Content.PassleApi.PostAuthor;
 @inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.PasslePost>
 @{
     Layout = "Layout.cshtml";
 
-    var post = (ContentModels.Post)Umbraco.AssignedContentItem;
+    var post = (ContentModels.PasslePost)Umbraco.AssignedContentItem;
+    List<PostAuthor> authors = JsonSerializer.Deserialize<List<PostAuthor>>(post.Value<string>("authors"));
+    PostAuthor author = authors?.FirstOrDefault();
     var passleSubscribeLink = "";
-    var avatarUrl = "";
+    string PostTitle = post.Value<string>("postTitle");
+    string[] Tags = post.Value<string>("Tags").Split(',');
+    string passleDomain = "localhost";
+    int minsRead = (int)Math.Round(int.Parse(post.Value<string>("estimatedReadTimeInSeconds")) / 60f);
+    string formattedDate = DateTime.Parse(post.Value<string>("publishedDate")).ToString("dd MMMM yyyy");
+    
+    var umbracoAuthors = Umbraco.Content(Guid.Parse("759cd86d-0283-44dc-9fe1-c6892f1c200e"))
+        .ChildrenOfType("passleAuthor")
+        .Where(x => x.IsVisible());
+    var umbracoAuthorUrl = umbracoAuthors.Where(x => x.Name == author.Name).FirstOrDefault().Url();
 }
-
 
 <div class="page-container">
     <div class="page-subnav">
@@ -41,22 +54,23 @@
     <div class="page-body post-page">
         <div class="post-header">
             <div class="post-title">
-                <h1>@post.Value("postTitle")</h1>
+                <h1>@PostTitle</h1>
             </div>
             <div class="post-sub-header">
                 <div class="post-details">
                     <p class="post-date">
-                        @post.Value("publishedDate") | @post.Value("estimatedReadTimeInSeconds") min read
+                        @formattedDate | @minsRead min read
                     </p>
                     <div class="post-author-container">
                         <div class="post-author-banner"></div>
-                        @if (!string.IsNullOrEmpty(post.Value<String>("authors")))
+                        @if (author != null)
                         {
-                            <a href="#">
+                            <!--<a href="@author.ProfileUrl">-->
+                            <a href="@umbracoAuthorUrl">
                                 <div class="post-author-details">
-                                    <img class="post-author-image" src="@avatarUrl" />
+                                    <img class="post-author-image" src="@author.ImageUrl" />
                                     <div>
-                                        <h3 class="post-author-name">@post.Value("authors")</h3>
+                                        <h3 class="post-author-name">@author.Name</h3>
                                         <h4 class="post-author-role">Developer, Passle</h4>
                                     </div>
                                 </div>
@@ -71,7 +85,7 @@
         </div>
         <div class="post-header-bottom">
             <div class="post-social-links" id="share-buttons">
-                <a href="#" onclick="window.open('https://www.passle.localhost/istatoy?postShortcode=@post.Value("postShortcode")&istatoySource=ClientWeb', '_blank', 'height=600, width=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, location=no, directories=no, status=no');">
+                <a href="#" onclick="window.open('https://www.passle.@passleDomain/istatoy?postShortcode=@post.Value("postShortcode")&istatoySource=ClientWeb', '_blank', 'height=600, width=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, location=no, directories=no, status=no');">
                     <svg id="Layer_1" class="istatoy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 362.6 361.2">
                         <style>
                             .st0 {
@@ -117,16 +131,16 @@
                         <path class="st4" d="M329.9 94.1C299.9 43.2 244.7 9 181.3 9 116.9 9 60.8 44.4 31.1 96.7c0 0 136.6 137.5 148.1 137.2 11 .3 150.7-139.8 150.7-139.8z" />
                     </svg>
                 </a>
-                <a href="@post.Value("linkedInShareUrl")" target="_blank">
+                <a href="@PostHelper.LinkedInShareUrl(post.Value<string>("postUrl"), post.Value<string>("postTitle"))" target="_blank">
                     <i class="fab fa-linkedin-in" title="LinkedIn"></i>
                 </a>
-                <a href="@post.Value("twitterShareUrl")" target="_blank">
+                <a href="@PostHelper.TwitterShareUrl(post.Value<string>("postUrl"), post.Value<string>("postTitle"), Tags, authors)" target="_blank">
                     <i class="fab fa-twitter" title="Twitter"></i>
                 </a>
-                <a href="@post.Value("facebookShareUrl")" target="_blank">
+                <a href="@PostHelper.FacebookShareUrl(post.Value<string>("postUrl"), post.Value<string>("postTitle"))" target="_blank">
                     <i class="fab fa-facebook-f" title="Facebook"></i>
                 </a>
-                <a href="@post.Value("xingShareUrl")" target="_blank">
+                <a href="@PostHelper.XingShareUrl(post.Value<string>("postUrl"))" target="_blank">
                     <i class="fab fa-xing" title="XING"></i>
                 </a>
                 <span class="istatoy-button-placeholder"></span>
@@ -140,14 +154,14 @@
             </div>
             <div class="post-body-content">
                 <div class="post-body-text">
-                    @Html.Raw(post.Value("postBody"))
+                    @Html.Raw(post.Value("PostContentHtml"))
                 </div>
                 <div class="post-body-tags">
                     @if (!string.IsNullOrEmpty(@post.Value<String>("tags")))
                     {
                         <h3>Tags</h3>
                         <div class="post-body-tags-list">
-                            @post.Value("tags")
+                            @Tags
                         </div>
                     }
                 </div>
@@ -489,4 +503,3 @@
                 }
     </style>
 }
-
