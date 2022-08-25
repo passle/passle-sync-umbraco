@@ -474,16 +474,20 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Controllers\WebhookController.cs" />
     <Compile Include="Helpers\ApiHelper.cs" />
-    <Compile Include="Models\SettingsData.cs" />
-    <Compile Include="Models\PaginatedResponseBase.cs" />
-    <Compile Include="Models\PassleAuthor.cs" />
-    <Compile Include="Models\PassleAuthors.cs" />
-    <Compile Include="Models\PasslePost.cs" />
-    <Compile Include="Models\PasslePosts.cs" />
-    <Compile Include="Models\PassleSync\PassleAuthor.cs" />
-    <Compile Include="Models\PassleSync\PassleLink.cs" />
-    <Compile Include="Models\PassleSync\PassleShareViewsNetwork.cs" />
-    <Compile Include="Models\PassleSync\PassleTweet.cs" />
+    <Compile Include="Models\Content\PassleApi\SubModels\PostMediaType.cs" />
+    <Compile Include="Models\Content\PassleApi\SubModels\PostFeaturedItemPosition.cs" />
+    <Compile Include="Models\Content\PassleApi\SubModels\PostIframelyObjectType.cs" />
+    <Compile Include="Models\Content\PassleApi\SubModels\PostShareButtons.cs" />
+    <Compile Include="Models\Content\Umbraco\SettingsData.cs" />
+    <Compile Include="Models\Content\PassleApi\PaginatedResponseBase.cs" />
+    <Compile Include="Models\Content\PassleApi\PassleAuthor.cs" />
+    <Compile Include="Models\Content\PassleApi\PassleAuthors.cs" />
+    <Compile Include="Models\Content\PassleApi\PasslePost.cs" />
+    <Compile Include="Models\Content\PassleApi\PasslePosts.cs" />
+    <Compile Include="Models\Content\PassleApi\SubModels\PostAuthor.cs" />
+    <Compile Include="Models\Content\PassleApi\SubModels\AuthorLink.cs" />
+    <Compile Include="Models\Content\PassleApi\SubModels\PostShareViews.cs" />
+    <Compile Include="Models\Content\PassleApi\SubModels\PostTweet.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\PassleContentService.cs" />
@@ -506,10 +510,7 @@
     <None Include="Helpers\.gitinclude" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Content\PassleApi\" />
-    <Folder Include="Models\Content\Umbraco\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.1\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.1\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />

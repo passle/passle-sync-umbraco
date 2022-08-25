@@ -1,4 +1,4 @@
-﻿namespace PassleSync.Core.Models
+﻿namespace PassleSync.Core.Models.Content.PassleApi
 {
     public class PaginatedResponseBase
     {

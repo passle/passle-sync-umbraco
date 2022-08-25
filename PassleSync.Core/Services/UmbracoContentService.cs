@@ -15,11 +15,6 @@ namespace PassleSync.Core.Services.Content
         protected readonly ConfigService _configService;
         protected readonly ILogger _logger;
 
-        private readonly string _postDocumentType = "passlePost";
-        private readonly string _authorDocumentType = "passleAuthor";
-        public string PostDocumentType { get => _postDocumentType; }
-        public string AuthorDocumentType { get => _authorDocumentType; }
-
         //https://our.umbraco.com/documentation/implementation/Services/
 
         public UmbracoContentService(

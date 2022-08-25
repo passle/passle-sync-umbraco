@@ -1,4 +1,4 @@
-﻿using PassleSync.Core.Models;
+﻿using PassleSync.Core.Models.Content.PassleApi;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;

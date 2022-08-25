@@ -1,4 +1,4 @@
-﻿using PassleSync.Core.Models;
+﻿using PassleSync.Core.Models.Content.Umbraco;
 using System;
 using System.Collections.Generic;
 using Umbraco.Core.Services;
@@ -12,6 +12,15 @@ namespace PassleSync.Core.Services
         public ConfigService(IKeyValueService keyValueService)
         {
             _keyValueService = keyValueService;
+        }
+
+        public string PasslePostContentTypeAlias
+        {
+            get => "passlePost";
+        }
+        public string PassleAuthorContentTypeAlias
+        {
+            get => "passleAuthor";
         }
 
         public string ApiUrl

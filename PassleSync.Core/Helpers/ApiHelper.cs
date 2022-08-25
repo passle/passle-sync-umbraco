@@ -4,7 +4,7 @@ using System.Net.Http;
 using Umbraco.Core.Services;
 using Umbraco.Web.Composing;
 using Umbraco.Core;
-using PassleSync.Core.Models;
+using PassleSync.Core.Models.Content.PassleApi;
 
 namespace PassleSync.Core.Helpers
 {

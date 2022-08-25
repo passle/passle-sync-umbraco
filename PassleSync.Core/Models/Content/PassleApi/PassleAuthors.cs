@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PassleSync.Core.Models
+namespace PassleSync.Core.Models.Content.PassleApi
 {
     public class PassleAuthors : PaginatedResponseBase
     {

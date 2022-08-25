@@ -1,6 +1,6 @@
-﻿namespace PassleSync.Core.Models.PassleSync
+﻿namespace PassleSync.Core.Models.Content.PassleApi
 {
-    public class PassleLink
+    public class AuthorLink
     {
         public string Title { get; set; }
         public string Url { get; set; }

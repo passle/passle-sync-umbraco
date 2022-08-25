@@ -8,7 +8,7 @@ using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
-using PassleSync.Core.Models;
+using PassleSync.Core.Models.Content.PassleApi;
 
 namespace PassleSync.Core.SyncHandlers
 {
@@ -243,34 +243,31 @@ namespace PassleSync.Core.SyncHandlers
 
         public void CreateOne(PassleAuthor person, int parentNodeId)
         {
-            // TODO: Const for "person"
-            var node = _contentService.Create(person.Name, parentNodeId, "passleAuthor");
+            var node = _contentService.Create(person.Name, parentNodeId, _configService.PassleAuthorContentTypeAlias);
 
-            // TODO: Should these strings be consts?
-            // TODO: Capitalisation?
-            node.SetValue("Shortcode", person.Shortcode);
-            node.SetValue("Name", person.Name);
-            node.SetValue("ProfileUrl", person.ProfileUrl);
-            node.SetValue("Description", person.Description);
-            node.SetValue("EmailAddress", person.EmailAddress);
-            node.SetValue("PhoneNumber", person.PhoneNumber);
-            node.SetValue("LinkedInProfileLink", person.LinkedInProfileLink);
-            node.SetValue("FacebookProfileLink", person.FacebookProfileLink);
-            node.SetValue("TwitterScreenName", person.TwitterScreenName);
-            node.SetValue("XingProfileLink", person.XingProfileLink);
-            node.SetValue("SkypeProfileLink", person.SkypeProfileLink);
-            node.SetValue("VimeoProfileLink", person.VimeoProfileLink);
-            node.SetValue("YouTubeProfileLink", person.YouTubeProfileLink);
-            node.SetValue("StumbleUponProfileLink", person.StumbleUponProfileLink);
-            node.SetValue("PinterestProfileLink", person.PinterestProfileLink);
-            node.SetValue("InstagramProfileLink", person.InstagramProfileLink);
-            node.SetValue("PersonalLinks", person.PersonalLinks);
-            node.SetValue("LocationDetail", person.LocationDetail);
-            node.SetValue("LocationCountry", person.LocationCountry);
-            node.SetValue("TagLineCompany", person.TagLineCompany);
-            node.SetValue("SubscribeLink", person.SubscribeLink);
-            node.SetValue("AvatarUrl", person.AvatarUrl);
-            node.SetValue("RoleInfo", person.RoleInfo);
+            node.SetValue(PassleAuthor.NameProperty, person.Name);
+            node.SetValue(PassleAuthor.ShortcodeProperty, person.Shortcode);
+            node.SetValue(PassleAuthor.ProfileUrlProperty, person.ProfileUrl);
+            node.SetValue(PassleAuthor.AvatarUrlProperty, person.AvatarUrl);
+            node.SetValue(PassleAuthor.RoleInfoProperty, person.RoleInfo);
+            node.SetValue(PassleAuthor.DescriptionProperty, person.Description);
+            node.SetValue(PassleAuthor.EmailAddressProperty, person.EmailAddress);
+            node.SetValue(PassleAuthor.PhoneNumberProperty, person.PhoneNumber);
+            node.SetValue(PassleAuthor.LinkedInProfileLinkProperty, person.LinkedInProfileLink);
+            node.SetValue(PassleAuthor.FacebookProfileLinkProperty, person.FacebookProfileLink);
+            node.SetValue(PassleAuthor.TwitterScreenNameProperty, person.TwitterScreenName);
+            node.SetValue(PassleAuthor.XingProfileLinkProperty, person.XingProfileLink);
+            node.SetValue(PassleAuthor.SkypeProfileLinkProperty, person.SkypeProfileLink);
+            node.SetValue(PassleAuthor.VimeoProfileLinkProperty, person.VimeoProfileLink);
+            node.SetValue(PassleAuthor.YouTubeProfileLinkProperty, person.YouTubeProfileLink);
+            node.SetValue(PassleAuthor.StumbleUponProfileLinkProperty, person.StumbleUponProfileLink);
+            node.SetValue(PassleAuthor.PinterestProfileLinkProperty, person.PinterestProfileLink);
+            node.SetValue(PassleAuthor.InstagramProfileLinkProperty, person.InstagramProfileLink);
+            node.SetValue(PassleAuthor.PersonalLinksProperty, person.PersonalLinks);
+            node.SetValue(PassleAuthor.LocationDetailProperty, person.LocationDetail);
+            node.SetValue(PassleAuthor.LocationCountryProperty, person.LocationCountry);
+            node.SetValue(PassleAuthor.TagLineCompanyProperty, person.TagLineCompany);
+            node.SetValue(PassleAuthor.SubscribeLinkProperty, person.SubscribeLink);
 
             _contentService.SaveAndPublish(node);
         }

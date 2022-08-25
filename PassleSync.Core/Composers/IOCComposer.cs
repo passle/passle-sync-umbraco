@@ -1,5 +1,5 @@
 ﻿using PassleSync.Core.API.SyncHandlers;
-using PassleSync.Core.Models;
+using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using PassleSync.Core.SyncHandlers;
 using Umbraco.Core;

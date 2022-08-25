@@ -5,7 +5,7 @@ using System.Web.Http;
 using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Controllers.RequestModels;
-using PassleSync.Core.Models;
+using PassleSync.Core.Models.Content.PassleApi;
 
 namespace PassleSync.Core.Controllers.PassleDashboard
 {

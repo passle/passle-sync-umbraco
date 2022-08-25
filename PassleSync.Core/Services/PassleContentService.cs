@@ -1,12 +1,10 @@
-﻿using PassleSync.Core.Models;
+﻿using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services.API;
 using PassleSync.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PassleAuthor = PassleSync.Core.Models.PassleAuthor;
-using PasslePost = PassleSync.Core.Models.PasslePost;
 
 namespace PassleSync.Core.Services.Content
 {

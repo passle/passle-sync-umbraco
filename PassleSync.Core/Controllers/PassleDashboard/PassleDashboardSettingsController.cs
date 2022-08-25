@@ -1,5 +1,5 @@
 ﻿using PassleSync.Core.Controllers.RequestModels;
-using PassleSync.Core.Models;
+using PassleSync.Core.Models.Content.Umbraco;
 using PassleSync.Core.Services;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using System.Web.Http;

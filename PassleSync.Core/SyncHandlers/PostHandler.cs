@@ -242,38 +242,35 @@ namespace PassleSync.Core.SyncHandlers
 
         public void CreateOne(PasslePost post, int parentNodeId)
         {
-            // TODO: Const for "post"
-            var node = _contentService.Create(post.PostTitle, parentNodeId, "passlePost");
+            var node = _contentService.Create(post.PostTitle, parentNodeId, _configService.PasslePostContentTypeAlias);
 
-            // TODO: Should these strings be consts?
-            // TODO: Capitalisation?
-            node.SetValue("PostContentHtml", post.PostContentHtml);
-            node.SetValue("FeaturedItemHtml", post.FeaturedItemHtml);
-            node.SetValue("FeaturedItemPosition", post.FeaturedItemPosition);
-            node.SetValue("QuoteText", post.QuoteText);
-            node.SetValue("QuoteUrl", post.QuoteUrl);
-            node.SetValue("Tweets", post.Tweets);
-            node.SetValue("IsFeaturedOnPasslePage", post.IsFeaturedOnPasslePage);
-            node.SetValue("IsFeaturedOnPostPage", post.IsFeaturedOnPostPage);
-            node.SetValue("PostShortcode", post.PostShortcode);
-            node.SetValue("PassleShortcode", post.PassleShortcode);
-            node.SetValue("PostUrl", post.PostUrl);
-            node.SetValue("PostTitle", post.PostTitle);
-            node.SetValue("Authors", post.Authors);
-            node.SetValue("CoAuthors", post.CoAuthors);
-            node.SetValue("ShareViews", post.ShareViews);
-            node.SetValue("ContentTextSnippet", post.ContentTextSnippet);
-            node.SetValue("PublishedDate", post.PublishedDate);
-            node.SetValue("Tags", post.Tags);
-            node.SetValue("FeaturedItemMediaType", post.FeaturedItemMediaType);
-            node.SetValue("FeaturedItemEmbedType", post.FeaturedItemEmbedType);
-            node.SetValue("FeaturedItemEmbedProvider", post.FeaturedItemEmbedProvider);
-            node.SetValue("ImageUrl", post.ImageUrl);
-            node.SetValue("TotalShares", post.TotalShares);
-            node.SetValue("IsRepost", post.IsRepost);
-            node.SetValue("EstimatedReadTimeInSeconds", post.EstimatedReadTimeInSeconds);
-            node.SetValue("TotalLikes", post.TotalLikes);
-            node.SetValue("OpensInNewTab", post.OpensInNewTab);
+            node.SetValue(PasslePost.PostTitleProperty, post.PostTitle);
+            node.SetValue(PasslePost.PostShortcodeProperty, post.PostShortcode);
+            node.SetValue(PasslePost.PassleShortcodeProperty, post.PassleShortcode);
+            node.SetValue(PasslePost.PublishedDateProperty, post.PublishedDate);
+            node.SetValue(PasslePost.PostUrlProperty, post.PostUrl);
+            node.SetValue(PasslePost.ImageUrlProperty, post.ImageUrl);
+            node.SetValue(PasslePost.AuthorsProperty, JsonSerializer.Serialize(post.Authors));
+            node.SetValue(PasslePost.CoAuthorsProperty, JsonSerializer.Serialize(post.CoAuthors));
+            node.SetValue(PasslePost.PostContentHtmlProperty, post.PostContentHtml);
+            node.SetValue(PasslePost.ContentTextSnippetProperty, post.ContentTextSnippet);
+            node.SetValue(PasslePost.QuoteTextProperty, post.QuoteText);
+            node.SetValue(PasslePost.QuoteUrlProperty, post.QuoteUrl);
+            node.SetValue(PasslePost.IsRepostProperty, post.IsRepost);
+            node.SetValue(PasslePost.IsFeaturedOnPasslePageProperty, post.IsFeaturedOnPasslePage);
+            node.SetValue(PasslePost.IsFeaturedOnPostPageProperty, post.IsFeaturedOnPostPage);
+            node.SetValue(PasslePost.EstimatedReadTimeInSecondsProperty, post.EstimatedReadTimeInSeconds);
+            node.SetValue(PasslePost.FeaturedItemHtmlProperty, post.FeaturedItemHtml);
+            node.SetValue(PasslePost.FeaturedItemPositionProperty, post.FeaturedItemPosition);
+            node.SetValue(PasslePost.FeaturedItemMediaTypeProperty, post.FeaturedItemMediaType);
+            node.SetValue(PasslePost.FeaturedItemEmbedTypeProperty, post.FeaturedItemEmbedType);
+            node.SetValue(PasslePost.FeaturedItemEmbedProviderProperty, post.FeaturedItemEmbedProvider);
+            node.SetValue(PasslePost.TagsProperty, string.Join(",", post.Tags));
+            node.SetValue(PasslePost.TweetsProperty, JsonSerializer.Serialize(post.Tweets));
+            node.SetValue(PasslePost.ShareViewsProperty, JsonSerializer.Serialize(post.ShareViews));
+            node.SetValue(PasslePost.TotalSharesProperty, post.TotalShares);
+            node.SetValue(PasslePost.TotalLikesProperty, post.TotalLikes);
+            node.SetValue(PasslePost.OpensInNewTabProperty, post.OpensInNewTab);
 
             _contentService.SaveAndPublish(node);
         }

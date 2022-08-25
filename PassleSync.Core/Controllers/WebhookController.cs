@@ -1,5 +1,5 @@
 ﻿using PassleSync.Core.API.SyncHandlers;
-using PassleSync.Core.Models;
+using PassleSync.Core.Models.Content.PassleApi;
 using System.Web.Http;
 using Umbraco.Core.Services;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
