@@ -1,121 +1,113 @@
 ﻿<div ng-controller="SyncSettingsController as vm">
-    <div ng-if="vm.notice" id="message"
-         class="notice is-dismissible"
-         ng-class="{ 'notice-success': vm.notice.success, 'notice-error': !vm.notice.success }">
-        <p>{{vm.notice.text}}</p>
-        <button type="button"
-                class="notice-dismiss"
-                ng-click="vm.setNotice(null)">
-            <span ng-class="screen-reader-text">Dismiss this notice.</span>
-        </button>
+    <umb-load-indicator ng-if="vm.loading"></umb-load-indicator>
+    <div ng-if="!vm.loading">
+        <table ng-class="form-table">
+            <tbody>
+                <tr>
+                    <th ng-class="row">
+                        <label htmlFor="plugin-api-key">Sync API Key</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="plugin-api-key"
+                               class="regular-text code"
+                               ng-model="vm.settings['PluginApiKey']" />
+                    </td>
+                </tr>
+                <tr>
+                    <th ng-class="row">
+                        <label htmlFor="client-api-key">Passle API Key</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="client-api-key"
+                               class="regular-text code"
+                               ng-model="vm.settings['ClientApiKey']" />
+                    </td>
+                </tr>
+                <tr>
+                    <th ng-class="row">
+                        <label htmlFor="passle-shortcodes">Passle Shortcodes</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="passle-shortcodes"
+                               class="regular-text code"
+                               ng-model="vm.settings['PassleShortcodes']" />
+                        <p ng-class="description" id="passle-shortcodes-description">
+                            A comma-separated list of the shortcodes of the Passles you want
+                            to sync content from.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <th ng-class="row">
+                        <label htmlFor="post-permalink">Post Permalink Prefix</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="post-permalink"
+                               class="regular-text code"
+                               ng-model="vm.settings['PostPermalinkPrefix']" />
+                        <p ng-class="description" id="post-permalink-description">
+                            String used as part of the url structure for Posts.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <th ng-class="row">
+                        <label htmlFor="author-permalink">Author Permalink Prefix</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="author-permalink"
+                               class="regular-text code"
+                               ng-model="vm.settings['AuthorPermalinkPrefix']" />
+                        <p ng-class="description" id="author-permalink-description">
+                            String used as part of the url structure for Authors.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <th ng-class="row">
+                        <label htmlFor="post-node-id">Post Parent Node Id</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="post-node-id"
+                               class="regular-text code"
+                               ng-model="vm.settings['PostsParentNodeId']" />
+                        <p ng-class="description" id="post-node-id-description">
+                            Id for the parent node under which all Passle Posts will be stored.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <th ng-class="row">
+                        <label htmlFor="author-node-id">Author Parent Node Id</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="author-node-id"
+                               class="regular-text code"
+                               ng-model="vm.settings['AuthorsParentNodeId']" />
+                        <p ng-class="description" id="author-node-id-description">
+                            Id for the parent node under which all Passle Authors will be stored.
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p ng-class="submit">
+            <umb-button action="vm.save()"
+                        type="button"
+                        button-style="primary"
+                        state="vm.buttonState"
+                        shortcut="ctrl+s"
+                        label="Save Changes"
+                        disabled="vm.buttonState === 'busy'">
+            </umb-button>
+        </p>
     </div>
-
-    <table ng-class="form-table">
-        <tbody>
-            <tr>
-                <th ng-class="row">
-                    <label htmlFor="plugin-api-key">Sync API Key</label>
-                </th>
-                <td>
-                    <input type="text"
-                           id="plugin-api-key"
-                           class="regular-text code"
-                           ng-model="vm.settings['PluginApiKey']" />
-                </td>
-            </tr>
-            <tr>
-                <th ng-class="row">
-                    <label htmlFor="client-api-key">Passle API Key</label>
-                </th>
-                <td>
-                    <input type="text"
-                           id="client-api-key"
-                           class="regular-text code"
-                           ng-model="vm.settings['ClientApiKey']" />
-                </td>
-            </tr>
-            <tr>
-                <th ng-class="row">
-                    <label htmlFor="passle-shortcodes">Passle Shortcodes</label>
-                </th>
-                <td>
-                    <input type="text"
-                           id="passle-shortcodes"
-                           class="regular-text code"
-                           ng-model="vm.settings['PassleShortcodes']" />
-                    <p ng-class="description" id="passle-shortcodes-description">
-                        A comma-separated list of the shortcodes of the Passles you want
-                        to sync content from.
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <th ng-class="row">
-                    <label htmlFor="post-permalink">Post Permalink Prefix</label>
-                </th>
-                <td>
-                    <input type="text"
-                           id="post-permalink"
-                           class="regular-text code"
-                           ng-model="vm.settings['PostPermalinkPrefix']" />
-                    <p ng-class="description" id="post-permalink-description">
-                        String used as part of the url structure for Posts.
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <th ng-class="row">
-                    <label htmlFor="author-permalink">Author Permalink Prefix</label>
-                </th>
-                <td>
-                    <input type="text"
-                           id="author-permalink"
-                           class="regular-text code"
-                           ng-model="vm.settings['AuthorPermalinkPrefix']" />
-                    <p ng-class="description" id="author-permalink-description">
-                        String used as part of the url structure for Authors.
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <th ng-class="row">
-                    <label htmlFor="post-node-id">Post Parent Node Id</label>
-                </th>
-                <td>
-                    <input type="text"
-                           id="post-node-id"
-                           class="regular-text code"
-                           ng-model="vm.settings['PostsParentNodeId']" />
-                    <p ng-class="description" id="post-node-id-description">
-                        Id for the parent node under which all Passle Posts will be stored.
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <th ng-class="row">
-                    <label htmlFor="author-node-id">Author Parent Node Id</label>
-                </th>
-                <td>
-                    <input type="text"
-                           id="author-node-id"
-                           class="regular-text code"
-                           ng-model="vm.settings['AuthorsParentNodeId']" />
-                    <p ng-class="description" id="author-node-id-description">
-                        Id for the parent node under which all Passle Authors will be stored.
-                    </p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <p ng-class="submit">
-        <umb-button action="vm.save()"
-                    type="button"
-                    button-style="primary"
-                    state="vm.buttonState"
-                    shortcut="ctrl+s"
-                    label="Save Changes"
-                    disabled="vm.buttonState === 'busy'">
-        </umb-button>
-    </p>
 </div>

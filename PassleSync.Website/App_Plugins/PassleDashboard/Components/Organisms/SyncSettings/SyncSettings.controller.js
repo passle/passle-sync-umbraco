@@ -2,16 +2,21 @@
     "SyncSettingsController",
     function (passleSettingsResource, notificationsService) {
         var vm = this;
+        vm.loading = false;
 
         vm.buttonState = 'init';
         vm.settings = {};
 
         function onload() {
+            vm.loading = true;
+
             passleSettingsResource.get().then((response) => {
                 vm.settings = response;
+                vm.loading = false;
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
+                vm.loading = false;
             })
         }
         onload();

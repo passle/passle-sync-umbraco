@@ -2,6 +2,7 @@
     "PostsTableController",
     function (navigationService, notificationsService, passlePostsResource) {
         var vm = this;
+        vm.loading = false;
 
         let currentSortCol = "Name";
         let currentSortDir = "desc";
@@ -11,9 +12,11 @@
         vm.selectedCount = 0;
 
         function getPostDataObject(post, syncOverride = null) {
-            // Umbraco doesn't write quickly enough that the 
+            // Umbraco doesn't write quickly enough that the
             // content has update before this we load the data again
             // so sometimes we need to do something smarter here - override the synced flag
+
+            //TODO: Is this still needed?
             return Object.assign({}, {
                 "name": post.Title,
                 "excerpt": post.Excerpt,
@@ -28,15 +31,20 @@
         }
 
         function onload() {
+            vm.loading = true;
+
             passlePostsResource.getAll().then((response) => {
                 vm.posts = response.Posts.map((post) => getPostDataObject(post));
                 vm.syncedCount = vm.posts.filter((post) => post.synced).length;
                 vm.unsyncedCount = vm.posts.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
+                vm.loading = false;
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
+
+                vm.loading = false;
             });
         }
         onload();

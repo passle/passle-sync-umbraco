@@ -2,6 +2,7 @@
     "AuthorsTableController",
     function (navigationService, notificationsService, passleAuthorsResource) {
         var vm = this;
+        vm.loading = false;
 
         let currentSortCol = "Name";
         let currentSortDir = "desc";
@@ -16,7 +17,7 @@
             // so sometimes we need to do something smarter here - override the synced flag
             return Object.assign({}, {
                 "name": author.Name,
-                "role": author.Role,
+                "role": author.RoleInfo,
                 "editPath": (syncOverride || author.Synced) ? ("/content/content/edit/" + author.Id) : author.ProfileUrl,
                 "shortcode": author.Shortcode,
                 "synced": syncOverride || author.Synced
@@ -28,15 +29,19 @@
         }
 
         function onload() {
+            vm.loading = true;
+
             passleAuthorsResource.getAll().then((response) => {
                 vm.authors = response.Authors.map((author) => getAuthorDataObject(author));
                 vm.syncedCount = vm.authors.filter((author) => author.synced).length;
                 vm.unsyncedCount = vm.authors.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
+                vm.loading = false;
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
+                vm.loading = false;
             });
         }
         onload();
