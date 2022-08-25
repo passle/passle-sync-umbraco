@@ -8,24 +8,29 @@ using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
-using PassleSync.Core.Models;
+using PassleSync.Core.Models.Content.PassleApi;
+using PassleSync.Core.Services;
+using System.Text.Json;
 
 namespace PassleSync.Core.SyncHandlers
 {
     public class PostHandler : ISyncHandler<PasslePost>
     {
-        private IKeyValueService _keyValueService;
-        public IContentService _contentService;
+        private readonly IKeyValueService _keyValueService;
+        private readonly IContentService _contentService;
+        private readonly ConfigService _configService;
         protected readonly ILogger _logger;
 
 
         public PostHandler(
             IKeyValueService keyValueService,
             IContentService contentService,
+            ConfigService configService,
             ILogger logger)
         {
             _keyValueService = keyValueService;
             _contentService = contentService;
+            _configService = configService;
             _logger = logger;
         }
 
@@ -38,20 +43,9 @@ namespace PassleSync.Core.SyncHandlers
                 return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
             }
 
-            // TODO: Move this into a config service?
-            int postsParentNodeId;
-            try
+            int postsParentNodeId = _configService.PostsParentNodeId;
+            if (_contentService.GetById(postsParentNodeId) == null)
             {
-                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
-
-                if (_contentService.GetById(postsParentNodeId) == null)
-                {
-                    return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
                 return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
             }
 
@@ -86,20 +80,9 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            // TODO: Move this into a config service?
-            int postsParentNodeId;
-            try
+            int postsParentNodeId = _configService.PostsParentNodeId;
+            if (_contentService.GetById(postsParentNodeId) == null)
             {
-                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
-
-                if (_contentService.GetById(postsParentNodeId) == null)
-                {
-                    return false;
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
                 return false;
             }
 
@@ -118,20 +101,9 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            // TODO: Move this into a config service?
-            int postsParentNodeId;
-            try
+            int postsParentNodeId = _configService.PostsParentNodeId;
+            if (_contentService.GetById(postsParentNodeId) == null)
             {
-                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
-
-                if (_contentService.GetById(postsParentNodeId) == null)
-                {
-                    return false;
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
                 return false;
             }
 
@@ -143,19 +115,9 @@ namespace PassleSync.Core.SyncHandlers
 
         public bool DeleteAll()
         {
-            int postsParentNodeId;
-            try
+            int postsParentNodeId = _configService.PostsParentNodeId;
+            if (_contentService.GetById(postsParentNodeId) == null)
             {
-                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
-
-                if (_contentService.GetById(postsParentNodeId) == null)
-                {
-                    return false;
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
                 return false;
             }
 
@@ -179,19 +141,9 @@ namespace PassleSync.Core.SyncHandlers
 
         public bool DeleteMany(string[] Shortcodes)
         {
-            int postsParentNodeId;
-            try
+            int postsParentNodeId = _configService.PostsParentNodeId;
+            if (_contentService.GetById(postsParentNodeId) == null)
             {
-                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
-
-                if (_contentService.GetById(postsParentNodeId) == null)
-                {
-                    return false;
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
                 return false;
             }
 
@@ -284,20 +236,9 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            // TODO: Move this into a config service?
-            int postsParentNodeId;
-            try
+            int postsParentNodeId = _configService.PostsParentNodeId;
+            if (_contentService.GetById(postsParentNodeId) == null)
             {
-                postsParentNodeId = int.Parse(_keyValueService.GetValue("PassleSync.PostsParentNodeId"));
-
-                if (_contentService.GetById(postsParentNodeId) == null)
-                {
-                    return false;
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                _logger.Error(_contentService.GetType(), ex, $"Failed to find umbraco content: {ex.Message}");
                 return false;
             }
 
