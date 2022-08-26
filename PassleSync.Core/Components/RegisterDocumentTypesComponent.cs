@@ -128,7 +128,7 @@ namespace PassleSync.Core.Components
             AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.FeaturedItemEmbedTypeProperty);
             AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.FeaturedItemEmbedProviderProperty);
             AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.TagsProperty); // TODO: Is there a better data type for this?
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.TweetsProperty); // TODO: Is there a better data type for this?
+            AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.TweetsProperty); // TODO: Is there a better data type for this?
             AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.ShareViewsProperty); // TODO: Is there a better data type for this?
             AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.TotalSharesProperty);
             AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.TotalLikesProperty);

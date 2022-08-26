@@ -14,7 +14,7 @@ namespace PassleSync.Core.Components
         {
             foreach (var node in e.SavedEntities)
             {
-                if (node.HasIdentity && node.ContentType.Alias == "post")
+                if (node.HasIdentity && node.ContentType.Alias == "passlePost")
                 {
                     // Stop putting news article titles in upper case, so cancel publish
                     e.Cancel = true;
@@ -26,7 +26,7 @@ namespace PassleSync.Core.Components
 
             foreach (var node in e.SavedEntities)
             {
-                if (node.HasIdentity && node.ContentType.Alias == "person")
+                if (node.HasIdentity && node.ContentType.Alias == "passleAuthor")
                 {
                     // Stop putting news article titles in upper case, so cancel publish
                     e.Cancel = true;

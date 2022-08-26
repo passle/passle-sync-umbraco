@@ -7,7 +7,7 @@ namespace PassleSync.Core.Utils
     public class URLFactory
     {
         private string _protocol = "https";
-        private string _root = "clientwebapi.passle.localhost/api"; // TODO: Don't hardcode this URL
+        private string _root = "clientwebapi.passle.net/api"; // TODO: Don't hardcode this URL
         private string _path = "/";
         private IDictionary<string, string> _parameters = new Dictionary<string, string>();
 

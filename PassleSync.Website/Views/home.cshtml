@@ -27,7 +27,7 @@
                         <a href="@post.Url()" class="h-full p-16 flex flex-col gap-4">
                             <h2 class="entry-title font-bodoni text-3xl leading-tight mb-1 line-clamp-3">@(post.Value<string>("PostTitle"))</h2>
                             <time datetime="25 May 2022" itemprop="datePublished" class="font-bodoni group-hover:hidden">
-                                @DateTime.Parse(post.Value<string>("publishedDate")).ToString("dd MMMM yyyy");
+                                @DateTime.Parse(post.Value<string>("publishedDate")).ToString("dd MMMM yyyy")
                             </time>
                             <span class="hidden group-hover:line-clamp-3">
                                 @Html.Raw(post.Value("ContentTextSnippet"))                                

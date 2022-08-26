@@ -16,7 +16,8 @@ namespace PassleSync.Core.Helpers
             var result = new PasslePosts();
 
             HttpClient client = new HttpClient();
-            string baseApiAddress = kv.GetValue("PassleSync.ApiUrl");
+            string baseApiAddress = "https://clientwebapi.passle.it";
+            //string baseApiAddress = kv.GetValue("PassleSync.ApiUrl");
 
             client.BaseAddress = new Uri(baseApiAddress);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -39,7 +40,8 @@ namespace PassleSync.Core.Helpers
             var result = new PassleAuthors();
 
             HttpClient client = new HttpClient();
-            string baseApiAddress = kv.GetValue("PassleSync.ApiUrl");
+            string baseApiAddress = "https://clientwebapi.passle.it";
+            //string baseApiAddress = kv.GetValue("PassleSync.ApiUrl");
 
             client.BaseAddress = new Uri(baseApiAddress);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

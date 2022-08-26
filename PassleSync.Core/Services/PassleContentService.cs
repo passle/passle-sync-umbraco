@@ -66,6 +66,7 @@ namespace PassleSync.Core.Services.Content
         public async Task<IEnumerable<PasslePost>> GetPostsFromApi(Dictionary<string, string> queryParams)
         {
             var url = new URLFactory()
+                .Root(_configService.ApiUrl)
                 .Path("/passlesync/posts")
                 .Parameters(queryParams)
                 .Build();
