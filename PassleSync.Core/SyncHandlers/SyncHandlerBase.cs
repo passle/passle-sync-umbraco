@@ -82,7 +82,7 @@ namespace PassleSync.Core.SyncHandlers
         private void AddPropertyToNode(IContent node, T entity, string propertyName)
         {
             var value = entity.GetType().GetProperty(propertyName).GetValue(entity, null);
-            node.SetValue(propertyName, value);
+            node.SetValue(propertyName.ToPropertyAlias(), value);
         }
 
         private void AddRepeatableTextstringsToNode(IContent node, T entity, string propertyName)
@@ -95,7 +95,7 @@ namespace PassleSync.Core.SyncHandlers
 
             var value = string.Join(Environment.NewLine, items);
 
-            node.SetValue(propertyName, value);
+            node.SetValue(propertyName.ToPropertyAlias(), value);
         }
 
         private void AddNestedContentToNode(IContent node, T entity, Type type, string propertyName)
@@ -125,7 +125,7 @@ namespace PassleSync.Core.SyncHandlers
                 foreach (var itemProperty in properties)
                 {
                     var value = item.GetType().GetProperty(itemProperty.Name).GetValue(item, null);
-                    dictionary.Add(itemProperty.Name, value);
+                    dictionary.Add(itemProperty.Name.ToPropertyAlias(), value);
                 }
 
                 result.Add(dictionary);

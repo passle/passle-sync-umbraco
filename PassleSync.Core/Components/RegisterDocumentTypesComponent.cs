@@ -180,7 +180,7 @@ namespace PassleSync.Core.Components
 
         private string CreateElementTypeForType(Type type)
         {
-            var alias = type.Name.FirstCharToLower();
+            var alias = type.Name.ToPropertyAlias();
 
             if (_contentTypeService.Get(alias) != null)
             {
@@ -288,7 +288,7 @@ namespace PassleSync.Core.Components
         private void AddPropertyToContentType(ContentType contentType, string dataTypeName, string propertyName)
         {
             var dataType = _dataTypeService.GetDataType(dataTypeName);
-            var propertyType = new PropertyType(dataType, propertyName.FirstCharToLower())
+            var propertyType = new PropertyType(dataType, propertyName.ToPropertyAlias())
             {
                 Name = propertyName,
             };

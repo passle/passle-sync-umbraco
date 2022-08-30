@@ -24,6 +24,19 @@ namespace PassleSync.Core.Extensions
                 default: return input[0].ToString().ToLower() + input.Substring(1);
             }
         }
+
+        public static string ToPropertyAlias(this string input)
+        {
+            var result = input.FirstCharToLower();
+            
+            if (result == "name")
+            {
+                result = "passleName";
+            }
+
+            return result;
+        }
+
         public static string UrlEncode(this string str)
         {
             return HttpUtility.UrlEncode(str.Replace("'", "%27"));
