@@ -668,7 +668,6 @@
     <Compile Include="Controllers\RequestModels\SettingsModel.cs" />
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
     <Compile Include="Controllers\Webhooks\PeopleController.cs" />
-    <Compile Include="Dashboards\PassleSync.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Controllers\Webhooks\PostsController.cs" />
