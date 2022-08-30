@@ -2,39 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Models;
-using Umbraco.Core.Services;
 using PassleSync.Core.Helpers;
-using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.ViewModels.PassleDashboard;
-using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Models.Content.PassleApi;
+using PassleSync.Core.Extensions;
+using System.Collections;
+using Umbraco.Core;
+using Umbraco.Core.Services;
 using PassleSync.Core.Services;
-using System.Text.Json;
+using Umbraco.Core.Logging;
 
 namespace PassleSync.Core.SyncHandlers
 {
-    public class PostHandler : ISyncHandler<PasslePost>
+    public class PostHandler : SyncHandlerBase<PasslePost>
     {
-        private readonly IKeyValueService _keyValueService;
-        private readonly IContentService _contentService;
-        private readonly ConfigService _configService;
-        protected readonly ILogger _logger;
-
-
-        public PostHandler(
-            IKeyValueService keyValueService,
-            IContentService contentService,
-            ConfigService configService,
-            ILogger logger)
+        public PostHandler(IContentService contentService, ConfigService configService, ILogger logger) : base(contentService, configService, logger)
         {
-            _keyValueService = keyValueService;
-            _contentService = contentService;
-            _configService = configService;
-            _logger = logger;
         }
 
-        public IPassleDashboardViewModel GetAll()
+        public override IPassleDashboardViewModel GetAll()
         {
             var postsFromApi = ApiHelper.GetPosts();
             if (postsFromApi == null || postsFromApi.Posts == null)
@@ -62,7 +49,7 @@ namespace PassleSync.Core.SyncHandlers
             return new PassleDashboardPostsViewModel(allModels);
         }
 
-        public IEnumerable<IContent> GetAllUmbraco(int parentNodeId)
+        private IEnumerable<IContent> GetAllUmbraco(int parentNodeId)
         {
             if (_contentService.HasChildren(parentNodeId))
             {
@@ -71,7 +58,7 @@ namespace PassleSync.Core.SyncHandlers
             return Enumerable.Empty<IContent>();
         }
 
-        public bool SyncAll()
+        public override bool SyncAll()
         {
             var postsFromApi = ApiHelper.GetPosts();
             if (postsFromApi == null || postsFromApi.Posts == null)
@@ -92,7 +79,7 @@ namespace PassleSync.Core.SyncHandlers
             return true;
         }
 
-        public bool SyncMany(string[] Shortcodes)
+        public override bool SyncMany(string[] Shortcodes)
         {
             var postsFromApi = ApiHelper.GetPosts();
             if (postsFromApi == null || postsFromApi.Posts == null)
@@ -113,7 +100,7 @@ namespace PassleSync.Core.SyncHandlers
             return true;
         }
 
-        public bool DeleteAll()
+        public override bool DeleteAll()
         {
             int postsParentNodeId = _configService.PostsParentNodeId;
             if (_contentService.GetById(postsParentNodeId) == null)
@@ -125,7 +112,7 @@ namespace PassleSync.Core.SyncHandlers
             return true;
         }
 
-        public void DeleteAll(int parentNodeId)
+        public override void DeleteAll(int parentNodeId)
         {
             // Delete any existing posts with the same shortcode
             if (_contentService.HasChildren(parentNodeId))
@@ -139,7 +126,7 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public bool DeleteMany(string[] Shortcodes)
+        public override bool DeleteMany(string[] Shortcodes)
         {
             int postsParentNodeId = _configService.PostsParentNodeId;
             if (_contentService.GetById(postsParentNodeId) == null)
@@ -151,7 +138,7 @@ namespace PassleSync.Core.SyncHandlers
             return true;
         }
 
-        public void DeleteMany(string[] Shortcodes, int parentNodeId)
+        public override void DeleteMany(string[] shortcodes, int parentNodeId)
         {
             // Delete any existing posts with the same shortcode
             if (_contentService.HasChildren(parentNodeId))
@@ -160,7 +147,7 @@ namespace PassleSync.Core.SyncHandlers
 
                 foreach (var child in children)
                 {
-                    if (Shortcodes.Contains(child.GetValue<string>("postShortcode")))
+                    if (shortcodes.Contains(child.GetValue<string>("postShortcode")))
                     {
                         _contentService.Delete(child);
                     }
@@ -168,12 +155,12 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public void DeleteOne(string Shortcode, int parentNodeId)
+        private void DeleteOne(string shortcode, int parentNodeId)
         {
-            DeleteMany(new string[] { Shortcode }, parentNodeId);
+            DeleteMany(new string[] { shortcode }, parentNodeId);
         }
 
-        public void CreateAll(IEnumerable<PasslePost> posts, int parentNodeId)
+        public override void CreateAll(IEnumerable<PasslePost> posts, int parentNodeId)
         {
             foreach (PasslePost post in posts)
             {
@@ -181,7 +168,7 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public void CreateMany(IEnumerable<PasslePost> posts, int parentNodeId, string[] Shortcodes)
+        public override void CreateMany(IEnumerable<PasslePost> posts, int parentNodeId, string[] Shortcodes)
         {
             foreach (PasslePost post in posts)
             {
@@ -192,42 +179,39 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public void CreateOne(PasslePost post, int parentNodeId)
+        public override void CreateOne(PasslePost post, int parentNodeId)
         {
             var node = _contentService.Create(post.PostTitle, parentNodeId, _configService.PasslePostContentTypeAlias);
 
-            node.SetValue(PasslePost.PostTitleProperty, post.PostTitle);
-            node.SetValue(PasslePost.PostShortcodeProperty, post.PostShortcode);
-            node.SetValue(PasslePost.PassleShortcodeProperty, post.PassleShortcode);
-            node.SetValue(PasslePost.PublishedDateProperty, post.PublishedDate);
-            node.SetValue(PasslePost.PostUrlProperty, post.PostUrl);
-            node.SetValue(PasslePost.ImageUrlProperty, post.ImageUrl);
-            node.SetValue(PasslePost.AuthorsProperty, JsonSerializer.Serialize(post.Authors));
-            node.SetValue(PasslePost.CoAuthorsProperty, JsonSerializer.Serialize(post.CoAuthors));
-            node.SetValue(PasslePost.PostContentHtmlProperty, post.PostContentHtml);
-            node.SetValue(PasslePost.ContentTextSnippetProperty, post.ContentTextSnippet);
-            node.SetValue(PasslePost.QuoteTextProperty, post.QuoteText);
-            node.SetValue(PasslePost.QuoteUrlProperty, post.QuoteUrl);
-            node.SetValue(PasslePost.IsRepostProperty, post.IsRepost);
-            node.SetValue(PasslePost.IsFeaturedOnPasslePageProperty, post.IsFeaturedOnPasslePage);
-            node.SetValue(PasslePost.IsFeaturedOnPostPageProperty, post.IsFeaturedOnPostPage);
-            node.SetValue(PasslePost.EstimatedReadTimeInSecondsProperty, post.EstimatedReadTimeInSeconds);
-            node.SetValue(PasslePost.FeaturedItemHtmlProperty, post.FeaturedItemHtml);
-            node.SetValue(PasslePost.FeaturedItemPositionProperty, post.FeaturedItemPosition);
-            node.SetValue(PasslePost.FeaturedItemMediaTypeProperty, post.FeaturedItemMediaType);
-            node.SetValue(PasslePost.FeaturedItemEmbedTypeProperty, post.FeaturedItemEmbedType);
-            node.SetValue(PasslePost.FeaturedItemEmbedProviderProperty, post.FeaturedItemEmbedProvider);
-            node.SetValue(PasslePost.TagsProperty, string.Join(",", post.Tags));
-            node.SetValue(PasslePost.TweetsProperty, JsonSerializer.Serialize(post.Tweets));
-            node.SetValue(PasslePost.ShareViewsProperty, JsonSerializer.Serialize(post.ShareViews));
-            node.SetValue(PasslePost.TotalSharesProperty, post.TotalShares);
-            node.SetValue(PasslePost.TotalLikesProperty, post.TotalLikes);
-            node.SetValue(PasslePost.OpensInNewTabProperty, post.OpensInNewTab);
+            var properties = post.GetType().GetProperties();
+
+            foreach (var property in properties)
+            {
+                var propertyTypeInfo = property.PropertyType;
+
+                if (propertyTypeInfo.Implements<IEnumerable>() && propertyTypeInfo.IsGenericType)
+                {
+                    propertyTypeInfo = propertyTypeInfo.GetGenericArguments()[0];
+                }
+                else if (!propertyTypeInfo.IsSimpleType())
+                {
+                    continue;
+                }
+
+                if (propertyTypeInfo.IsSerializable)
+                {
+                    AddPropertyToNode(node, post, property.Name);
+                }
+                else
+                {
+                    AddNestedContentToNode(node, post, propertyTypeInfo, property.Name);
+                }
+            }
 
             _contentService.SaveAndPublish(node);
         }
 
-        public bool SyncOne(string Shortcode)
+        public override bool SyncOne(string shortcode)
         {
             var postsFromApi = ApiHelper.GetPosts();
             if (postsFromApi == null || postsFromApi.Posts == null)
@@ -242,13 +226,13 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            var postFromApi = postsFromApi.Posts.FirstOrDefault(x => x.PostShortcode == Shortcode);
+            var postFromApi = postsFromApi.Posts.FirstOrDefault(x => x.PostShortcode == shortcode);
             if (postFromApi == null)
             {
                 return false;
             }
 
-            DeleteOne(Shortcode, postsParentNodeId);
+            DeleteOne(shortcode, postsParentNodeId);
             CreateOne(postFromApi, postsParentNodeId);
 
             return true;

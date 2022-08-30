@@ -18,12 +18,12 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
         public PassleDashboardAuthorViewModel(IContent from)
         {
             Id = from?.Id ?? 0;
-            Name = from.GetValueOrDefault<string>(PassleAuthor.NameProperty);
-            Shortcode = from.GetValueOrDefault<string>(PassleAuthor.ShortcodeProperty);
-            RoleInfo = from.GetValueOrDefault<string>(PassleAuthor.RoleInfoProperty);
-            Description = from.GetValueOrDefault<string>(PassleAuthor.DescriptionProperty);
-            ProfileUrl = from.GetValueOrDefault<string>(PassleAuthor.ProfileUrlProperty);
-            AvatarUrl = from.GetValueOrDefault<string>(PassleAuthor.AvatarUrlProperty);
+            Name = from.GetValueOrDefault<string>("Name");
+            Shortcode = from.GetValueOrDefault<string>("Shortcode");
+            RoleInfo = from.GetValueOrDefault<string>("RoleInfo");
+            Description = from.GetValueOrDefault<string>("Description");
+            ProfileUrl = from.GetValueOrDefault<string>("ProfileUrl");
+            AvatarUrl = from.GetValueOrDefault<string>("AvatarUrl");
             Synced = true;
         }
 

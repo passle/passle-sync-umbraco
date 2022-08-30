@@ -4,36 +4,24 @@ using System.Linq;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using PassleSync.Core.Helpers;
-using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
+using System.Collections;
+using Umbraco.Core;
+using PassleSync.Core.Extensions;
 
 namespace PassleSync.Core.SyncHandlers
 {
-    public class AuthorHandler : ISyncHandler<PassleAuthor>
+    public class AuthorHandler : SyncHandlerBase<PassleAuthor>
     {
-        private readonly IKeyValueService _keyValueService;
-        private readonly IContentService _contentService;
-        private readonly ConfigService _configService;
-        protected readonly ILogger _logger;
-
-
-        public AuthorHandler(
-            IKeyValueService keyValueService,
-            IContentService contentService,
-            ConfigService configService,
-            ILogger logger)
+        public AuthorHandler(IContentService contentService, ConfigService configService, ILogger logger) : base(contentService, configService, logger)
         {
-            _keyValueService = keyValueService;
-            _contentService = contentService;
-            _configService = configService;
-            _logger = logger;
         }
 
-        public IPassleDashboardViewModel GetAll()
+        public override IPassleDashboardViewModel GetAll()
         {
             var peopleFromApi = ApiHelper.GetAuthors();
             if (peopleFromApi == null || peopleFromApi.People == null)
@@ -61,7 +49,7 @@ namespace PassleSync.Core.SyncHandlers
             return new PassleDashboardAuthorsViewModel(allModels);
         }
 
-        public IEnumerable<IContent> GetAllUmbraco(int parentNodeId)
+        private IEnumerable<IContent> GetAllUmbraco(int parentNodeId)
         {
             // Delete any existing posts with the same shortcode
             if (_contentService.HasChildren(parentNodeId))
@@ -71,7 +59,7 @@ namespace PassleSync.Core.SyncHandlers
             return Enumerable.Empty<IContent>();
         }
 
-        public bool SyncAll()
+        public override bool SyncAll()
         {
             var peopleFromApi = ApiHelper.GetAuthors();
             if (peopleFromApi == null || peopleFromApi.People == null)
@@ -92,7 +80,7 @@ namespace PassleSync.Core.SyncHandlers
             return true;
         }
 
-        public bool SyncMany(string[] shortcodes)
+        public override bool SyncMany(string[] shortcodes)
         {
             var peopleFromApi = ApiHelper.GetAuthors();
             if (peopleFromApi == null || peopleFromApi.People == null)
@@ -113,7 +101,7 @@ namespace PassleSync.Core.SyncHandlers
             return true;
         }
 
-        public bool DeleteAll()
+        public override bool DeleteAll()
         {
             int peopleParentNodeId = _configService.AuthorsParentNodeId;
             if (_contentService.GetById(peopleParentNodeId) == null)
@@ -125,7 +113,7 @@ namespace PassleSync.Core.SyncHandlers
             return true;
         }
 
-        public void DeleteAll(int parentNodeId)
+        public override void DeleteAll(int parentNodeId)
         {
             // Delete any existing posts with the same shortcode
             if (_contentService.HasChildren(parentNodeId))
@@ -139,7 +127,7 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public bool DeleteMany(string[] Shortcodes)
+        public override bool DeleteMany(string[] Shortcodes)
         {
             int peopleParentNodeId = _configService.AuthorsParentNodeId;
             if (_contentService.GetById(peopleParentNodeId) == null)
@@ -151,7 +139,7 @@ namespace PassleSync.Core.SyncHandlers
             return true;
         }
 
-        public void DeleteMany(string[] Shortcodes, int parentNodeId)
+        public override void DeleteMany(string[] Shortcodes, int parentNodeId)
         {
             // Delete any existing posts with the same shortcode
             if (_contentService.HasChildren(parentNodeId))
@@ -168,12 +156,12 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public void DeleteOne(string Shortcode, int parentNodeId)
+        private void DeleteOne(string Shortcode, int parentNodeId)
         {
             DeleteMany(new string[] { Shortcode }, parentNodeId);
         }
 
-        public void CreateAll(IEnumerable<PassleAuthor> people, int parentNodeId)
+        public override void CreateAll(IEnumerable<PassleAuthor> people, int parentNodeId)
         {
             foreach (PassleAuthor person in people)
             {
@@ -181,7 +169,7 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public void CreateMany(IEnumerable<PassleAuthor> people, int parentNodeId, string[] Shortcodes)
+        public override void CreateMany(IEnumerable<PassleAuthor> people, int parentNodeId, string[] Shortcodes)
         {
             foreach (PassleAuthor person in people)
             {
@@ -192,38 +180,39 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public void CreateOne(PassleAuthor person, int parentNodeId)
+        public override void CreateOne(PassleAuthor person, int parentNodeId)
         {
             var node = _contentService.Create(person.Name, parentNodeId, _configService.PassleAuthorContentTypeAlias);
 
-            node.SetValue(PassleAuthor.NameProperty, person.Name);
-            node.SetValue(PassleAuthor.ShortcodeProperty, person.Shortcode);
-            node.SetValue(PassleAuthor.ProfileUrlProperty, person.ProfileUrl);
-            node.SetValue(PassleAuthor.AvatarUrlProperty, person.AvatarUrl);
-            node.SetValue(PassleAuthor.RoleInfoProperty, person.RoleInfo);
-            node.SetValue(PassleAuthor.DescriptionProperty, person.Description);
-            node.SetValue(PassleAuthor.EmailAddressProperty, person.EmailAddress);
-            node.SetValue(PassleAuthor.PhoneNumberProperty, person.PhoneNumber);
-            node.SetValue(PassleAuthor.LinkedInProfileLinkProperty, person.LinkedInProfileLink);
-            node.SetValue(PassleAuthor.FacebookProfileLinkProperty, person.FacebookProfileLink);
-            node.SetValue(PassleAuthor.TwitterScreenNameProperty, person.TwitterScreenName);
-            node.SetValue(PassleAuthor.XingProfileLinkProperty, person.XingProfileLink);
-            node.SetValue(PassleAuthor.SkypeProfileLinkProperty, person.SkypeProfileLink);
-            node.SetValue(PassleAuthor.VimeoProfileLinkProperty, person.VimeoProfileLink);
-            node.SetValue(PassleAuthor.YouTubeProfileLinkProperty, person.YouTubeProfileLink);
-            node.SetValue(PassleAuthor.StumbleUponProfileLinkProperty, person.StumbleUponProfileLink);
-            node.SetValue(PassleAuthor.PinterestProfileLinkProperty, person.PinterestProfileLink);
-            node.SetValue(PassleAuthor.InstagramProfileLinkProperty, person.InstagramProfileLink);
-            node.SetValue(PassleAuthor.PersonalLinksProperty, person.PersonalLinks);
-            node.SetValue(PassleAuthor.LocationDetailProperty, person.LocationDetail);
-            node.SetValue(PassleAuthor.LocationCountryProperty, person.LocationCountry);
-            node.SetValue(PassleAuthor.TagLineCompanyProperty, person.TagLineCompany);
-            node.SetValue(PassleAuthor.SubscribeLinkProperty, person.SubscribeLink);
+            var properties = person.GetType().GetProperties();
+
+            foreach (var property in properties)
+            {
+                var propertyTypeInfo = property.PropertyType;
+
+                if (propertyTypeInfo.Implements<IEnumerable>() && propertyTypeInfo.IsGenericType)
+                {
+                    propertyTypeInfo = propertyTypeInfo.GetGenericArguments()[0];
+                }
+                else if (!propertyTypeInfo.IsSimpleType())
+                {
+                    continue;
+                }
+
+                if (propertyTypeInfo.IsSerializable)
+                {
+                    AddPropertyToNode(node, person, property.Name);
+                }
+                else
+                {
+                    AddNestedContentToNode(node, person, propertyTypeInfo, property.Name);
+                }
+            }
 
             _contentService.SaveAndPublish(node);
         }
 
-        public bool SyncOne(string Shortcode)
+        public override bool SyncOne(string Shortcode)
         {
             var peopleFromApi = ApiHelper.GetAuthors();
             if (peopleFromApi == null || peopleFromApi.People == null)

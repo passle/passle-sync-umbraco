@@ -652,6 +652,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
+    <Compile Include="Attributes\LongStringAttribute.cs" />
     <Compile Include="Attributes\ValidateAPIKeyAttribute.cs" />
     <Compile Include="Components\RegisterDocumentTypesComponent.cs" />
     <Compile Include="Components\SubscribeToPublishEventComponent.cs" />
@@ -669,8 +670,10 @@
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
     <Compile Include="Controllers\Webhooks\PeopleController.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
+    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Controllers\Webhooks\PostsController.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Helpers\PostHelper.cs" />
     <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostMediaType.cs" />
@@ -694,6 +697,7 @@
     <Compile Include="SyncHandlers\AuthorHandler.cs" />
     <Compile Include="SyncHandlers\PostHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyncHandlers\SyncHandlerBase.cs" />
     <Compile Include="Utils\UrlFactory.cs" />
     <Compile Include="API\ViewModels\IPassleDashboardViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardAuthorsViewModel.cs" />

@@ -23,15 +23,15 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
         public PassleDashboardPostViewModel(IContent from)
         {
             Id = from?.Id ?? 0;
-            Title = from.GetValueOrDefault<string>(PasslePost.PostTitleProperty);
-            Shortcode = from.GetValueOrDefault<string>(PasslePost.PostShortcodeProperty);
-            PassleShortcode = from.GetValueOrDefault<string>(PasslePost.PassleShortcodeProperty);
-            Excerpt = from.GetValueOrDefault<string>(PasslePost.ContentTextSnippetProperty);
-            PostUrl = from.GetValueOrDefault<string>(PasslePost.PostUrlProperty);
-            ImageUrl = from.GetValueOrDefault<string>(PasslePost.ImageUrlProperty);
-            PublishedDate = from.GetValueOrDefault<DateTime>(PasslePost.PublishedDateProperty);
-            Authors = from.GetValueOrDefault<string>(PasslePost.AuthorsProperty);
-            Tags = from.GetValueOrDefault<string>(PasslePost.TagsProperty);
+            Title = from.GetValueOrDefault<string>("PostTitle");
+            Shortcode = from.GetValueOrDefault<string>("PostShortcode");
+            PassleShortcode = from.GetValueOrDefault<string>("PassleShortcode");
+            Excerpt = from.GetValueOrDefault<string>("ContentTextSnippet");
+            PostUrl = from.GetValueOrDefault<string>("PostUrl");
+            ImageUrl = from.GetValueOrDefault<string>("ImageUrl");
+            PublishedDate = DateTime.Parse(from.GetValueOrDefault<string>("PublishedDate"));
+            Authors = from.GetValueOrDefault<string>("Authors");
+            Tags = from.GetValueOrDefault<string>("Tags");
             Synced = true;
         }
 

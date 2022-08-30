@@ -17,8 +17,8 @@ using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.ModelsBuilder.Embedded;
 
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "b99e5d4f3f354fe0")]
-[assembly:System.Reflection.AssemblyVersion("0.0.0.2")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "feda12926cca6248")]
+[assembly:System.Reflection.AssemblyVersion("0.0.0.1")]
 
 namespace Umbraco.Web.PublishedModels
 {
@@ -46,6 +46,253 @@ namespace Umbraco.Web.PublishedModels
 		{ }
 
 		// properties
+	}
+
+	/// <summary>Passle Posts</summary>
+	[PublishedModel("passlePosts")]
+	public partial class PasslePosts : PublishedContentModel
+	{
+		// helpers
+#pragma warning disable 0109 // new is redundant
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const string ModelTypeAlias = "passlePosts";
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new static IPublishedContentType GetModelContentType()
+			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<PasslePosts, TValue>> selector)
+			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+#pragma warning restore 0109
+
+		// ctor
+		public PasslePosts(IPublishedContent content)
+			: base(content)
+		{ }
+
+		// properties
+	}
+
+	/// <summary>Passle Authors</summary>
+	[PublishedModel("passleAuthors")]
+	public partial class PassleAuthors : PublishedContentModel
+	{
+		// helpers
+#pragma warning disable 0109 // new is redundant
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const string ModelTypeAlias = "passleAuthors";
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new static IPublishedContentType GetModelContentType()
+			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<PassleAuthors, TValue>> selector)
+			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+#pragma warning restore 0109
+
+		// ctor
+		public PassleAuthors(IPublishedContent content)
+			: base(content)
+		{ }
+
+		// properties
+	}
+
+	/// <summary>PostAuthor</summary>
+	[PublishedModel("postAuthor")]
+	public partial class PostAuthor : PublishedElementModel
+	{
+		// helpers
+#pragma warning disable 0109 // new is redundant
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const string ModelTypeAlias = "postAuthor";
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new static IPublishedContentType GetModelContentType()
+			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<PostAuthor, TValue>> selector)
+			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+#pragma warning restore 0109
+
+		// ctor
+		public PostAuthor(IPublishedElement content)
+			: base(content)
+		{ }
+
+		// properties
+
+		///<summary>
+		/// ImageUrl
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("imageUrl")]
+		public virtual string ImageUrl => this.Value<string>("imageUrl");
+
+		///<summary>
+		/// Name
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("name")]
+		public virtual string Name => this.Value<string>("name");
+
+		///<summary>
+		/// ProfileUrl
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("profileUrl")]
+		public virtual string ProfileUrl => this.Value<string>("profileUrl");
+
+		///<summary>
+		/// Role
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("role")]
+		public virtual string Role => this.Value<string>("role");
+
+		///<summary>
+		/// Shortcode
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("shortcode")]
+		public virtual string Shortcode => this.Value<string>("shortcode");
+
+		///<summary>
+		/// TwitterScreenName
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("twitterScreenName")]
+		public virtual string TwitterScreenName => this.Value<string>("twitterScreenName");
+	}
+
+	/// <summary>PostTweet</summary>
+	[PublishedModel("postTweet")]
+	public partial class PostTweet : PublishedElementModel
+	{
+		// helpers
+#pragma warning disable 0109 // new is redundant
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const string ModelTypeAlias = "postTweet";
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new static IPublishedContentType GetModelContentType()
+			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<PostTweet, TValue>> selector)
+			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+#pragma warning restore 0109
+
+		// ctor
+		public PostTweet(IPublishedElement content)
+			: base(content)
+		{ }
+
+		// properties
+
+		///<summary>
+		/// EmbedCode
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("embedCode")]
+		public virtual string EmbedCode => this.Value<string>("embedCode");
+
+		///<summary>
+		/// ScreenName
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("screenName")]
+		public virtual string ScreenName => this.Value<string>("screenName");
+
+		///<summary>
+		/// TweetId
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("tweetId")]
+		public virtual string TweetId => this.Value<string>("tweetId");
+	}
+
+	/// <summary>PostShareViews</summary>
+	[PublishedModel("postShareViews")]
+	public partial class PostShareViews : PublishedElementModel
+	{
+		// helpers
+#pragma warning disable 0109 // new is redundant
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const string ModelTypeAlias = "postShareViews";
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new static IPublishedContentType GetModelContentType()
+			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<PostShareViews, TValue>> selector)
+			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+#pragma warning restore 0109
+
+		// ctor
+		public PostShareViews(IPublishedElement content)
+			: base(content)
+		{ }
+
+		// properties
+
+		///<summary>
+		/// SocialNetwork
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("socialNetwork")]
+		public virtual string SocialNetwork => this.Value<string>("socialNetwork");
+
+		///<summary>
+		/// TotalViews
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("totalViews")]
+		public virtual string TotalViews => this.Value<string>("totalViews");
+	}
+
+	/// <summary>AuthorLink</summary>
+	[PublishedModel("authorLink")]
+	public partial class AuthorLink : PublishedElementModel
+	{
+		// helpers
+#pragma warning disable 0109 // new is redundant
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const string ModelTypeAlias = "authorLink";
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public new static IPublishedContentType GetModelContentType()
+			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<AuthorLink, TValue>> selector)
+			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
+#pragma warning restore 0109
+
+		// ctor
+		public AuthorLink(IPublishedElement content)
+			: base(content)
+		{ }
+
+		// properties
+
+		///<summary>
+		/// Title
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("title")]
+		public virtual string Title => this.Value<string>("title");
+
+		///<summary>
+		/// Url
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
+		[ImplementPropertyType("url")]
+		public virtual string Url => this.Value<string>("url");
 	}
 
 	/// <summary>Passle Post</summary>
@@ -78,14 +325,14 @@ namespace Umbraco.Web.PublishedModels
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("authors")]
-		public virtual string Authors => this.Value<string>("authors");
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.PostAuthor> Authors => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.PostAuthor>>("authors");
 
 		///<summary>
 		/// CoAuthors
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("coAuthors")]
-		public virtual string CoAuthors => this.Value<string>("coAuthors");
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.PostAuthor> CoAuthors => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.PostAuthor>>("coAuthors");
 
 		///<summary>
 		/// ContentTextSnippet
@@ -148,28 +395,28 @@ namespace Umbraco.Web.PublishedModels
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("isFeaturedOnPasslePage")]
-		public virtual bool IsFeaturedOnPasslePage => this.Value<bool>("isFeaturedOnPasslePage");
+		public virtual string IsFeaturedOnPasslePage => this.Value<string>("isFeaturedOnPasslePage");
 
 		///<summary>
 		/// IsFeaturedOnPostPage
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("isFeaturedOnPostPage")]
-		public virtual bool IsFeaturedOnPostPage => this.Value<bool>("isFeaturedOnPostPage");
+		public virtual string IsFeaturedOnPostPage => this.Value<string>("isFeaturedOnPostPage");
 
 		///<summary>
 		/// IsRepost
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("isRepost")]
-		public virtual bool IsRepost => this.Value<bool>("isRepost");
+		public virtual string IsRepost => this.Value<string>("isRepost");
 
 		///<summary>
 		/// OpensInNewTab
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("opensInNewTab")]
-		public virtual bool OpensInNewTab => this.Value<bool>("opensInNewTab");
+		public virtual string OpensInNewTab => this.Value<string>("opensInNewTab");
 
 		///<summary>
 		/// PassleShortcode
@@ -211,7 +458,7 @@ namespace Umbraco.Web.PublishedModels
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("publishedDate")]
-		public virtual global::System.DateTime PublishedDate => this.Value<global::System.DateTime>("publishedDate");
+		public virtual string PublishedDate => this.Value<string>("publishedDate");
 
 		///<summary>
 		/// QuoteText
@@ -232,7 +479,7 @@ namespace Umbraco.Web.PublishedModels
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("shareViews")]
-		public virtual string ShareViews => this.Value<string>("shareViews");
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.PostShareViews> ShareViews => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.PostShareViews>>("shareViews");
 
 		///<summary>
 		/// Tags
@@ -260,7 +507,7 @@ namespace Umbraco.Web.PublishedModels
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("tweets")]
-		public virtual string Tweets => this.Value<string>("tweets");
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.PostTweet> Tweets => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.PostTweet>>("tweets");
 	}
 
 	/// <summary>Passle Author</summary>
@@ -317,13 +564,6 @@ namespace Umbraco.Web.PublishedModels
 		public virtual string FacebookProfileLink => this.Value<string>("facebookProfileLink");
 
 		///<summary>
-		/// ImageUrl
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		[ImplementPropertyType("imageUrl")]
-		public virtual string ImageUrl => this.Value<string>("imageUrl");
-
-		///<summary>
 		/// InstagramProfileLink
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
@@ -363,7 +603,7 @@ namespace Umbraco.Web.PublishedModels
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("personalLinks")]
-		public virtual string PersonalLinks => this.Value<string>("personalLinks");
+		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.AuthorLink> PersonalLinks => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.AuthorLink>>("personalLinks");
 
 		///<summary>
 		/// PhoneNumber
@@ -385,13 +625,6 @@ namespace Umbraco.Web.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("profileUrl")]
 		public virtual string ProfileUrl => this.Value<string>("profileUrl");
-
-		///<summary>
-		/// Role
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		[ImplementPropertyType("role")]
-		public virtual string Role => this.Value<string>("role");
 
 		///<summary>
 		/// RoleInfo
@@ -429,13 +662,6 @@ namespace Umbraco.Web.PublishedModels
 		public virtual string SubscribeLink => this.Value<string>("subscribeLink");
 
 		///<summary>
-		/// Synced
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		[ImplementPropertyType("synced")]
-		public virtual string Synced => this.Value<string>("synced");
-
-		///<summary>
 		/// TagLineCompany
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
@@ -469,58 +695,6 @@ namespace Umbraco.Web.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("youTubeProfileLink")]
 		public virtual string YouTubeProfileLink => this.Value<string>("youTubeProfileLink");
-	}
-
-	/// <summary>Passle Posts</summary>
-	[PublishedModel("passlePosts")]
-	public partial class PasslePosts : PublishedContentModel
-	{
-		// helpers
-#pragma warning disable 0109 // new is redundant
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		public new const string ModelTypeAlias = "passlePosts";
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		public new static IPublishedContentType GetModelContentType()
-			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<PasslePosts, TValue>> selector)
-			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
-#pragma warning restore 0109
-
-		// ctor
-		public PasslePosts(IPublishedContent content)
-			: base(content)
-		{ }
-
-		// properties
-	}
-
-	/// <summary>Passle Authors</summary>
-	[PublishedModel("passleAuthors")]
-	public partial class PassleAuthors : PublishedContentModel
-	{
-		// helpers
-#pragma warning disable 0109 // new is redundant
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		public new const string ModelTypeAlias = "passleAuthors";
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		public new static IPublishedContentType GetModelContentType()
-			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<PassleAuthors, TValue>> selector)
-			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
-#pragma warning restore 0109
-
-		// ctor
-		public PassleAuthors(IPublishedContent content)
-			: base(content)
-		{ }
-
-		// properties
 	}
 
 	/// <summary>Folder</summary>

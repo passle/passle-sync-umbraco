@@ -1,13 +1,17 @@
-﻿using PassleSync.Core.Extensions;
+﻿using PassleSync.Core.Attributes;
+using PassleSync.Core.Extensions;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using System;
+using System.Collections;
+using System.Linq;
 using Umbraco.Core;
 using Umbraco.Core.Composing;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Migrations;
 using Umbraco.Core.Migrations.Upgrade;
 using Umbraco.Core.Models;
+using Umbraco.Core.PropertyEditors;
 using Umbraco.Core.Scoping;
 using Umbraco.Core.Services;
 using Umbraco.Web.PropertyEditors;
@@ -54,6 +58,9 @@ namespace PassleSync.Core.Components
         private readonly IDataTypeService _dataTypeService;
         private readonly ConfigService _configService;
 
+        private int _passleContainerId;
+        private int _elementsContainerId;
+
         public RegisterDocumentTypes(
             IMigrationContext context,
             IContentTypeService contentTypeService,
@@ -70,6 +77,7 @@ namespace PassleSync.Core.Components
             Logger.Debug<RegisterDocumentTypes>("Running migration {MigrationStep}", "RegisterDocumentTypes");
 
             CreateDataTypes();
+            CreateContentTypeFolders();
             CreatePasslePostContentType();
             CreatePassleAuthorContentType();
         }
@@ -77,6 +85,7 @@ namespace PassleSync.Core.Components
         private void CreateDataTypes()
         {
             // TODO: Use constants for data type aliases
+
             if (_dataTypeService.GetDataType("Passle Repeatable Textstrings") == null)
             {
                 var editor = Current.Factory.GetInstance<MultipleTextStringPropertyEditor>();
@@ -86,6 +95,44 @@ namespace PassleSync.Core.Components
                 };
 
                 _dataTypeService.Save(dataType);
+            }
+
+            if (_dataTypeService.GetDataType("Passle Label (long string)") == null)
+            {
+                var editor = Current.Factory.GetInstance<LabelPropertyEditor>();
+                var dataType = new DataType(editor)
+                {
+                    Name = "Passle Label (long string)",
+                    Configuration = new LabelConfiguration()
+                    {
+                        ValueType = "TEXT",
+                    },
+                };
+
+                _dataTypeService.Save(dataType);
+            }
+        }
+
+        private void CreateContentTypeFolders()
+        {
+            var passleContainerAttempt = _contentTypeService.CreateContainer(-1, "Passle");
+            if (passleContainerAttempt.Success)
+            {
+                _passleContainerId = passleContainerAttempt.Result.Entity.Id;
+            }
+            else
+            {
+                _passleContainerId = _contentTypeService.GetContainers("Passle", 1).First().Id;
+            }
+
+            var elementsContainerAttempt = _contentTypeService.CreateContainer(_passleContainerId, "Elements");
+            if (elementsContainerAttempt.Success)
+            {
+                _elementsContainerId = elementsContainerAttempt.Result.Entity.Id;
+            }
+            else
+            {
+                _elementsContainerId = _contentTypeService.GetContainers("Elements", 2).First().Id;
             }
         }
 
@@ -102,37 +149,10 @@ namespace PassleSync.Core.Components
                 Alias = _configService.PasslePostContentTypeAlias,
                 Description = "A Passle post synced to your Umbraco instance.",
                 Icon = "icon-newspaper color-deep-orange",
+                ParentId = _passleContainerId,
             };
 
-            passlePostContentType.AddPropertyGroup("Content");
-
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.PostTitleProperty);
-            AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.PostShortcodeProperty);
-            AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.PassleShortcodeProperty);
-            AddPropertyToContentType(passlePostContentType, "Date Picker", PasslePost.PublishedDateProperty);
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.PostUrlProperty);
-            AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.ImageUrlProperty);
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.AuthorsProperty); // TODO: Is there a better data type for this?
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.CoAuthorsProperty); // TODO: Is there a better data type for this?
-            AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.PostContentHtmlProperty);
-            AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.ContentTextSnippetProperty);
-            AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.QuoteTextProperty);
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.QuoteUrlProperty);
-            AddPropertyToContentType(passlePostContentType, "True/false", PasslePost.IsRepostProperty);
-            AddPropertyToContentType(passlePostContentType, "True/false", PasslePost.IsFeaturedOnPasslePageProperty);
-            AddPropertyToContentType(passlePostContentType, "True/false", PasslePost.IsFeaturedOnPostPageProperty);
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.EstimatedReadTimeInSecondsProperty);
-            AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.FeaturedItemHtmlProperty);
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.FeaturedItemPositionProperty);
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.FeaturedItemMediaTypeProperty);
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.FeaturedItemEmbedTypeProperty);
-            AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.FeaturedItemEmbedProviderProperty);
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.TagsProperty); // TODO: Is there a better data type for this?
-            AddPropertyToContentType(passlePostContentType, "Textarea", PasslePost.TweetsProperty); // TODO: Is there a better data type for this?
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.ShareViewsProperty); // TODO: Is there a better data type for this?
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.TotalSharesProperty);
-            AddPropertyToContentType(passlePostContentType, "Textstring", PasslePost.TotalLikesProperty);
-            AddPropertyToContentType(passlePostContentType, "True/false", PasslePost.OpensInNewTabProperty); // TODO: Remove this?
+            AddAllPropertiesOfTypeToContentType(passlePostContentType, typeof(PasslePost));
 
             _contentTypeService.Save(passlePostContentType);
         }
@@ -150,35 +170,113 @@ namespace PassleSync.Core.Components
                 Alias = _configService.PassleAuthorContentTypeAlias,
                 Description = "A Passle author synced to your Umbraco instance.",
                 Icon = "icon-user color-deep-orange",
+                ParentId = _passleContainerId,
             };
 
-            passleAuthorContentType.AddPropertyGroup("Content");
-
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.NameProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.ShortcodeProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.ProfileUrlProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.AvatarUrlProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.RoleInfoProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textarea", PassleAuthor.DescriptionProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.EmailAddressProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.PhoneNumberProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.LinkedInProfileLinkProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.FacebookProfileLinkProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.TwitterScreenNameProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.XingProfileLinkProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.SkypeProfileLinkProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.VimeoProfileLinkProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.YouTubeProfileLinkProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.StumbleUponProfileLinkProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.PinterestProfileLinkProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.InstagramProfileLinkProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.PersonalLinksProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.LocationDetailProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.LocationCountryProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.TagLineCompanyProperty);
-            AddPropertyToContentType(passleAuthorContentType, "Textstring", PassleAuthor.SubscribeLinkProperty);
+            AddAllPropertiesOfTypeToContentType(passleAuthorContentType, typeof(PassleAuthor));
 
             _contentTypeService.Save(passleAuthorContentType);
+        }
+
+        private string CreateElementTypeForType(Type type)
+        {
+            var alias = type.Name.FirstCharToLower();
+
+            if (_contentTypeService.Get(alias) != null)
+            {
+                return alias;
+            }
+
+            var contentType = new ContentType(-1)
+            {
+                Name = type.Name, // TODO: Add spaces?
+                Alias = alias,
+                Icon = "icon-science color-deep-orange",
+                IsElement = true,
+                ParentId = _elementsContainerId,
+            };
+
+            AddAllPropertiesOfTypeToContentType(contentType, type);
+
+            _contentTypeService.Save(contentType);
+
+            return alias;
+        }
+
+        private string CreateNestedContentDataType(string elementTypeAlias)
+        {
+            var name = $"Passle Nested Content - {elementTypeAlias.FirstCharToUpper()}";
+
+            if (_dataTypeService.GetDataType(name) != null)
+            {
+                return name;
+            }
+
+            var editor = Current.Factory.GetInstance<NestedContentPropertyEditor>();
+            var dataType = new DataType(editor)
+            {
+                Name = name,
+                Configuration = new NestedContentConfiguration()
+                {
+                    ContentTypes = new[]
+                    {
+                        new NestedContentConfiguration.ContentType()
+                        {
+                            Alias = elementTypeAlias,
+                            TabAlias = "Content",
+                        },
+                    },
+                },
+            };
+
+            _dataTypeService.Save(dataType);
+
+            return name;
+        }
+
+        private void AddClassTypeToContentType(ContentType contentType, Type type, string propertyName)
+        {
+            var elementTypeAlias = CreateElementTypeForType(type);
+            var dataTypeName = CreateNestedContentDataType(elementTypeAlias);
+
+            AddPropertyToContentType(contentType, dataTypeName, propertyName);
+        }
+
+        private void AddAllPropertiesOfTypeToContentType(ContentType contentType, Type type)
+        {
+            var properties = type.GetProperties();
+
+            foreach (var property in properties)
+            {
+                var propertyTypeInfo = property.PropertyType;
+
+                if (propertyTypeInfo.Implements<IEnumerable>() && propertyTypeInfo.IsGenericType)
+                {
+                    propertyTypeInfo = propertyTypeInfo.GetGenericArguments()[0];
+                }
+                else if (!propertyTypeInfo.IsSimpleType())
+                {
+                    continue;
+                }
+
+                if (propertyTypeInfo.IsSerializable)
+                {
+                    // TODO: Use constants for data type aliases
+
+                    var dataTypeName = "Label (string)";
+
+                    if (property.IsDefined(typeof(LongStringAttribute), false))
+                    {
+                        dataTypeName = "Passle Label (long string)";
+                    }
+
+                    AddPropertyToContentType(contentType, dataTypeName, property.Name);
+                }
+                else
+                {
+                    AddClassTypeToContentType(contentType, propertyTypeInfo, property.Name);
+                }
+            }
         }
 
         private void AddPropertyToContentType(ContentType contentType, string dataTypeName, string propertyName)
