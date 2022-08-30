@@ -653,6 +653,7 @@
   <ItemGroup>
     <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
     <Compile Include="Attributes\LongStringAttribute.cs" />
+    <Compile Include="Attributes\NestedContentNameTemplateAttribute.cs" />
     <Compile Include="Attributes\ValidateAPIKeyAttribute.cs" />
     <Compile Include="Components\RegisterDocumentTypesComponent.cs" />
     <Compile Include="Components\SubscribeToPublishEventComponent.cs" />
@@ -670,6 +671,7 @@
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
     <Compile Include="Controllers\Webhooks\PeopleController.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Controllers\Webhooks\PostsController.cs" />

@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using PassleSync.Core.Attributes;
 
 namespace PassleSync.Core.Models.Content.PassleApi
 {
+    [NestedContentNameTemplate("{{socialNetwork}}")]
     public class PostShareViews
     {
-        [JsonConverter(typeof(StringEnumConverter))]
         public PostShareButtons SocialNetwork { get; set; }
         public int TotalViews { get; set; }
     }

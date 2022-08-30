@@ -67,6 +67,10 @@ namespace PassleSync.Core.SyncHandlers
                     {
                         AddRepeatableTextstringsToNode(node, entity, property.Name);
                     }
+                    else if (propertyTypeInfo.IsEnum)
+                    {
+                        AddEnumToNode(node, entity, property.Name);
+                    }
                     else
                     {
                         AddPropertyToNode(node, entity, property.Name);
@@ -96,6 +100,14 @@ namespace PassleSync.Core.SyncHandlers
             var value = string.Join(Environment.NewLine, items);
 
             node.SetValue(propertyName.ToPropertyAlias(), value);
+        }
+
+        private void AddEnumToNode(IContent node, T entity, string propertyName)
+        {
+            var value = (Enum) entity.GetType().GetProperty(propertyName).GetValue(entity, null);
+            var enumDescription = value.GetDescription();
+
+            node.SetValue(propertyName.ToPropertyAlias(), enumDescription);
         }
 
         private void AddNestedContentToNode(IContent node, T entity, Type type, string propertyName)

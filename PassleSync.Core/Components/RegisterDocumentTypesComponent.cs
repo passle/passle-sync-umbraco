@@ -4,7 +4,9 @@ using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using Umbraco.Core;
 using Umbraco.Core.Composing;
 using Umbraco.Core.Logging;
@@ -15,6 +17,7 @@ using Umbraco.Core.PropertyEditors;
 using Umbraco.Core.Scoping;
 using Umbraco.Core.Services;
 using Umbraco.Web.PropertyEditors;
+using static NPoco.SqlBuilder;
 
 namespace PassleSync.Core.Components
 {
@@ -203,13 +206,24 @@ namespace PassleSync.Core.Components
             return alias;
         }
 
-        private string CreateNestedContentDataType(string elementTypeAlias)
+        private string CreateNestedContentDataType(string elementTypeAlias, string nameTemplate = null)
         {
             var name = $"Passle Nested Content - {elementTypeAlias.FirstCharToUpper()}";
 
             if (_dataTypeService.GetDataType(name) != null)
             {
                 return name;
+            }
+
+            var contentType = new NestedContentConfiguration.ContentType()
+            {
+                Alias = elementTypeAlias,
+                TabAlias = "Content",
+            };
+
+            if (nameTemplate != null)
+            {
+                contentType.Template = nameTemplate;
             }
 
             var editor = Current.Factory.GetInstance<NestedContentPropertyEditor>();
@@ -220,11 +234,7 @@ namespace PassleSync.Core.Components
                 {
                     ContentTypes = new[]
                     {
-                        new NestedContentConfiguration.ContentType()
-                        {
-                            Alias = elementTypeAlias,
-                            TabAlias = "Content",
-                        },
+                        contentType,
                     },
                 },
             };
@@ -234,12 +244,23 @@ namespace PassleSync.Core.Components
             return name;
         }
 
-        private void AddClassTypeToContentType(ContentType contentType, Type type, string propertyName)
+        private void AddClassTypeToContentType(ContentType contentType, Type type, PropertyInfo property)
         {
             var elementTypeAlias = CreateElementTypeForType(type);
-            var dataTypeName = CreateNestedContentDataType(elementTypeAlias);
+            string dataTypeName;
+            
+            var nestedContentNameTemplateAttribute = type.GetCustomAttribute<NestedContentNameTemplateAttribute>();
+            if (nestedContentNameTemplateAttribute != null)
+            {
+                var template = nestedContentNameTemplateAttribute.Template;
+                dataTypeName = CreateNestedContentDataType(elementTypeAlias, template);
+            }
+            else
+            {
+                dataTypeName = CreateNestedContentDataType(elementTypeAlias);
+            }
 
-            AddPropertyToContentType(contentType, dataTypeName, propertyName);
+            AddPropertyToContentType(contentType, dataTypeName, property.Name);
         }
 
         private void AddAllPropertiesOfTypeToContentType(ContentType contentType, Type type)
@@ -280,7 +301,7 @@ namespace PassleSync.Core.Components
                 }
                 else
                 {
-                    AddClassTypeToContentType(contentType, propertyTypeInfo, property.Name);
+                    AddClassTypeToContentType(contentType, propertyTypeInfo, property);
                 }
             }
         }

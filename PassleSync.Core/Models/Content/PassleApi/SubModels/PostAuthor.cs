@@ -1,5 +1,8 @@
-﻿namespace PassleSync.Core.Models.Content.PassleApi
+﻿using PassleSync.Core.Attributes;
+
+namespace PassleSync.Core.Models.Content.PassleApi
 {
+    [NestedContentNameTemplate("{{passleName}}")]
     public class PostAuthor
     {
         public string Shortcode { get; set; }

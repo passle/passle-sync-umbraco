@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 
 namespace PassleSync.Core.Models.Content.PassleApi
 {
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum PostShareButtons
     {
         None = 0,

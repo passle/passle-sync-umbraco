@@ -1,5 +1,9 @@
-﻿namespace PassleSync.Core.Models.Content.PassleApi
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace PassleSync.Core.Models.Content.PassleApi
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum PostMediaType
     {
         None = 0,

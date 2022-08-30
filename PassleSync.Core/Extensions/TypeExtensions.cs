@@ -20,5 +20,10 @@ namespace PassleSync.Core.Extensions
                 }.Contains(type) ||
                 Convert.GetTypeCode(type) != TypeCode.Object;
         }
+
+        public static T GetCustomAttribute<T>(this Type type) where T : Attribute
+        {
+            return Attribute.GetCustomAttribute(type, typeof(T)) as T;
+        }
     }
 }

@@ -1,5 +1,8 @@
-﻿namespace PassleSync.Core.Models.Content.PassleApi
+﻿using PassleSync.Core.Attributes;
+
+namespace PassleSync.Core.Models.Content.PassleApi
 {
+    [NestedContentNameTemplate("Tweet by @{{screenName}}")]
     public class PostTweet
     {
         public string EmbedCode { get; set; }
