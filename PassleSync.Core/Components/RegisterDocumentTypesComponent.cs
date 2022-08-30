@@ -1,10 +1,10 @@
 ﻿using PassleSync.Core.Attributes;
+using PassleSync.Core.Constants;
 using PassleSync.Core.Extensions;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Umbraco.Core;
@@ -17,7 +17,6 @@ using Umbraco.Core.PropertyEditors;
 using Umbraco.Core.Scoping;
 using Umbraco.Core.Services;
 using Umbraco.Web.PropertyEditors;
-using static NPoco.SqlBuilder;
 
 namespace PassleSync.Core.Components
 {
@@ -87,25 +86,23 @@ namespace PassleSync.Core.Components
 
         private void CreateDataTypes()
         {
-            // TODO: Use constants for data type aliases
-
-            if (_dataTypeService.GetDataType("Passle Repeatable Textstrings") == null)
+            if (_dataTypeService.GetDataType(PassleDataType.PASSLE_REPEATABLE_TEXTSTRINGS) == null)
             {
                 var editor = Current.Factory.GetInstance<MultipleTextStringPropertyEditor>();
                 var dataType = new DataType(editor)
                 {
-                    Name = "Passle Repeatable Textstrings",
+                    Name = PassleDataType.PASSLE_REPEATABLE_TEXTSTRINGS,
                 };
 
                 _dataTypeService.Save(dataType);
             }
 
-            if (_dataTypeService.GetDataType("Passle Label (long string)") == null)
+            if (_dataTypeService.GetDataType(PassleDataType.PASSLE_LABEL_LONG_STRING) == null)
             {
                 var editor = Current.Factory.GetInstance<LabelPropertyEditor>();
                 var dataType = new DataType(editor)
                 {
-                    Name = "Passle Label (long string)",
+                    Name = PassleDataType.PASSLE_LABEL_LONG_STRING,
                     Configuration = new LabelConfiguration()
                     {
                         ValueType = "TEXT",
@@ -192,7 +189,7 @@ namespace PassleSync.Core.Components
 
             var contentType = new ContentType(-1)
             {
-                Name = type.Name, // TODO: Add spaces?
+                Name = type.Name.FromPascalCaseToTitleCase(),
                 Alias = alias,
                 Icon = "icon-science color-deep-orange",
                 IsElement = true,
@@ -284,17 +281,15 @@ namespace PassleSync.Core.Components
 
                 if (propertyTypeInfo.IsSerializable)
                 {
-                    // TODO: Use constants for data type aliases
-
-                    var dataTypeName = "Label (string)";
+                    var dataTypeName = PassleDataType.LABEL_STRING;
 
                     if (isEnumerable)
                     {
-                        dataTypeName = "Passle Repeatable Textstrings";
+                        dataTypeName = PassleDataType.PASSLE_REPEATABLE_TEXTSTRINGS;
                     }
                     else if (property.IsDefined(typeof(LongStringAttribute), false))
                     {
-                        dataTypeName = "Passle Label (long string)";
+                        dataTypeName = PassleDataType.PASSLE_LABEL_LONG_STRING;
                     }
 
                     AddPropertyToContentType(contentType, dataTypeName, property.Name);

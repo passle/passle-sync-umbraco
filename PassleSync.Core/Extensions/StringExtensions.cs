@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace PassleSync.Core.Extensions
@@ -35,6 +36,11 @@ namespace PassleSync.Core.Extensions
             }
 
             return result;
+        }
+
+        public static string FromPascalCaseToTitleCase(this string input)
+        {
+            return Regex.Replace(input, "[a-z][A-Z]", m => m.Value[0] + " " + m.Value[1]);
         }
 
         public static string UrlEncode(this string str)

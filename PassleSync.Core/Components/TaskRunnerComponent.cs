@@ -54,7 +54,7 @@ namespace PassleSync.Core.Components
 
         public override bool PerformRun()
         {
-            var numberOfThingsInBin = _contentService.CountChildren(Constants.System.RecycleBinContent);
+            var numberOfThingsInBin = _contentService.CountChildren(Umbraco.Core.Constants.System.RecycleBinContent);
 
             _logger.Info<CleanRoom>("Go clean your room - {ServerRole}", _runtime.ServerRole);
             _logger.Info<CleanRoom>("You have {NumberOfThingsInTheBin}", numberOfThingsInBin);

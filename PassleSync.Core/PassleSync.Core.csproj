@@ -661,6 +661,7 @@
     <Compile Include="Composers\IOCComposer.cs" />
     <Compile Include="Composers\RegisterDocumentTypesComposer.cs" />
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
+    <Compile Include="Constants\PassleDataType.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardAuthorsController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardPostsController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardSettingsController.cs" />

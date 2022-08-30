@@ -17,7 +17,7 @@ using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.ModelsBuilder.Embedded;
 
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "84fdcc8790d62569")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "a753cd6a608a26b5")]
 [assembly:System.Reflection.AssemblyVersion("0.0.0.1")]
 
 namespace Umbraco.Web.PublishedModels
@@ -100,7 +100,7 @@ namespace Umbraco.Web.PublishedModels
 		// properties
 	}
 
-	/// <summary>PostAuthor</summary>
+	/// <summary>Post Author</summary>
 	[PublishedModel("postAuthor")]
 	public partial class PostAuthor : PublishedElementModel
 	{
@@ -168,7 +168,7 @@ namespace Umbraco.Web.PublishedModels
 		public virtual string TwitterScreenName => this.Value<string>("twitterScreenName");
 	}
 
-	/// <summary>PostTweet</summary>
+	/// <summary>Post Tweet</summary>
 	[PublishedModel("postTweet")]
 	public partial class PostTweet : PublishedElementModel
 	{
@@ -215,7 +215,7 @@ namespace Umbraco.Web.PublishedModels
 		public virtual string TweetId => this.Value<string>("tweetId");
 	}
 
-	/// <summary>PostShareViews</summary>
+	/// <summary>Post Share Views</summary>
 	[PublishedModel("postShareViews")]
 	public partial class PostShareViews : PublishedElementModel
 	{
@@ -470,7 +470,7 @@ namespace Umbraco.Web.PublishedModels
 		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.PostTweet> Tweets => this.Value<global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.PostTweet>>("tweets");
 	}
 
-	/// <summary>AuthorLink</summary>
+	/// <summary>Author Link</summary>
 	[PublishedModel("authorLink")]
 	public partial class AuthorLink : PublishedElementModel
 	{
