@@ -249,10 +249,12 @@ namespace PassleSync.Core.Components
             foreach (var property in properties)
             {
                 var propertyTypeInfo = property.PropertyType;
+                var isEnumerable = false;
 
                 if (propertyTypeInfo.Implements<IEnumerable>() && propertyTypeInfo.IsGenericType)
                 {
                     propertyTypeInfo = propertyTypeInfo.GetGenericArguments()[0];
+                    isEnumerable = true;
                 }
                 else if (!propertyTypeInfo.IsSimpleType())
                 {
@@ -265,7 +267,11 @@ namespace PassleSync.Core.Components
 
                     var dataTypeName = "Label (string)";
 
-                    if (property.IsDefined(typeof(LongStringAttribute), false))
+                    if (isEnumerable)
+                    {
+                        dataTypeName = "Passle Repeatable Textstrings";
+                    }
+                    else if (property.IsDefined(typeof(LongStringAttribute), false))
                     {
                         dataTypeName = "Passle Label (long string)";
                     }

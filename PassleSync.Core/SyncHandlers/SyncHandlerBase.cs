@@ -2,10 +2,11 @@
 using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Extensions;
-using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Umbraco.Core;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
@@ -41,13 +42,63 @@ namespace PassleSync.Core.SyncHandlers
         public abstract void CreateMany(IEnumerable<T> entities, int parentNodeId, string[] shortcodes);
         public abstract void CreateAll(IEnumerable<T> entities, int parentNodeId);
 
-        protected void AddPropertyToNode(IContent node, T entity, string propertyName)
+        protected void AddAllPropertiesToNode(IContent node, T entity)
+        {
+            var properties = entity.GetType().GetProperties();
+
+            foreach (var property in properties)
+            {
+                var propertyTypeInfo = property.PropertyType;
+                var isEnumerable = false;
+
+                if (propertyTypeInfo.Implements<IEnumerable>() && propertyTypeInfo.IsGenericType)
+                {
+                    propertyTypeInfo = propertyTypeInfo.GetGenericArguments()[0];
+                    isEnumerable = true;
+                }
+                else if (!propertyTypeInfo.IsSimpleType())
+                {
+                    continue;
+                }
+
+                if (propertyTypeInfo.IsSerializable)
+                {
+                    if (isEnumerable)
+                    {
+                        AddRepeatableTextstringsToNode(node, entity, property.Name);
+                    }
+                    else
+                    {
+                        AddPropertyToNode(node, entity, property.Name);
+                    }
+                }
+                else
+                {
+                    AddNestedContentToNode(node, entity, propertyTypeInfo, property.Name);
+                }
+            }
+        }
+
+        private void AddPropertyToNode(IContent node, T entity, string propertyName)
         {
             var value = entity.GetType().GetProperty(propertyName).GetValue(entity, null);
             node.SetValue(propertyName, value);
         }
 
-        protected void AddNestedContentToNode(IContent node, T entity, Type type, string propertyName)
+        private void AddRepeatableTextstringsToNode(IContent node, T entity, string propertyName)
+        {
+            var items = (IEnumerable<string>) entity.GetType().GetProperty(propertyName).GetValue(entity, null);
+            if (items == null)
+            {
+                return;
+            }
+
+            var value = string.Join(Environment.NewLine, items);
+
+            node.SetValue(propertyName, value);
+        }
+
+        private void AddNestedContentToNode(IContent node, T entity, Type type, string propertyName)
         {
             var items = (IEnumerable<object>) entity.GetType().GetProperty(propertyName).GetValue(entity, null);
             if (items == null)

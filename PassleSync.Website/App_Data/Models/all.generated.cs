@@ -6,7 +6,7 @@ using  Umbraco.Core.Models;
 using  Umbraco.Core.Models.PublishedContent;
 using  Umbraco.Web;
 using  Umbraco.ModelsBuilder.Embedded;
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "feda12926cca6248")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "a7926f047dd601ad")]
 [assembly:System.Reflection.AssemblyVersion("0.0.0.1")]
 
 
@@ -500,7 +500,7 @@ namespace Umbraco.Web.PublishedModels
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		[ImplementPropertyType("tags")]
-		public virtual string Tags => this.Value<string>("tags");
+		public virtual global::System.Collections.Generic.IEnumerable<string> Tags => this.Value<global::System.Collections.Generic.IEnumerable<string>>("tags");
 
 		///<summary>
 		/// TotalLikes

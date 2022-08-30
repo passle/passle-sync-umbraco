@@ -184,30 +184,7 @@ namespace PassleSync.Core.SyncHandlers
         {
             var node = _contentService.Create(person.Name, parentNodeId, _configService.PassleAuthorContentTypeAlias);
 
-            var properties = person.GetType().GetProperties();
-
-            foreach (var property in properties)
-            {
-                var propertyTypeInfo = property.PropertyType;
-
-                if (propertyTypeInfo.Implements<IEnumerable>() && propertyTypeInfo.IsGenericType)
-                {
-                    propertyTypeInfo = propertyTypeInfo.GetGenericArguments()[0];
-                }
-                else if (!propertyTypeInfo.IsSimpleType())
-                {
-                    continue;
-                }
-
-                if (propertyTypeInfo.IsSerializable)
-                {
-                    AddPropertyToNode(node, person, property.Name);
-                }
-                else
-                {
-                    AddNestedContentToNode(node, person, propertyTypeInfo, property.Name);
-                }
-            }
+            AddAllPropertiesToNode(node, person);
 
             _contentService.SaveAndPublish(node);
         }
