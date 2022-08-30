@@ -17,13 +17,15 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
 
         public PassleDashboardAuthorViewModel(IContent from)
         {
+            // TODO: Can we use reflection or constants to make this more robust than magic strings?
+
             Id = from?.Id ?? 0;
-            Name = from.GetValueOrDefault<string>("Name");
-            Shortcode = from.GetValueOrDefault<string>("Shortcode");
-            RoleInfo = from.GetValueOrDefault<string>("RoleInfo");
-            Description = from.GetValueOrDefault<string>("Description");
-            ProfileUrl = from.GetValueOrDefault<string>("ProfileUrl");
-            AvatarUrl = from.GetValueOrDefault<string>("AvatarUrl");
+            Name = from.GetValueOrDefault<string>("passleName");
+            Shortcode = from.GetValueOrDefault<string>("shortcode");
+            RoleInfo = from.GetValueOrDefault<string>("roleInfo");
+            Description = from.GetValueOrDefault<string>("description");
+            ProfileUrl = from.GetValueOrDefault<string>("profileUrl");
+            AvatarUrl = from.GetValueOrDefault<string>("avatarUrl");
             Synced = true;
         }
 
