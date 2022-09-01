@@ -22,7 +22,7 @@ namespace PassleSync.Core.Controllers
 
 
         [HttpPost]
-        //[ValidateAPIKey]
+        [ValidateAPIKey]
         public IHttpActionResult Update([FromBody] AuthorShortcodeModel author)
         {
             if (_personHandler.SyncOne(author.Shortcode))

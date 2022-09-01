@@ -21,7 +21,7 @@ namespace PassleSync.Core.Controllers
 
 
         [HttpPost]
-        //[ValidateAPIKey]
+        [ValidateAPIKey]
         public IHttpActionResult Update(PostShortcodeModel post)
         {
             if (_postHandler.SyncOne(post.Shortcode))
