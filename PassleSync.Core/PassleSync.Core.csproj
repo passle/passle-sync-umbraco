@@ -678,7 +678,6 @@
     <Compile Include="Controllers\Webhooks\PostsController.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Helpers\PostHelper.cs" />
-    <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostMediaType.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostFeaturedItemPosition.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostIframelyObjectType.cs" />

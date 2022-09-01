@@ -3,6 +3,7 @@ using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Extensions;
 using PassleSync.Core.Services;
+using PassleSync.Core.Services.Content;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,16 +18,19 @@ namespace PassleSync.Core.SyncHandlers
     {
         protected readonly IContentService _contentService;
         protected readonly ConfigService _configService;
+        protected readonly PassleContentService _passleContentService;
         protected readonly ILogger _logger;
 
 
         public SyncHandlerBase(
             IContentService contentService,
             ConfigService configService,
+            PassleContentService passleContentService,
             ILogger logger)
         {
             _contentService = contentService;
             _configService = configService;
+            _passleContentService = passleContentService;
             _logger = logger;
         }
 

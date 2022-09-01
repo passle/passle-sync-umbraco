@@ -31,8 +31,7 @@ namespace PassleSync.Core.Services
         public string ApiUrl
         {
             get => string.Format(
-                "http{0}://clientwebapi.passle.${1}/",
-                PassleDomain == "localhost" ? "" : "s",
+                "clientwebapi.passle.{0}",
                 PassleDomain
             );
         }

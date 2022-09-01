@@ -2,29 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Models;
-using PassleSync.Core.Helpers;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Models.Content.PassleApi;
-using PassleSync.Core.Extensions;
-using System.Collections;
-using Umbraco.Core;
 using Umbraco.Core.Services;
 using PassleSync.Core.Services;
 using Umbraco.Core.Logging;
+using PassleSync.Core.Services.Content;
 
 namespace PassleSync.Core.SyncHandlers
 {
     public class PostHandler : SyncHandlerBase<PasslePost>
     {
-        public PostHandler(IContentService contentService, ConfigService configService, ILogger logger) : base(contentService, configService, logger)
+        public PostHandler(
+            IContentService contentService,
+            ConfigService configService,
+            PassleContentService passleContentService,
+            ILogger logger
+        ) : base(contentService, configService, passleContentService, logger)
         {
         }
 
         public override IPassleDashboardViewModel GetAll()
         {
-            var postsFromApi = ApiHelper.GetPosts();
-            if (postsFromApi == null || postsFromApi.Posts == null)
+            var postsFromApi = _passleContentService.GetPasslePosts();
+            if (postsFromApi == null)
             {
                 // Failed to get posts from the API
                 return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
@@ -40,7 +42,7 @@ namespace PassleSync.Core.SyncHandlers
 
             // Create viewmodels
             var umbracoPostModels = umbracoPosts.Select(post => new PassleDashboardPostViewModel(post));
-            var apiPostModels = postsFromApi.Posts.Select(post => new PassleDashboardPostViewModel(post));
+            var apiPostModels = postsFromApi.Select(post => new PassleDashboardPostViewModel(post));
 
             var umbracoShortcodes = umbracoPostModels.Select(x => x.Shortcode);
             // Merge Enumerables
@@ -60,8 +62,8 @@ namespace PassleSync.Core.SyncHandlers
 
         public override bool SyncAll()
         {
-            var postsFromApi = ApiHelper.GetPosts();
-            if (postsFromApi == null || postsFromApi.Posts == null)
+            var postsFromApi = _passleContentService.GetPasslePosts();
+            if (postsFromApi == null)
             {
                 // Failed to get posts from the API
                 return false;
@@ -74,15 +76,15 @@ namespace PassleSync.Core.SyncHandlers
             }
 
             DeleteAll(postsParentNodeId);
-            CreateAll(postsFromApi.Posts, postsParentNodeId);
+            CreateAll(postsFromApi, postsParentNodeId);
 
             return true;
         }
 
         public override bool SyncMany(string[] Shortcodes)
         {
-            var postsFromApi = ApiHelper.GetPosts();
-            if (postsFromApi == null || postsFromApi.Posts == null)
+            var postsFromApi = _passleContentService.GetPasslePosts();
+            if (postsFromApi == null)
             {
                 // Failed to get posts from the API
                 return false;
@@ -95,7 +97,7 @@ namespace PassleSync.Core.SyncHandlers
             }
 
             DeleteMany(Shortcodes, postsParentNodeId);
-            CreateMany(postsFromApi.Posts, postsParentNodeId, Shortcodes);
+            CreateMany(postsFromApi, postsParentNodeId, Shortcodes);
 
             return true;
         }
@@ -190,8 +192,8 @@ namespace PassleSync.Core.SyncHandlers
 
         public override bool SyncOne(string shortcode)
         {
-            var postsFromApi = ApiHelper.GetPosts();
-            if (postsFromApi == null || postsFromApi.Posts == null)
+            var postsFromApi = _passleContentService.GetPasslePosts();
+            if (postsFromApi == null)
             {
                 // Failed to get posts from the API
                 return false;
@@ -203,7 +205,7 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            var postFromApi = postsFromApi.Posts.FirstOrDefault(x => x.PostShortcode == shortcode);
+            var postFromApi = postsFromApi.FirstOrDefault(x => x.PostShortcode == shortcode);
             if (postFromApi == null)
             {
                 return false;

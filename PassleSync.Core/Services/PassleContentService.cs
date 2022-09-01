@@ -27,13 +27,13 @@ namespace PassleSync.Core.Services.Content
             _configService = configService;
         }
 
-        public async Task<IEnumerable<PasslePost>> GetPasslePosts()
+        public IEnumerable<PasslePost> GetPasslePosts()
         {
             IEnumerable<PasslePost> result = new List<PasslePost>();
 
             foreach (var shortcode in _configService.PassleShortcodes)
             {
-                var passlePosts = await GetPosts(shortcode);
+                var passlePosts = GetPosts(shortcode);
                 result = result.Concat(passlePosts);
             }
 
@@ -41,7 +41,7 @@ namespace PassleSync.Core.Services.Content
             return result;
         }
 
-        public async Task<IEnumerable<PasslePost>> GetPosts(string passleShortcode)
+        public IEnumerable<PasslePost> GetPosts(string passleShortcode)
         {
             var queryParams = new Dictionary<string, string>
             {
@@ -49,10 +49,10 @@ namespace PassleSync.Core.Services.Content
                 { "ItemsPerPage", "100" }
             };
 
-            return await GetPostsFromApi(queryParams);
+            return GetPostsFromApi(queryParams);
         }
 
-        public async Task<IEnumerable<PasslePost>> GetPosts(IEnumerable<string> postShortcodes)
+        public IEnumerable<PasslePost> GetPosts(IEnumerable<string> postShortcodes)
         {
             var queryParams = new Dictionary<string, string>
             {
@@ -60,18 +60,18 @@ namespace PassleSync.Core.Services.Content
                 { "ItemsPerPage", "100" }
             };
 
-            return await GetPostsFromApi(queryParams);
+            return GetPostsFromApi(queryParams);
         }
 
-        public async Task<IEnumerable<PasslePost>> GetPostsFromApi(Dictionary<string, string> queryParams)
+        public IEnumerable<PasslePost> GetPostsFromApi(Dictionary<string, string> queryParams)
         {
             var url = new URLFactory()
                 .Root(_configService.ApiUrl)
-                .Path("/passlesync/posts")
+                .Path("api/v2/passlesync/posts")
                 .Parameters(queryParams)
                 .Build();
 
-            var responses = await _apiService.GetAllPaginatedAsync<PasslePosts>(url);
+            var responses = _apiService.GetAllPaginatedAsync<PasslePosts>(url);
             var posts = responses.SelectMany(x => x.Posts);
 
             if (posts.Contains(null))
@@ -82,13 +82,13 @@ namespace PassleSync.Core.Services.Content
             return posts;
         }
 
-        public async Task<IEnumerable<PassleAuthor>> GetPassleAuthors()
+        public IEnumerable<PassleAuthor> GetPassleAuthors()
         {
             IEnumerable<PassleAuthor> result = new List<PassleAuthor>();
 
             foreach (var shortcode in _configService.PassleShortcodes)
             {
-                var passleAuthors = await GetAuthors(shortcode);
+                var passleAuthors = GetAuthors(shortcode);
                 result = result.Concat(passleAuthors);
             }
 
@@ -96,7 +96,7 @@ namespace PassleSync.Core.Services.Content
             return result;
         }
 
-        public async Task<IEnumerable<PassleAuthor>> GetAuthors(string passleShortcode)
+        public IEnumerable<PassleAuthor> GetAuthors(string passleShortcode)
         {
             var queryParams = new Dictionary<string, string>
             {
@@ -104,10 +104,10 @@ namespace PassleSync.Core.Services.Content
                 { "ItemsPerPage", "100" }
             };
 
-            return await GetAuthorsFromApi(queryParams);
+            return GetAuthorsFromApi(queryParams);
         }
 
-        public async Task<IEnumerable<PassleAuthor>> GetAuthors(IEnumerable<string> authorShortcodes)
+        public IEnumerable<PassleAuthor> GetAuthors(IEnumerable<string> authorShortcodes)
         {
             var queryParams = new Dictionary<string, string>
             {
@@ -115,17 +115,18 @@ namespace PassleSync.Core.Services.Content
                 { "ItemsPerPage", "100" }
             };
 
-            return await GetAuthorsFromApi(queryParams);
+            return GetAuthorsFromApi(queryParams);
         }
 
-        public async Task<IEnumerable<PassleAuthor>> GetAuthorsFromApi(Dictionary<string, string> queryParams)
+        public IEnumerable<PassleAuthor> GetAuthorsFromApi(Dictionary<string, string> queryParams)
         {
             var url = new URLFactory()
-                .Path("/passlesync/people")
+                .Root(_configService.ApiUrl)
+                .Path("api/v2/passlesync/people")
                 .Parameters(queryParams)
                 .Build();
 
-            var responses = await _apiService.GetAllPaginatedAsync<PassleAuthors>(url);
+            var responses = _apiService.GetAllPaginatedAsync<PassleAuthors>(url);
             var authors = responses.SelectMany(x => x.People);
 
             if (authors.Contains(null))

@@ -17,18 +17,7 @@ namespace PassleSync.Core.Services.API
             _configService = configService;
         }
 
-        public async Task<T> GetAsync<T>(string url)
-        {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("apiKey", _configService.ClientApiKey);
-
-            var streamTask = client.GetStreamAsync(url);
-            var result = await JsonSerializer.DeserializeAsync<T>(await streamTask);
-
-            return result;
-        }
-
-        public async Task<IEnumerable<T>> GetAllPaginatedAsync<T>(string url, int pageNumber = 1)
+        public IEnumerable<T> GetAllPaginatedAsync<T>(string url, int pageNumber = 1)
             where T : PaginatedResponseBase
         {
             var result = new List<T>();
@@ -36,7 +25,7 @@ namespace PassleSync.Core.Services.API
 
             while (nextUrl != null)
             {
-                var response = await GetAsync<T>(nextUrl);
+                var response = GetAsync<T>(nextUrl);
                 result.Add(response);
 
                 var moreDataAvailable = response.TotalCount > (response.PageSize * response.PageNumber);
@@ -53,7 +42,20 @@ namespace PassleSync.Core.Services.API
             return result;
         }
 
-        private static string GetNextUrl(string url, int pageNumber)
+        private T GetAsync<T>(string url)
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("apiKey", _configService.ClientApiKey);
+
+            //var streamTask = client.GetStreamAsync(url).Result;
+            //var result = JsonSerializer.DeserializeAsync<T>(streamTask).Result;
+            var response = client.GetAsync(url).Result;
+            var result = response.Content.ReadAsAsync<T>().Result;
+
+            return result;
+        }
+
+        private string GetNextUrl(string url, int pageNumber)
         {
             var uriBuilder = new UriBuilder(url);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);

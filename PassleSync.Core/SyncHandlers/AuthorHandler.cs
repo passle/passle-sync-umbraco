@@ -3,28 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
-using PassleSync.Core.Helpers;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
-using System.Collections;
-using Umbraco.Core;
-using PassleSync.Core.Extensions;
+using PassleSync.Core.Services.Content;
 
 namespace PassleSync.Core.SyncHandlers
 {
     public class AuthorHandler : SyncHandlerBase<PassleAuthor>
     {
-        public AuthorHandler(IContentService contentService, ConfigService configService, ILogger logger) : base(contentService, configService, logger)
+        public AuthorHandler(
+            IContentService contentService,
+            ConfigService configService,
+            PassleContentService passleContentService,
+            ILogger logger
+        ) : base(
+            contentService,
+            configService,
+            passleContentService,
+            logger
+        )
         {
         }
 
         public override IPassleDashboardViewModel GetAll()
         {
-            var peopleFromApi = ApiHelper.GetAuthors();
-            if (peopleFromApi == null || peopleFromApi.People == null)
+            var peopleFromApi = _passleContentService.GetPassleAuthors();
+            if (peopleFromApi == null)
             {
                 // Failed to get posts from the API
                 return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
@@ -40,7 +47,7 @@ namespace PassleSync.Core.SyncHandlers
 
             // Create viewmodels
             var umbracoAuthorModels = umbracoAuthors.Select(author => new PassleDashboardAuthorViewModel(author));
-            var apiAuthorModels = peopleFromApi.People.Select(author => new PassleDashboardAuthorViewModel(author));
+            var apiAuthorModels = peopleFromApi.Select(author => new PassleDashboardAuthorViewModel(author));
 
             var umbracoShortcodes = umbracoAuthorModels.Select(x => x.Shortcode);
             // Merge Enumerables
@@ -61,8 +68,8 @@ namespace PassleSync.Core.SyncHandlers
 
         public override bool SyncAll()
         {
-            var peopleFromApi = ApiHelper.GetAuthors();
-            if (peopleFromApi == null || peopleFromApi.People == null)
+            var peopleFromApi = _passleContentService.GetPassleAuthors();
+            if (peopleFromApi == null)
             {
                 // Failed to get people from the API
                 return false;
@@ -75,15 +82,15 @@ namespace PassleSync.Core.SyncHandlers
             }
 
             DeleteAll(peopleParentNodeId);
-            CreateAll(peopleFromApi.People, peopleParentNodeId);
+            CreateAll(peopleFromApi, peopleParentNodeId);
 
             return true;
         }
 
         public override bool SyncMany(string[] shortcodes)
         {
-            var peopleFromApi = ApiHelper.GetAuthors();
-            if (peopleFromApi == null || peopleFromApi.People == null)
+            var peopleFromApi = _passleContentService.GetPassleAuthors();
+            if (peopleFromApi == null)
             {
                 // Failed to get posts from the API
                 return false;
@@ -96,7 +103,7 @@ namespace PassleSync.Core.SyncHandlers
             }
 
             DeleteMany(shortcodes, peopleParentNodeId);
-            CreateMany(peopleFromApi.People, peopleParentNodeId, shortcodes);
+            CreateMany(peopleFromApi, peopleParentNodeId, shortcodes);
 
             return true;
         }
@@ -191,8 +198,8 @@ namespace PassleSync.Core.SyncHandlers
 
         public override bool SyncOne(string Shortcode)
         {
-            var peopleFromApi = ApiHelper.GetAuthors();
-            if (peopleFromApi == null || peopleFromApi.People == null)
+            var peopleFromApi = _passleContentService.GetPassleAuthors();
+            if (peopleFromApi == null)
             {
                 // Failed to get posts from the API
                 return false;
@@ -204,7 +211,7 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            var personFromApi = peopleFromApi.People.FirstOrDefault(x => x.Shortcode == Shortcode);
+            var personFromApi = peopleFromApi.FirstOrDefault(x => x.Shortcode == Shortcode);
             if (personFromApi == null)
             {
                 return false;
