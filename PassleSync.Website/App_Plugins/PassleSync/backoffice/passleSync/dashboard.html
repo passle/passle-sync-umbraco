@@ -1,0 +1,44 @@
+﻿<div ng-controller="PassleSync.DashboardController as vm" class="clearfix" id="passlesync">
+    <ng-form name="tabsForm" val-form-manager>
+        <umb-editor-view footer="false">
+
+            <umb-editor-header name="vm.pageTitle"
+                               name-locked="true"
+                               hide-icon="true"
+                               hide-description="true"
+                               hide-alias="true"
+                               setPageTitle="true">
+            </umb-editor-header>
+
+            <umb-editor-container>
+
+                <umb-load-indicator ng-if="vm.loading"></umb-load-indicator>
+
+                <umb-tabs-nav
+                    tabs="vm.tabs"
+                    on-tab-change="vm.changeTab(tab)">
+                </umb-tabs-nav>
+
+                ﻿<umb-box>
+                    <umb-box-content>
+
+                        <umb-tab-content ng-repeat="tab in vm.tabs"
+                                         ng-show="tab.active"
+                                         tab="tab">
+
+                            <div ng-switch="tab.label">
+                                <sync-settings ng-switch-when="Settings"></sync-settings>
+                                <posts-table ng-switch-when="Posts"></posts-table>
+                                <authors-table ng-switch-when="Authors"></authors-table>
+                            </div>
+
+                        </umb-tab-content>
+
+                    </umb-box-content>
+                </umb-box>
+
+            </umb-editor-container>
+
+        </umb-editor-view>
+    </ng-form>
+</div>

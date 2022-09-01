@@ -665,6 +665,7 @@
     <Compile Include="Controllers\PassleDashboard\PassleDashboardAuthorsController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardPostsController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardSettingsController.cs" />
+    <Compile Include="Controllers\PassleDashboard\PassleDashboardTreeController.cs" />
     <Compile Include="Controllers\RequestModels\AuthorShortcodeModel.cs" />
     <Compile Include="Controllers\RequestModels\PostShortcodeModel.cs" />
     <Compile Include="Controllers\RequestModels\SyncableObjectModel.cs" />

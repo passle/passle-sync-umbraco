@@ -9,9 +9,6 @@ using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
-using System.Collections;
-using Umbraco.Core;
-using PassleSync.Core.Extensions;
 
 namespace PassleSync.Core.SyncHandlers
 {

@@ -1,0 +1,17 @@
+﻿{
+  "javascript": [
+    "~/App_Plugins/PassleSync/backoffice/passleSync/dashboard.controller.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/services/passlePosts.resource.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/services/passleAuthors.resource.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/services/passleSettings.resource.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/postsTable/postsTable.controller.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/postsTable/postsTable.directive.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/authorsTable/authorsTable.controller.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/authorsTable/authorsTable.directive.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/syncSettings/syncSettings.controller.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/syncSettings/syncSettings.directive.js"
+  ],
+  "css": [
+    "~/App_Plugins/PassleSync/backoffice/passleSync/dashboard.css"
+  ]
+}
