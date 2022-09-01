@@ -709,8 +709,12 @@
     <Compile Include="Models\Content\Umbraco\UmbracoMediaVideo.generated.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ConfigService.cs" />
-    <Compile Include="Services\PassleContentService.cs" />
-    <Compile Include="Services\UmbracoContentService.cs" />
+    <Compile Include="Services\Content\PassleAuthorsContentService.cs" />
+    <Compile Include="Services\Content\PasslePostsContentService.cs" />
+    <Compile Include="Services\Content\PassleContentService.cs" />
+    <Compile Include="Services\Content\UmbracoAuthorsContentService.cs" />
+    <Compile Include="Services\Content\UmbracoPostsContentService.cs" />
+    <Compile Include="Services\Content\UmbracoContentService.cs" />
     <Compile Include="SyncHandlers\AuthorHandler.cs" />
     <Compile Include="SyncHandlers\PostHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

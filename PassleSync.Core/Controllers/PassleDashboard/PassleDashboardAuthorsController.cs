@@ -6,6 +6,7 @@ using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Controllers.RequestModels;
 using PassleSync.Core.Models.Content.PassleApi;
+using System;
 
 namespace PassleSync.Core.Controllers.PassleDashboard
 {
@@ -34,11 +35,12 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         [HttpPost]
         public IHttpActionResult SyncAll()
         {
-            if (_authorHandler.SyncAll())
+            try
             {
+                _authorHandler.SyncAll();
                 return Ok();
             }
-            else
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -47,11 +49,12 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         [HttpPost]
         public IHttpActionResult SyncMany([FromBody] ShortcodesModel model)
         {
-            if (_authorHandler.SyncMany(model.Shortcodes.ToArray()))
+            try
             {
+                _authorHandler.SyncMany(model.Shortcodes.ToArray());
                 return Ok();
             }
-            else
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -60,11 +63,12 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         [HttpPost]
         public IHttpActionResult DeleteAll()
         {
-            if (_authorHandler.DeleteAll())
+            try
             {
+                _authorHandler.DeleteAll();
                 return Ok();
             }
-            else
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -73,11 +77,12 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         [HttpPost]
         public IHttpActionResult DeleteMany([FromBody] ShortcodesModel model)
         {
-            if (_authorHandler.DeleteMany(model.Shortcodes.ToArray()))
+            try
             {
+                _authorHandler.DeleteMany(model.Shortcodes.ToArray());
                 return Ok();
             }
-            else
+            catch (Exception)
             {
                 return BadRequest();
             }

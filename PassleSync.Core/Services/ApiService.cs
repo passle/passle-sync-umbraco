@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace PassleSync.Core.Services.API
@@ -47,8 +45,6 @@ namespace PassleSync.Core.Services.API
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("apiKey", _configService.ClientApiKey);
 
-            //var streamTask = client.GetStreamAsync(url).Result;
-            //var result = JsonSerializer.DeserializeAsync<T>(streamTask).Result;
             var response = client.GetAsync(url).Result;
             var result = response.Content.ReadAsAsync<T>().Result;
 

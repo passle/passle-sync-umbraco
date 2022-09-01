@@ -1,153 +1,123 @@
-﻿using Newtonsoft.Json;
-using PassleSync.Core.API.SyncHandlers;
+﻿using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.API.ViewModels;
-using PassleSync.Core.Extensions;
+using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using PassleSync.Core.Services.Content;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Umbraco.Core;
+using System.Linq;
 using Umbraco.Core.Logging;
-using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 
 namespace PassleSync.Core.SyncHandlers
 {
-    public abstract class SyncHandlerBase<T> : ISyncHandler<T>
+    public abstract class SyncHandlerBase<TPlural, TSingular> : ISyncHandler<TSingular>
+        where TPlural : PaginatedResponseBase
+        where TSingular : class
     {
         protected readonly IContentService _contentService;
         protected readonly ConfigService _configService;
-        protected readonly PassleContentService _passleContentService;
+        protected readonly PassleContentService<TPlural, TSingular> _passleContentService;
+        protected readonly UmbracoContentService<TSingular> _umbracoContentService;
         protected readonly ILogger _logger;
 
 
         public SyncHandlerBase(
             IContentService contentService,
             ConfigService configService,
-            PassleContentService passleContentService,
+            PassleContentService<TPlural, TSingular> passleContentService,
+            UmbracoContentService<TSingular> umbracoContentService,
             ILogger logger)
         {
             _contentService = contentService;
             _configService = configService;
             _passleContentService = passleContentService;
+            _umbracoContentService = umbracoContentService;
             _logger = logger;
         }
 
         public abstract IPassleDashboardViewModel GetAll();
-        public abstract bool SyncOne(string Shortcode);
-        public abstract bool SyncMany(string[] Shortcodes);
-        public abstract bool SyncAll();
-        public abstract bool DeleteMany(string[] Shortcodes);
-        public abstract void DeleteMany(string[] Shortcodes, int parentNodeId);
-        public abstract void DeleteAll(int parentNodeId);
-        public abstract bool DeleteAll();
-        public abstract void CreateOne(T entity, int parentNodeId);
-        public abstract void CreateMany(IEnumerable<T> entities, int parentNodeId, string[] shortcodes);
-        public abstract void CreateAll(IEnumerable<T> entities, int parentNodeId);
+        public abstract string Shortcode(TSingular item);
 
-        protected void AddAllPropertiesToNode(IContent node, T entity)
+        public virtual void SyncAll()
         {
-            var properties = entity.GetType().GetProperties();
-
-            foreach (var property in properties)
+            var apiItems = _passleContentService.GetAll();
+            if (apiItems == null)
             {
-                var propertyTypeInfo = property.PropertyType;
-                var isEnumerable = false;
-
-                if (propertyTypeInfo.Implements<IEnumerable>() && propertyTypeInfo.IsGenericType)
-                {
-                    propertyTypeInfo = propertyTypeInfo.GetGenericArguments()[0];
-                    isEnumerable = true;
-                }
-                else if (!propertyTypeInfo.IsSimpleType())
-                {
-                    continue;
-                }
-
-                if (propertyTypeInfo.IsSerializable)
-                {
-                    if (isEnumerable)
-                    {
-                        AddRepeatableTextstringsToNode(node, entity, property.Name);
-                    }
-                    else if (propertyTypeInfo.IsEnum)
-                    {
-                        AddEnumToNode(node, entity, property.Name);
-                    }
-                    else
-                    {
-                        AddPropertyToNode(node, entity, property.Name);
-                    }
-                }
-                else
-                {
-                    AddNestedContentToNode(node, entity, propertyTypeInfo, property.Name);
-                }
+                throw new Exception("Failed to get items from the API");
             }
+
+            DeleteAll();
+            CreateAll(apiItems);
         }
 
-        private void AddPropertyToNode(IContent node, T entity, string propertyName)
+        public virtual void SyncMany(string[] shortcodes)
         {
-            var value = entity.GetType().GetProperty(propertyName).GetValue(entity, null);
-            node.SetValue(propertyName.ToPropertyAlias(), value);
+            var apiItems = _passleContentService.GetAll();
+            if (apiItems == null)
+            {
+                throw new Exception("Failed to get items from the API");
+            }
+
+            DeleteMany(shortcodes);
+            CreateMany(apiItems, shortcodes);
         }
 
-        private void AddRepeatableTextstringsToNode(IContent node, T entity, string propertyName)
+        public virtual void SyncOne(string shortcode)
         {
-            var items = (IEnumerable<string>) entity.GetType().GetProperty(propertyName).GetValue(entity, null);
-            if (items == null)
+            var apiItems = _passleContentService.GetAll();
+            if (apiItems == null)
+            {
+                throw new Exception("Failed to get items from the API");
+            }
+
+            var apiItem = apiItems.FirstOrDefault(x => Shortcode(x) == shortcode);
+            if (apiItem == null)
             {
                 return;
             }
 
-            var value = string.Join(Environment.NewLine, items);
-
-            node.SetValue(propertyName.ToPropertyAlias(), value);
+            DeleteOne(shortcode);
+            CreateOne(apiItem);
         }
 
-        private void AddEnumToNode(IContent node, T entity, string propertyName)
+        public virtual void DeleteAll()
         {
-            var value = (Enum) entity.GetType().GetProperty(propertyName).GetValue(entity, null);
-            var enumDescription = value.GetDescription();
-
-            node.SetValue(propertyName.ToPropertyAlias(), enumDescription);
+            _umbracoContentService.DeleteAll();
         }
 
-        private void AddNestedContentToNode(IContent node, T entity, Type type, string propertyName)
+        public virtual void DeleteMany(string[] shortcodes)
         {
-            var items = (IEnumerable<object>) entity.GetType().GetProperty(propertyName).GetValue(entity, null);
-            if (items == null)
+            _umbracoContentService.DeleteMany(shortcodes);
+        }
+
+        public virtual void DeleteOne(string shortcode)
+        {
+            _umbracoContentService.DeleteOne(shortcode);
+        }
+
+        public virtual void CreateAll(IEnumerable<TSingular> items)
+        {
+            foreach (TSingular item in items)
             {
-                return;
+                CreateOne(item);
             }
+        }
 
-            var result = new List<Dictionary<string, object>>();
-
-            foreach (var item in items)
+        public virtual void CreateMany(IEnumerable<TSingular> items, string[] shortcodes)
+        {
+            foreach (TSingular item in items)
             {
-                var guid = Guid.NewGuid();
-                var contentTypeAlias = type.Name.FirstCharToLower();
-
-                var dictionary = new Dictionary<string, object>()
+                if (shortcodes.Contains(Shortcode(item)))
                 {
-                    { "key", guid.ToString() },
-                    { "name", guid.ToString() }, // TODO: Change this
-                    { "ncContentTypeAlias", contentTypeAlias },
-                };
-
-                var properties = item.GetType().GetProperties();
-
-                foreach (var itemProperty in properties)
-                {
-                    var value = item.GetType().GetProperty(itemProperty.Name).GetValue(item, null);
-                    dictionary.Add(itemProperty.Name.ToPropertyAlias(), value);
+                    CreateOne(item);
                 }
-
-                result.Add(dictionary);
             }
+        }
 
-            node.SetValue(propertyName, JsonConvert.SerializeObject(result));
+        public virtual void CreateOne(TSingular item)
+        {
+            _umbracoContentService.Create(item);
         }
     }
 }

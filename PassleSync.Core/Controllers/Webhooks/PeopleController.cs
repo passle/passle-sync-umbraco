@@ -2,7 +2,7 @@
 using PassleSync.Core.Attributes;
 using PassleSync.Core.Controllers.RequestModels;
 using PassleSync.Core.Models.Content.PassleApi;
-using PassleSync.Core.Services;
+using System;
 using System.Web.Http;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
@@ -13,11 +13,11 @@ namespace PassleSync.Core.Controllers
     [PluginController("Passle")]
     public class PeopleController : UmbracoApiController
     {
-        public ISyncHandler<PassleAuthor> _personHandler;
+        public ISyncHandler<PassleAuthor> _authorHandler;
 
-        public PeopleController(ISyncHandler<PassleAuthor> personHandler)
+        public PeopleController(ISyncHandler<PassleAuthor> authorHandler)
         {
-            _personHandler = personHandler;
+            _authorHandler = authorHandler;
         }
 
 
@@ -25,11 +25,12 @@ namespace PassleSync.Core.Controllers
         [ValidateAPIKey]
         public IHttpActionResult Update([FromBody] AuthorShortcodeModel author)
         {
-            if (_personHandler.SyncOne(author.Shortcode))
+            try
             {
+                _authorHandler.SyncOne(author.Shortcode);
                 return Ok();
             }
-            else
+            catch (Exception)
             {
                 return BadRequest();
             }

@@ -2,6 +2,7 @@
 using PassleSync.Core.Attributes;
 using PassleSync.Core.Controllers.RequestModels;
 using PassleSync.Core.Models.Content.PassleApi;
+using System;
 using System.Web.Http;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
@@ -24,11 +25,12 @@ namespace PassleSync.Core.Controllers
         [ValidateAPIKey]
         public IHttpActionResult Update(PostShortcodeModel post)
         {
-            if (_postHandler.SyncOne(post.Shortcode))
+            try
             {
+                _postHandler.SyncOne(post.Shortcode);
                 return Ok();
             }
-            else
+            catch (Exception)
             {
                 return BadRequest();
             }
