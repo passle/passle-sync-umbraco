@@ -2,7 +2,6 @@
     "AuthorsTableController",
     function (notificationsService, passleAuthorsResource) {
         var vm = this;
-        console.log("vm", vm);
         vm.loading = false;
 
         let currentSortCol = "Name";
