@@ -138,7 +138,7 @@ namespace PassleSync.Core.Components
 
         private void CreatePasslePostContentType()
         {
-            if (_contentTypeService.Get(_configService.PasslePostContentTypeAlias) != null)
+            if (_contentTypeService.Get(PassleContentType.PASSLE_POST) != null)
             {
                 return;
             }
@@ -146,7 +146,7 @@ namespace PassleSync.Core.Components
             var passlePostContentType = new ContentType(-1)
             {
                 Name = "Passle Post",
-                Alias = _configService.PasslePostContentTypeAlias,
+                Alias = PassleContentType.PASSLE_POST,
                 Description = "A Passle post synced to your Umbraco instance.",
                 Icon = "icon-newspaper color-deep-orange",
                 ParentId = _passleContainerId,

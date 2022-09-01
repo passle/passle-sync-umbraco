@@ -9,6 +9,7 @@ using PassleSync.Core.Models.Content.PassleApi;
 using Umbraco.Core.Services;
 using PassleSync.Core.Services;
 using Umbraco.Core.Logging;
+using PassleSync.Core.Constants;
 
 namespace PassleSync.Core.SyncHandlers
 {
@@ -178,7 +179,7 @@ namespace PassleSync.Core.SyncHandlers
 
         public override void CreateOne(PasslePost post, int parentNodeId)
         {
-            var node = _contentService.Create(post.PostTitle, parentNodeId, _configService.PasslePostContentTypeAlias);
+            var node = _contentService.Create(post.PostTitle, parentNodeId, PassleContentType.PASSLE_POST);
 
             AddAllPropertiesToNode(node, post);
 

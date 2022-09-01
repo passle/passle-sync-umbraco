@@ -5,6 +5,7 @@ using Umbraco.Web.Mvc;
 using PassleSync.Website.ViewModels;
 using Umbraco.Web;
 using PassleSync.Core.Services;
+using PassleSync.Core.Constants;
 
 namespace PassleSync.Website.Controllers
 {
@@ -22,7 +23,7 @@ namespace PassleSync.Website.Controllers
             var viewModel = new PassleAuthorViewModel(model.Content);
 
             var umbracoPosts = Umbraco.Content(_configService.PostsParentNodeId)
-                .ChildrenOfType(_configService.PasslePostContentTypeAlias)
+                .ChildrenOfType(PassleContentType.PASSLE_POST)
                 .Where(x => x.IsVisible())
                 .Select(x => new PasslePostViewModel(x));
 
