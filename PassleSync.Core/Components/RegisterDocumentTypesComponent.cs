@@ -105,7 +105,7 @@ namespace PassleSync.Core.Components
                     Name = PassleDataType.PASSLE_LABEL_LONG_STRING,
                     Configuration = new LabelConfiguration()
                     {
-                        ValueType = "TEXT",
+                        ValueType = ValueTypes.Text,
                     },
                 };
 
@@ -281,7 +281,16 @@ namespace PassleSync.Core.Components
 
                 if (propertyTypeInfo.IsSerializable)
                 {
-                    var dataTypeName = PassleDataType.LABEL_STRING;
+                    string dataTypeName = PassleDataType.LABEL_STRING;
+
+                    if (propertyTypeInfo == typeof(bool))
+                    {
+                        dataTypeName = PassleDataType.BOOLEAN;
+                    }
+                    else if (propertyTypeInfo == typeof(int) || propertyTypeInfo == typeof(int?))
+                    {
+                        dataTypeName = PassleDataType.LABEL_INTEGER;
+                    }
 
                     if (isEnumerable)
                     {
