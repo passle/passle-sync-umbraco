@@ -322,6 +322,11 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
+    <Content Include="App_Data\Models\*.generated.cs" />
+    <Content Include="Assets\css\home.css" />
+    <Content Include="Assets\css\post.css" />
+    <Content Include="Assets\css\profile.css" />
+    <Content Include="Assets\css\styles.css" />
     <Content Include="config\grid.editors.config.js" />
     <Content Include="config\Lang\cs-CZ.user.xml" />
     <Content Include="config\Lang\da-DK.user.xml" />
@@ -348,7 +353,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\PassleAuthorController.cs" />
+    <Compile Include="Controllers\PasslePostController.cs" />
+    <Compile Include="Controllers\HomePageController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\PassleAuthorViewModel.cs" />
+    <Compile Include="ViewModels\PasslePostViewModel.cs" />
+    <Compile Include="ViewModels\HomePageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\imageprocessor\security.config" />
@@ -380,13 +391,13 @@
     <Content Include="Views\Partials\Grid\Bootstrap3.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
     <Content Include="Views\Partials\BlockList\Default.cshtml" />
-    <Content Include="Views\Default.cshtml" />
     <Content Include="Views\Home.cshtml" />
-    <Content Include="Views\Master.cshtml" />
     <Content Include="Views\Person.cshtml" />
     <Content Include="Views\Post.cshtml" />
     <Content Include="Views\Layout.cshtml" />
-    <Content Include="Views\Layout - Copy.cshtml" />
+    <Content Include="Views\Icons\Subscribe.cshtml" />
+    <Content Include="Views\Icons\ISTATOY.cshtml" />
+    <Content Include="Views\HomePost.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -406,6 +417,7 @@
       <Name>PassleSync.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

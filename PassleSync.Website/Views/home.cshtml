@@ -1,50 +1,39 @@
 ﻿@using Umbraco.Core;
-@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using PassleSync.Website.ViewModels;
+@using PassleSync.Core.Extensions;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<HomePageViewModel>
 @{
-    Layout = "LayoutAlex.cshtml";
+    Layout = "Layout.cshtml";
 }
 
+@section styles {
+    <link rel="stylesheet" href="~/Assets/css/home.css" />
+}
 
-<div class="section">
-
-    <h2 class="section__heading">Latest industry insights</h2>
-    <div class="section__decoration">Insights</div>
-
-
-    <div class="grid grid-cols-2 gap-6">
-
-        @{
-            var posts = Umbraco.ContentAtRoot().FirstOrDefault().Children().Where(x => x.IsVisible());
-        }
-
-        @foreach (var post in posts)
-        {
-            <article id="post-@post.Id" class="post-@post.Id passle-post type-passle-post status-publish hentry">
-
-                <div class="h-80 relative group">
-                    <img class="w-full h-full object-cover" src="@(post.Value<string>("ImageUrl"))" alt="@(post.Value<string>("PostTitle"))" />
-                    <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-primary group-hover:bg-opacity-100 transition-colors text-white">
-                        <a href="@post.Url()" class="h-full p-16 flex flex-col gap-4">
-                            <h2 class="entry-title font-bodoni text-3xl leading-tight mb-1 line-clamp-3">@(post.Value<string>("PostTitle"))</h2>
-                            <time datetime="25 May 2022" itemprop="datePublished" class="font-bodoni group-hover:hidden">
-                                @DateTime.Parse(post.Value<string>("publishedDate")).ToString("dd MMMM yyyy")
-                            </time>
-                            <span class="hidden group-hover:line-clamp-3">
-                                @Html.Raw(post.Value("ContentTextSnippet"))                                
-                            </span>
-                        </a>
-                    </div>
-                </div>
-
-            </article>
-
-        }
-
+<div class="page-container">
+    <div class="page-subnav">
+        <div class="breadcrumb">
+        </div>
+        <div class="search-bar-container">
+            <i class="fas fa-search"></i>
+            <input class="search-bar" type="text" placeholder="Search for posts or authors" />
+        </div>
     </div>
+    <div class="full-width-container section">
+        <h2 class="section__heading">Latest industry insights</h2>
+        <div class="section__decoration">Insights</div>
 
-    <!--<div class="flex justify-center">-->
-    <!--    <a href="/insights" class="section__button">More insights</a>-->
-    <!--</div>-->
-
-
+        <div class="latest-posts">
+            @if (Model.FeaturedPost != null)
+            {
+                @Html.Partial("HomePost", Model.FeaturedPost, new ViewDataDictionary() {
+                    { "IsFeatured", true }
+                });
+            }
+            @foreach (var post in Model.Posts)
+            {
+                @Html.Partial("HomePost", post);
+            }
+        </div>
+    </div>
 </div>

@@ -1,0 +1,25 @@
+﻿@using Umbraco.Core;
+@using PassleSync.Website.ViewModels;
+@using PassleSync.Core.Extensions;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<PasslePostViewModel>
+
+@{
+    string MainPostClass = "";
+    if (ViewData.TryGetValue("IsFeatured", out object IsMainPost))
+    {
+        if (IsMainPost is bool && (bool)IsMainPost)
+        {
+            MainPostClass = "main-post";
+        }
+    }
+}
+
+<a class="post @MainPostClass" href="@Model.Url()">
+    <img src="@Model.ImageUrl" />
+    <div class="post-image-overlay"></div>
+    <div>
+        <h3>@Model.PostTitle.Truncate()</h3>
+        <h4 class="post-date">@Model.FormattedDate</h4>
+        <span class="post-preview">@Html.Raw(Model.ContentTextSnippet)</span>
+    </div>
+</a>

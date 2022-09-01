@@ -23,9 +23,18 @@ namespace PassleSync.Core.Services
             get => "passleAuthor";
         }
 
+        public string PassleDomain
+        {
+            get => "localhost";
+        }
+
         public string ApiUrl
         {
-            get => "http://clientwebapi.passle.localhost/";
+            get => string.Format(
+                "http{0}://clientwebapi.passle.${1}/",
+                PassleDomain == "localhost" ? "" : "s",
+                PassleDomain
+            );
         }
 
         public string PluginApiKey
