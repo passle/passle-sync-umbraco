@@ -1,0 +1,107 @@
+﻿@using System.Web;
+@using System.Linq;
+@using System.Text.Json;
+@using PassleSync.Core.Helpers;
+@using PassleSync.Core.Models.Content.Umbraco;
+@using PassleSync.Website.ViewModels; 
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<PasslePostViewModel>
+@{
+    Layout = "Layout.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/Assets/css/post.css" />
+}
+
+<div class="page-container">
+    <div class="page-subnav">
+        <div class="subnav-left">
+            <div class="breadcrumb">
+                < <a href="/">All Posts</a>
+            </div>
+            <div class="passle-subscribe">
+                <a class="button" href="@ViewBag.PassleSubscribeLink" target="_blank" rel="noreferrer noopener">
+                    @Html.Partial("Icons/Subscribe")
+                    <span>Subscribe</span>
+                </a>
+            </div>
+        </div>
+        <div class="search-bar-container">
+            <i class="fas fa-search"></i>
+            <input class="search-bar" type="text" placeholder="Search for posts or authors" />
+        </div>
+    </div>
+    <div class="page-body post-page">
+        <div class="post-header">
+            <div class="post-title">
+                <h1>@Model.PostTitle</h1>
+            </div>
+            <div class="post-sub-header">
+                <div class="post-details">
+                    <p class="post-date">
+                        @Model.FormattedDate | @Model.MinsRead min read
+                    </p>
+                    <div class="post-author-container">
+                        <div class="post-author-banner"></div>
+                        @if (Model.Author != null)
+                        {
+                            <a href="@Model.UmbracoAuthorUrl">
+                                <div class="post-author-details">
+                                    <img class="post-author-image" src="@Model.Author.ImageUrl" />
+                                    <div>
+                                        <h3 class="post-author-name">@Model.Author.PassleName</h3>
+                                        <h4 class="post-author-role">@Model.Author.Role</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="post-featured-item">
+                    @Html.Raw(HttpUtility.HtmlDecode(Model.FeaturedItemHtml))
+                </div>
+            </div>
+        </div>
+        <div class="post-header-bottom">
+            <div class="post-social-links" id="share-buttons">
+                <a href="#" onclick="window.open('https://www.passle.@ViewBag.PassleDomain/istatoy?postShortcode=@Model.PostShortcode")&istatoySource=ClientWeb', '_blank', 'height=600, width=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, location=no, directories=no, status=no');">
+                    @Html.Partial("Icons/ISTATOY")
+                </a>
+                <a href="@PostHelper.LinkedInShareUrl(Model.PostUrl, Model.PostTitle)" target="_blank">
+                    <i class="fab fa-linkedin-in" title="LinkedIn"></i>
+                </a>
+                <a href="@PostHelper.TwitterShareUrl(Model.PostUrl, Model.PostTitle, Model.Tags, Model.Authors)" target="_blank">
+                    <i class="fab fa-twitter" title="Twitter"></i>
+                </a>
+                <a href="@PostHelper.FacebookShareUrl(Model.PostUrl, Model.PostTitle)" target="_blank">
+                    <i class="fab fa-facebook-f" title="Facebook"></i>
+                </a>
+                <a href="@PostHelper.XingShareUrl(Model.PostUrl)" target="_blank">
+                    <i class="fab fa-xing" title="XING"></i>
+                </a>
+                <span class="istatoy-button-placeholder"></span>
+            </div>
+        </div>
+        <div class="post-body">
+            <div class="post-body-side-bar">
+                <div class="post-passle-stylistic">
+                    @(Model.PassleTitle?.ToUpper() ?? "")
+                </div>
+            </div>
+            <div class="post-body-content">
+                <div class="post-body-text">
+                    @Html.Raw(Model.PostContentHtml)
+                </div>
+                <div class="post-body-tags">
+                    @if (Model.Tags.Count() != 0)
+                    {
+                        <h3>Tags</h3>
+                        <div class="post-body-tags-list">
+                            @string.Join(", ", Model.Tags)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
