@@ -19,7 +19,6 @@ namespace PassleSync.Core.SyncHandlers
         protected readonly ConfigService _configService;
         protected readonly ILogger _logger;
 
-
         public SyncHandlerBase(
             IContentService contentService,
             ConfigService configService,
@@ -31,11 +30,11 @@ namespace PassleSync.Core.SyncHandlers
         }
 
         public abstract IPassleDashboardViewModel GetAll();
-        public abstract bool SyncOne(string Shortcode);
-        public abstract bool SyncMany(string[] Shortcodes);
+        public abstract bool SyncOne(string shortcode);
+        public abstract bool SyncMany(string[] shortcodes);
         public abstract bool SyncAll();
-        public abstract bool DeleteMany(string[] Shortcodes);
-        public abstract void DeleteMany(string[] Shortcodes, int parentNodeId);
+        public abstract bool DeleteMany(string[] shortcodes);
+        public abstract void DeleteMany(string[] shortcodes, int parentNodeId);
         public abstract void DeleteAll(int parentNodeId);
         public abstract bool DeleteAll();
         public abstract void CreateOne(T entity, int parentNodeId);

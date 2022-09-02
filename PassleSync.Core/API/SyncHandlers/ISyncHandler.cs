@@ -6,15 +6,15 @@ namespace PassleSync.Core.API.SyncHandlers
     public interface ISyncHandler<T>
     {
         IPassleDashboardViewModel GetAll();
-        bool SyncOne(string Shortcode);
-        bool SyncMany(string[] Shortcodes);
+        bool SyncOne(string shortcode);
+        bool SyncMany(string[] shortcodes);
         bool SyncAll();
-        bool DeleteMany(string[] Shortcodes);
-        void DeleteMany(string[] Shortcodes, int parentNodeId);
+        bool DeleteMany(string[] shortcodes);
+        void DeleteMany(string[] shortcodes, int parentNodeId);
         void DeleteAll(int parentNodeId);
         bool DeleteAll();
         void CreateOne(T post, int parentNodeId);
-        void CreateMany(IEnumerable<T> posts, int parentNodeId, string[] shortcodes);
-        void CreateAll(IEnumerable<T> posts, int parentNodeId);
+        void CreateMany(IEnumerable<T> entities, int parentNodeId, string[] shortcodes);
+        void CreateAll(IEnumerable<T> entities, int parentNodeId);
     }
 }

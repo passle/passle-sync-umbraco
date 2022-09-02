@@ -673,8 +673,8 @@
     <Compile Include="Controllers\PassleDashboard\PassleDashboardSettingsController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardTreeController.cs" />
     <Compile Include="Controllers\RequestModels\AuthorShortcodeModel.cs" />
+    <Compile Include="Controllers\RequestModels\FeaturedPostModel.cs" />
     <Compile Include="Controllers\RequestModels\PostShortcodeModel.cs" />
-    <Compile Include="Controllers\RequestModels\SyncableObjectModel.cs" />
     <Compile Include="Controllers\RequestModels\SettingsModel.cs" />
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
     <Compile Include="Controllers\Webhooks\PeopleController.cs" />

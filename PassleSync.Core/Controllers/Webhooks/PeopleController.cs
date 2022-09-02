@@ -2,7 +2,6 @@
 using PassleSync.Core.Attributes;
 using PassleSync.Core.Controllers.RequestModels;
 using PassleSync.Core.Models.Content.PassleApi;
-using PassleSync.Core.Services;
 using System.Web.Http;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
@@ -23,9 +22,9 @@ namespace PassleSync.Core.Controllers
 
         [HttpPost]
         [ValidateAPIKey]
-        public IHttpActionResult Update([FromBody] AuthorShortcodeModel author)
+        public IHttpActionResult Update([FromBody] AuthorShortcodeModel model)
         {
-            if (_personHandler.SyncOne(author.Shortcode))
+            if (_personHandler.SyncOne(model.Shortcode))
             {
                 return Ok();
             }

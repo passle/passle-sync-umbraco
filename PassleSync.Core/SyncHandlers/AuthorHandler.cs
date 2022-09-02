@@ -186,7 +186,7 @@ namespace PassleSync.Core.SyncHandlers
             _contentService.SaveAndPublish(node);
         }
 
-        public override bool SyncOne(string Shortcode)
+        public override bool SyncOne(string shortcode)
         {
             var peopleFromApi = ApiHelper.GetAuthors();
             if (peopleFromApi == null || peopleFromApi.People == null)
@@ -201,13 +201,13 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            var personFromApi = peopleFromApi.People.FirstOrDefault(x => x.Shortcode == Shortcode);
+            var personFromApi = peopleFromApi.People.FirstOrDefault(x => x.Shortcode == shortcode);
             if (personFromApi == null)
             {
                 return false;
             }
 
-            DeleteOne(Shortcode, peopleParentNodeId);
+            DeleteOne(shortcode, peopleParentNodeId);
             CreateOne(personFromApi, peopleParentNodeId);
 
             return true;
