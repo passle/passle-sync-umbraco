@@ -6,34 +6,9 @@
     Layout = "Layout.cshtml";
 }
 
-@section styles {
-    <link rel="stylesheet" href="~/Assets/css/home.css" />
-}
-
-<div class="page-container">
-    <div class="page-subnav">
-        <div class="breadcrumb">
-        </div>
-        <div class="search-bar-container">
-            <i class="fas fa-search"></i>
-            <input class="search-bar" type="text" placeholder="Search for posts or authors" />
-        </div>
-    </div>
-    <div class="full-width-container section">
-        <h2 class="section__heading">Latest industry insights</h2>
-        <div class="section__decoration">Insights</div>
-
-        <div class="latest-posts">
-            @if (Model.FeaturedPost != null)
-            {
-                @Html.Partial("HomePost", Model.FeaturedPost, new ViewDataDictionary() {
-                    { "IsFeatured", true }
-                });
-            }
-            @foreach (var post in Model.Posts)
-            {
-                @Html.Partial("HomePost", post);
-            }
-        </div>
-    </div>
+<div class="flex flex-col gap-8 max-w-6xl mx-auto">
+    @*TODO: Create other sections?*@
+    @*@Html.Partial("Partials/Sections/Events");*@
+    @Html.Partial("Partials/Sections/Insights", Model)
+    @*@Html.Partial("Partials/Sections/Whitepapers");*@
 </div>
