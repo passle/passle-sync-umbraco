@@ -11,6 +11,7 @@ using PassleSync.Core.Services;
 using Umbraco.Core.Logging;
 using PassleSync.Core.Constants;
 using PassleSync.Core.Services.Content;
+using PassleSync.Core.Extensions;
 
 namespace PassleSync.Core.SyncHandlers
 {
@@ -29,13 +30,7 @@ namespace PassleSync.Core.SyncHandlers
                 return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
             }
 
-            int postsParentNodeId = _configService.PostsParentNodeId;
-            if (_contentService.GetById(postsParentNodeId) == null)
-            {
-                return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
-            }
-
-            var umbracoPosts = GetAllUmbraco(postsParentNodeId);
+            var umbracoPosts = _umbracoContentService.GetPosts();
 
             // Create viewmodels
             var umbracoPostModels = umbracoPosts.Select(post => new PassleDashboardPostViewModel(post));
@@ -46,15 +41,6 @@ namespace PassleSync.Core.SyncHandlers
             var allModels = umbracoPostModels.Concat(apiPostModels.Where(x => !umbracoShortcodes.Contains(x.Shortcode)));
 
             return new PassleDashboardPostsViewModel(allModels);
-        }
-
-        private IEnumerable<IContent> GetAllUmbraco(int parentNodeId)
-        {
-            if (_contentService.HasChildren(parentNodeId))
-            {
-                return _contentService.GetPagedChildren(parentNodeId, 0, 100, out long totalChildren).ToList();
-            }
-            return Enumerable.Empty<IContent>();
         }
 
         public override bool SyncAll()
@@ -78,7 +64,7 @@ namespace PassleSync.Core.SyncHandlers
             return true;
         }
 
-        public override bool SyncMany(string[] Shortcodes)
+        public override bool SyncMany(string[] shortcodes)
         {
             var postsFromApi = ApiHelper.GetPosts();
             if (postsFromApi == null || postsFromApi.Posts == null)
@@ -93,8 +79,8 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            DeleteMany(Shortcodes, postsParentNodeId);
-            CreateMany(postsFromApi.Posts, postsParentNodeId, Shortcodes);
+            DeleteMany(shortcodes, postsParentNodeId);
+            CreateMany(postsFromApi.Posts, postsParentNodeId, shortcodes);
 
             return true;
         }
@@ -113,19 +99,15 @@ namespace PassleSync.Core.SyncHandlers
 
         public override void DeleteAll(int parentNodeId)
         {
-            // Delete any existing posts with the same shortcode
-            if (_contentService.HasChildren(parentNodeId))
-            {
-                IEnumerable<IContent> children = _contentService.GetPagedChildren(parentNodeId, 0, 100, out long totalChildren).ToList();
+            var posts = _umbracoContentService.GetPosts();
 
-                foreach (var child in children)
-                {
-                    _contentService.Delete(child);
-                }
+            foreach (var post in posts)
+            {
+                _contentService.Delete(post);
             }
         }
 
-        public override bool DeleteMany(string[] Shortcodes)
+        public override bool DeleteMany(string[] shortcodes)
         {
             int postsParentNodeId = _configService.PostsParentNodeId;
             if (_contentService.GetById(postsParentNodeId) == null)
@@ -133,35 +115,23 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            DeleteMany(Shortcodes, postsParentNodeId);
+            DeleteMany(shortcodes, postsParentNodeId);
             return true;
         }
 
         public override void DeleteMany(string[] shortcodes, int parentNodeId)
         {
-            // Delete any existing posts with the same shortcode
-            if (_contentService.HasChildren(parentNodeId))
+            var posts = _umbracoContentService.GetPosts().Where(x => shortcodes.Contains(x.GetValueOrDefault<string>("PostShortcode")));
+
+            foreach (var post in posts)
             {
-                IEnumerable<IContent> children = _contentService.GetPagedChildren(parentNodeId, 0, 100, out long totalChildren).ToList();
-
-                foreach (var child in children)
-                {
-                    if (shortcodes.Contains(child.GetValue<string>("postShortcode")))
-                    {
-                        _contentService.Delete(child);
-                    }
-                }
+                _contentService.Delete(post);
             }
-        }
-
-        private void DeleteOne(string shortcode, int parentNodeId)
-        {
-            DeleteMany(new string[] { shortcode }, parentNodeId);
         }
 
         public override void CreateAll(IEnumerable<PasslePost> posts, int parentNodeId)
         {
-            foreach (PasslePost post in posts)
+            foreach (var post in posts)
             {
                 CreateOne(post, parentNodeId);
             }
@@ -169,7 +139,7 @@ namespace PassleSync.Core.SyncHandlers
 
         public override void CreateMany(IEnumerable<PasslePost> posts, int parentNodeId, string[] shortcodes)
         {
-            foreach (PasslePost post in posts)
+            foreach (var post in posts)
             {
                 if (shortcodes.Contains(post.PostShortcode))
                 {
@@ -213,14 +183,14 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            var publishedContent = _umbracoContentService.GetPublishedPostByShortcode(shortcode);
-            if (publishedContent == null)
+            var existingContent = _umbracoContentService.GetPostByShortcode(shortcode);
+            if (existingContent == null)
             {
                 CreateOne(postFromApi, postsParentNodeId);
             }
             else
             {
-                var editableContent = _contentService.GetById(publishedContent.Id);
+                var editableContent = _contentService.GetById(existingContent.Id);
 
                 editableContent.Name = postFromApi.PostTitle;
 

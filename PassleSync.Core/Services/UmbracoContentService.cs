@@ -38,41 +38,26 @@ namespace PassleSync.Core.Services.Content
             _logger = logger;
         }
 
-        public IEnumerable<IPublishedContent> GetPublishedPosts()
+        public IEnumerable<IContent> GetPosts()
         {
-            return GetPublishedContent(PassleContentType.PASSLE_POST);
+            return GetContent(PassleContentType.PASSLE_POST);
         }
 
-        public IEnumerable<IPublishedContent> GetPublishedAuthors()
+        public IEnumerable<IContent> GetAuthors()
         {
-            return GetPublishedContent(PassleContentType.PASSLE_AUTHOR);
+            return GetContent(PassleContentType.PASSLE_AUTHOR);
         }
 
-        public IPublishedContent GetPublishedPostByShortcode(string shortcode)
+        public IContent GetPostByShortcode(string shortcode)
         {
-            var virtualContent = GetPublishedContent(PassleContentType.PASSLE_POST);
-            var matchingContent = virtualContent.Where(x => x.GetValueOrDefault<string>("PostShortcode") == shortcode).FirstOrDefault();
-            return matchingContent;
+            var posts = GetContent(PassleContentType.PASSLE_POST);
+            return posts.Where(x => x.GetValueOrDefault<string>("PostShortcode") == shortcode).FirstOrDefault();
         }
 
-        public IPublishedContent GetPublishedAuthorByShortcode(string shortcode)
+        public IContent GetAuthorByShortcode(string shortcode)
         {
-            var virtualContent = GetPublishedContent(PassleContentType.PASSLE_AUTHOR);
-            var matchingContent = virtualContent.Where(x => x.GetValueOrDefault<string>("Shortcode") == shortcode).FirstOrDefault();
-            return matchingContent;
-        }
-
-        public IEnumerable<IPublishedContent> GetPublishedContent(string contentType)
-        {
-            if (_examineManager.TryGetIndex(UmbracoConstants.UmbracoIndexes.ExternalIndexName, out var index))
-            {
-                var ids = index.GetSearcher().CreateQuery("content").NodeTypeAlias(contentType).Execute().Select(x => x.Id);
-
-                foreach (var id in ids)
-                {
-                    yield return _umbracoHelper.Content(id);
-                }
-            }
+            var authors = GetContent(PassleContentType.PASSLE_AUTHOR);
+            return authors.Where(x => x.GetValueOrDefault<string>("Shortcode") == shortcode).FirstOrDefault();
         }
 
         public void Delete(IContent document)
@@ -89,6 +74,17 @@ namespace PassleSync.Core.Services.Content
                     return;
                 }
             }
+        }
+
+        private IEnumerable<IContent> GetContent(string contentType)
+        {
+            if (_examineManager.TryGetIndex(UmbracoConstants.UmbracoIndexes.InternalIndexName, out var index))
+            {
+                var ids = index.GetSearcher().CreateQuery("content").NodeTypeAlias(contentType).Execute().Select(x => int.Parse(x.Id));
+                return _contentService.GetByIds(ids);
+            }
+
+            return null;
         }
     }
 }
