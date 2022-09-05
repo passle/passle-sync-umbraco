@@ -10,12 +10,13 @@ using Umbraco.Core.Services;
 using PassleSync.Core.Services;
 using Umbraco.Core.Logging;
 using PassleSync.Core.Constants;
+using PassleSync.Core.Services.Content;
 
 namespace PassleSync.Core.SyncHandlers
 {
     public class PostHandler : SyncHandlerBase<PasslePost>
     {
-        public PostHandler(IContentService contentService, ConfigService configService, ILogger logger) : base(contentService, configService, logger)
+        public PostHandler(IContentService contentService, UmbracoContentService umbracoContentService, ConfigService configService, ILogger logger) : base(contentService, umbracoContentService, configService, logger)
         {
         }
 
@@ -166,11 +167,11 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public override void CreateMany(IEnumerable<PasslePost> posts, int parentNodeId, string[] Shortcodes)
+        public override void CreateMany(IEnumerable<PasslePost> posts, int parentNodeId, string[] shortcodes)
         {
             foreach (PasslePost post in posts)
             {
-                if (Shortcodes.Contains(post.PostShortcode))
+                if (shortcodes.Contains(post.PostShortcode))
                 {
                     CreateOne(post, parentNodeId);
                 }
@@ -180,6 +181,11 @@ namespace PassleSync.Core.SyncHandlers
         public override void CreateOne(PasslePost post, int parentNodeId)
         {
             var node = _contentService.Create(post.PostTitle, parentNodeId, PassleContentType.PASSLE_POST);
+
+            var date = DateTime.Parse(post.PublishedDate);
+            node.CreateDate = date;
+            node.PublishDate = date;
+            node.UpdateDate = date;
 
             AddAllPropertiesToNode(node, post);
 
@@ -207,8 +213,26 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            DeleteOne(shortcode, postsParentNodeId);
-            CreateOne(postFromApi, postsParentNodeId);
+            var publishedContent = _umbracoContentService.GetPublishedPostByShortcode(shortcode);
+            if (publishedContent == null)
+            {
+                CreateOne(postFromApi, postsParentNodeId);
+            }
+            else
+            {
+                var editableContent = _contentService.GetById(publishedContent.Id);
+
+                editableContent.Name = postFromApi.PostTitle;
+
+                var date = DateTime.Parse(postFromApi.PublishedDate);
+                editableContent.CreateDate = date;
+                editableContent.PublishDate = date;
+                editableContent.UpdateDate = date;
+
+                AddAllPropertiesToNode(editableContent, postFromApi);
+
+                _contentService.SaveAndPublish(editableContent, raiseEvents: false);
+            }
 
             return true;
         }

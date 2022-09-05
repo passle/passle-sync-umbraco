@@ -9,12 +9,13 @@ using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
+using PassleSync.Core.Services.Content;
 
 namespace PassleSync.Core.SyncHandlers
 {
     public class AuthorHandler : SyncHandlerBase<PassleAuthor>
     {
-        public AuthorHandler(IContentService contentService, ConfigService configService, ILogger logger) : base(contentService, configService, logger)
+        public AuthorHandler(IContentService contentService, UmbracoContentService umbracoContentService, ConfigService configService, ILogger logger) : base(contentService, umbracoContentService, configService, logger)
         {
         }
 
@@ -166,11 +167,11 @@ namespace PassleSync.Core.SyncHandlers
             }
         }
 
-        public override void CreateMany(IEnumerable<PassleAuthor> people, int parentNodeId, string[] Shortcodes)
+        public override void CreateMany(IEnumerable<PassleAuthor> people, int parentNodeId, string[] shortcodes)
         {
             foreach (PassleAuthor person in people)
             {
-                if (Shortcodes.Contains(person.Shortcode))
+                if (shortcodes.Contains(person.Shortcode))
                 {
                     CreateOne(person, parentNodeId);
                 }
@@ -207,8 +208,21 @@ namespace PassleSync.Core.SyncHandlers
                 return false;
             }
 
-            DeleteOne(shortcode, peopleParentNodeId);
-            CreateOne(personFromApi, peopleParentNodeId);
+            var publishedContent = _umbracoContentService.GetPublishedAuthorByShortcode(shortcode);
+            if (publishedContent == null)
+            {
+                CreateOne(personFromApi, peopleParentNodeId);
+            }
+            else
+            {
+                var editableContent = _contentService.GetById(publishedContent.Id);
+
+                editableContent.Name = personFromApi.Name;
+
+                AddAllPropertiesToNode(editableContent, personFromApi);
+
+                _contentService.SaveAndPublish(editableContent, raiseEvents: false);
+            }
 
             return true;
         }
