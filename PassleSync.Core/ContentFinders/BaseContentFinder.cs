@@ -1,4 +1,5 @@
-﻿using PassleSync.Core.Services;
+﻿using PassleSync.Core.Extensions;
+using PassleSync.Core.Services;
 using System;
 using System.Linq;
 using Umbraco.Web;
@@ -41,7 +42,7 @@ namespace PassleSync.Core.ContentFinders
                 return false;
             }
 
-            var content = virtualContent.FirstOrDefault(x => x.IsPublished() && (string) x.GetProperty(ShortcodeName).GetValue() == shortcode);
+            var content = virtualContent.FirstOrDefault(x => x.IsPublished() && x.GetValueOrDefault<string>(ShortcodeName) == shortcode);
             
             if (content == null)
             {
