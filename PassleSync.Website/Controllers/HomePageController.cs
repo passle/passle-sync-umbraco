@@ -3,30 +3,24 @@ using System.Web.Mvc;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
 using PassleSync.Website.ViewModels;
-using Umbraco.Web;
-using PassleSync.Core.Services;
-using PassleSync.Core.Constants;
+using PassleSync.Core.API.Services;
 
 namespace PassleSync.Website.Controllers
 {
     public class HomePageController : RenderMvcController
     {
-        private readonly ConfigService _configService;
+        private readonly IPassleHelperService _passleHelperService;
 
-        public HomePageController(ConfigService configService) : base()
+        public HomePageController(IPassleHelperService passleHelperService) : base()
         {
-            _configService = configService;
+            _passleHelperService = passleHelperService;
         }
 
         public override ActionResult Index(ContentModel model)
         {
             var viewModel = new HomePageViewModel(model.Content);
 
-            var posts = Umbraco.Content(_configService.PostsParentNodeId)
-                .ChildrenOfType(PassleContentType.PASSLE_POST)
-                .Where(x => x.IsVisible())
-                .Select(x => new PasslePostViewModel(x));
-
+            var posts = _passleHelperService.GetPosts();
             var featuredPost = posts.Where(x => x.IsFeaturedOnPasslePage).FirstOrDefault();
 
             if (featuredPost != null)

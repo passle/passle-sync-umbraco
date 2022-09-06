@@ -651,6 +651,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Models\IBasicAuthorDetails.cs" />
+    <Compile Include="API\Services\IPassleHelperService.cs" />
     <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
     <Compile Include="Attributes\LongStringAttribute.cs" />
     <Compile Include="Attributes\NestedContentNameTemplateAttribute.cs" />
@@ -665,6 +667,7 @@
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
     <Compile Include="Constants\PassleContentType.cs" />
     <Compile Include="Constants\PassleDataType.cs" />
+    <Compile Include="Constants\PassleStrings.cs" />
     <Compile Include="ContentFinders\BaseContentFinder.cs" />
     <Compile Include="ContentFinders\PassleAuthorContentFinder.cs" />
     <Compile Include="ContentFinders\PasslePostContentFinder.cs" />
@@ -697,8 +700,11 @@
     <Compile Include="Models\Content\Umbraco\HomePage.generated.cs" />
     <Compile Include="Models\Content\Umbraco\Image.generated.cs" />
     <Compile Include="Models\Content\Umbraco\Member.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\PassleAuthor.cs" />
     <Compile Include="Models\Content\Umbraco\PassleAuthor.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\PasslePost.cs" />
     <Compile Include="Models\Content\Umbraco\PasslePost.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\PostAuthor.cs" />
     <Compile Include="Models\Content\Umbraco\PostAuthor.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PostShareViews.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PostTweet.generated.cs" />
@@ -719,6 +725,7 @@
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\PassleContentService.cs" />
+    <Compile Include="Services\PassleHelperService.cs" />
     <Compile Include="Services\UmbracoContentService.cs" />
     <Compile Include="SyncHandlers\AuthorHandler.cs" />
     <Compile Include="SyncHandlers\PostHandler.cs" />
@@ -729,17 +736,17 @@
     <Compile Include="UrlProviders\PasslePostUrlProvider.cs" />
     <Compile Include="Utils\UrlFactory.cs" />
     <Compile Include="API\ViewModels\IPassleDashboardViewModel.cs" />
+    <Compile Include="ViewModels\PassleAuthorViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardAuthorsViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardAuthorViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardPostsViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardPostViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardSettingsViewModel.cs" />
+    <Compile Include="ViewModels\PasslePostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Models\GeneratedModels.mb" />
-    <None Include="Utils\.gitinclude" />
-    <None Include="Helpers\.gitinclude" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

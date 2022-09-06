@@ -3,26 +3,26 @@
 @using System.Text.Json;
 @using PassleSync.Core.Helpers;
 @using PassleSync.Core.Models.Content.Umbraco;
-@using PassleSync.Website.ViewModels; 
-@inherits Umbraco.Web.Mvc.UmbracoViewPage<PasslePostViewModel>
+@using PassleSync.Core.API.Models;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<PasslePost>
 @{
     Layout = "Layout.cshtml";
 }
 
 <article class="mb-8">
 
-	<div class="flex flex-col">
-		<div class="flex flex-row justify-between max-w-6xl mx-auto bg-white py-10 px-8 w-full">
-			<div class="flex flex-col justify-center gap-4">
-				<h1 class="entry-title text-5xl font-extrabold !leading-[4rem] mr-4 font-bodoni">@Model.PostTitle</h1>
-				<div class="flex gap-1 text-sm">
-					<time datetime="@Model.FormattedDate" itemprop="datePublished">
-						@Model.FormattedDate
-					</time>
-					<span>|</span>
-					<div>@Model.MinsRead min read</div>
-				</div>
-			</div>
+    <div class="flex flex-col">
+        <div class="flex flex-row justify-between max-w-6xl mx-auto bg-white py-10 px-8 w-full">
+            <div class="flex flex-col justify-center gap-4">
+                <h1 class="entry-title text-5xl font-extrabold !leading-[4rem] mr-4 font-bodoni">@Model.PostTitle</h1>
+                <div class="flex gap-1 text-sm">
+                    <time datetime="@Model.GetDate("d MMMM yyyy")" itemprop="datePublished">
+                        @Model.GetDate("d MMMM yyyy")
+                    </time>
+                    <span>|</span>
+                    <div>@Model.EstimatedReadTimeInMinutes min read</div>
+                </div>
+            </div>
             <div class="basis-1/2 shrink-0 w-full aspect-video">
                 @if (!string.IsNullOrEmpty(Model.FeaturedItemHtml))
                 {
@@ -30,50 +30,50 @@
                 }
                 else
                 {
-					<img src="@Model.ImageUrl" alt="@Model.PostTitle" class="w-full aspect-video object-cover" />
+                    <img src="@Model.ImageUrl" alt="@Model.PostTitle" class="w-full aspect-video object-cover" />
                 }
             </div>
-		</div>
-		<div class="py-4 bg-primary text-white font-bodoni">
-			<div class="max-w-6xl mx-auto px-8">
-				<div class="flex gap-6">
-					@{
-						var primaryAuthor = Model.Authors.First();
-					}
+        </div>
+        <div class="py-4 bg-primary text-white font-bodoni">
+            <div class="max-w-6xl mx-auto px-8">
+                <div class="flex gap-6">
+                    @{
+                        var author = (IBasicAuthorDetails) Model.GetAuthors().FirstOrDefault(x => x.Shortcode == Model.PrimaryAuthor.Shortcode) ?? Model.PrimaryAuthor;
+                    }
 
-					@if (!string.IsNullOrEmpty(primaryAuthor.ProfileUrl))
-					 {
-                        <a href="@primaryAuthor.ProfileUrl">
-                            <img src="@primaryAuthor.ImageUrl" alt="@primaryAuthor.PassleName" class="h-24 w-24 object-cover border border-gray-300" />
+                    @if (!string.IsNullOrEmpty(author.ProfileUrl))
+                    {
+                        <a href="@author.ProfileUrl">
+                            <img src="@author.GetAvatarUrl()" alt="@author.PassleName" class="h-24 w-24 object-cover border border-gray-300" />
                         </a>
-					 }
-					 else
-					 {
-						<img src="@primaryAuthor.ProfileUrl" alt="@primaryAuthor.PassleName" class="h-24 w-24 object-cover border border-gray-300" />
-					 }
+                    }
+                    else
+                    {
+                        <img src="@author.GetAvatarUrl()" alt="@author.PassleName" class="h-24 w-24 object-cover border border-gray-300" />
+                    }
 
-					<div class="flex flex-col justify-center gap-1">
-						@if (!string.IsNullOrEmpty(primaryAuthor.ProfileUrl))
-						 {
-							<a href="@primaryAuthor.ProfileUrl" class="text-2xl underline font-medium">@primaryAuthor.PassleName</a>
-						 }
-						 else
-						 {
-							<span class="text-2xl font-medium">@primaryAuthor.PassleName</span>
-						 }
+                    <div class="flex flex-col justify-center gap-1">
+                        @if (!string.IsNullOrEmpty(author.ProfileUrl))
+                        {
+                            <a href="@author.ProfileUrl" class="text-2xl underline font-medium">@author.PassleName</a>
+                        }
+                        else
+                        {
+                            <span class="text-2xl font-medium">@author.PassleName</span>
+                        }
 
-						@if (!string.IsNullOrEmpty(primaryAuthor.Role))
-						 {
-							<div class="text-lg">@primaryAuthor.Role</div>
-						 }
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="max-w-6xl mx-auto w-full">
-			<div class="flex relative">
-				<div class="absolute top-0 inset-x-0 bg-gradient-to-r from-gray-400/20 to-white w-full py-1">
-					<div class="ml-44">
+                        @if (!string.IsNullOrEmpty(author.RoleInfo))
+                        {
+                            <div class="text-lg">@author.RoleInfo</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto w-full">
+            <div class="flex relative">
+                <div class="absolute top-0 inset-x-0 bg-gradient-to-r from-gray-400/20 to-white w-full py-1">
+                    <div class="ml-44">
                         <div class="pl-16 h-6 flex items-center gap-6">
                             <!-- ISTATOY button -->
                             <a href="#" class="group" onclick="window.open('https://www.passle.@ViewBag.PassleDomain/istatoy?postShortcode=@Model.PostShortcode" )&istatoySource=ClientWeb', '_blank' , 'height=600, width=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, location=no, directories=no, status=no' );">
@@ -136,28 +136,28 @@
                                 <i class="fab fa-xing" title="XING"></i>
                             </a>
                         </div>
-					</div>
-				</div>
-				<div class="w-44 pointer-events-none">
-					<div class="-rotate-90 font-bodoni uppercase text-right origin-bottom-right leading-none text-7xl mt-48 -mr-2 text-gray-300 select-none">Insights</div>
-				</div>
-				<div class="post-content flex-grow bg-white pt-24 pb-10 px-16 text-lg min-h-[32rem] flex flex-col gap-8">
+                    </div>
+                </div>
+                <div class="w-44 pointer-events-none">
+                    <div class="-rotate-90 font-bodoni uppercase text-right origin-bottom-right leading-none text-7xl mt-48 -mr-2 text-gray-300 select-none">Insights</div>
+                </div>
+                <div class="post-content flex-grow bg-white pt-24 pb-10 px-16 text-lg min-h-[32rem] flex flex-col gap-8">
                     <div>
                         @Html.Raw(Model.PostContentHtml)
                     </div>
 
                     @if (!string.IsNullOrEmpty(Model.QuoteText))
-                     {
+                    {
                         <div class="border-l-8 border-primary pl-8 min-h-[1rem] flex flex-col gap-2 items-start">
                             <span class="text-2xl font-bodoni">
                                 @Model.QuoteText
                             </span>
                             <a href="@Model.QuoteUrl" target="_blank" rel="noopener noreferrer">@Model.QuoteUrl</a>
                         </div>
-                     }
+                    }
 
                     @if (Model.Tags.Any())
-                     {
+                    {
                         <div>
                             <h3 class="text-xl font-bodoni mb-2">Tags</h3>
                             <div class="flex items-center gap-2">
@@ -171,115 +171,22 @@
                                 }
                             </div>
                         </div>
-                     }
+                    }
 
                     @if (Model.Tweets.Any())
-                     {
+                    {
                         <div>
                             <h3 class="text-xl font-bodoni mb-2">Tweets</h3>
                             <div class="grid grid-cols-3 gap-4">
                                 @foreach (var tweet in Model.Tweets)
-                                 {
+                                {
                                     @Html.Raw(tweet.EmbedCode)
-                                 }
+                                }
                             </div>
-                        </div>
-                     }
-				</div>
-			</div>
-		</div>
-	</div>
-</article>
-
-@*<div class="page-container">
-    <div class="page-subnav">
-        <div class="subnav-left">
-            <div class="breadcrumb">
-                < <a href="/">All Posts</a>
-            </div>
-            <div class="passle-subscribe">
-                <a class="button" href="@ViewBag.PassleSubscribeLink" target="_blank" rel="noreferrer noopener">
-                    @Html.Partial("Icons/Subscribe")
-                    <span>Subscribe</span>
-                </a>
-            </div>
-        </div>
-        <div class="search-bar-container">
-            <i class="fas fa-search"></i>
-            <input class="search-bar" type="text" placeholder="Search for posts or authors" />
-        </div>
-    </div>
-    <div class="page-body post-page">
-        <div class="post-header">
-            <div class="post-title">
-                <h1>@Model.PostTitle</h1>
-            </div>
-            <div class="post-sub-header">
-                <div class="post-details">
-                    <p class="post-date">
-                        @Model.FormattedDate | @Model.MinsRead min read
-                    </p>
-                    <div class="post-author-container">
-                        <div class="post-author-banner"></div>
-                        @if (Model.Author != null)
-                        {
-                            <a href="@Model.UmbracoAuthorUrl">
-                                <div class="post-author-details">
-                                    <img class="post-author-image" src="@Model.Author.ImageUrl" />
-                                    <div>
-                                        <h3 class="post-author-name">@Model.Author.PassleName</h3>
-                                        <h4 class="post-author-role">@Model.Author.Role</h4>
-                                    </div>
-                                </div>
-                            </a>
-                        }
-                    </div>
-                </div>
-                <div class="post-featured-item">
-                    @Html.Raw(HttpUtility.HtmlDecode(Model.FeaturedItemHtml))
-                </div>
-            </div>
-        </div>
-        <div class="post-header-bottom">
-            <div class="post-social-links" id="share-buttons">
-                <a href="#" onclick="window.open('https://www.passle.@ViewBag.PassleDomain/istatoy?postShortcode=@Model.PostShortcode")&istatoySource=ClientWeb', '_blank', 'height=600, width=600, toolbar=no, menubar=no, scrollbars=yes, resizable=yes, location=no, directories=no, status=no');">
-                    @Html.Partial("Icons/ISTATOY")
-                </a>
-                <a href="@PostHelper.LinkedInShareUrl(Model.PostUrl, Model.PostTitle)" target="_blank">
-                    <i class="fab fa-linkedin-in" title="LinkedIn"></i>
-                </a>
-                <a href="@PostHelper.TwitterShareUrl(Model.PostUrl, Model.PostTitle, Model.Tags, Model.Authors)" target="_blank">
-                    <i class="fab fa-twitter" title="Twitter"></i>
-                </a>
-                <a href="@PostHelper.FacebookShareUrl(Model.PostUrl, Model.PostTitle)" target="_blank">
-                    <i class="fab fa-facebook-f" title="Facebook"></i>
-                </a>
-                <a href="@PostHelper.XingShareUrl(Model.PostUrl)" target="_blank">
-                    <i class="fab fa-xing" title="XING"></i>
-                </a>
-                <span class="istatoy-button-placeholder"></span>
-            </div>
-        </div>
-        <div class="post-body">
-            <div class="post-body-side-bar">
-                <div class="post-passle-stylistic">
-                    @(Model.PassleTitle?.ToUpper() ?? "")
-                </div>
-            </div>
-            <div class="post-body-content">
-                <div class="post-body-text">
-                    @Html.Raw(Model.PostContentHtml)
-                </div>
-                <div class="post-body-tags">
-                    @if (Model.Tags.Count() != 0)
-                    {
-                        <h3>Tags</h3>
-                        <div class="post-body-tags-list">
-                            @string.Join(", ", Model.Tags)
                         </div>
                     }
                 </div>
             </div>
         </div>
     </div>
-</div>*@
+</article>

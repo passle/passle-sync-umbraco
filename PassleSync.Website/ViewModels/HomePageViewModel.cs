@@ -8,7 +8,7 @@ namespace PassleSync.Website.ViewModels
     {
         public HomePageViewModel(IPublishedContent content) : base(content) { }
 
-        public IEnumerable<PasslePostViewModel> Posts;
-        public PasslePostViewModel FeaturedPost;
+        public IEnumerable<PasslePost> Posts;
+        public PasslePost FeaturedPost;
     }
 }

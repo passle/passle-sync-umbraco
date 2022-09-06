@@ -1,13 +1,14 @@
 ﻿@using Umbraco.Core;
 @using PassleSync.Website.ViewModels;
 @using PassleSync.Core.Extensions;
-@inherits Umbraco.Web.Mvc.UmbracoViewPage<PasslePostViewModel>
+@using PassleSync.Core.Models.Content.Umbraco;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<PasslePost>
 
 @{
     var featured = false;
     if (ViewData.TryGetValue("IsFeatured", out object IsFeatured))
     {
-        if (IsFeatured is bool && (bool )IsFeatured)
+        if (IsFeatured is bool && (bool)IsFeatured)
         {
             featured = true;
         }
@@ -16,19 +17,19 @@
 
 <article>
 
-	<div class="@(featured ? "h-[28rem]" : "h-80") relative group">
-		<img class="w-full h-full object-cover" src="@Model.ImageUrl" alt="@Model.PostTitle" />
-		<div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-primary group-hover:bg-opacity-100 transition-colors text-white">
-			<a href="@Model.PostUrl" class="h-full p-16 flex flex-col gap-4">
-				<h2 class="entry-title font-bodoni text-3xl leading-tight mb-1 line-clamp-3">@Model.PostTitle</h2>
-				<time datetime="@Model.FormattedDate" itemprop="datePublished" class="font-bodoni group-hover:hidden">
-					@Model.FormattedDate
-				</time>
-				<span class="hidden group-hover:line-clamp-3">
-					@Model.ContentTextSnippet
-				</span>
-			</a>
-		</div>
-	</div>
+    <div class="@(featured ? "h-[28rem]" : "h-80") relative group">
+        <img class="w-full h-full object-cover" src="@Model.ImageUrl" alt="@Model.PostTitle" />
+        <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-primary group-hover:bg-opacity-100 transition-colors text-white">
+            <a href="@Model.PostUrl" class="h-full p-16 flex flex-col gap-4">
+                <h2 class="entry-title font-bodoni text-3xl leading-tight mb-1 line-clamp-3">@Model.PostTitle</h2>
+                <time datetime="@Model.GetDate("d MMMM yyyy")" itemprop="datePublished" class="font-bodoni group-hover:hidden">
+                    @Model.GetDate("d MMMM yyyy")
+                </time>
+                <span class="hidden group-hover:line-clamp-3">
+                    @Model.ContentTextSnippet
+                </span>
+            </a>
+        </div>
+    </div>
 
 </article>

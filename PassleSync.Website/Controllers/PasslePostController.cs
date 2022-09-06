@@ -1,37 +1,35 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
-using PassleSync.Website.ViewModels;
-using Umbraco.Web;
-using PassleSync.Core.Services;
+using PassleSync.Core.API.Services;
+using PassleSync.Core.Models.Content.Umbraco;
 
 namespace PassleSync.Website.Controllers
 {
     public class PasslePostController : RenderMvcController
     {
-        private readonly ConfigService _configService;
+        private readonly IPassleHelperService _passleHelperService;
 
-        public PasslePostController(ConfigService configService) : base()
+        public PasslePostController(IPassleHelperService passleHelperService) : base()
         {
-            _configService = configService;
+            _passleHelperService = passleHelperService;
         }
 
         public override ActionResult Index(ContentModel model)
         {
-            var viewModel = new PasslePostViewModel(model.Content);
+            var viewModel = new PasslePost(model.Content);
 
-            var umbracoAuthors = Umbraco.Content(_configService.AuthorsParentNodeId)
-                .ChildrenOfType(_configService.PassleAuthorContentTypeAlias)
-                .Where(x => x.IsVisible())
-                .Select(x => new PassleAuthorViewModel(x));
+            //var umbracoAuthors = Umbraco.Content(_configService.AuthorsParentNodeId)
+            //    .ChildrenOfType(_configService.PassleAuthorContentTypeAlias)
+            //    .Where(x => x.IsVisible())
+            //    .Select(x => new PassleAuthorViewModel(x));
 
-            viewModel.UmbracoAuthorUrl = umbracoAuthors
-                .Where(x => x.Shortcode == viewModel.Author.Shortcode)
-                .FirstOrDefault()?.Url() ?? "";
+            //viewModel.UmbracoAuthorUrl = umbracoAuthors
+            //    .Where(x => x.Shortcode == viewModel.Author.Shortcode)
+            //    .FirstOrDefault()?.Url() ?? "";
 
-            ViewBag.PassleDomain = _configService.PassleDomain;
-            ViewBag.PassleSubscribeLink = "";
+            //ViewBag.PassleDomain = _configService.PassleDomain;
+            //ViewBag.PassleSubscribeLink = "";
 
             return CurrentTemplate(viewModel);
         }

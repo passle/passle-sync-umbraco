@@ -19,7 +19,7 @@ using Umbraco.ModelsBuilder.Embedded;
 
 namespace PassleSync.Core.Models.Content.Umbraco
 {
-	/// <summary>HomePage</summary>
+	/// <summary>Home Page</summary>
 	[PublishedModel("homePage")]
 	public partial class HomePage : PublishedContentModel
 	{

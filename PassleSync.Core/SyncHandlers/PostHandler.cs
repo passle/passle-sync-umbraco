@@ -152,10 +152,9 @@ namespace PassleSync.Core.SyncHandlers
         {
             var node = _contentService.Create(post.PostTitle, parentNodeId, PassleContentType.PASSLE_POST);
 
-            var date = DateTime.Parse(post.PublishedDate);
-            node.CreateDate = date;
-            node.PublishDate = date;
-            node.UpdateDate = date;
+            node.CreateDate = post.PublishedDate;
+            node.PublishDate = post.PublishedDate;
+            node.UpdateDate = post.PublishedDate;
 
             AddAllPropertiesToNode(node, post);
 
@@ -194,10 +193,9 @@ namespace PassleSync.Core.SyncHandlers
 
                 editableContent.Name = postFromApi.PostTitle;
 
-                var date = DateTime.Parse(postFromApi.PublishedDate);
-                editableContent.CreateDate = date;
-                editableContent.PublishDate = date;
-                editableContent.UpdateDate = date;
+                editableContent.CreateDate = postFromApi.PublishedDate;
+                editableContent.PublishDate = postFromApi.PublishedDate;
+                editableContent.UpdateDate = postFromApi.PublishedDate;
 
                 AddAllPropertiesToNode(editableContent, postFromApi);
 

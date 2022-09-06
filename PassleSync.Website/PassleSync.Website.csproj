@@ -421,8 +421,6 @@
     <Compile Include="Controllers\PasslePostController.cs" />
     <Compile Include="Controllers\HomePageController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\PassleAuthorViewModel.cs" />
-    <Compile Include="ViewModels\PasslePostViewModel.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

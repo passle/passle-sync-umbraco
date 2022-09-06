@@ -1,4 +1,5 @@
 ﻿using PassleSync.Core.Attributes;
+using System;
 using System.Collections.Generic;
 
 namespace PassleSync.Core.Models.Content.PassleApi
@@ -8,7 +9,7 @@ namespace PassleSync.Core.Models.Content.PassleApi
         public string PostTitle { get; set; }
         public string PostShortcode { get; set; }
         public string PassleShortcode { get; set; }
-        public string PublishedDate { get; set; }
+        public DateTime PublishedDate { get; set; }
         public string PostUrl { get; set; }
         public string ImageUrl { get; set; }
         public IEnumerable<PostAuthor> Authors { get; set; }
