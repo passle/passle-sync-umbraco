@@ -29,6 +29,12 @@ namespace PassleSync.Core.Helpers.Queries
             _query = CreateQuery(ContentType);
         }
 
+        public virtual QueryBase<T> Search(string searchQuery)
+        {
+            _query = _query.And().Field("nodeName", searchQuery);
+            return this;
+        }
+
         public QueryBase<T> WithCurrentPage(int currentPage)
         {
             CurrentPage = currentPage;

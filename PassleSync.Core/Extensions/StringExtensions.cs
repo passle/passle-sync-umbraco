@@ -1,3 +1,4 @@
+using NPoco.Expressions;
 using System;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -43,18 +44,28 @@ namespace PassleSync.Core.Extensions
             return Regex.Replace(input, "[a-z][A-Z]", m => m.Value[0] + " " + m.Value[1]);
         }
 
-        public static string UrlEncode(this string str)
+        public static string UrlEncode(this string input)
         {
-            return HttpUtility.UrlEncode(str.Replace("'", "%27"));
+            return HttpUtility.UrlEncode(input.Replace("'", "%27"));
         }
 
-        public static string Truncate(this string str)
+        public static string Truncate(this string input)
         {
-            if (str.Length < 120)
+            if (input.Length < 120)
             {
-                return str;
+                return input;
             }
-            return str.Substring(0, 120) + "...";
+            return input.Substring(0, 120) + "...";
         }
-    }      
+
+        public static int ToIntOrDefault(this string input, int @default)
+        {
+            if (int.TryParse(input, out var number))
+            {
+                return number;
+            }
+
+            return @default;
+        }
+    }
 }

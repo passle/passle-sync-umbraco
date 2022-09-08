@@ -4,6 +4,7 @@ using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
 using PassleSync.Website.ViewModels;
 using PassleSync.Core.API.Services;
+using PassleSync.Core.Extensions;
 
 namespace PassleSync.Website.Controllers
 {
@@ -18,13 +19,36 @@ namespace PassleSync.Website.Controllers
 
         public override ActionResult Index(ContentModel model)
         {
-            var viewModel = new HomePageViewModel(model.Content)
-            {
-                Posts = _passleHelperService.GetPosts().FeaturedOnPasslePage(false).WithItemsPerPage(4).Execute().Items,
-                FeaturedPost = _passleHelperService.GetPosts().FeaturedOnPasslePage(true).Execute().Items.FirstOrDefault(),
-            };
+            var searchQuery = Request.QueryString["s"];
+            var currentPage = Request.QueryString["page"].ToIntOrDefault(1);
 
-            return CurrentTemplate(viewModel);
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                var viewModel = new HomePageViewModel(model.Content)
+                {
+                    Posts = _passleHelperService.GetPosts().FeaturedOnPasslePage(false).WithItemsPerPage(4).Execute().Items,
+                    FeaturedPost = _passleHelperService.GetPosts().FeaturedOnPasslePage(true).Execute().Items.FirstOrDefault(),
+                };
+
+                return CurrentTemplate(viewModel);
+            }
+            else
+            {
+                var query = _passleHelperService.GetPosts().Search(searchQuery).WithCurrentPage(currentPage).WithItemsPerPage(10).Execute();
+
+                var viewModel = new HomePageViewModel(model.Content)
+                {
+                    Posts = query.Items,
+                    SearchQuery = searchQuery,
+                    Pagination = new PaginationViewModel()
+                    {
+                        CurrentPage = query.CurrentPage,
+                        TotalPages = query.TotalItems / query.ItemsPerPage, 
+                    },
+                };
+
+                return CurrentTemplate(viewModel);
+            }
         }
     }
 }
