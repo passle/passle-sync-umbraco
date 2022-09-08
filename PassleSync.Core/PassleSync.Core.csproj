@@ -711,6 +711,7 @@
     <Compile Include="Models\Content\PassleApi\SubModels\AuthorLink.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostShareViews.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostTweet.cs" />
+    <Compile Include="Models\Content\Umbraco\Tag.generated.cs" />
     <Compile Include="Models\Content\Umbraco\UmbracoMediaArticle.generated.cs" />
     <Compile Include="Models\Content\Umbraco\UmbracoMediaAudio.generated.cs" />
     <Compile Include="Models\Content\Umbraco\UmbracoMediaVectorGraphics.generated.cs" />
