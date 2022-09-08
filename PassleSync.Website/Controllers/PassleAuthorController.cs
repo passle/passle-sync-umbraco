@@ -19,15 +19,6 @@ namespace PassleSync.Website.Controllers
         {
             var viewModel = new PassleAuthor(model.Content);
 
-            //var umbracoPosts = Umbraco.Content(_configService.PostsParentNodeId)
-            //    .ChildrenOfType(PassleContentType.PASSLE_POST)
-            //    .Where(x => x.IsVisible())
-            //    .Select(x => new PasslePostViewModel(x));
-
-            //viewModel.AuthorPosts = umbracoPosts
-            //    .Where(x => x.Authors.Select(y => y.PassleName)
-            //    .Contains(viewModel.PassleName));
-
             return CurrentTemplate(viewModel);
         }
     }

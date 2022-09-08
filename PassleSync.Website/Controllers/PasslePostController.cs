@@ -19,18 +19,6 @@ namespace PassleSync.Website.Controllers
         {
             var viewModel = new PasslePost(model.Content);
 
-            //var umbracoAuthors = Umbraco.Content(_configService.AuthorsParentNodeId)
-            //    .ChildrenOfType(_configService.PassleAuthorContentTypeAlias)
-            //    .Where(x => x.IsVisible())
-            //    .Select(x => new PassleAuthorViewModel(x));
-
-            //viewModel.UmbracoAuthorUrl = umbracoAuthors
-            //    .Where(x => x.Shortcode == viewModel.Author.Shortcode)
-            //    .FirstOrDefault()?.Url() ?? "";
-
-            //ViewBag.PassleDomain = _configService.PassleDomain;
-            //ViewBag.PassleSubscribeLink = "";
-
             return CurrentTemplate(viewModel);
         }
     }
