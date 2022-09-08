@@ -1,5 +1,6 @@
 ﻿using PassleSync.Core.API.Services;
 using PassleSync.Core.API.SyncHandlers;
+using PassleSync.Core.Helpers.Queries;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using PassleSync.Core.Services.Content;
@@ -18,6 +19,8 @@ namespace PassleSync.Core.Composers
             composition.Register<ConfigService>(Lifetime.Request);
             composition.Register<UmbracoContentService>(Lifetime.Request);
             composition.Register<IPassleHelperService, PassleHelperService>(Lifetime.Request);
+            composition.Register<PasslePostQuery>(Lifetime.Request);
+            composition.Register<PassleAuthorQuery>(Lifetime.Request);
         }
     }
 }

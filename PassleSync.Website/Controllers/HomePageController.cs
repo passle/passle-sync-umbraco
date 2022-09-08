@@ -18,20 +18,11 @@ namespace PassleSync.Website.Controllers
 
         public override ActionResult Index(ContentModel model)
         {
-            var viewModel = new HomePageViewModel(model.Content);
-
-            var posts = _passleHelperService.GetPosts();
-            var featuredPost = posts.Where(x => x.IsFeaturedOnPasslePage).FirstOrDefault();
-
-            if (featuredPost != null)
+            var viewModel = new HomePageViewModel(model.Content)
             {
-                viewModel.FeaturedPost = featuredPost;
-                viewModel.Posts = posts.Where(x => x.PostShortcode != featuredPost.PostShortcode);
-            }
-            else
-            {
-                viewModel.Posts = posts;
-            }
+                Posts = _passleHelperService.GetPosts().FeaturedOnPasslePage(false).WithItemsPerPage(4).Execute().Items,
+                FeaturedPost = _passleHelperService.GetPosts().FeaturedOnPasslePage(true).Execute().Items.FirstOrDefault(),
+            };
 
             return CurrentTemplate(viewModel);
         }

@@ -1,0 +1,23 @@
+﻿@using PassleSync.Website.ViewModels;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<InsightsPageViewModel>
+@using ContentModels = PassleSync.Core.Models.Content.Umbraco;
+@{
+    Layout = "Layout.cshtml";
+}
+
+<div class="flex flex-col gap-8 max-w-6xl mx-auto">
+    <div class="section">
+
+        <h2 class="section__heading">All insights</h2>
+
+        <div class="grid grid-cols-2 gap-6">
+            @foreach (var post in Model.Posts)
+            {
+                @Html.Partial("PasslePost", post);
+            }
+        </div>
+
+        @Html.Partial("Pagination", Model.Pagination)
+
+    </div>
+</div>

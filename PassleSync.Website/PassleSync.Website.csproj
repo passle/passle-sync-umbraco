@@ -417,11 +417,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\InsightsPageController.cs" />
     <Compile Include="Controllers\PassleAuthorController.cs" />
     <Compile Include="Controllers\PasslePostController.cs" />
     <Compile Include="Controllers\HomePageController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
+    <Compile Include="ViewModels\InsightsPageViewModel.cs" />
+    <Compile Include="ViewModels\PaginationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\imageprocessor\security.config" />
@@ -442,7 +445,7 @@
     <Content Include="config\BackOfficeTours\getting-started.json" />
     <None Include="packages.config" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Home.cshtml" />
+    <Content Include="Views\HomePage.cshtml" />
     <Content Include="Views\Layout.cshtml" />
     <Content Include="Views\Icons\Subscribe.cshtml" />
     <Content Include="Views\Icons\ISTATOY.cshtml" />
@@ -450,6 +453,8 @@
     <Content Include="Views\PassleAuthor.cshtml" />
     <Content Include="Views\PasslePost.cshtml" />
     <Content Include="Views\Partials\Sections\Insights.cshtml" />
+    <Content Include="Views\InsightsPage.cshtml" />
+    <Content Include="Views\Partials\Pagination.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

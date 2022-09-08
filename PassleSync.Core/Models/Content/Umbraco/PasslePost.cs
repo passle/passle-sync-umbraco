@@ -36,7 +36,7 @@ namespace PassleSync.Core.Models.Content.Umbraco
             var passleHelperService = Current.Factory.GetInstance<IPassleHelperService>();
 
             // TODO: Pass option to query to only fetch required shortcodes instead of fetching all and filtering
-            return passleHelperService.GetAuthors().Where(x => shortcodes.Contains(x.Shortcode));
+            return passleHelperService.GetAuthors().Execute().Items.Where(x => shortcodes.Contains(x.Shortcode));
         }
     }
 }

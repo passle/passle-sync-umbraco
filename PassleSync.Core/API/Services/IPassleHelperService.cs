@@ -1,11 +1,10 @@
-﻿using PassleSync.Core.Models.Content.Umbraco;
-using System.Collections.Generic;
+﻿using PassleSync.Core.Helpers.Queries;
 
 namespace PassleSync.Core.API.Services
 {
     public interface IPassleHelperService
     {
-        IEnumerable<PasslePost> GetPosts();
-        IEnumerable<PassleAuthor> GetAuthors();
+        PasslePostQuery GetPosts();
+        PassleAuthorQuery GetAuthors();
     }
 }

@@ -78,13 +78,13 @@ namespace PassleSync.Core.Services.Content
 
         private IEnumerable<IContent> GetContent(string contentType)
         {
-            if (_examineManager.TryGetIndex(UmbracoConstants.UmbracoIndexes.InternalIndexName, out var index))
+            if (!ExamineManager.Instance.TryGetIndex(UmbracoConstants.UmbracoIndexes.ExternalIndexName, out var index))
             {
-                var ids = index.GetSearcher().CreateQuery("content").NodeTypeAlias(contentType).Execute().Select(x => int.Parse(x.Id));
-                return _contentService.GetByIds(ids);
+                throw new InvalidOperationException($"No index found with name {UmbracoConstants.UmbracoIndexes.ExternalIndexName}");
             }
 
-            return null;
+            var ids = index.GetSearcher().CreateQuery("content").NodeTypeAlias(contentType).Execute().Select(x => int.Parse(x.Id));
+            return _contentService.GetByIds(ids);
         }
     }
 }
