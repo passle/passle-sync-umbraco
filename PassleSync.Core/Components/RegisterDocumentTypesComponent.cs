@@ -327,7 +327,14 @@ namespace PassleSync.Core.Components
 
                     if (isEnumerable)
                     {
-                        dataTypeName = PassleDataType.PASSLE_REPEATABLE_TEXTSTRINGS;
+                        if (property.Name == "Tags")
+                        {
+                            dataTypeName = "Tags";
+                        }
+                        else
+                        {
+                            dataTypeName = PassleDataType.PASSLE_REPEATABLE_TEXTSTRINGS;
+                        }
                     }
                     else if (property.IsDefined(typeof(LongStringAttribute), false))
                     {

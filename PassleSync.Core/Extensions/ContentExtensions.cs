@@ -45,7 +45,14 @@ namespace PassleSync.Core.Extensions
                 {
                     if (isEnumerable)
                     {
-                        AddRepeatableTextstringsToNode(node, entity, property.Name);
+                        if (property.Name == "Tags")
+                        {
+                            AddTagsToNode(node, entity);
+                        }
+                        else
+                        {
+                            AddRepeatableTextstringsToNode(node, entity, property.Name);
+                        }
                     }
                     else if (propertyTypeInfo.IsEnum)
                     {
@@ -80,6 +87,12 @@ namespace PassleSync.Core.Extensions
             var value = string.Join(Environment.NewLine, items);
 
             node.SetValue(propertyName.ToPropertyAlias(), value);
+        }
+
+        public static void AddTagsToNode<T>(this IContent node, T entity)
+        {
+            var tags = (IEnumerable<string>)entity.GetType().GetProperty("Tags").GetValue(entity, null);
+            node.AssignTags("tags", tags);
         }
 
         public static void AddEnumToNode<T>(this IContent node, T entity, string propertyName)
