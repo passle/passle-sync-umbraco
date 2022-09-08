@@ -164,7 +164,7 @@ namespace PassleSync.Core.Components
 
         private void CreatePassleAuthorContentType()
         {
-            if (_contentTypeService.Get(_configService.PassleAuthorContentTypeAlias) != null)
+            if (_contentTypeService.Get(PassleContentType.PASSLE_AUTHOR) != null)
             {
                 return;
             }
@@ -172,7 +172,7 @@ namespace PassleSync.Core.Components
             var passleAuthorContentType = new ContentType(-1)
             {
                 Name = "Passle Author",
-                Alias = _configService.PassleAuthorContentTypeAlias,
+                Alias = PassleContentType.PASSLE_AUTHOR,
                 Description = "A Passle author synced to your Umbraco instance.",
                 Icon = "icon-user color-deep-orange",
                 ParentId = _passleContainerId,
