@@ -17,6 +17,7 @@ namespace PassleSync.Core.Helpers.Queries
         protected IBooleanOperation _query;
 
         protected abstract string ContentType { get; }
+        protected abstract string[] SearchFields { get; }
 
         protected int CurrentPage { get; set; } = 1;
         protected int ItemsPerPage { get; set; } = 20;
@@ -29,9 +30,9 @@ namespace PassleSync.Core.Helpers.Queries
             _query = CreateQuery(ContentType);
         }
 
-        public virtual QueryBase<T> Search(string searchQuery)
+        public QueryBase<T> Search(string searchQuery)
         {
-            _query = _query.And().Field("nodeName", searchQuery);
+            _query = _query.And().GroupedOr(SearchFields, searchQuery);
             return this;
         }
 

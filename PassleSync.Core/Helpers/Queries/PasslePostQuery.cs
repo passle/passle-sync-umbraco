@@ -9,6 +9,7 @@ namespace PassleSync.Core.Helpers.Queries
     public class PasslePostQuery : QueryBase<PasslePost>
     {
         protected override string ContentType => PassleContentType.PASSLE_POST;
+        protected override string[] SearchFields => new string[] { "nodeName", "postContentHtml", "quoteText" };
 
         public PasslePostQuery(IExamineManager examineManager, UmbracoHelper umbracoHelper) : base(examineManager, umbracoHelper)
         {
