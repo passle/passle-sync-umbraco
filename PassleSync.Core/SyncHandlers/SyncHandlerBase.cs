@@ -4,9 +4,11 @@ using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using PassleSync.Core.Services.Content;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Logging;
+using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 
 namespace PassleSync.Core.SyncHandlers
@@ -20,7 +22,6 @@ namespace PassleSync.Core.SyncHandlers
         protected readonly PassleContentService<TPlural, TSingular> _passleContentService;
         protected readonly UmbracoContentService<TSingular> _umbracoContentService;
         protected readonly ILogger _logger;
-
 
         public SyncHandlerBase(
             IContentService contentService,
@@ -77,8 +78,15 @@ namespace PassleSync.Core.SyncHandlers
                 return;
             }
 
-            DeleteOne(shortcode);
-            CreateOne(apiItem);
+            var publishedContent = _umbracoContentService.GetContentByShortcode(shortcode);
+            if (publishedContent == null)
+            {
+                CreateOne(apiItem);
+            }
+            else
+            {
+                UpdateOne(publishedContent, apiItem);
+            }
         }
 
         public virtual void DeleteAll()
@@ -118,6 +126,11 @@ namespace PassleSync.Core.SyncHandlers
         public virtual void CreateOne(TSingular item)
         {
             _umbracoContentService.Create(item);
+        }
+        
+        public virtual void UpdateOne(IContent node, TSingular item)
+        {
+            _umbracoContentService.UpdateOne(node, item);
         }
     }
 }

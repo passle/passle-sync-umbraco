@@ -1,6 +1,7 @@
-﻿
-namespace PassleSync.Core.Controllers.RequestModels
+﻿namespace PassleSync.Core.Controllers.RequestModels
 {
-    public class AuthorShortcodeModel : SyncableObjectModel
-    { }
+    public class AuthorShortcodeModel
+    {
+        public string Shortcode { get; set; }
+    }
 }

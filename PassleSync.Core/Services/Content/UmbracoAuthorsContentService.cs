@@ -33,5 +33,10 @@ namespace PassleSync.Core.Services.Content
         {
             return item.GetValue<string>("shortcode");
         }
+
+        public override void OnBeforeSave(IContent node, PassleAuthor item)
+        {
+            node.Name = item.Name;
+        }
     }
 }

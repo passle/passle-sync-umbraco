@@ -23,11 +23,11 @@ namespace PassleSync.Core.Controllers
 
         [HttpPost]
         [ValidateAPIKey]
-        public IHttpActionResult Update([FromBody] AuthorShortcodeModel author)
+        public IHttpActionResult Update([FromBody] AuthorShortcodeModel model)
         {
             try
             {
-                _authorHandler.SyncOne(author.Shortcode);
+                _authorHandler.SyncOne(model.Shortcode);
                 return Ok();
             }
             catch (Exception)

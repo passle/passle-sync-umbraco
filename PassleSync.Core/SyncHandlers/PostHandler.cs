@@ -37,7 +37,7 @@ namespace PassleSync.Core.SyncHandlers
                 return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
             }
 
-            var umbracoPosts = _umbracoContentService.GetExistingContent();
+            var umbracoPosts = _umbracoContentService.GetContent();
 
             // Create viewmodels
             var umbracoPostModels = umbracoPosts.Select(post => new PassleDashboardPostViewModel(post));

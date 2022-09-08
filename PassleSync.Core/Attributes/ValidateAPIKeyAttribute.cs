@@ -20,7 +20,7 @@ namespace PassleSync.Core.Attributes
         public ValidateAPIKeyAttribute()
         {
             var configService = Current.Factory.GetInstance<ConfigService>();
-            _apiKey = configService.ClientApiKey;
+            _apiKey = configService.PluginApiKey;
         }
 
         public override void OnActionExecuting(HttpActionContext actionContext)

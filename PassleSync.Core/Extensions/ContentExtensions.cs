@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Umbraco.Core;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace PassleSync.Core.Extensions
 {
@@ -123,6 +124,18 @@ namespace PassleSync.Core.Extensions
             }
 
             node.SetValue(propertyName, JsonConvert.SerializeObject(result));
+        }
+
+        public static T GetValueOrDefault<T>(this IPublishedContent content, string key, T defaultValue = default)
+        {
+            try
+            {
+                return (T)content.GetProperty(key).GetValue();
+            }
+            catch (NullReferenceException)
+            {
+                return defaultValue;
+            }
         }
     }
 }
