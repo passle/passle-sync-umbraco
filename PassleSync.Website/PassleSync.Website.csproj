@@ -318,6 +318,9 @@
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.controller.js" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.html" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.resource.js" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.controller.js" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.directive.js" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.html" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\authorsTable\authorsTable.controller.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
@@ -374,6 +377,7 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\services\passleTags.resource.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\services\passleAuthors.resource.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>

@@ -1,0 +1,19 @@
+﻿<div ng-controller="TagsTableController as vm">
+    <umb-load-indicator ng-if="vm.loading"></umb-load-indicator>
+    <div ng-if="!vm.loading">
+        <div class="table-actions">
+            <button class="left-button btn-primary" ng-class="{'disabled': vm.isRefreshing}" ng-click="vm.refresh()">Refresh all</button>
+        </div>
+
+        <umb-table ng-if="vm.tags"
+                   items="vm.tags"
+                   item-properties="vm.rowProperties"
+                   allow-select-all="vm.allowSelectAll"
+                   on-select="vm.onSelectItem(item)"
+                   on-select-all="vm.onSelectAll()"
+                   on-selected-all="vm.onSelectedAll()"
+                   on-sorting-direction="vm.onSortDirection(col, direction)"
+                   on-sort="vm.onSort(field, allow)">
+        </umb-table>
+    </div>
+</div>
