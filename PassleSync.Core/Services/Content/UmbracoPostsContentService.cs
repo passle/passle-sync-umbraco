@@ -3,7 +3,9 @@ using PassleSync.Core.Models.Content.PassleApi;
 using System;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.Services;
+using Umbraco.Web;
 
 namespace PassleSync.Core.Services.Content
 {
@@ -13,12 +15,14 @@ namespace PassleSync.Core.Services.Content
             IExamineManager examineManager,
             IContentService contentService,
             ConfigService configService,
-            ILogger logger
+            ILogger logger,
+            IPublishedContentQuery publishedContentQuery
         ) : base (
             examineManager,
             contentService,
             configService,
-            logger
+            logger,
+            publishedContentQuery
         )
         {
             _parentNodeId = configService.PostsParentNodeId;
@@ -30,9 +34,9 @@ namespace PassleSync.Core.Services.Content
             return item.PostTitle;
         }
 
-        public override string Shortcode(IContent item)
+        public override string Shortcode(IPublishedContent item)
         {
-            return item.GetValue<string>("postShortcode");
+            return item.Value<string>("postShortcode");
         }
 
         public override void OnBeforeSave(IContent node, PasslePost item)

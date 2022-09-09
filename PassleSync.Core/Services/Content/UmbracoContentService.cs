@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.Services;
 using Umbraco.Examine;
+using Umbraco.Web;
 using UmbracoConstants = Umbraco.Core.Constants;
 
 namespace PassleSync.Core.Services.Content
@@ -17,6 +19,7 @@ namespace PassleSync.Core.Services.Content
         protected readonly IContentService _contentService;
         protected readonly ConfigService _configService;
         protected readonly ILogger _logger;
+        protected readonly IPublishedContentQuery _publishedContentQuery;
 
         protected int _parentNodeId;
         protected string _contentTypeAlias;
@@ -27,20 +30,22 @@ namespace PassleSync.Core.Services.Content
             IExamineManager examineManager,
             IContentService contentService,
             ConfigService configService,
-            ILogger logger)
+            ILogger logger,
+            IPublishedContentQuery publishedContentQuery)
         {
             _examineManager = examineManager;
             _contentService = contentService;
             _configService = configService;
             _logger = logger;
+            _publishedContentQuery = publishedContentQuery;
         }
 
         public abstract string Name(T item);
-        public abstract string Shortcode(IContent item);
+        public abstract string Shortcode(IPublishedContent item);
         public virtual void OnBeforeSave(IContent node, T item)
         { }
 
-        public IEnumerable<IContent> GetContent()
+        public IEnumerable<IPublishedContent> GetContent()
         {
             if (!ExamineManager.Instance.TryGetIndex(UmbracoConstants.UmbracoIndexes.InternalIndexName, out var index))
             {
@@ -53,10 +58,14 @@ namespace PassleSync.Core.Services.Content
                 .Execute()
                 .Select(x => int.Parse(x.Id));
 
-            return _contentService.GetByIds(ids);
+            // There's value to returning IPublishedContent so that properties are in the correct format.
+            // However, I don't like the way I've done this for now.
+            // TODO: Fix this.
+            //return _contentService.GetByIds(ids);
+            return _publishedContentQuery.Content(ids).ToList();
         }
 
-        public IContent GetContentByShortcode(string shortcode)
+        public IPublishedContent GetContentByShortcode(string shortcode)
         {
             return GetContent().Where(x => Shortcode(x) == shortcode).FirstOrDefault();
         }
@@ -72,7 +81,7 @@ namespace PassleSync.Core.Services.Content
             _contentService.SaveAndPublish(node);
         }
 
-        public void UpdateOne(IContent publishedContent, T item)
+        public void UpdateOne(IPublishedContent publishedContent, T item)
         {
             var editableContent = _contentService.GetById(publishedContent.Id);
 
@@ -87,7 +96,8 @@ namespace PassleSync.Core.Services.Content
         public void DeleteAll()
         {
             // Delete all existing items
-            foreach (var child in GetContent())
+            var children = GetContent();
+            foreach (var child in children)
             {
                 Delete(child);
             }
@@ -96,7 +106,8 @@ namespace PassleSync.Core.Services.Content
         public void DeleteMany(string[] shortcodes)
         {
             // Delete any existing items with matching shortcodes
-            foreach (var child in GetContent().Where(x => shortcodes.Contains(Shortcode(x))))
+            var children = GetContent().Where(x => shortcodes.Contains(Shortcode(x)));
+            foreach (var child in children)
             {
                 Delete(child);
             }
@@ -105,19 +116,21 @@ namespace PassleSync.Core.Services.Content
         public void DeleteOne(string shortcode)
         {
             // Delete any existing items with matching shortcodes
-            foreach (var child in GetContent().Where(x => shortcode == Shortcode(x)))
+            var children = GetContent().Where(x => shortcode == Shortcode(x));
+            foreach (var child in children)
             {
                 Delete(child);
             }
         }
 
-        public void Delete(IContent document)
+        public void Delete(IPublishedContent document)
         {
             if (document != null)
-            {
+            { 
                 try
                 {
-                    _contentService.Delete(document);
+                    var content = _contentService.GetById(document.Id);
+                    _contentService.Delete(content);
                 }
                 catch (Exception ex)
                 {
