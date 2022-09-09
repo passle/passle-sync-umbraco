@@ -704,9 +704,10 @@
     <Compile Include="Models\Content\Umbraco\Image.generated.cs" />
     <Compile Include="Models\Content\Umbraco\InsightsPage.generated.cs" />
     <Compile Include="Models\Content\Umbraco\Member.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\PassleAuthor.cs" />
+    <Compile Include="Models\Content\Umbraco\PassleAuthor.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PasslePost.cs" />
     <Compile Include="Models\Content\Umbraco\PasslePost.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\PasslePosts.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PostAuthor.cs" />
     <Compile Include="Models\Content\Umbraco\PostAuthor.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PostShareViews.generated.cs" />
