@@ -691,7 +691,6 @@
     <Compile Include="Helpers\Queries\PassleAuthorQuery.cs" />
     <Compile Include="Helpers\Queries\PasslePostQuery.cs" />
     <Compile Include="Helpers\PostHelper.cs" />
-    <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Helpers\Queries\QueryBase.cs" />
     <Compile Include="Helpers\Queries\QueryResult.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostMediaType.cs" />
@@ -705,9 +704,6 @@
     <Compile Include="Models\Content\Umbraco\Image.generated.cs" />
     <Compile Include="Models\Content\Umbraco\InsightsPage.generated.cs" />
     <Compile Include="Models\Content\Umbraco\Member.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\PassleAuthor.cs" />
-    <Compile Include="Models\Content\Umbraco\PassleAuthor.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\PassleAuthors.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PasslePost.cs" />
     <Compile Include="Models\Content\Umbraco\PasslePost.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PasslePosts.generated.cs" />
@@ -738,9 +734,7 @@
     <Compile Include="Services\Content\UmbracoAuthorsContentService.cs" />
     <Compile Include="Services\Content\UmbracoPostsContentService.cs" />
     <Compile Include="Services\Content\UmbracoContentService.cs" />
-    <Compile Include="Services\PassleContentService.cs" />
     <Compile Include="Services\PassleHelperService.cs" />
-    <Compile Include="Services\UmbracoContentService.cs" />
     <Compile Include="SyncHandlers\AuthorHandler.cs" />
     <Compile Include="SyncHandlers\PostHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
