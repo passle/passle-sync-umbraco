@@ -37,10 +37,10 @@ namespace PassleSync.Core.Services.Content
 
         public override void OnBeforeSave(IContent node, PasslePost item)
         {
-            var date = DateTime.Parse(item.PublishedDate);
-            node.CreateDate = date;
-            node.PublishDate = date;
-            node.UpdateDate = date;
+            node.Name = item.PostTitle;
+            node.CreateDate = item.PublishedDate;
+            node.PublishDate = item.PublishedDate;
+            node.UpdateDate = item.PublishedDate;
         }
     }
 }

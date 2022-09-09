@@ -19,26 +19,26 @@ using Umbraco.ModelsBuilder.Embedded;
 
 namespace PassleSync.Core.Models.Content.Umbraco
 {
-	/// <summary>Home Page</summary>
-	[PublishedModel("homePage")]
-	public partial class HomePage : PublishedContentModel
+	/// <summary>Insights Page</summary>
+	[PublishedModel("insightsPage")]
+	public partial class InsightsPage : PublishedContentModel
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		public new const string ModelTypeAlias = "homePage";
+		public new const string ModelTypeAlias = "insightsPage";
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
 		public new static IPublishedContentType GetModelContentType()
 			=> PublishedModelUtility.GetModelContentType(ModelItemType, ModelTypeAlias);
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.5")]
-		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<HomePage, TValue>> selector)
+		public static IPublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<InsightsPage, TValue>> selector)
 			=> PublishedModelUtility.GetModelPropertyType(GetModelContentType(), selector);
 #pragma warning restore 0109
 
 		// ctor
-		public HomePage(IPublishedContent content)
+		public InsightsPage(IPublishedContent content)
 			: base(content)
 		{ }
 

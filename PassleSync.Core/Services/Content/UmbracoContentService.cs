@@ -42,13 +42,18 @@ namespace PassleSync.Core.Services.Content
 
         public IEnumerable<IContent> GetContent()
         {
-            if (_examineManager.TryGetIndex(UmbracoConstants.UmbracoIndexes.InternalIndexName, out var index))
+            if (!ExamineManager.Instance.TryGetIndex(UmbracoConstants.UmbracoIndexes.InternalIndexName, out var index))
             {
-                var ids = index.GetSearcher().CreateQuery("content").NodeTypeAlias(_contentTypeAlias).Execute().Select(x => int.Parse(x.Id));
-                return _contentService.GetByIds(ids);
+                throw new InvalidOperationException($"No index found with name {UmbracoConstants.UmbracoIndexes.ExternalIndexName}");
             }
 
-            return null;
+            var ids = index.GetSearcher()
+                .CreateQuery("content")
+                .NodeTypeAlias(_contentTypeAlias)
+                .Execute()
+                .Select(x => int.Parse(x.Id));
+
+            return _contentService.GetByIds(ids);
         }
 
         public IContent GetContentByShortcode(string shortcode)
@@ -91,24 +96,18 @@ namespace PassleSync.Core.Services.Content
         public void DeleteMany(string[] shortcodes)
         {
             // Delete any existing items with matching shortcodes
-            foreach (var child in GetContent())
+            foreach (var child in GetContent().Where(x => shortcodes.Contains(Shortcode(x))))
             {
-                if (shortcodes.Contains(Shortcode(child)))
-                {
-                    Delete(child);
-                }
+                Delete(child);
             }
         }
 
         public void DeleteOne(string shortcode)
         {
             // Delete any existing items with matching shortcodes
-            foreach (var child in GetContent())
+            foreach (var child in GetContent().Where(x => shortcode == Shortcode(x)))
             {
-                if (shortcode == Shortcode(child))
-                {
-                    Delete(child);
-                }
+                Delete(child);
             }
         }
 

@@ -651,6 +651,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Models\IBasicAuthorDetails.cs" />
+    <Compile Include="API\Services\IPassleHelperService.cs" />
     <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
     <Compile Include="Attributes\LongStringAttribute.cs" />
     <Compile Include="Attributes\NestedContentNameTemplateAttribute.cs" />
@@ -665,6 +667,7 @@
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
     <Compile Include="Constants\PassleContentType.cs" />
     <Compile Include="Constants\PassleDataType.cs" />
+    <Compile Include="Constants\PassleStrings.cs" />
     <Compile Include="ContentFinders\BaseContentFinder.cs" />
     <Compile Include="ContentFinders\PassleAuthorContentFinder.cs" />
     <Compile Include="ContentFinders\PasslePostContentFinder.cs" />
@@ -685,7 +688,12 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Controllers\Webhooks\PostsController.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Helpers\Queries\PassleAuthorQuery.cs" />
+    <Compile Include="Helpers\Queries\PasslePostQuery.cs" />
     <Compile Include="Helpers\PostHelper.cs" />
+    <Compile Include="Helpers\ApiHelper.cs" />
+    <Compile Include="Helpers\Queries\QueryBase.cs" />
+    <Compile Include="Helpers\Queries\QueryResult.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostMediaType.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostFeaturedItemPosition.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostIframelyObjectType.cs" />
@@ -695,9 +703,15 @@
     <Compile Include="Models\Content\Umbraco\Folder.generated.cs" />
     <Compile Include="Models\Content\Umbraco\HomePage.generated.cs" />
     <Compile Include="Models\Content\Umbraco\Image.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\InsightsPage.generated.cs" />
     <Compile Include="Models\Content\Umbraco\Member.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\PassleAuthor.cs" />
     <Compile Include="Models\Content\Umbraco\PassleAuthor.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\PassleAuthors.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\PasslePost.cs" />
     <Compile Include="Models\Content\Umbraco\PasslePost.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\PasslePosts.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\PostAuthor.cs" />
     <Compile Include="Models\Content\Umbraco\PostAuthor.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PostShareViews.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PostTweet.generated.cs" />
@@ -724,6 +738,9 @@
     <Compile Include="Services\Content\UmbracoAuthorsContentService.cs" />
     <Compile Include="Services\Content\UmbracoPostsContentService.cs" />
     <Compile Include="Services\Content\UmbracoContentService.cs" />
+    <Compile Include="Services\PassleContentService.cs" />
+    <Compile Include="Services\PassleHelperService.cs" />
+    <Compile Include="Services\UmbracoContentService.cs" />
     <Compile Include="SyncHandlers\AuthorHandler.cs" />
     <Compile Include="SyncHandlers\PostHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -733,17 +750,17 @@
     <Compile Include="UrlProviders\PasslePostUrlProvider.cs" />
     <Compile Include="Utils\UrlFactory.cs" />
     <Compile Include="API\ViewModels\IPassleDashboardViewModel.cs" />
+    <Compile Include="ViewModels\PassleAuthorViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardAuthorsViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardAuthorViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardPostsViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardPostViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardSettingsViewModel.cs" />
+    <Compile Include="ViewModels\PasslePostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Models\GeneratedModels.mb" />
-    <None Include="Utils\.gitinclude" />
-    <None Include="Helpers\.gitinclude" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

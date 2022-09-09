@@ -3,43 +3,52 @@ using System.Web.Mvc;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
 using PassleSync.Website.ViewModels;
-using Umbraco.Web;
-using PassleSync.Core.Services;
-using PassleSync.Core.Constants;
+using PassleSync.Core.API.Services;
+using PassleSync.Core.Extensions;
 
 namespace PassleSync.Website.Controllers
 {
     public class HomePageController : RenderMvcController
     {
-        private readonly ConfigService _configService;
+        private readonly IPassleHelperService _passleHelperService;
 
-        public HomePageController(ConfigService configService) : base()
+        public HomePageController(IPassleHelperService passleHelperService) : base()
         {
-            _configService = configService;
+            _passleHelperService = passleHelperService;
         }
 
         public override ActionResult Index(ContentModel model)
         {
-            var viewModel = new HomePageViewModel(model.Content);
+            var searchQuery = Request.QueryString["s"];
+            var currentPage = Request.QueryString["page"].ToIntOrDefault(1);
 
-            var posts = Umbraco.Content(_configService.PostsParentNodeId)
-                .ChildrenOfType(PassleContentType.PASSLE_POST)
-                .Where(x => x.IsVisible())
-                .Select(x => new PasslePostViewModel(x));
-
-            var featuredPost = posts.Where(x => x.IsFeaturedOnPasslePage).FirstOrDefault();
-
-            if (featuredPost != null)
+            if (string.IsNullOrEmpty(searchQuery))
             {
-                viewModel.FeaturedPost = featuredPost;
-                viewModel.Posts = posts.Where(x => x.PostShortcode != featuredPost.PostShortcode);
+                var viewModel = new HomePageViewModel(model.Content)
+                {
+                    Posts = _passleHelperService.GetPosts().FeaturedOnPasslePage(false).WithItemsPerPage(4).Execute().Items,
+                    FeaturedPost = _passleHelperService.GetPosts().FeaturedOnPasslePage(true).Execute().Items.FirstOrDefault(),
+                };
+
+                return CurrentTemplate(viewModel);
             }
             else
             {
-                viewModel.Posts = posts;
-            }
+                var query = _passleHelperService.GetPosts().Search(searchQuery).WithCurrentPage(currentPage).WithItemsPerPage(10).Execute();
 
-            return CurrentTemplate(viewModel);
+                var viewModel = new HomePageViewModel(model.Content)
+                {
+                    Posts = query.Items,
+                    SearchQuery = searchQuery,
+                    Pagination = new PaginationViewModel()
+                    {
+                        CurrentPage = query.CurrentPage,
+                        TotalPages = query.TotalItems / query.ItemsPerPage, 
+                    },
+                };
+
+                return CurrentTemplate(viewModel);
+            }
         }
     }
 }

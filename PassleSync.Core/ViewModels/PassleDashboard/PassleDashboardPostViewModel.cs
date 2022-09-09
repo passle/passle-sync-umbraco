@@ -46,7 +46,7 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
             Excerpt = from.ContentTextSnippet;
             PostUrl = from.PostUrl;
             ImageUrl = from.ImageUrl;
-            PublishedDate = DateTime.Parse(from.PublishedDate);
+            PublishedDate = from.PublishedDate;
             Authors = string.Join(", ", from.Authors.Select(a => a.Name));
             Tags = string.Join(", ", from.Tags);
             Synced = false;
