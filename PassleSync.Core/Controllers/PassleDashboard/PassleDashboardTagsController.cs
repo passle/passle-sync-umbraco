@@ -42,15 +42,14 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         public IPassleDashboardViewModel GetAll()
         {
             var umbracoTags = _tagService.GetAllContentTags().Select(x => x.Text);
-            IEnumerable<IPublishedContent> getUmbracoTaggedContent (string x) => _publishedContentQuery.Content(_tagService.GetTaggedContentByTag(x).Select(y => y.EntityId));
-            int umbracoNonPassleContentCount(string x) => getUmbracoTaggedContent(x)
-                .Where(y => y.ContentType.Alias != PassleContentType.PASSLE_POST)
-                .Count();
+
+            Func<string, int> umbracoNonPassleContentCount = x => _publishedContentQuery.Content(_tagService.GetTaggedContentByTag(x).Select(y => y.EntityId))
+                .Count(y => y.ContentType.Alias != PassleContentType.PASSLE_POST);
 
             var passleTags = _passleTagsContentService.GetAll();
             var passlePosts = _passlePostsContentService.GetAll();
 
-            var syncedPasslePosts = _umbracoPostsContentService.GetContent();
+            var syncedPasslePosts = _umbracoPostsContentService.GetPublishedContent();
             var syncedPasslePostTags = syncedPasslePosts.Select(x => x.Value<IEnumerable<string>>("tags"));
             var syncedPasslePostShortcodes = syncedPasslePosts.Select(x => x.Value<string>("postShortcode"));
             var unsyncedPasslePosts = passlePosts.Where(x => !syncedPasslePostShortcodes.Contains(x.PostShortcode));

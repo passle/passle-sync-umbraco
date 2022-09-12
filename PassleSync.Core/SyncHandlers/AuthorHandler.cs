@@ -37,7 +37,7 @@ namespace PassleSync.Core.SyncHandlers
                 return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
             }
 
-            var umbracoAuthors = _umbracoContentService.GetContent();
+            var umbracoAuthors = _umbracoContentService.GetPublishedContent();
 
             // Create viewmodels
             var umbracoAuthorModels = umbracoAuthors.Select(author => new PassleDashboardAuthorViewModel(author));

@@ -41,33 +41,43 @@ namespace PassleSync.Core.Services.Content
         }
 
         public abstract string Name(T item);
+        public abstract string Shortcode(IContent item);
         public abstract string Shortcode(IPublishedContent item);
         public virtual void OnBeforeSave(IContent node, T item)
         { }
 
-        public IEnumerable<IPublishedContent> GetContent()
+        public IEnumerable<IPublishedContent> GetPublishedContent()
         {
-            if (!ExamineManager.Instance.TryGetIndex(UmbracoConstants.UmbracoIndexes.InternalIndexName, out var index))
+            var ids = GetContent(UmbracoConstants.UmbracoIndexes.ExternalIndexName);
+
+            // Call ToList to formalise the result now and avoid errors about 'expired snapshot' when enumerating later
+            return _publishedContentQuery.Content(ids).ToList();
+        }
+
+        public IEnumerable<IContent> GetAllContent()
+        {
+            var ids = GetContent(UmbracoConstants.UmbracoIndexes.InternalIndexName);
+
+            return _contentService.GetByIds(ids);
+        }
+
+        IEnumerable<int> GetContent(string indexName)
+        {
+            if (!_examineManager.TryGetIndex(indexName, out var index))
             {
-                throw new InvalidOperationException($"No index found with name {UmbracoConstants.UmbracoIndexes.ExternalIndexName}");
+                throw new InvalidOperationException($"No index found with name {indexName}");
             }
 
-            var ids = index.GetSearcher()
+            return index.GetSearcher()
                 .CreateQuery("content")
                 .NodeTypeAlias(_contentTypeAlias)
                 .Execute()
                 .Select(x => int.Parse(x.Id));
-
-            // There's value to returning IPublishedContent so that properties are in the correct format.
-            // However, I don't like the way I've done this for now.
-            // TODO: Fix this.
-            //return _contentService.GetByIds(ids);
-            return _publishedContentQuery.Content(ids).ToList();
         }
 
         public IPublishedContent GetContentByShortcode(string shortcode)
         {
-            return GetContent().Where(x => Shortcode(x) == shortcode).FirstOrDefault();
+            return GetPublishedContent().Where(x => Shortcode(x) == shortcode).FirstOrDefault();
         }
 
         public void Create(T item)
@@ -96,7 +106,7 @@ namespace PassleSync.Core.Services.Content
         public void DeleteAll()
         {
             // Delete all existing items
-            var children = GetContent();
+            var children = GetAllContent();
             foreach (var child in children)
             {
                 Delete(child);
@@ -106,7 +116,7 @@ namespace PassleSync.Core.Services.Content
         public void DeleteMany(string[] shortcodes)
         {
             // Delete any existing items with matching shortcodes
-            var children = GetContent().Where(x => shortcodes.Contains(Shortcode(x)));
+            var children = GetAllContent().Where(x => shortcodes.Contains(Shortcode(x)));
             foreach (var child in children)
             {
                 Delete(child);
@@ -116,21 +126,20 @@ namespace PassleSync.Core.Services.Content
         public void DeleteOne(string shortcode)
         {
             // Delete any existing items with matching shortcodes
-            var children = GetContent().Where(x => shortcode == Shortcode(x));
+            var children = GetAllContent().Where(x => shortcode == Shortcode(x));
             foreach (var child in children)
             {
                 Delete(child);
             }
         }
 
-        public void Delete(IPublishedContent document)
+        public void Delete(IContent document)
         {
             if (document != null)
             { 
                 try
                 {
-                    var content = _contentService.GetById(document.Id);
-                    _contentService.Delete(content);
+                    _contentService.Delete(document);
                 }
                 catch (Exception ex)
                 {

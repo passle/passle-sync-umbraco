@@ -34,6 +34,11 @@ namespace PassleSync.Core.Services.Content
             return item.PostTitle;
         }
 
+        public override string Shortcode(IContent item)
+        {
+            return item.GetValue<string>("postShortcode");
+        }
+
         public override string Shortcode(IPublishedContent item)
         {
             return item.Value<string>("postShortcode");
