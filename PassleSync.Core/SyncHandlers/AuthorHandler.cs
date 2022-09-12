@@ -50,6 +50,13 @@ namespace PassleSync.Core.SyncHandlers
             return new PassleDashboardAuthorsViewModel(allModels);
         }
 
+        public override IPassleDashboardViewModel GetExisting()
+        {
+            var umbracoAuthors = _umbracoContentService.GetPublishedContent();
+            var umbracoAuthorModels = umbracoAuthors.Select(author => new PassleDashboardAuthorViewModel(author));
+            return new PassleDashboardAuthorsViewModel(umbracoAuthorModels);
+        }
+
         public override string Shortcode(PassleAuthor item)
         {
             return item.Shortcode;

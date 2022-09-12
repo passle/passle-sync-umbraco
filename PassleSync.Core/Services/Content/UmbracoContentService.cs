@@ -139,7 +139,11 @@ namespace PassleSync.Core.Services.Content
             { 
                 try
                 {
-                    _contentService.Delete(document);
+                   var result =  _contentService.Delete(document);
+                    if (!result.Success)
+                    {
+                        _logger.Debug(_contentService.GetType(), $"Failed to delete umbraco content: {string.Join(", ", result.EventMessages.GetAll().Select(x => x.Message))}");
+                    }
                 }
                 catch (Exception ex)
                 {

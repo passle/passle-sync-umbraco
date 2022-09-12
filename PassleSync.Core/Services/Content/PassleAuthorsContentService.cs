@@ -11,6 +11,7 @@ namespace PassleSync.Core.Services.Content
         {
             _path = "api/v2/passlesync/people";
             _responseSelector = x => x.People;
+            _itemType = "PersonShortcode";
         }
     }
 }

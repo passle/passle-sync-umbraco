@@ -20,9 +20,9 @@
             return Object.assign({}, {
                 "name": post.Title,
                 "excerpt": post.Excerpt,
-                "editPath": (syncOverride || post.Synced) ? ("/content/content/edit/" + post.Id) : post.PostUrl,
+                "editPath": post.Synced ? ("/content/content/edit/" + post.Id) : post.PostUrl,
                 "shortcode": post.Shortcode,
-                "synced": syncOverride || post.Synced
+                "synced": post.Synced
             });
         }
         function getOverriddenPostDataObject(post, shouldOverride, overrideValue) {
@@ -41,18 +41,25 @@
         function onload() {
             vm.loading = true;
 
-            passlePostsResource.getAll().then((response) => {
+            let startTime = Date.now();
+
+            passlePostsResource.getExisting().then((response) => {
                 vm.posts = response.Posts.map((post) => getPostDataObject(post));
                 vm.syncedCount = vm.posts.filter((post) => post.synced).length;
                 vm.unsyncedCount = vm.posts.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
                 vm.loading = false;
+
+                let endTime = Date.now();
+                console.log('Loaded in ', endTime - startTime);
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
-
                 vm.loading = false;
+
+                let endTime = Date.now();
+                console.log('Loaded in ', endTime - startTime);
             });
         }
         onload();
@@ -60,50 +67,55 @@
         vm.refresh = function () {
             vm.isRefreshing = true;
 
-            passlePostsResource.refreshAll().then(() => {
-                passlePostsResource.getAll().then((response) => {
-                    vm.posts = response.Posts.map((post) => getPostDataObject(post));
+            let startTime = Date.now();
 
-                    vm.syncedCount = vm.posts.filter((post) => post.synced).length;
-                    vm.unsyncedCount = vm.posts.length - vm.syncedCount;
-                    vm.isSelectedAll = false;
-                    vm.selectedCount = 0;
-                    vm.isRefreshing = false;
+            passlePostsResource.refreshAll().then((response) => {
+                vm.posts = response.Posts.map((post) => getPostDataObject(post));
 
-                    syncTree();
-                }, (error) => {
-                    console.error(error);
-                    notificationsService.error("Error", error);
+                vm.syncedCount = vm.posts.filter((post) => post.synced).length;
+                vm.unsyncedCount = vm.posts.length - vm.syncedCount;
+                vm.isSelectedAll = false;
+                vm.selectedCount = 0;
+                vm.isRefreshing = false;
 
-                    vm.isRefreshing = false;
-                });
+                syncTree();
+
+                let endTime = Date.now();
+                console.log('Loaded in ', endTime - startTime);
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
                 vm.isRefreshing = false;
+
+                let endTime = Date.now();
+                console.log('Loaded in ', endTime - startTime);
             });
         }
 
         vm.sync = function () {
             vm.isSyncing = true;
 
+            let startTime = Date.now();
+
             let syncProm;
-            let shortcodes;
+            let shortcodes = [];
             if (vm.isSelectedAll) {
                 syncProm = passlePostsResource.syncAll();
             } else {
-
-                if (vm.selectedCount > 0) {
+                if (vm.selectedCount == 0) {
+                    syncProm = passlePostsResource.syncAll();
+                } else if (vm.selectedCount == 1) {
                     shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
+                    syncProm = passlePostsResource.syncOne(shortcodes);
                 } else {
-                    shortcodes = vm.posts.map((post) => post.shortcode);
+                    shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
+                    syncProm = passlePostsResource.syncMany(shortcodes);
                 }
-                syncProm = passlePostsResource.syncMany(shortcodes);
             }
 
             syncProm.then(() => {
-                passlePostsResource.getAll().then((response) => {
+                passlePostsResource.refreshAll().then((response) => {
                     vm.posts = response.Posts.map((post) => getOverriddenPostDataObject(
                         post,
                         vm.isSelectedAll || shortcodes.includes(post.Shortcode),
@@ -120,38 +132,52 @@
                     notificationsService.success("Success", "Posts have been synced");
 
                     syncTree();
+
+                    let endTime = Date.now();
+                    console.log('Loaded in ', endTime - startTime);
                 }, (error) => {
                     console.error(error);
                     notificationsService.error("Error", error);
 
                     vm.isSyncing = false;
+
+                    let endTime = Date.now();
+                    console.log('Loaded in ', endTime - startTime);
                 });
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
                 vm.isSyncing = false;
+
+                let endTime = Date.now();
+                console.log('Loaded in ', endTime - startTime);
             });
         }
 
         vm.delete = function () {
             vm.isDeleting = true;
 
+            let startTime = Date.now();
+
             let deleteProm;
-            let shortcodes;
+            let shortcodes = [];
             if (vm.isSelectedAll) {
                 deleteProm = passlePostsResource.deleteAll();
             } else {
-                if (vm.selectedCount > 0) {
+                if (vm.selectedCount == 0) {
+                    deleteProm = passlePostsResource.deleteAll();
+                } else if (vm.selectedCount == 1) {
                     shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
+                    deleteProm = passlePostsResource.deleteOne(shortcodes);
                 } else {
-                    shortcodes = vm.posts.map((post) => post.shortcode);
+                    shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
+                    deleteProm = passlePostsResource.deleteMany(shortcodes);
                 }
-                deleteProm = passlePostsResource.deleteMany(shortcodes);
             }
 
             deleteProm.then(() => {
-                passlePostsResource.getAll().then((response) => {
+                passlePostsResource.refreshAll().then((response) => {
                     // Filter to ensure a half-deleted post isn't returned
                     vm.posts = response.Posts.filter((post) => post.Shortcode).map((post) => getOverriddenPostDataObject(
                         post,
@@ -167,17 +193,26 @@
                     notificationsService.success("Success", "Posts have been deleted");
 
                     syncTree();
+
+                    let endTime = Date.now();
+                    console.log('Loaded in ', endTime - startTime);
                 }, (error) => {
                     console.error(error);
                     notificationsService.error("Error", error);
 
                     vm.isDeleting = false;
+
+                    let endTime = Date.now();
+                    console.log('Loaded in ', endTime - startTime);
                 });
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
                 vm.isDeleting = false;
+
+                let endTime = Date.now();
+                console.log('Loaded in ', endTime - startTime);
             });
         }
 

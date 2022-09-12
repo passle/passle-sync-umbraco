@@ -11,6 +11,7 @@ namespace PassleSync.Core.Services.Content
         {
             _path = "api/v2/passlesync/posts";
             _responseSelector = x => x.Posts;
+            _itemType = "PostShortcode";
         }
     }
 }

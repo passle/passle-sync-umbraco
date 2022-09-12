@@ -27,9 +27,9 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         }
 
         [HttpGet]
-        public IPassleDashboardViewModel GetAll()
+        public IPassleDashboardViewModel GetExisting()
         {
-            return _postHandler.GetAll();
+            return _postHandler.GetExisting();
         }
 
         [HttpPost]
@@ -61,6 +61,20 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         }
 
         [HttpPost]
+        public IHttpActionResult SyncOne([FromBody] ShortcodesModel model)
+        {
+            try
+            {
+                _postHandler.SyncOne(model.Shortcodes.FirstOrDefault());
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
         public IHttpActionResult DeleteAll()
         {
             try
@@ -80,6 +94,20 @@ namespace PassleSync.Core.Controllers.PassleDashboard
             try
             {
                 _postHandler.DeleteMany(model.Shortcodes.ToArray());
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public IHttpActionResult DeleteOne([FromBody] ShortcodesModel model)
+        {
+            try
+            {
+                _postHandler.DeleteOne(model.Shortcodes.FirstOrDefault());
                 return Ok();
             }
             catch (Exception)

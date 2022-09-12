@@ -6,6 +6,7 @@ namespace PassleSync.Core.API.SyncHandlers
     public interface ISyncHandler<T>
     {
         IPassleDashboardViewModel GetAll();
+        IPassleDashboardViewModel GetExisting();
         string Shortcode(T entity);
         void SyncOne(string shortcode);
         void SyncMany(string[] shortcodes);

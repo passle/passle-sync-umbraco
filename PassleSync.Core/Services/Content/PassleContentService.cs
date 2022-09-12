@@ -15,6 +15,7 @@ namespace PassleSync.Core.Services.Content
         protected readonly ConfigService _configService;
         protected string _path = "";
         protected Func<TPlural, IEnumerable<TSingular>> _responseSelector = x => new List<TSingular>();
+        protected string _itemType = "Shortcode";
 
         public PassleContentService(
             ApiService apiService,
@@ -46,6 +47,26 @@ namespace PassleSync.Core.Services.Content
             };
 
             return GetFromApi(queryParams);
+        }
+
+        public IEnumerable<TSingular> GetMany(string[] itemShortcodes)
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                { _itemType, string.Join(",", itemShortcodes) }
+            };
+
+            return GetFromApi(queryParams);
+        }
+
+        public TSingular GetOne(string itemShortcode)
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                { _itemType, itemShortcode }
+            };
+
+            return GetFromApi(queryParams).FirstOrDefault();
         }
 
         public IEnumerable<TSingular> Get(IEnumerable<string> passleShortcodes)

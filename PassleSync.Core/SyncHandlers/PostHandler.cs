@@ -37,7 +37,7 @@ namespace PassleSync.Core.SyncHandlers
                 return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
             }
 
-            var umbracoPosts = _umbracoContentService.GetPublishedContent();
+            var umbracoPosts = _umbracoContentService.GetAllContent();
 
             // Create viewmodels
             var umbracoPostModels = umbracoPosts.Select(post => new PassleDashboardPostViewModel(post));
@@ -48,6 +48,13 @@ namespace PassleSync.Core.SyncHandlers
             var allModels = umbracoPostModels.Concat(apiPostModels.Where(x => !umbracoShortcodes.Contains(x.Shortcode)));
 
             return new PassleDashboardPostsViewModel(allModels);
+        }
+
+        public override IPassleDashboardViewModel GetExisting()
+        {
+            var umbracoPosts = _umbracoContentService.GetAllContent();
+            var umbracoPostModels = umbracoPosts.Select(post => new PassleDashboardPostViewModel(post));
+            return new PassleDashboardPostsViewModel(umbracoPostModels);
         }
 
         public override string Shortcode(PasslePost item)

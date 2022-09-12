@@ -22,20 +22,20 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
         public string Tags;
         public bool Synced;
 
-        public PassleDashboardPostViewModel(IPublishedContent from)
+        public PassleDashboardPostViewModel(IContent from)
         {
             // TODO: Can we use reflection or constants to make this more robust than magic strings?
 
             Id = from?.Id ?? 0;
-            Title = from.Value<string>("postTitle");
-            Shortcode = from.Value<string>("postShortcode");
-            PassleShortcode = from.Value<string>("passleShortcode");
-            Excerpt = from.Value<string>("contentTextSnippet");
-            PostUrl = from.Value<string>("postUrl");
-            ImageUrl = from.Value<string>("imageUrl");
-            PublishedDate = from.Value<DateTime>("publishedDate");
-            Authors = from.Value<string>("authors");
-            Tags = from.Value<string>("tags");
+            Title = from.GetValue<string>("postTitle");
+            Shortcode = from.GetValue<string>("postShortcode");
+            PassleShortcode = from.GetValue<string>("passleShortcode");
+            Excerpt = from.GetValue<string>("contentTextSnippet");
+            PostUrl = from.GetValue<string>("postUrl");
+            ImageUrl = from.GetValue<string>("imageUrl");
+            PublishedDate = from.GetValue<DateTime>("publishedDate");
+            Authors = from.GetValue<string>("authors");
+            Tags = from.GetValue<string>("tags");
             Synced = true;
         }
 

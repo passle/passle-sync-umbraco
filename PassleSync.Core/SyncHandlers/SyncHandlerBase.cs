@@ -39,6 +39,7 @@ namespace PassleSync.Core.SyncHandlers
         }
 
         public abstract IPassleDashboardViewModel GetAll();
+        public abstract IPassleDashboardViewModel GetExisting();
         public abstract string Shortcode(TSingular item);
 
         public virtual void SyncAll()
@@ -55,7 +56,7 @@ namespace PassleSync.Core.SyncHandlers
 
         public virtual void SyncMany(string[] shortcodes)
         {
-            var apiItems = _passleContentService.GetAll();
+            var apiItems = _passleContentService.GetMany(shortcodes);
             if (apiItems == null)
             {
                 throw new Exception("Failed to get items from the API");
@@ -67,16 +68,10 @@ namespace PassleSync.Core.SyncHandlers
 
         public virtual void SyncOne(string shortcode)
         {
-            var apiItems = _passleContentService.GetAll();
-            if (apiItems == null)
-            {
-                throw new Exception("Failed to get items from the API");
-            }
-
-            var apiItem = apiItems.FirstOrDefault(x => Shortcode(x) == shortcode);
+            var apiItem = _passleContentService.GetOne(shortcode);
             if (apiItem == null)
             {
-                return;
+                throw new Exception("Failed to get item from the API");
             }
 
             var publishedContent = _umbracoContentService.GetContentByShortcode(shortcode);
