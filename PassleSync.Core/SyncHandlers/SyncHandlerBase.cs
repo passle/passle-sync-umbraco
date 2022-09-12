@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.Services;
 
 namespace PassleSync.Core.SyncHandlers
@@ -128,7 +129,7 @@ namespace PassleSync.Core.SyncHandlers
             _umbracoContentService.Create(item);
         }
         
-        public virtual void UpdateOne(IContent node, TSingular item)
+        public virtual void UpdateOne(IPublishedContent node, TSingular item)
         {
             _umbracoContentService.UpdateOne(node, item);
         }
