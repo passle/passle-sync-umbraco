@@ -7,14 +7,7 @@
 }
 
 <div class="flex flex-col gap-8 max-w-6xl mx-auto">
-    @if (string.IsNullOrEmpty(Model.SearchQuery))
-    {
-        /* TODO: Create other sections? */
-        /* @Html.Partial("Partials/Sections/Events"); */
-        @Html.Partial("Partials/Sections/Insights", Model)
-        /* @Html.Partial("Partials/Sections/Whitepapers"); */
-    }
-    else
+    @if (!string.IsNullOrEmpty(Model.SearchQuery))
     {
         <div class="section">
 
@@ -30,5 +23,34 @@
             @Html.Partial("Pagination", Model.Pagination)
 
         </div>
+    }
+    else if (!string.IsNullOrEmpty(Model.TagFilter))
+    {
+        <div class="section">
+
+            <h2 class="section__heading">
+                All posts tagged with
+                <span class="bg-gray-100 text-gray-700 text-base py-1 px-2 rounded-sm font-sans normal-case font-medium tracking-normal">
+                    @Model.TagFilter
+                </span>
+            </h2>
+
+            <div class="grid grid-cols-2 gap-6">
+                @foreach (var post in Model.Posts)
+                {
+                    @Html.Partial("PasslePost", post);
+                }
+            </div>
+
+            @Html.Partial("Pagination", Model.Pagination)
+
+        </div>
+    }
+    else
+    {
+        /* TODO: Create other sections? */
+        /* @Html.Partial("Partials/Sections/Events"); */
+        @Html.Partial("Partials/Sections/Insights", Model)
+        /* @Html.Partial("Partials/Sections/Whitepapers"); */
     }
 </div>

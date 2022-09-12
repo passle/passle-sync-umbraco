@@ -7,7 +7,7 @@ using Umbraco.Web;
 
 namespace PassleSync.Core.Helpers.Queries
 {
-    public class PassleAuthorQuery : QueryBase<PassleAuthor>
+    public class PassleAuthorQuery : QueryBase<PassleAuthorQuery, PassleAuthor>
     {
         protected override string ContentType => PassleContentType.PASSLE_AUTHOR;
         protected override string[] SearchFields => new string[] { "nodeName", "roleInfo", "description" };

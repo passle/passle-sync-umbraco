@@ -1,12 +1,15 @@
 ﻿using Examine;
 using Examine.Providers;
+using Lucene.Net.Documents;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PassleSync.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core;
 using Umbraco.Core.Composing;
+using static OfficeOpenXml.ExcelErrorValue;
 using UmbracoConstants = Umbraco.Core.Constants;
 
 namespace PassleSync.Core.Components
@@ -50,6 +53,13 @@ namespace PassleSync.Core.Components
                     {
                         IndexNestedObject(e.ValueSet.Values, JsonConvert.DeserializeObject(stringValue), key);
                     }
+                    else if (stringValue.DetectHasLineBreaks())
+                    {
+                        // Handle repeatable textstrings
+                        var items = stringValue.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                        var joinedItems = string.Join("|", items);
+                        AddValueToField(e.ValueSet.Values, key, joinedItems, true);
+                    }
                 }
             }
         }
@@ -91,8 +101,13 @@ namespace PassleSync.Core.Components
             }
         }
         
-        private void AddValueToField(IDictionary<string, List<object>> fields, string key, string value)
+        private void AddValueToField(IDictionary<string, List<object>> fields, string key, string value, bool replace = false)
         {
+            if (replace)
+            {
+                fields.Remove(key);
+            }
+
             fields.TryGetValue(key, out var values);
 
             if (values == null)
