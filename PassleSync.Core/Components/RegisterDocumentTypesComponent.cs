@@ -50,7 +50,7 @@ namespace PassleSync.Core.Components
 
         public void Terminate()
         {
-            throw new NotImplementedException();
+            //
         }
     }
 

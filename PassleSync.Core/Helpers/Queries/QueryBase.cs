@@ -62,6 +62,7 @@ namespace PassleSync.Core.Helpers.Queries
                 CurrentPage = CurrentPage,
                 ItemsPerPage = ItemsPerPage,
                 TotalItems = (int) searchResults.TotalItemCount,
+                TotalPages = (int) Math.Ceiling((double) searchResults.TotalItemCount / ItemsPerPage),
             };
         }
 
@@ -76,7 +77,7 @@ namespace PassleSync.Core.Helpers.Queries
 
         protected IBooleanOperation CreateQuery(string contentType)
         {
-            if (!ExamineManager.Instance.TryGetIndex(UmbracoConstants.UmbracoIndexes.ExternalIndexName, out var index))
+            if (!_examineManager.TryGetIndex(UmbracoConstants.UmbracoIndexes.ExternalIndexName, out var index))
             {
                 throw new InvalidOperationException($"No index found with name {UmbracoConstants.UmbracoIndexes.ExternalIndexName}");
             }

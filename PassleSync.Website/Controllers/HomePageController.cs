@@ -5,6 +5,7 @@ using Umbraco.Web.Mvc;
 using PassleSync.Website.ViewModels;
 using PassleSync.Core.API.Services;
 using PassleSync.Core.Extensions;
+using System;
 
 namespace PassleSync.Website.Controllers
 {
@@ -43,7 +44,7 @@ namespace PassleSync.Website.Controllers
                     Pagination = new PaginationViewModel()
                     {
                         CurrentPage = query.CurrentPage,
-                        TotalPages = query.TotalItems / query.ItemsPerPage, 
+                        TotalPages = query.TotalPages,
                     },
                 };
 

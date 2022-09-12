@@ -26,5 +26,11 @@ namespace PassleSync.Core.Helpers.Queries
             _query = _query.And().Field("isFeaturedOnPostPage", Convert.ToInt32(includeFeatured).ToString());
             return this;
         }
+
+        public PasslePostQuery ByAuthorShortcode(string shortcode)
+        {
+            _query = _query.And().Field("authors_shortcode", shortcode);
+            return this;
+        }
     }
 }
