@@ -29,7 +29,8 @@ namespace PassleSync.Core.Services.API
                 var moreDataAvailable = response.TotalCount > (response.PageSize * response.PageNumber);
                 if (moreDataAvailable)
                 {
-                    nextUrl = GetNextUrl(url, pageNumber + 1);
+                    pageNumber += 1;
+                    nextUrl = GetNextUrl(url, pageNumber);
                 }
                 else
                 {
