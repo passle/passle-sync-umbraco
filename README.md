@@ -39,13 +39,13 @@ First, the plugin has to fetch posts and authors from the Passle API. Use the **
 
 **2. Sync to Umbraco**
 
-To sync the posts and authors to Umbraco, use the **Sync All Posts** and **Sync All People** buttons. This will create a new Umbraco post for each post/author under a custom post type. Once all posts/authors have been synced, their statuses will update. Synced posts and authors can be viewed, but not edited, under the Passle Posts and Passle Authors menu items in the sidebar.
+To sync the posts and authors to Umbraco, use the **Sync All Posts** and **Sync All People** buttons. This will create a new content node for each post/author using the document types created by the plugin. Once all posts/authors have been synced, their statuses will update. Synced posts and authors can be viewed, but not edited, under the root nodes specified in the plugin settings.
 
 **3. Webhooks**
 
 Whenever a post or author is updated through the Passle interface, the Passle backend will make a call to a webhook exposed by the plugin with the shortcode of the item that was updated, and the plugin will automatically re-sync that item.
 
-**4. Theme Templates**
+**4. Document Type Templates**
 
 To display Passle posts and authors, you should create templates associated with the Passle Post and Passle Author document types that the plugin creates automatically.
 
