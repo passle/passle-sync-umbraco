@@ -3,7 +3,7 @@ using PassleSync.Core.Services.API;
 
 namespace PassleSync.Core.Services.Content
 {
-    public class PassleTagsContentService : PassleContentService<PassleTags, string>
+    public class PassleTagsContentService : PassleContentService<PassleTags, PassleTag>
     {
         public PassleTagsContentService(
             ApiService apiService,

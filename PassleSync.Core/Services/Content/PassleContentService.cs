@@ -1,4 +1,5 @@
-﻿using PassleSync.Core.Models.Content.PassleApi;
+﻿using PassleSync.Core.API.Models.Conntent.PassleApi;
+using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services.API;
 using PassleSync.Core.Utils;
 using System;
@@ -9,7 +10,7 @@ namespace PassleSync.Core.Services.Content
 {
     public class PassleContentService<TPlural, TSingular>
         where TPlural : PaginatedResponseBase
-        where TSingular : class
+        where TSingular : IPassleApiResponseModel
     {
         protected readonly ApiService _apiService;
         protected readonly ConfigService _configService;
@@ -85,7 +86,7 @@ namespace PassleSync.Core.Services.Content
             var responses = _apiService.GetAllPaginatedAsync<TPlural>(url);
             var items = responses.SelectMany(_responseSelector);
 
-            if (items.Contains(null))
+            if (items.Contains(default))
             {
                 throw new Exception("Failed to get data from the API");
             }

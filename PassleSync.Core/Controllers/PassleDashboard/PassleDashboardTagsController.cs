@@ -19,14 +19,14 @@ namespace PassleSync.Core.Controllers.PassleDashboard
     public class PassleDashboardTagsController : UmbracoAuthorizedJsonController
     {
         private readonly ITagService _tagService;
-        private readonly PassleContentService<PassleTags, string> _passleTagsContentService;
+        private readonly PassleContentService<PassleTags, PassleTag> _passleTagsContentService;
         private readonly PassleContentService<PasslePosts, PasslePost> _passlePostsContentService;
         private readonly UmbracoContentService<PasslePost> _umbracoPostsContentService;
         private readonly IPublishedContentQuery _publishedContentQuery;
 
         public PassleDashboardTagsController(
             ITagService tagService, 
-            PassleContentService<PassleTags, string> passleTagsContentService,
+            PassleContentService<PassleTags, PassleTag> passleTagsContentService,
             PassleContentService<PasslePosts, PasslePost> passlePostsContentService,
             UmbracoContentService<PasslePost> umbracoPostsContentService,
             IPublishedContentQuery publishedContentQuery)
@@ -46,7 +46,7 @@ namespace PassleSync.Core.Controllers.PassleDashboard
             Func<string, int> umbracoNonPassleContentCount = x => _publishedContentQuery.Content(_tagService.GetTaggedContentByTag(x).Select(y => y.EntityId))
                 .Count(y => y.ContentType.Alias != PassleContentType.PASSLE_POST);
 
-            var passleTags = _passleTagsContentService.GetAll();
+            var passleTags = _passleTagsContentService.GetAll().Select(x => x.Tag);
             var passlePosts = _passlePostsContentService.GetAll();
 
             var syncedPasslePosts = _umbracoPostsContentService.GetPublishedContent();

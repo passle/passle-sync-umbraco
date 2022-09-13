@@ -1,4 +1,5 @@
-﻿using PassleSync.Core.API.SyncHandlers;
+﻿using PassleSync.Core.API.Models.Conntent.PassleApi;
+using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
@@ -16,7 +17,7 @@ namespace PassleSync.Core.SyncHandlers
 {
     public abstract class SyncHandlerBase<TPlural, TSingular> : ISyncHandler<TSingular>
         where TPlural : PaginatedResponseBase
-        where TSingular : class
+        where TSingular : IPassleApiResponseModel
     {
         protected readonly IContentService _contentService;
         protected readonly ConfigService _configService;
@@ -42,7 +43,7 @@ namespace PassleSync.Core.SyncHandlers
         public abstract IPassleDashboardViewModel GetExisting();
         public abstract string Shortcode(TSingular item);
 
-        public virtual void SyncAll()
+        public virtual IEnumerable<SyncTaskResult> SyncAll()
         {
             var apiItems = _passleContentService.GetAll();
             if (apiItems == null)
@@ -51,10 +52,10 @@ namespace PassleSync.Core.SyncHandlers
             }
 
             DeleteAll();
-            CreateAll(apiItems);
+            return CreateAll(apiItems);
         }
 
-        public virtual void SyncMany(string[] shortcodes)
+        public virtual IEnumerable<SyncTaskResult> SyncMany(string[] shortcodes)
         {
             var apiItems = _passleContentService.GetMany(shortcodes);
             if (apiItems == null)
@@ -62,71 +63,83 @@ namespace PassleSync.Core.SyncHandlers
                 throw new Exception("Failed to get items from the API");
             }
 
-            DeleteMany(shortcodes);
-            CreateMany(apiItems, shortcodes);
+            var results = new List<SyncTaskResult>();
+            foreach (var apiItem in apiItems)
+            {
+                results.Add(UpdateOrCreateOne(apiItem));
+            }
+            return results;
         }
 
-        public virtual void SyncOne(string shortcode)
+        public virtual SyncTaskResult SyncOne(string shortcode)
         {
             var apiItem = _passleContentService.GetOne(shortcode);
             if (apiItem == null)
             {
                 throw new Exception("Failed to get item from the API");
             }
+            return UpdateOrCreateOne(apiItem);
+        }
 
-            var publishedContent = _umbracoContentService.GetContentByShortcode(shortcode);
+        public virtual SyncTaskResult UpdateOrCreateOne(TSingular apiItem)
+        {
+            var publishedContent = _umbracoContentService.GetContentByShortcode(apiItem.GetShortcode());
             if (publishedContent == null)
             {
-                CreateOne(apiItem);
+                return CreateOne(apiItem);
             }
             else
             {
-                UpdateOne(publishedContent, apiItem);
+                return UpdateOne(publishedContent, apiItem);
             }
         }
 
-        public virtual void DeleteAll()
+        public virtual IEnumerable<SyncTaskResult> DeleteAll()
         {
-            _umbracoContentService.DeleteAll();
+            return _umbracoContentService.DeleteAll();
         }
 
-        public virtual void DeleteMany(string[] shortcodes)
+        public virtual IEnumerable<SyncTaskResult> DeleteMany(string[] shortcodes)
         {
-            _umbracoContentService.DeleteMany(shortcodes);
+            return _umbracoContentService.DeleteMany(shortcodes);
         }
 
-        public virtual void DeleteOne(string shortcode)
+        public virtual SyncTaskResult DeleteOne(string shortcode)
         {
-            _umbracoContentService.DeleteOne(shortcode);
+            return _umbracoContentService.DeleteOne(shortcode);
         }
 
-        public virtual void CreateAll(IEnumerable<TSingular> items)
+        public virtual IEnumerable<SyncTaskResult> CreateAll(IEnumerable<TSingular> items)
         {
+            var results = new List<SyncTaskResult>();
             foreach (TSingular item in items)
             {
-                CreateOne(item);
+                results.Add(CreateOne(item));
             }
+            return results;
         }
 
-        public virtual void CreateMany(IEnumerable<TSingular> items, string[] shortcodes)
+        public virtual IEnumerable<SyncTaskResult> CreateMany(IEnumerable<TSingular> items, string[] shortcodes)
         {
+            var results = new List<SyncTaskResult>();
             foreach (TSingular item in items)
             {
                 if (shortcodes.Contains(Shortcode(item)))
                 {
-                    CreateOne(item);
+                    results.Add(CreateOne(item));
                 }
             }
+            return results;
         }
 
-        public virtual void CreateOne(TSingular item)
+        public virtual SyncTaskResult CreateOne(TSingular item)
         {
-            _umbracoContentService.Create(item);
+            return _umbracoContentService.Create(item);
         }
         
-        public virtual void UpdateOne(IPublishedContent node, TSingular item)
+        public virtual SyncTaskResult UpdateOne(IPublishedContent node, TSingular item)
         {
-            _umbracoContentService.UpdateOne(node, item);
+            return _umbracoContentService.UpdateOne(node, item);
         }
     }
 }

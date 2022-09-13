@@ -2,7 +2,7 @@
     function ($q, $http, umbRequestHelper) {
         var baseUrl = "backoffice/PassleSync/PassleDashboardPosts/";
         return {
-            refreshAll: function () {
+            updateAll: function () {
                 return umbRequestHelper.resourcePromise(
                     $http.get(baseUrl + "RefreshAll"),
                     "Failed to refresh the list of all posts");

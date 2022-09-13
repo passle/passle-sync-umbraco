@@ -1,5 +1,7 @@
 ﻿using PassleSync.Core.API.ViewModels;
+using PassleSync.Core.SyncHandlers;
 using System.Collections.Generic;
+using Umbraco.Core.Models;
 
 namespace PassleSync.Core.API.SyncHandlers
 {
@@ -8,14 +10,15 @@ namespace PassleSync.Core.API.SyncHandlers
         IPassleDashboardViewModel GetAll();
         IPassleDashboardViewModel GetExisting();
         string Shortcode(T entity);
-        void SyncOne(string shortcode);
-        void SyncMany(string[] shortcodes);
-        void SyncAll();
-        void DeleteOne(string shortcode);
-        void DeleteMany(string[] shortcodes);
-        void DeleteAll();
-        void CreateOne(T entity);
-        void CreateMany(IEnumerable<T> entities, string[] shortcodes);
-        void CreateAll(IEnumerable<T> entities);
+        SyncTaskResult SyncOne(string shortcode);
+        IEnumerable<SyncTaskResult> SyncMany(string[] shortcodes);
+        IEnumerable<SyncTaskResult> SyncAll();
+        SyncTaskResult UpdateOrCreateOne(T entity);
+        SyncTaskResult DeleteOne(string shortcode);
+        IEnumerable<SyncTaskResult> DeleteMany(string[] shortcodes);
+        IEnumerable<SyncTaskResult> DeleteAll();
+        SyncTaskResult CreateOne(T entity);
+        IEnumerable<SyncTaskResult> CreateMany(IEnumerable<T> entities, string[] shortcodes);
+        IEnumerable<SyncTaskResult> CreateAll(IEnumerable<T> entities);
     }
 }

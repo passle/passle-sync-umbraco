@@ -21,7 +21,7 @@ namespace PassleSync.Core.Composers
             composition.Register<ApiService>(Lifetime.Request);
             composition.Register<PassleContentService<PasslePosts, PasslePost>, PasslePostsContentService>(Lifetime.Request);
             composition.Register<PassleContentService<PassleAuthors, PassleAuthor>, PassleAuthorsContentService>(Lifetime.Request);
-            composition.Register<PassleContentService<PassleTags, string>, PassleTagsContentService>(Lifetime.Request);
+            composition.Register<PassleContentService<PassleTags, PassleTag>, PassleTagsContentService>(Lifetime.Request);
             composition.Register<UmbracoContentService<PasslePost>, UmbracoPostsContentService>(Lifetime.Request);
             composition.Register<UmbracoContentService<PassleAuthor>, UmbracoAuthorsContentService>(Lifetime.Request);
             composition.Register<IPassleHelperService, PassleHelperService>(Lifetime.Request);

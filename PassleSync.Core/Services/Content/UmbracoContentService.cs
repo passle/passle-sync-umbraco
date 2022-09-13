@@ -1,5 +1,6 @@
 ﻿using Examine;
 using PassleSync.Core.Extensions;
+using PassleSync.Core.SyncHandlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,7 +81,7 @@ namespace PassleSync.Core.Services.Content
             return GetPublishedContent().Where(x => Shortcode(x) == shortcode).FirstOrDefault();
         }
 
-        public void Create(T item)
+        public SyncTaskResult Create(T item)
         {
             var node = _contentService.Create(Name(item), _parentNodeId, _contentTypeAlias);
 
@@ -88,10 +89,19 @@ namespace PassleSync.Core.Services.Content
 
             node.AddAllPropertiesToNode(item);
 
-            _contentService.SaveAndPublish(node);
+            var publishResult = _contentService.SaveAndPublish(node);
+
+            var result = new SyncTaskResult()
+            {
+                Shortcode = Shortcode(node),
+                Content = node,
+                Success = publishResult.Success
+            };
+
+            return result;
         }
 
-        public void UpdateOne(IPublishedContent publishedContent, T item)
+        public SyncTaskResult UpdateOne(IPublishedContent publishedContent, T item)
         {
             var editableContent = _contentService.GetById(publishedContent.Id);
 
@@ -99,41 +109,78 @@ namespace PassleSync.Core.Services.Content
 
             editableContent.AddAllPropertiesToNode(item);
 
-            _contentService.SaveAndPublish(editableContent, raiseEvents: false);
+            var publishResult = _contentService.SaveAndPublish(editableContent, raiseEvents: false);
+
+            var result = new SyncTaskResult()
+            {
+                Shortcode = Shortcode(editableContent),
+                Content = editableContent,
+                Success = publishResult.Success
+            };
+
+            return result;
         }
 
 
-        public void DeleteAll()
+        public IEnumerable<SyncTaskResult> DeleteAll()
         {
+            var results = new List<SyncTaskResult>();
+
             // Delete all existing items
             var children = GetAllContent();
             foreach (var child in children)
             {
-                Delete(child);
+                results.Add(new SyncTaskResult()
+                {
+                    Shortcode = Shortcode(child),
+                    Content = child,
+                    Success = Delete(child)
+                });
             }
+
+            return results;
         }
 
-        public void DeleteMany(string[] shortcodes)
+        public IEnumerable<SyncTaskResult> DeleteMany(string[] shortcodes)
         {
+            var results = new List<SyncTaskResult>();
+
             // Delete any existing items with matching shortcodes
             var children = GetAllContent().Where(x => shortcodes.Contains(Shortcode(x)));
             foreach (var child in children)
             {
-                Delete(child);
+                results.Add(new SyncTaskResult()
+                {
+                    Shortcode = Shortcode(child),
+                    Content = child,
+                    Success = Delete(child)
+                });
             }
+
+            return results;
         }
 
-        public void DeleteOne(string shortcode)
+        public SyncTaskResult DeleteOne(string shortcode)
         {
+            var result = new SyncTaskResult() {
+                Shortcode = shortcode,
+                Success = true
+            };
+
             // Delete any existing items with matching shortcodes
             var children = GetAllContent().Where(x => shortcode == Shortcode(x));
             foreach (var child in children)
             {
-                Delete(child);
+                result.Content = child;
+
+                var success = Delete(child);
+                result.Success &= success;
             }
+
+            return result;
         }
 
-        public void Delete(IContent document)
+        public bool Delete(IContent document)
         {
             if (document != null)
             { 
@@ -144,13 +191,15 @@ namespace PassleSync.Core.Services.Content
                     {
                         _logger.Debug(_contentService.GetType(), $"Failed to delete umbraco content: {string.Join(", ", result.EventMessages.GetAll().Select(x => x.Message))}");
                     }
+                    return result.Success;
                 }
                 catch (Exception ex)
                 {
                     _logger.Error(_contentService.GetType(), ex, $"Failed to delete umbraco content: {ex.Message}");
-                    return;
+                    return false;
                 }
             }
+            return false;
         }
     }
 }

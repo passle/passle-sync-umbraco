@@ -8,7 +8,8 @@
         vm.tabs = [
             {
                 "label": "Posts",
-                "alias": "Posts"
+                "alias": "Posts",
+                "active": true
             },
             {
                 "label": "Authors",
@@ -16,8 +17,7 @@
             },
             {
                 "label": "Tags",
-                "alias": "Tags",
-                "active": true
+                "alias": "Tags"
             },
             {
                 "label": "Settings",

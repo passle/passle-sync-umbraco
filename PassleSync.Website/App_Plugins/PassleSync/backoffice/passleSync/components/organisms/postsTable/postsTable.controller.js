@@ -1,8 +1,9 @@
 ﻿angular.module("umbraco").controller(
     "PostsTableController",
-    function (notificationsService, passlePostsResource) {
+    function (notificationsService, treeService, passlePostsResource) {
         var vm = this;
-        vm.loading = false;
+        vm.isLoading = false;
+        vm.isUpdating = false;
 
         let currentSortCol = "Name";
         let currentSortDir = "desc";
@@ -11,35 +12,29 @@
         vm.unsyncedCount = 0;
         vm.selectedCount = 0;
 
-        function getPostDataObject(post, syncOverride = null) {
-            // Umbraco doesn't write quickly enough that the
-            // content has update before this we load the data again
-            // so sometimes we need to do something smarter here - override the synced flag
+        function getPostDataObject(post, deletedOverride = false) {
+            // Convert the returned model to the format the table needs
+            // The override is used when deleting data:
+            // - we return the last state of the content before it was deleted, so we need to override the synced and url values
 
-            //TODO: Is this still needed?
             return Object.assign({}, {
                 "name": post.Title,
                 "excerpt": post.Excerpt,
-                "editPath": post.Synced ? ("/content/content/edit/" + post.Id) : post.PostUrl,
+                "editPath": (post.Synced && !deletedOverride) ? ("/content/content/edit/" + post.Id) : post.PostUrl,
                 "shortcode": post.Shortcode,
-                "synced": post.Synced
+                "synced": post.Synced && !deletedOverride
             });
         }
-        function getOverriddenPostDataObject(post, shouldOverride, overrideValue) {
-            if (shouldOverride) return getPostDataObject(post, overrideValue);
-            return getPostDataObject(post);
+        function getOverriddenPostDataObject(post) {
+            return getPostDataObject(post, true);
         }
 
         function syncTree() {
-            /*
-             * TODO: Find a way to tell Umbraco that the content section should be loaded fresh when it's opened
-             * Trying to refresh the content with navigationService.syncTree({ tree: "content" ...
-             * fails with an error, as the 'content' tree doesn't exist when the Settings section is open
-             */
+            treeService.clearCache({ section: "content" });
         }
 
         function onload() {
-            vm.loading = true;
+            vm.isLoading = true;
 
             let startTime = Date.now();
 
@@ -49,14 +44,14 @@
                 vm.unsyncedCount = vm.posts.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
-                vm.loading = false;
+                vm.isLoading = false;
 
                 let endTime = Date.now();
                 console.log('Loaded in ', endTime - startTime);
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
-                vm.loading = false;
+                vm.isLoading = false;
 
                 let endTime = Date.now();
                 console.log('Loaded in ', endTime - startTime);
@@ -64,19 +59,19 @@
         }
         onload();
 
-        vm.refresh = function () {
-            vm.isRefreshing = true;
+        vm.update = function () {
+            vm.isUpdating = true;
 
             let startTime = Date.now();
 
-            passlePostsResource.refreshAll().then((response) => {
+            passlePostsResource.updateAll().then((response) => {
                 vm.posts = response.Posts.map((post) => getPostDataObject(post));
 
                 vm.syncedCount = vm.posts.filter((post) => post.synced).length;
                 vm.unsyncedCount = vm.posts.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
-                vm.isRefreshing = false;
+                vm.isUpdating = false;
 
                 syncTree();
 
@@ -86,7 +81,7 @@
                 console.error(error);
                 notificationsService.error("Error", error);
 
-                vm.isRefreshing = false;
+                vm.isUpdating = false;
 
                 let endTime = Date.now();
                 console.log('Loaded in ', endTime - startTime);
@@ -94,7 +89,7 @@
         }
 
         vm.sync = function () {
-            vm.isSyncing = true;
+            vm.isUpdating = true;
 
             let startTime = Date.now();
 
@@ -114,41 +109,32 @@
                 }
             }
 
-            syncProm.then(() => {
-                passlePostsResource.refreshAll().then((response) => {
-                    vm.posts = response.Posts.map((post) => getOverriddenPostDataObject(
-                        post,
-                        vm.isSelectedAll || shortcodes.includes(post.Shortcode),
-                        true
-                    ));
-
-                    vm.syncedCount = vm.posts.filter((post) => post.synced).length;
-                    vm.unsyncedCount = vm.posts.length - vm.syncedCount;
-                    vm.isSelectedAll = false;
-                    vm.selectedCount = 0;
-
-                    vm.isSyncing = false;
-
-                    notificationsService.success("Success", "Posts have been synced");
-
-                    syncTree();
-
-                    let endTime = Date.now();
-                    console.log('Loaded in ', endTime - startTime);
-                }, (error) => {
-                    console.error(error);
-                    notificationsService.error("Error", error);
-
-                    vm.isSyncing = false;
-
-                    let endTime = Date.now();
-                    console.log('Loaded in ', endTime - startTime);
+            syncProm.then((response) => {
+                vm.posts.forEach((post, ii) => {
+                    let matchingPosts = response.Posts.filter(x => x.Shortcode === post.shortcode);
+                    if (matchingPosts.length > 0) {
+                        vm.posts[ii] = getPostDataObject(matchingPosts[0]);
+                    }
                 });
+
+                vm.syncedCount = vm.posts.filter((post) => post.synced).length;
+                vm.unsyncedCount = vm.posts.length - vm.syncedCount;
+                vm.isSelectedAll = false;
+                vm.selectedCount = 0;
+
+                vm.isUpdating = false;
+
+                notificationsService.success("Success", "Posts have been synced");
+
+                syncTree();
+
+                let endTime = Date.now();
+                console.log('Loaded in ', endTime - startTime);
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
-                vm.isSyncing = false;
+                vm.isUpdating = false;
 
                 let endTime = Date.now();
                 console.log('Loaded in ', endTime - startTime);
@@ -156,7 +142,7 @@
         }
 
         vm.delete = function () {
-            vm.isDeleting = true;
+            vm.isUpdating = true;
 
             let startTime = Date.now();
 
@@ -176,40 +162,30 @@
                 }
             }
 
-            deleteProm.then(() => {
-                passlePostsResource.refreshAll().then((response) => {
-                    // Filter to ensure a half-deleted post isn't returned
-                    vm.posts = response.Posts.filter((post) => post.Shortcode).map((post) => getOverriddenPostDataObject(
-                        post,
-                        vm.isSelectedAll || shortcodes.includes(post.Shortcode),
-                        false
-                    ));
-                    vm.syncedCount = vm.posts.filter((post) => post.synced).length;
-                    vm.unsyncedCount = vm.posts.length - vm.syncedCount;
-                    vm.isSelectedAll = false;
-                    vm.selectedCount = 0;
-                    vm.isDeleting = false;
-
-                    notificationsService.success("Success", "Posts have been deleted");
-
-                    syncTree();
-
-                    let endTime = Date.now();
-                    console.log('Loaded in ', endTime - startTime);
-                }, (error) => {
-                    console.error(error);
-                    notificationsService.error("Error", error);
-
-                    vm.isDeleting = false;
-
-                    let endTime = Date.now();
-                    console.log('Loaded in ', endTime - startTime);
+            deleteProm.then((response) => {
+                vm.posts.forEach((post, ii) => {
+                    let matchingPosts = response.Posts.filter(x => x.Shortcode === post.shortcode);
+                    if (matchingPosts.length > 0) {
+                        vm.posts[ii] = getOverriddenPostDataObject(matchingPosts[0]);
+                    }
                 });
+                vm.syncedCount = vm.posts.filter((post) => post.synced).length;
+                vm.unsyncedCount = vm.posts.length - vm.syncedCount;
+                vm.isSelectedAll = false;
+                vm.selectedCount = 0;
+                vm.isUpdating = false;
+
+                notificationsService.success("Success", "Posts have been deleted");
+
+                syncTree();
+
+                let endTime = Date.now();
+                console.log('Loaded in ', endTime - startTime);
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
-                vm.isDeleting = false;
+                vm.isUpdating = false;
 
                 let endTime = Date.now();
                 console.log('Loaded in ', endTime - startTime);
