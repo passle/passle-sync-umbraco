@@ -4,7 +4,7 @@ using Umbraco.Core.Models.PublishedContent;
 
 namespace PassleSync.Website.ViewModels
 {
-    public class InsightsPageViewModel : InsightsPage
+    public class InsightsPageViewModel : PublishedContentModel
     {
         public InsightsPageViewModel(IPublishedContent content) : base(content)
         {

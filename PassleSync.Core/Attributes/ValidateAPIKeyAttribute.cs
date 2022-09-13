@@ -1,7 +1,4 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Mvc.Filters;
-using PassleSync.Core.Services;
-using System;
+﻿using PassleSync.Core.Services;
 using System.Linq;
 using System.Net;
 using System.Net.Http;

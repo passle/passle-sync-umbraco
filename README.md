@@ -2,6 +2,13 @@
 
 Passle Sync is a plugin for Umbraco which syncs your [Passle](https://home.passle.net/) posts and authors into your Umbraco instance.
 
+Get started with the section below, or jump straight to the [API documentation](./docs/index.md).
+
+A great example of how to use the plugin is our demo website:
+
+- [📂 Website source](./PassleSync.Website/)
+- [🌍 Live demo](http://mercierandveleztalkingpoints.com/)
+
 ## 🚀 Getting started
 
 Get started by installing the plugin and activating it.
@@ -42,7 +49,7 @@ Whenever a post or author is updated through the Passle interface, the Passle ba
 
 To display Passle posts and authors, you should create templates associated with the Passle Post and Passle Author document types that the plugin creates automatically.
 
-This plugin provides the `PassleHelperService` class, which can be accessed in your controller via DI. The service includes the methods `GetPosts` and `GetAuthors`, which provide new instances of the `PasslePostQuery` and `PassleAuthorQuery` classes. These allow easy access to filtering and paginating Passle posts and authors via Examine.
+This plugin provides the [PassleHelperService](./docs/PassleSync.Core.Services.PassleHelperService.md) class, which can be accessed in your controller via DI. The service includes the methods `GetPosts` and `GetAuthors`, which provide new instances of the [PasslePostQuery]() and [PassleAuthorQuery]() classes. These allow easy access to filtering and paginating Passle posts and authors via Examine.
 
 ### 📰 Example Queries
 
@@ -65,7 +72,7 @@ A full example can be found in our demo site's [HomePageController.cs](PassleSyn
 
 ### 🤝 Helper Methods
 
-The models returned by the queries described above include various helper methods in addition to all the properties contained in the document type. Here are some examples:
+The [PasslePost](./docs/PassleSync.Core.Models.Content.Umbraco.PasslePost.md) and [PassleAuthor](./docs/PassleSync.Core.Models.Content.Umbraco.PassleAuthor.md) models returned by the queries described above include various helper methods in addition to all the properties contained in the document type. Here are some examples:
 
 ```csharp
 var featuredPost = _passleHelperService.GetPosts().FeaturedOnPasslePage(true).Execute().Items.FirstOrDefault();

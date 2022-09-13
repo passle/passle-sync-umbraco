@@ -5,6 +5,12 @@
   <Import Project="..\packages\Microsoft.AspNetCore.Razor.Design.2.2.0\build\netstandard2.0\Microsoft.AspNetCore.Razor.Design.props" Condition="Exists('..\packages\Microsoft.AspNetCore.Razor.Design.2.2.0\build\netstandard2.0\Microsoft.AspNetCore.Razor.Design.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="DefaultDocumentation" Version="0.8.0" PrivateAssets="all" />
+  </ItemGroup>
+  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9741725C-EA3C-481E-B8E4-FC88CA450C17}</ProjectGuid>
@@ -26,6 +32,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\PassleSync.Core.xml</DocumentationFile>
+    <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -693,7 +701,6 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Helpers\Queries\PassleAuthorQuery.cs" />
     <Compile Include="Helpers\Queries\PasslePostQuery.cs" />
-    <Compile Include="Helpers\PostHelper.cs" />
     <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Helpers\Queries\QueryBase.cs" />
     <Compile Include="Helpers\Queries\QueryResult.cs" />
@@ -702,12 +709,6 @@
     <Compile Include="Models\Content\PassleApi\SubModels\PostIframelyObjectType.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostShareButtons.cs" />
     <Compile Include="Models\Content\Umbraco\AuthorLink.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\File.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\Folder.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\HomePage.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\Image.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\InsightsPage.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\Member.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PassleAuthor.cs" />
     <Compile Include="Models\Content\Umbraco\PassleAuthor.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PassleAuthors.generated.cs" />
@@ -728,10 +729,7 @@
     <Compile Include="Models\Content\PassleApi\SubModels\AuthorLink.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostShareViews.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostTweet.cs" />
-    <Compile Include="Models\Content\Umbraco\UmbracoMediaArticle.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\UmbracoMediaAudio.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\UmbracoMediaVectorGraphics.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\UmbracoMediaVideo.generated.cs" />
+    <Compile Include="Models\Content\Umbraco\IgnoredContentTypes.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\PassleContentService.cs" />
@@ -756,6 +754,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="DefaultDocumentation.json" />
     <None Include="Models\GeneratedModels.mb" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -776,7 +775,9 @@
     <Error Condition="!Exists('..\packages\Microsoft.DiaSymReader.Native.1.7.0\build\Microsoft.DiaSymReader.Native.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.DiaSymReader.Native.1.7.0\build\Microsoft.DiaSymReader.Native.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.AspNetCore.Mvc.Razor.Extensions.2.2.0\build\netstandard2.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.AspNetCore.Mvc.Razor.Extensions.2.2.0\build\netstandard2.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.AspNetCore.Mvc.Razor.Extensions.2.2.0\build\netstandard2.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.AspNetCore.Mvc.Razor.Extensions.2.2.0\build\netstandard2.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.targets'))" />
+    <Error Condition="!Exists('..\packages\DefaultDocumentation.0.8.2\build\DefaultDocumentation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\DefaultDocumentation.0.8.2\build\DefaultDocumentation.targets'))" />
   </Target>
   <Import Project="..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets')" />
   <Import Project="..\packages\Microsoft.AspNetCore.Mvc.Razor.Extensions.2.2.0\build\netstandard2.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.targets" Condition="Exists('..\packages\Microsoft.AspNetCore.Mvc.Razor.Extensions.2.2.0\build\netstandard2.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.targets')" />
+  <Import Project="..\packages\DefaultDocumentation.0.8.2\build\DefaultDocumentation.targets" Condition="Exists('..\packages\DefaultDocumentation.0.8.2\build\DefaultDocumentation.targets')" />
 </Project>

@@ -422,6 +422,7 @@
     <Compile Include="Controllers\PassleAuthorController.cs" />
     <Compile Include="Controllers\PasslePostController.cs" />
     <Compile Include="Controllers\HomePageController.cs" />
+    <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\InsightsPageViewModel.cs" />
