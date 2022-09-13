@@ -71,7 +71,7 @@ namespace PassleSync.Core.Services.Content
             return index.GetSearcher()
                 .CreateQuery("content")
                 .NodeTypeAlias(_contentTypeAlias)
-                .Execute()
+                .Execute(5000)
                 .Select(x => int.Parse(x.Id));
         }
 
