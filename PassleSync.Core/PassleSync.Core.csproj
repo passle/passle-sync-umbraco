@@ -697,6 +697,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Controllers\Webhooks\PostsController.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Helpers\PostHelper.cs" />
     <Compile Include="Helpers\Queries\PassleAuthorQuery.cs" />
     <Compile Include="Helpers\Queries\PasslePostQuery.cs" />
     <Compile Include="Helpers\Queries\QueryBase.cs" />
