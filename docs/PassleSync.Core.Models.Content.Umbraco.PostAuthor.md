@@ -20,5 +20,10 @@ Implements [PassleSync.Core.API.Models.IBasicAuthorDetails](https://docs.microso
 | [PassleName](PassleSync.Core.Models.Content.Umbraco.PostAuthor.PassleName.md 'PassleSync.Core.Models.Content.Umbraco.PostAuthor.PassleName') | Name |
 | [ProfileUrl](PassleSync.Core.Models.Content.Umbraco.PostAuthor.ProfileUrl.md 'PassleSync.Core.Models.Content.Umbraco.PostAuthor.ProfileUrl') | ProfileUrl |
 | [Role](PassleSync.Core.Models.Content.Umbraco.PostAuthor.Role.md 'PassleSync.Core.Models.Content.Umbraco.PostAuthor.Role') | Role |
+| [RoleInfo](PassleSync.Core.Models.Content.Umbraco.PostAuthor.RoleInfo.md 'PassleSync.Core.Models.Content.Umbraco.PostAuthor.RoleInfo') | RoleInfo |
 | [Shortcode](PassleSync.Core.Models.Content.Umbraco.PostAuthor.Shortcode.md 'PassleSync.Core.Models.Content.Umbraco.PostAuthor.Shortcode') | Shortcode |
 | [TwitterScreenName](PassleSync.Core.Models.Content.Umbraco.PostAuthor.TwitterScreenName.md 'PassleSync.Core.Models.Content.Umbraco.PostAuthor.TwitterScreenName') | TwitterScreenName |
+
+| Methods | |
+| :--- | :--- |
+| [GetAvatarUrl(string)](PassleSync.Core.Models.Content.Umbraco.PostAuthor.GetAvatarUrl(string).md 'PassleSync.Core.Models.Content.Umbraco.PostAuthor.GetAvatarUrl(string)') | Get the URL of the author avatar, with a fallback URL if the author doesn't have an avatar. |
