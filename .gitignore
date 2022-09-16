@@ -453,3 +453,6 @@ FodyWeavers.xsd
 !**/umbraco/Data/packages
 
 # End of https://www.toptal.com/developers/gitignore/api/umbraco,visualstudio
+
+# Include local nupkg
+!PassleSync.Core/PassleSync.Core.*.*.*.nupkg
