@@ -3,7 +3,7 @@
 
 ## PassleHelperService.GetPosts() Method
 
-Creates a new [PassleSync.Core.Helpers.Queries.PasslePostQuery](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.Helpers.Queries.PasslePostQuery 'PassleSync.Core.Helpers.Queries.PasslePostQuery') instance.
+Creates a new [PasslePostQuery](PassleSync.Core.Helpers.Queries.PasslePostQuery.md 'PassleSync.Core.Helpers.Queries.PasslePostQuery') instance.
 
 ```csharp
 public PassleSync.Core.Helpers.Queries.PasslePostQuery GetPosts();
@@ -12,4 +12,4 @@ public PassleSync.Core.Helpers.Queries.PasslePostQuery GetPosts();
 Implements [GetPosts()](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.API.Services.IPassleHelperService.GetPosts 'PassleSync.Core.API.Services.IPassleHelperService.GetPosts')
 
 #### Returns
-[PassleSync.Core.Helpers.Queries.PasslePostQuery](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.Helpers.Queries.PasslePostQuery 'PassleSync.Core.Helpers.Queries.PasslePostQuery')
+[PasslePostQuery](PassleSync.Core.Helpers.Queries.PasslePostQuery.md 'PassleSync.Core.Helpers.Queries.PasslePostQuery')

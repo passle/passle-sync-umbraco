@@ -16,6 +16,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | [Authors](PassleSync.Core.Models.Content.Umbraco.PasslePost.Authors.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.Authors') | Authors |
 | [CoAuthors](PassleSync.Core.Models.Content.Umbraco.PasslePost.CoAuthors.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.CoAuthors') | CoAuthors |
 | [ContentTextSnippet](PassleSync.Core.Models.Content.Umbraco.PasslePost.ContentTextSnippet.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.ContentTextSnippet') | ContentTextSnippet |
+| [EstimatedReadTimeInMinutes](PassleSync.Core.Models.Content.Umbraco.PasslePost.EstimatedReadTimeInMinutes.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.EstimatedReadTimeInMinutes') | EstimatedReadTimeInMinutes |
 | [EstimatedReadTimeInSeconds](PassleSync.Core.Models.Content.Umbraco.PasslePost.EstimatedReadTimeInSeconds.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.EstimatedReadTimeInSeconds') | EstimatedReadTimeInSeconds |
 | [FeaturedItemEmbedProvider](PassleSync.Core.Models.Content.Umbraco.PasslePost.FeaturedItemEmbedProvider.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.FeaturedItemEmbedProvider') | FeaturedItemEmbedProvider |
 | [FeaturedItemEmbedType](PassleSync.Core.Models.Content.Umbraco.PasslePost.FeaturedItemEmbedType.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.FeaturedItemEmbedType') | FeaturedItemEmbedType |
@@ -32,6 +33,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | [PostShortcode](PassleSync.Core.Models.Content.Umbraco.PasslePost.PostShortcode.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.PostShortcode') | PostShortcode |
 | [PostTitle](PassleSync.Core.Models.Content.Umbraco.PasslePost.PostTitle.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.PostTitle') | PostTitle |
 | [PostUrl](PassleSync.Core.Models.Content.Umbraco.PasslePost.PostUrl.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.PostUrl') | PostUrl |
+| [PrimaryAuthor](PassleSync.Core.Models.Content.Umbraco.PasslePost.PrimaryAuthor.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.PrimaryAuthor') | PrimaryAuthor |
 | [PublishedDate](PassleSync.Core.Models.Content.Umbraco.PasslePost.PublishedDate.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.PublishedDate') | PublishedDate |
 | [QuoteText](PassleSync.Core.Models.Content.Umbraco.PasslePost.QuoteText.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.QuoteText') | QuoteText |
 | [QuoteUrl](PassleSync.Core.Models.Content.Umbraco.PasslePost.QuoteUrl.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.QuoteUrl') | QuoteUrl |
@@ -40,3 +42,9 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | [TotalLikes](PassleSync.Core.Models.Content.Umbraco.PasslePost.TotalLikes.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.TotalLikes') | TotalLikes |
 | [TotalShares](PassleSync.Core.Models.Content.Umbraco.PasslePost.TotalShares.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.TotalShares') | TotalShares |
 | [Tweets](PassleSync.Core.Models.Content.Umbraco.PasslePost.Tweets.md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.Tweets') | Tweets |
+
+| Methods | |
+| :--- | :--- |
+| [GetAuthors()](PassleSync.Core.Models.Content.Umbraco.PasslePost.GetAuthors().md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.GetAuthors()') | Get full [PassleAuthor](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor') models for the post authors that have been synced. |
+| [GetCoAuthors()](PassleSync.Core.Models.Content.Umbraco.PasslePost.GetCoAuthors().md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.GetCoAuthors()') | Get full [PassleAuthor](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor') models for the post co-authors that have been synced. |
+| [GetDate(string)](PassleSync.Core.Models.Content.Umbraco.PasslePost.GetDate(string).md 'PassleSync.Core.Models.Content.Umbraco.PasslePost.GetDate(string)') | Get the formatted date that the post was published. |
