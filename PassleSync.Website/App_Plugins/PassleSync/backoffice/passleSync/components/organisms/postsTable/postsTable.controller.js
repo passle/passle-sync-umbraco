@@ -36,8 +36,6 @@
         function onload() {
             vm.isLoading = true;
 
-            let startTime = Date.now();
-
             passlePostsResource.getExisting().then((response) => {
                 vm.posts = response.Posts.map((post) => getPostDataObject(post));
                 vm.syncedCount = vm.posts.filter((post) => post.synced).length;
@@ -45,24 +43,16 @@
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
                 vm.isLoading = false;
-
-                let endTime = Date.now();
-                console.log('Loaded in ', endTime - startTime);
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
                 vm.isLoading = false;
-
-                let endTime = Date.now();
-                console.log('Loaded in ', endTime - startTime);
             });
         }
         onload();
 
         vm.update = function () {
             vm.isUpdating = true;
-
-            let startTime = Date.now();
 
             passlePostsResource.updateAll().then((response) => {
                 vm.posts = response.Posts.map((post) => getPostDataObject(post));
@@ -74,24 +64,16 @@
                 vm.isUpdating = false;
 
                 syncTree();
-
-                let endTime = Date.now();
-                console.log('Loaded in ', endTime - startTime);
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
                 vm.isUpdating = false;
-
-                let endTime = Date.now();
-                console.log('Loaded in ', endTime - startTime);
             });
         }
 
         vm.sync = function () {
             vm.isUpdating = true;
-
-            let startTime = Date.now();
 
             let syncProm;
             let shortcodes = [];
@@ -127,24 +109,16 @@
                 notificationsService.success("Success", "Posts have been synced");
 
                 syncTree();
-
-                let endTime = Date.now();
-                console.log('Loaded in ', endTime - startTime);
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
                 vm.isUpdating = false;
-
-                let endTime = Date.now();
-                console.log('Loaded in ', endTime - startTime);
             });
         }
 
         vm.delete = function () {
             vm.isUpdating = true;
-
-            let startTime = Date.now();
 
             let deleteProm;
             let shortcodes = [];
@@ -178,17 +152,11 @@
                 notificationsService.success("Success", "Posts have been deleted");
 
                 syncTree();
-
-                let endTime = Date.now();
-                console.log('Loaded in ', endTime - startTime);
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
                 vm.isUpdating = false;
-
-                let endTime = Date.now();
-                console.log('Loaded in ', endTime - startTime);
             });
         }
 

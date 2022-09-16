@@ -37,7 +37,7 @@ namespace PassleSync.Core.SyncHandlers
                 return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
             }
 
-            var umbracoAuthors = _umbracoContentService.GetPublishedContent();
+            var umbracoAuthors = _umbracoContentService.GetAllContent();
 
             // Create viewmodels
             var umbracoAuthorModels = umbracoAuthors.Select(author => new PassleDashboardAuthorViewModel(author));
@@ -52,7 +52,7 @@ namespace PassleSync.Core.SyncHandlers
 
         public override IPassleDashboardViewModel GetExisting()
         {
-            var umbracoAuthors = _umbracoContentService.GetPublishedContent();
+            var umbracoAuthors = _umbracoContentService.GetAllContent();
             var umbracoAuthorModels = umbracoAuthors.Select(author => new PassleDashboardAuthorViewModel(author));
             return new PassleDashboardAuthorsViewModel(umbracoAuthorModels);
         }

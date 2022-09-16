@@ -1,11 +1,10 @@
-﻿using PassleSync.Core.API.Models.Conntent.PassleApi;
-using PassleSync.Core.Attributes;
+﻿using PassleSync.Core.Attributes;
 using System;
 using System.Collections.Generic;
 
 namespace PassleSync.Core.Models.Content.PassleApi
 {
-    public class PasslePost : IPassleApiResponseModel
+    public class PasslePost
     {
         public string PostTitle { get; set; }
         public string PostShortcode { get; set; }
@@ -37,10 +36,5 @@ namespace PassleSync.Core.Models.Content.PassleApi
         public int TotalShares { get; set; }
         public int TotalLikes { get; set; }
         public bool OpensInNewTab { get; set; }
-
-        public string GetShortcode()
-        {
-            return PostShortcode;
-        }
     }
 }

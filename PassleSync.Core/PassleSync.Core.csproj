@@ -651,7 +651,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\Models\Content\PassleApi\IPassleApiResponseModel.cs" />
     <Compile Include="API\Models\IBasicAuthorDetails.cs" />
     <Compile Include="API\Services\IPassleHelperService.cs" />
     <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
@@ -695,7 +694,6 @@
     <Compile Include="Helpers\PostHelper.cs" />
     <Compile Include="Helpers\Queries\QueryBase.cs" />
     <Compile Include="Helpers\Queries\QueryResult.cs" />
-    <Compile Include="Models\Content\PassleApi\PassleTag.cs" />
     <Compile Include="Models\Content\PassleApi\PassleTags.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostMediaType.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostFeaturedItemPosition.cs" />

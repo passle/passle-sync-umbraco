@@ -7,6 +7,8 @@ using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Controllers.RequestModels;
 using PassleSync.Core.Models.Content.PassleApi;
 using System;
+using PassleSync.Core.ViewModels.PassleDashboard;
+using System.Collections.Generic;
 
 namespace PassleSync.Core.Controllers.PassleDashboard
 {
@@ -27,64 +29,132 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         }
 
         [HttpGet]
-        public IPassleDashboardViewModel GetAll()
+        public IPassleDashboardViewModel GetExisting()
         {
-            return _authorHandler.GetAll();
+            return _authorHandler.GetExisting();
         }
 
         [HttpPost]
-        public IHttpActionResult SyncAll()
+        public IPassleDashboardViewModel SyncAll()
         {
             try
             {
-                _authorHandler.SyncAll();
-                return Ok();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
+                // Return all authors that were synced
+                var syncResults = _authorHandler.SyncAll();
 
-        [HttpPost]
-        public IHttpActionResult SyncMany([FromBody] ShortcodesModel model)
-        {
-            try
-            {
-                _authorHandler.SyncMany(model.Shortcodes.ToArray());
-                return Ok();
+                // Create viewmodels
+                var umbracoPostModels = syncResults.Where(x => x.Success).Select(x => new PassleDashboardAuthorViewModel(x.Content));
+                return new PassleDashboardAuthorsViewModel(umbracoPostModels);
             }
             catch (Exception)
             {
-                return BadRequest();
+                return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
             }
         }
 
         [HttpPost]
-        public IHttpActionResult DeleteAll()
+        public IPassleDashboardViewModel SyncMany([FromBody] ShortcodesModel model)
         {
             try
             {
-                _authorHandler.DeleteAll();
-                return Ok();
+                var syncResults = _authorHandler.SyncMany(model.Shortcodes.ToArray());
+
+                var umbracoPostModels = syncResults.Where(x => x.Success).Select(x => new PassleDashboardAuthorViewModel(x.Content));
+                return new PassleDashboardAuthorsViewModel(umbracoPostModels);
             }
             catch (Exception)
             {
-                return BadRequest();
+                return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
             }
         }
 
         [HttpPost]
-        public IHttpActionResult DeleteMany([FromBody] ShortcodesModel model)
+        public IPassleDashboardViewModel SyncOne([FromBody] ShortcodesModel model)
         {
             try
             {
-                _authorHandler.DeleteMany(model.Shortcodes.ToArray());
-                return Ok();
+                var syncResult = _authorHandler.SyncOne(model.Shortcodes.FirstOrDefault());
+
+                if (syncResult.Success)
+                {
+                    var umbracoPostModels = new List<PassleDashboardAuthorViewModel>
+                    {
+                        new PassleDashboardAuthorViewModel(syncResult.Content)
+                    };
+                    return new PassleDashboardAuthorsViewModel(umbracoPostModels);
+                }
+                else
+                {
+                    return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
+                }
             }
             catch (Exception)
             {
-                return BadRequest();
+                return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
+            }
+        }
+
+        [HttpPost]
+        public IPassleDashboardViewModel DeleteAll()
+        {
+            try
+            {
+                var syncResults = _authorHandler.DeleteAll();
+
+                // Return the author's details as they were before they were deleted (but with Synced = false)
+                // So we can still display them in the table without updating the API
+                var umbracoPostModels = syncResults.Where(x => x.Success).Select(x => new PassleDashboardAuthorViewModel(x.Content));
+                return new PassleDashboardAuthorsViewModel(umbracoPostModels);
+            }
+            catch (Exception)
+            {
+                return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
+            }
+        }
+
+        [HttpPost]
+        public IPassleDashboardViewModel DeleteMany([FromBody] ShortcodesModel model)
+        {
+            try
+            {
+                var syncResults = _authorHandler.DeleteMany(model.Shortcodes.ToArray());
+
+                // Return the author's details as they were before they were deleted (but with Synced = false)
+                // So we can still display them in the table without updating the API
+                var umbracoPostModels = syncResults.Where(x => x.Success).Select(x => new PassleDashboardAuthorViewModel(x.Content));
+                return new PassleDashboardAuthorsViewModel(umbracoPostModels);
+            }
+            catch (Exception)
+            {
+                return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
+            }
+        }
+
+        [HttpPost]
+        public IPassleDashboardViewModel DeleteOne([FromBody] ShortcodesModel model)
+        {
+            try
+            {
+                var syncResult = _authorHandler.DeleteOne(model.Shortcodes.FirstOrDefault());
+
+                // Return the author's details as they were before they were deleted (but with Synced = false)
+                // So we can still display them in the table without updating the API
+                if (syncResult.Success)
+                {
+                    var umbracoPostModels = new List<PassleDashboardAuthorViewModel>
+                    {
+                        new PassleDashboardAuthorViewModel(syncResult.Content)
+                    };
+                    return new PassleDashboardAuthorsViewModel(umbracoPostModels);
+                }
+                else
+                {
+                    return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
+                }
+            }
+            catch (Exception)
+            {
+                return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
             }
         }
     }

@@ -4,6 +4,6 @@ namespace PassleSync.Core.Models.Content.PassleApi
 {
     public class PassleTags : PaginatedResponseBase
     {
-        public IEnumerable<PassleTag> Tags { get; set; }
+        public IEnumerable<string> Tags { get; set; }
     }
 }

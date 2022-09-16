@@ -41,14 +41,14 @@
                     $http.post(baseUrl + "SyncOne", {
                         "shortcodes": shortcodes
                     }),
-                    "Failed to sync selected posts");
+                    "Failed to sync selected post");
             },
             deleteOne: function (shortcodes) {
                 return umbRequestHelper.resourcePromise(
                     $http.post(baseUrl + "DeleteOne", {
                         "shortcodes": shortcodes
                     }),
-                    "Failed to delete selected posts");
+                    "Failed to delete selected post");
             },
         };
     }

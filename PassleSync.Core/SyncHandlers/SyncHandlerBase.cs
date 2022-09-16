@@ -1,15 +1,12 @@
-﻿using PassleSync.Core.API.Models.Conntent.PassleApi;
-using PassleSync.Core.API.SyncHandlers;
+﻿using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using PassleSync.Core.Services.Content;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Logging;
-using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.Services;
 
@@ -17,7 +14,7 @@ namespace PassleSync.Core.SyncHandlers
 {
     public abstract class SyncHandlerBase<TPlural, TSingular> : ISyncHandler<TSingular>
         where TPlural : PaginatedResponseBase
-        where TSingular : IPassleApiResponseModel
+        where TSingular : class
     {
         protected readonly IContentService _contentService;
         protected readonly ConfigService _configService;
@@ -83,7 +80,7 @@ namespace PassleSync.Core.SyncHandlers
 
         public virtual SyncTaskResult UpdateOrCreateOne(TSingular apiItem)
         {
-            var publishedContent = _umbracoContentService.GetContentByShortcode(apiItem.GetShortcode());
+            var publishedContent = _umbracoContentService.GetContentByShortcode(Shortcode(apiItem));
             if (publishedContent == null)
             {
                 return CreateOne(apiItem);

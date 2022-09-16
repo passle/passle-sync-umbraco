@@ -1,10 +1,9 @@
-﻿using PassleSync.Core.API.Models.Conntent.PassleApi;
-using PassleSync.Core.Attributes;
+﻿using PassleSync.Core.Attributes;
 using System.Collections.Generic;
 
 namespace PassleSync.Core.Models.Content.PassleApi
 {
-    public class PassleAuthor : IPassleApiResponseModel
+    public class PassleAuthor
     {
         public string Name { get; set; }
         public string Shortcode { get; set; }
@@ -30,10 +29,5 @@ namespace PassleSync.Core.Models.Content.PassleApi
         public string LocationCountry { get; set; }
         public string TagLineCompany { get; set; }
         public string SubscribeLink { get; set; }
-
-        public string GetShortcode()
-        {
-            return Shortcode;
-        }
     }
 }

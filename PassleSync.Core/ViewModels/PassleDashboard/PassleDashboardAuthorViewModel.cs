@@ -1,8 +1,5 @@
-﻿using PassleSync.Core.Extensions;
-using PassleSync.Core.Models.Content.PassleApi;
+﻿using PassleSync.Core.Models.Content.PassleApi;
 using Umbraco.Core.Models;
-using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web;
 
 namespace PassleSync.Core.ViewModels.PassleDashboard
 {
@@ -17,17 +14,17 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
         public string AvatarUrl;
         public bool Synced;
 
-        public PassleDashboardAuthorViewModel(IPublishedContent from)
+        public PassleDashboardAuthorViewModel(IContent from)
         {
             // TODO: Can we use reflection or constants to make this more robust than magic strings?
 
             Id = from?.Id ?? 0;
-            Name = from.Value<string>("passleName");
-            Shortcode = from.Value<string>("shortcode");
-            RoleInfo = from.Value<string>("roleInfo");
-            Description = from.Value<string>("description");
-            ProfileUrl = from.Value<string>("profileUrl");
-            AvatarUrl = from.Value<string>("avatarUrl");
+            Name = from.GetValue<string>("passleName");
+            Shortcode = from.GetValue<string>("shortcode");
+            RoleInfo = from.GetValue<string>("roleInfo");
+            Description = from.GetValue<string>("description");
+            ProfileUrl = from.GetValue<string>("profileUrl");
+            AvatarUrl = from.GetValue<string>("avatarUrl");
             Synced = true;
         }
 

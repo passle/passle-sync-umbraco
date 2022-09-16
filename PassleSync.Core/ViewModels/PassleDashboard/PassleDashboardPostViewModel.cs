@@ -1,10 +1,7 @@
-﻿using PassleSync.Core.Extensions;
-using PassleSync.Core.Models.Content.PassleApi;
+﻿using PassleSync.Core.Models.Content.PassleApi;
 using System;
 using System.Linq;
 using Umbraco.Core.Models;
-using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web;
 
 namespace PassleSync.Core.ViewModels.PassleDashboard
 {

@@ -1,5 +1,4 @@
-﻿using PassleSync.Core.API.Models.Conntent.PassleApi;
-using PassleSync.Core.Models.Content.PassleApi;
+﻿using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services.API;
 using PassleSync.Core.Utils;
 using System;
@@ -10,7 +9,7 @@ namespace PassleSync.Core.Services.Content
 {
     public class PassleContentService<TPlural, TSingular>
         where TPlural : PaginatedResponseBase
-        where TSingular : IPassleApiResponseModel
+        where TSingular : class
     {
         protected readonly ApiService _apiService;
         protected readonly ConfigService _configService;

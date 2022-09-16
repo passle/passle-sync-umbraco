@@ -1,8 +1,8 @@
 ﻿angular.module("umbraco").controller(
     "AuthorsTableController",
-    function (notificationsService, passleAuthorsResource) {
+    function (notificationsService, treeService, passleAuthorsResource) {
         var vm = this;
-        vm.loading = false;
+        vm.isLoading = false;
 
         let currentSortCol = "Name";
         let currentSortDir = "desc";
@@ -11,169 +11,152 @@
         vm.unsyncedCount = 0;
         vm.selectedCount = 0;
 
-        function getAuthorDataObject(author, syncOverride = null) {
-            // Umbraco doesn't write quickly enough that the 
-            // content has update before this we load the data again
-            // so sometimes we need to do something smarter here - override the synced flag
+        function getAuthorDataObject(author, deletedOverride = null) {
+            // Convert the returned model to the format the table needs
+            // The override is used when deleting data:
+            // - we return the last state of the content before it was deleted, so we need to override the synced and url values
+
             return Object.assign({}, {
                 "name": author.Name,
                 "role": author.RoleInfo,
-                "editPath": (syncOverride || author.Synced) ? ("/content/content/edit/" + author.Id) : author.ProfileUrl,
+                "editPath": (author.Synced && !deletedOverride) ? ("/content/content/edit/" + author.Id) : author.ProfileUrl,
                 "shortcode": author.Shortcode,
-                "synced": syncOverride || author.Synced
+                "synced": author.Synced && !deletedOverride
             });
         }
-        function getOverriddenAuthorDataObject(author, shouldOverride, overrideValue) {
-            if (shouldOverride) return getAuthorDataObject(author, overrideValue);
-            return getAuthorDataObject(author);
+        function getOverriddenAuthorDataObject(author) {
+            return getAuthorDataObject(author, true);
         }
 
         function syncTree() {
-            /*
-             * TODO: Find a way to tell Umbraco that the content section should be loaded fresh when it's opened
-             * Trying to refresh the content with navigationService.syncTree({ tree: "content" ...
-             * fails with an error, as the 'content' tree doesn't exist when the Settings section is open
-             */
+            treeService.clearCache({ section: "content" });
         }
 
         function onload() {
-            vm.loading = true;
+            vm.isLoading = true;
 
-            passleAuthorsResource.getAll().then((response) => {
+            passleAuthorsResource.getExisting().then((response) => {
                 vm.authors = response.Authors.map((author) => getAuthorDataObject(author));
                 vm.syncedCount = vm.authors.filter((author) => author.synced).length;
                 vm.unsyncedCount = vm.authors.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
-                vm.loading = false;
+                vm.isLoading = false;
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
-                vm.loading = false;
+                vm.isLoading = false;
             });
         }
         onload();
 
-        vm.refresh = function () {
-            vm.isRefreshing = true;
+        vm.update = function () {
+            vm.isUpdating = true;
 
-            passleAuthorsResource.refreshAll().then(() => {
-                passleAuthorsResource.getAll().then((response) => {
-                    vm.authors = response.Authors.map((author) => getAuthorDataObject(author));
+            passleAuthorsResource.updateAll().then((response) => {
+                vm.authors = response.Authors.map((author) => getAuthorDataObject(author));
 
-                    vm.syncedCount = vm.authors.filter((author) => author.synced).length;
-                    vm.unsyncedCount = vm.authors.length - vm.syncedCount;
-                    vm.isSelectedAll = false;
-                    vm.selectedCount = 0;
-                    vm.isRefreshing = false;
+                vm.syncedCount = vm.authors.filter((author) => author.synced).length;
+                vm.unsyncedCount = vm.authors.length - vm.syncedCount;
+                vm.isSelectedAll = false;
+                vm.selectedCount = 0;
+                vm.isUpdating = false;
 
-                    syncTree();
-                }, (error) => {
-                    console.error(error);
-                    notificationsService.error("Error", error);
-
-                    vm.isRefreshing = false;
-                });
+                syncTree();
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
-                vm.isRefreshing = false;
+                vm.isUpdating = false;
             });
         }
 
         vm.sync = function () {
-            vm.isSyncing = true;
+            vm.isUpdating = true;
 
             let syncProm;
             let shortcodes;
             if (vm.isSelectedAll) {
                 syncProm = passleAuthorsResource.syncAll();
             } else {
-                if (vm.selectedCount > 0) {
+                if (vm.selectedCount == 0) {
+                    syncProm = passleAuthorsResource.syncAll();
+                } else if (vm.selectedCount == 1) {
                     shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
+                    syncProm = passleAuthorsResource.syncOne(shortcodes);
                 } else {
-                    shortcodes = vm.authors.map((author) => author.shortcode);
+                    shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
+                    syncProm = passleAuthorsResource.syncMany(shortcodes);
                 }
-                syncProm = passleAuthorsResource.syncMany(shortcodes);
             }
 
-            syncProm.then(() => {
-                passleAuthorsResource.getAll().then((response) => {
-                    vm.authors = response.Authors.map((author) => getOverriddenAuthorDataObject(
-                        author,
-                        vm.isSelectedAll || shortcodes.includes(author.Shortcode),
-                        true
-                    ));
-
-                    vm.syncedCount = vm.authors.filter((author) => author.synced).length;
-                    vm.unsyncedCount = vm.authors.length - vm.syncedCount;
-                    vm.isSelectedAll = false;
-                    vm.selectedCount = 0;
-
-                    vm.isSyncing = false;
-
-                    notificationsService.success("Success", "Authors have been synced");
-
-                    syncTree();
-                }, (error) => {
-                    console.error(error);
-                    notificationsService.error("Error", error);
-
-                    vm.isSyncing = false;
+            syncProm.then((response) => {
+                vm.authors.forEach((author, ii) => {
+                    let matchingAuthors = response.Authors.filter(x => x.Shortcode === author.shortcode);
+                    if (matchingAuthors.length > 0) {
+                        vm.authors[ii] = getAuthorDataObject(matchingAuthors[0]);
+                    }
                 });
+
+                vm.syncedCount = vm.authors.filter((author) => author.synced).length;
+                vm.unsyncedCount = vm.authors.length - vm.syncedCount;
+                vm.isSelectedAll = false;
+                vm.selectedCount = 0;
+
+                vm.isUpdating = false;
+
+                notificationsService.success("Success", "Authors have been synced");
+
+                syncTree();
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
-                vm.isSyncing = false;
+                vm.isUpdating = false;
             });
         }
 
         vm.delete = function () {
-            vm.isDeleting = true;
+            vm.isUpdating = true;
 
             let deleteProm;
             let shortcodes;
             if (vm.isSelectedAll) {
                 deleteProm = passleAuthorsResource.deleteAll();
             } else {
-                if (vm.selectedCount > 0) {
+                if (vm.selectedCount == 0) {
+                    deleteProm = passleAuthorsResource.deleteAll();
+                } else if (vm.selectedCount == 1) {
                     shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
+                    deleteProm = passleAuthorsResource.deleteOne(shortcodes);
                 } else {
-                    shortcodes = vm.authors.map((author) => author.shortcode);
+                    shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
+                    deleteProm = passleAuthorsResource.deleteMany(shortcodes);
                 }
-                deleteProm = passleAuthorsResource.deleteMany(shortcodes);
             }
 
-            deleteProm.then(() => {
-                passleAuthorsResource.getAll().then((response) => {
-                    // Filter to ensure a half-deleted author isn't returned
-                    vm.authors = response.Authors.filter((author) => author.Shortcode).map((author) => getOverriddenAuthorDataObject(
-                        author,
-                        vm.isSelectedAll || shortcodes.includes(author.Shortcode),
-                        false
-                    ));
-                    vm.syncedCount = vm.authors.filter((author) => author.synced).length;
-                    vm.unsyncedCount = vm.authors.length - vm.syncedCount;
-                    vm.isSelectedAll = false;
-                    vm.selectedCount = 0;
-                    vm.isDeleting = false;
-
-                    notificationsService.success("Success", "Authors have been deleted");
-
-                    syncTree();
-                }, (error) => {
-                    console.error(error);
-                    notificationsService.error("Error", error);
-
-                    vm.isDeleting = false;
+            deleteProm.then((response) => {
+                vm.authors.forEach((author, ii) => {
+                    let matchingAuthors = response.Authors.filter(x => x.Shortcode === author.shortcode);
+                    if (matchingAuthors.length > 0) {
+                        vm.authors[ii] = getOverriddenAuthorDataObject(matchingAuthors[0]);
+                    }
                 });
+
+                vm.syncedCount = vm.authors.filter((author) => author.synced).length;
+                vm.unsyncedCount = vm.authors.length - vm.syncedCount;
+                vm.isSelectedAll = false;
+                vm.selectedCount = 0;
+                vm.isUpdating = false;
+
+                notificationsService.success("Success", "Authors have been deleted");
+
+                syncTree();
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
 
-                vm.isDeleting = false;
+                vm.isUpdating = false;
             });
         }
 
