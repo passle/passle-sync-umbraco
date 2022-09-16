@@ -1,4 +1,5 @@
 ﻿using PassleSync.Core.API.Services;
+using PassleSync.Core.Extensions;
 using PassleSync.Website.ViewModels;
 using System.Web.Mvc;
 using Umbraco.Web.Models;
@@ -17,7 +18,7 @@ namespace PassleSync.Website.Controllers
 
         public override ActionResult Index(ContentModel model)
         {
-            var currentPage = int.Parse(Request.QueryString["page"]);
+            var currentPage = int.Parse(Request.QueryString.GetValueOrDefault("page", "1"));
             var query = _passleHelperService.GetPosts().WithCurrentPage(currentPage).WithItemsPerPage(10).Execute();
 
             var viewModel = new InsightsPageViewModel(model.Content)
@@ -26,7 +27,7 @@ namespace PassleSync.Website.Controllers
                 Pagination = new PaginationViewModel()
                 {
                     CurrentPage = query.CurrentPage,
-                    TotalPages = query.TotalItems / query.ItemsPerPage,
+                    TotalPages = query.TotalPages,
                 }
             };
 

@@ -9,5 +9,6 @@ namespace PassleSync.Core.Helpers.Queries
         public int CurrentPage;
         public int ItemsPerPage;
         public int TotalItems;
+        public int TotalPages;
     }
 }

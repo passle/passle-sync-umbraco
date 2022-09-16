@@ -415,6 +415,7 @@
     <Content Include="config\logviewer.searches.config.js" />
     <Content Include="Css\app.css" />
     <Content Include="Css\custom.css" />
+    <Content Include="favicon.png" />
     <Content Include="Global.asax" />
     <Content Include="robots.Production.txt" />
     <Content Include="robots.txt" />

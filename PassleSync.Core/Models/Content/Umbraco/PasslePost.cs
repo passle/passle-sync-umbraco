@@ -1,4 +1,5 @@
 ﻿using PassleSync.Core.API.Services;
+using PassleSync.Core.Helpers.Queries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,7 @@ namespace PassleSync.Core.Models.Content.Umbraco
         private IEnumerable<PassleAuthor> GetAuthorsForShortcodes(IEnumerable<string> shortcodes)
         {
             var passleHelperService = Current.Factory.GetInstance<IPassleHelperService>();
-
-            // TODO: Pass option to query to only fetch required shortcodes instead of fetching all and filtering
-            return passleHelperService.GetAuthors().Execute().Items.Where(x => shortcodes.Contains(x.Shortcode));
+            return passleHelperService.GetAuthors().ByShortcodes(shortcodes).Execute().Items;
         }
     }
 }

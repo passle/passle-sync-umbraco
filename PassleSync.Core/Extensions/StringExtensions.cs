@@ -58,14 +58,9 @@ namespace PassleSync.Core.Extensions
             return input.Substring(0, 120) + "...";
         }
 
-        public static int ToIntOrDefault(this string input, int @default)
+        public static bool DetectHasLineBreaks(this string input)
         {
-            if (int.TryParse(input, out var number))
-            {
-                return number;
-            }
-
-            return @default;
+            return input.IndexOf("\r\n") > -1;
         }
     }
 }

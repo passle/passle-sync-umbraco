@@ -10,7 +10,9 @@ using UmbracoConstants = Umbraco.Core.Constants;
 
 namespace PassleSync.Core.Helpers.Queries
 {
-    public abstract class QueryBase<T> where T : PublishedContentModel
+    public abstract class QueryBase<T, P>
+        where T : QueryBase<T, P>
+        where P : PublishedContentModel
     {
         protected readonly IExamineManager _examineManager;
         protected readonly UmbracoHelper _umbracoHelper;
@@ -30,25 +32,25 @@ namespace PassleSync.Core.Helpers.Queries
             _query = CreateQuery(ContentType);
         }
 
-        public QueryBase<T> Search(string searchQuery)
+        public T Search(string searchQuery)
         {
             _query = _query.And().GroupedOr(SearchFields, searchQuery);
-            return this;
+            return (T) this;
         }
 
-        public QueryBase<T> WithCurrentPage(int currentPage)
+        public T WithCurrentPage(int currentPage)
         {
             CurrentPage = currentPage;
-            return this;
+            return (T) this;
         }
 
-        public QueryBase<T> WithItemsPerPage(int itemsPerPage)
+        public T WithItemsPerPage(int itemsPerPage)
         {
             ItemsPerPage = itemsPerPage;
-            return this;
+            return (T) this;
         }
 
-        public QueryResult<T> Execute()
+        public QueryResult<P> Execute()
         {
             var searchResults = _query.Execute();
             var ids = searchResults
@@ -56,27 +58,28 @@ namespace PassleSync.Core.Helpers.Queries
                 .Take(ItemsPerPage)
                 .Select(x => int.Parse(x.Id));
 
-            return new QueryResult<T>()
+            return new QueryResult<P>()
             {
                 Items = GetInstances(ids),
                 CurrentPage = CurrentPage,
                 ItemsPerPage = ItemsPerPage,
                 TotalItems = (int) searchResults.TotalItemCount,
+                TotalPages = (int) Math.Ceiling((double) searchResults.TotalItemCount / ItemsPerPage),
             };
         }
 
-        protected IEnumerable<T> GetInstances(IEnumerable<int> ids)
+        protected IEnumerable<P> GetInstances(IEnumerable<int> ids)
         {
             foreach (var id in ids)
             {
-                var instance = (T)Activator.CreateInstance(typeof(T), new object[] { _umbracoHelper.Content(id) });
+                var instance = (P) Activator.CreateInstance(typeof(P), new object[] { _umbracoHelper.Content(id) });
                 yield return instance;
             }
         }
 
         protected IBooleanOperation CreateQuery(string contentType)
         {
-            if (!ExamineManager.Instance.TryGetIndex(UmbracoConstants.UmbracoIndexes.ExternalIndexName, out var index))
+            if (!_examineManager.TryGetIndex(UmbracoConstants.UmbracoIndexes.ExternalIndexName, out var index))
             {
                 throw new InvalidOperationException($"No index found with name {UmbracoConstants.UmbracoIndexes.ExternalIndexName}");
             }

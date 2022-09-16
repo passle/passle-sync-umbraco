@@ -11,6 +11,7 @@ namespace PassleSync.Website.ViewModels
         public IEnumerable<PasslePost> Posts;
         public PasslePost FeaturedPost;
         public string SearchQuery;
+        public string TagFilter;
         public PaginationViewModel Pagination;
     }
 }

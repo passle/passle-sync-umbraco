@@ -164,7 +164,7 @@
                                 <i class="fas fa-tags"></i>
                                 @foreach (var tag in Model.Tags)
                                 {
-                                    <a href="/tag?name=@tag" class="bg-gray-100 !text-gray-700 text-base py-1 px-2 rounded-sm font-sans normal-case font-medium hover:bg-primary hover:!text-white transition-colors">
+                                    <a href="/?tag=@HttpUtility.UrlEncode(tag)" class="bg-gray-100 !text-gray-700 text-base py-1 px-2 rounded-sm font-sans normal-case font-medium hover:bg-primary hover:!text-white transition-colors">
                                         @tag
                                     </a>
                                 }
