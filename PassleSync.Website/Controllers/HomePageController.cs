@@ -4,8 +4,8 @@ using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
 using PassleSync.Website.ViewModels;
 using PassleSync.Core.API.Services;
-using PassleSync.Core.Extensions;
 using PassleSync.Core.Models.Content.Umbraco;
+using PassleSync.Website.Extensions;
 
 namespace PassleSync.Website.Controllers
 {

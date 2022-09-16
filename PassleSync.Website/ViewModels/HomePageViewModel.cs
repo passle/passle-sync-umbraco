@@ -4,7 +4,7 @@ using PassleSync.Core.Models.Content.Umbraco;
 
 namespace PassleSync.Website.ViewModels
 {
-    public class HomePageViewModel : HomePage
+    public class HomePageViewModel : PublishedContentModel
     {
         public HomePageViewModel(IPublishedContent content) : base(content) { }
 

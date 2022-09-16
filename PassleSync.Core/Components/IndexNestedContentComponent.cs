@@ -1,6 +1,5 @@
 ﻿using Examine;
 using Examine.Providers;
-using Lucene.Net.Documents;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PassleSync.Core.Extensions;
@@ -9,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core;
 using Umbraco.Core.Composing;
-using static OfficeOpenXml.ExcelErrorValue;
 using UmbracoConstants = Umbraco.Core.Constants;
 
 namespace PassleSync.Core.Components

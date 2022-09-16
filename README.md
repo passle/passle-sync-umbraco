@@ -1,96 +1,145 @@
-# Passle for Umbraco
-Passle integration with Umbraco CMS
+# Passle Sync for Umbraco
 
-## Prerequisites
-To run the Passle Umbraco extension on IIS, you will need to download and install the following prerequisites:
+Passle Sync is a plugin for Umbraco which syncs your [Passle](https://home.passle.net/) posts and authors into your Umbraco instance.
 
-* ~[SQL Server 2019](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (download the developer edition)~
-* ~[SQL Server Management Studio (SSMS)](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15)~
-* ~[SQL Server Compact 4.0 Runtime](https://www.microsoft.com/en-us/download/confirmation.aspx?id=30709)~
+Get started with the section below, or jump straight to the [API documentation](./docs/index.md).
 
-## Clone the repository
-Create a folder called *PassleCMSIntegrations* under *C:\\*. The clone the repository as *PassleUmbraco* inside that directory.
+A great example of how to use the plugin is our demo website:
 
-## Configure permissions
-We need to configure folder permissions to ensure IIS can run Umbraco. Open the folder permissions for *PassleUmbraco* and add the following accounts with *Full control* permissions:
+- [📂 Website source](./PassleSync.Website/)
+- [🌍 Live demo](http://mercierandveleztalkingpoints.com/)
 
-* XX-PC\IIS_IUSRS (where XX-PC is the name of your PC)
-* IUSR
+## 🚀 Getting started
 
-You may get an error stating that the permissions could not propagate. If you do, you will have to recursively take ownership of all files and folders in the *PassleUmbraco* direcory with the following command:
+Get started by installing the plugin and activating it.
 
-```
-icacls C:\PassleCMSIntegrations\PassleUmbraco /setowner "Your Username" /T /C
-```
+Once the plugin is installed, admin users can access the settings under **Settings > Passle Sync**.
 
-(where 'Your Username' is your username)
+### ⚙️ Configuration
 
-## Build the project
-Run Visual Studio as administrator, and open the project solution. ~Once all the projects have loaded, you'll probably want to right click on the solution and select 'Properties', then change the startup project to 'Single startup project' and select 'Passle.Site'.~
+On the first tab of the plugin settings page, you will find the following configuration options:
 
-Hit OK to accept changes, then build the solution.
+| Option                  | Description                                                                                                    |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Passle API Key          | The API key generated in the Passle dashboard, used to fetch content from Passle.                              |
+| Plugin API Key          | The API key Passle should use when calling the plugin webhooks after content is updated.                       |
+| Passle Shortcodes       | A comma-separated list of the shortcodes of the Passles you want to sync content from.                         |
+| Post Permalink Prefix   | The prefix that will be used for post permalink URLs. This needs to match what is set in the Passle backend.   |
+| Person Permalink Prefix | The prefix that will be used for person permalink URLs. This needs to match what is set in the Passle backend. |
+| Post Parent Node ID     | The ID of the parent node under which all Passle posts will be created.                                        |
+| Author Parent Node ID   | The ID of the parent node under which all Passle posts will be created.                                        |
 
+### 📙 Basic Usage
 
-## Deprecated
+Once the plugin has been configured correctly, posts and people can be synced using the **Posts** and **People** tabs under **Settings > Passle Sync**.
 
-## IIS Setup
-Next, set up IIS to run Umbraco:
+**1. Fetch from API**
 
-### Create the application pool
-Create a new application pool with the following details:
+First, the plugin has to fetch posts and authors from the Passle API. Use the **Fetch Passle Posts** and **Fetch Passle People** buttons to do so. Once the plugin has done the initial fetches from the API, the API responses will be cached, so if you reload the page, the posts and authors you have fetched will be remembered.
 
-* **Name:** www.umbracodemo.localhost
-* **.NET CLR Version:** .NET CLR Version v4.0.30319
-* **Managed pipeline mode:** Integrated
-* **Start application pool immediately:** True
+**2. Sync to Umbraco**
 
-### Create the site
-Create a new site with the following details:
+To sync the posts and authors to Umbraco, use the **Sync All Posts** and **Sync All People** buttons. This will create a new content node for each post/author using the document types created by the plugin. Once all posts/authors have been synced, their statuses will update. Synced posts and authors can be viewed, but not edited, under the root nodes specified in the plugin settings.
 
-* **Site name:** www.umbracodemo.localhost
-* **Application pool:** www.umbracodemo.localhost
-* **Physical path:** C:\\PassleCMSIntegrations\\PassleUmbraco\\Web\\PassleDotCom.PasslePlugin.Web
+**3. Webhooks**
 
-Add the following bindings:
+Whenever a post or author is updated through the Passle interface, the Passle backend will make a call to a webhook exposed by the plugin with the shortcode of the item that was updated, and the plugin will automatically re-sync that item.
 
-* **Type:** http; **Host name:** www.umbracodemo.localhost; **Port:** 80
-* **Type:** https; **Host name:** www.umbracodemo.localhost; **Port:** 443
+**4. Document Type Templates**
 
-## Hosts file
-Run notepad as an administrator, then open your hosts file (C:\\Windows\\System32\\drivers\\etc\\hosts) and add the following entry:
+To display Passle posts and authors, you should create templates associated with the Passle Post and Passle Author document types that the plugin creates automatically.
 
-```
-127.0.0.1 www.umbracodemo.localhost
+This plugin provides the [PassleHelperService](./docs/PassleSync.Core.Services.PassleHelperService.md) class, which can be accessed in your controller via DI. The service includes the methods `GetPosts` and `GetAuthors`, which provide new instances of the [PasslePostQuery]() and [PassleAuthorQuery]() classes. These allow easy access to filtering and paginating Passle posts and authors via Examine.
+
+### 📰 Example Queries
+
+Fetch the post featured on the Passle page:
+
+```csharp
+var featuredPost = _passleHelperService.GetPosts().FeaturedOnPasslePage(true).Execute().Items.FirstOrDefault();
 ```
 
-## The moment of truth
-You should now be able to access your Umbraco installation at www.umbracodemo.localhost. If anything was missing from the README, please add it yourself!
+Fetch all posts except the post featured on the Passle page, with 10 items per page:
 
+```csharp
+var currentPage = 1;
 
+// The result includes the items, as well as pagination data
+var queryResult = _passleHelperService.GetPosts().FeaturedOnPasslePage(false).WithCurrentPage(currentPage).WithItemsPerPage(10).Execute();
+```
 
-## SQL Server Setup
-Next, set up SQL server to work with IIS:
+A full example can be found in our demo site's [HomePageController.cs](PassleSync.Website/Controllers/HomePageController.cs).
 
-### Connect via SSMS
-To connect to the SQL Server Installation via SSMS, first run the app as an administrator. Once the app is running,select add connection, and enter the following details:
+### 🤝 Helper Methods
 
-* **Server type:** Database Engine
-* **Server name:** The name of your PC (e.g. XX-PC)
-* **Authentication:** Windows Authentication
+The [PasslePost](./docs/PassleSync.Core.Models.Content.Umbraco.PasslePost.md) and [PassleAuthor](./docs/PassleSync.Core.Models.Content.Umbraco.PassleAuthor.md) models returned by the queries described above include various helper methods in addition to all the properties contained in the document type. Here are some examples:
 
-### Add the database
-Right click on *Databases* in the object explorer, and select *New database*. Enter *umbraco* for the database name, and hit OK.
+```csharp
+var featuredPost = _passleHelperService.GetPosts().FeaturedOnPasslePage(true).Execute().Items.FirstOrDefault();
 
-### Add the login
-Expand the *Security* folder in the object explorer, then right click on *Logins* and select *New login*. Enter *umbraco* for the login name, then select *SQL Server Authentication*, and enter the password, which can be found in the DB connection string inside `Passle.Core\appsettings.json`.
+// Accepts a standard .NET datetime formatting string
+var formattedDate = featuredPost.GetDate("d MMMM yyyy");
 
-Uncheck *Enforce password policy*, and set the default database for the login to the *umbraco* database created in the previous step.
+var postAuthor = featuredPost.GetAuthors().FirstOrDefault();
 
-In the *User mapping* section, tick the box next to *umbraco*, then highlight the *umbraco* entry and ticket the box next to *db_owner* in the panel below.
+// Will fall back on a default URL if the user doesn't have an avatar
+var authorAvatar = postAuthor.GetAvatarUrl();
+```
 
-Hit OK to to create the login.
+## 🔧 Requirements
 
-### Configure the server
-Right click on the server in the object explorer, and select *Properties*. In the *Security* section, under *Server authentication*, select *SQL Server and Windows Authentication mode*, and hit OK.
+- Umbraco 8
 
-Right click on the server again, and select *Restart*.
+## 👨‍💻 Development
+
+<details>
+<summary>Prerequisites</summary>
+
+- [NPM](https://www.npmjs.com/)
+- Development environment running an Umbraco instance
+
+</details>
+
+<details>
+<summary>Environment setup</summary>
+
+To develop this plugin, first clone the repository:
+
+```
+git clone https://github.com/passle/passle-sync-umbraco-v2
+```
+
+Next, install all dependencies and build the frontend with the following commands:
+
+```
+npm install
+npm run build
+```
+
+Finally, once you have built the solution and logged into the Umbraco backoffice, you will need to create a few document types and nodes for the demo site to work.
+
+Create the following document types:
+
+- Home Page (with template, allow as root)
+- Insights Page (with template, allow as root)
+- Passle Authors (allow as root)
+- Passle Posts (allow as root)
+
+They don't need to contain and groups/properties. Once they have been created, ensure the document types with templates been populated with the correct code (from `PassleSync.Website/Views`).
+
+Once you've created the document types, create the following root nodes, using the document types described above:
+
+- Home
+- Insights
+- Passle Posts
+- Passle Authors
+
+</details>
+
+## 💬 Contributing
+
+If you'd like to request a feature or report a bug, please create a GitHub Issue.
+
+## 📜 License
+
+The Passle Sync plugin is released under the under terms of the [MIT License](./LICENSE).
