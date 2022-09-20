@@ -6,7 +6,7 @@
 PublishedDate
 
 ```csharp
-public virtual string PublishedDate { get; }
+public string PublishedDate { get; }
 ```
 
 #### Property Value

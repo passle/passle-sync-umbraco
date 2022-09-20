@@ -6,7 +6,7 @@
 ContentTextSnippet
 
 ```csharp
-public virtual string ContentTextSnippet { get; }
+public string ContentTextSnippet { get; }
 ```
 
 #### Property Value

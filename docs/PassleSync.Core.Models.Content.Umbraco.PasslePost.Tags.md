@@ -6,7 +6,7 @@
 Tags
 
 ```csharp
-public virtual System.Collections.Generic.IEnumerable<string> Tags { get; }
+public System.Collections.Generic.IEnumerable<string> Tags { get; }
 ```
 
 #### Property Value

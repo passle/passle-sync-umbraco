@@ -6,7 +6,7 @@
 Shortcode
 
 ```csharp
-public virtual string Shortcode { get; }
+public string Shortcode { get; }
 ```
 
 Implements [Shortcode](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.API.Models.IBasicAuthorDetails.Shortcode 'PassleSync.Core.API.Models.IBasicAuthorDetails.Shortcode')

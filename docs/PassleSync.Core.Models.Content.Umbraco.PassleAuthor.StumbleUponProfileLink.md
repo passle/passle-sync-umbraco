@@ -6,7 +6,7 @@
 StumbleUponProfileLink
 
 ```csharp
-public virtual string StumbleUponProfileLink { get; }
+public string StumbleUponProfileLink { get; }
 ```
 
 #### Property Value

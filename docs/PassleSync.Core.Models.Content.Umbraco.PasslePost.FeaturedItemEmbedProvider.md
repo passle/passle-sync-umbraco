@@ -6,7 +6,7 @@
 FeaturedItemEmbedProvider
 
 ```csharp
-public virtual string FeaturedItemEmbedProvider { get; }
+public string FeaturedItemEmbedProvider { get; }
 ```
 
 #### Property Value

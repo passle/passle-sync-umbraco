@@ -6,7 +6,7 @@
 PostUrl
 
 ```csharp
-public virtual string PostUrl { get; }
+public string PostUrl { get; }
 ```
 
 #### Property Value

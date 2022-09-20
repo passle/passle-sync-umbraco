@@ -6,7 +6,7 @@
 PinterestProfileLink
 
 ```csharp
-public virtual string PinterestProfileLink { get; }
+public string PinterestProfileLink { get; }
 ```
 
 #### Property Value

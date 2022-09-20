@@ -6,7 +6,7 @@
 SkypeProfileLink
 
 ```csharp
-public virtual string SkypeProfileLink { get; }
+public string SkypeProfileLink { get; }
 ```
 
 #### Property Value

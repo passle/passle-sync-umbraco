@@ -6,7 +6,7 @@
 LocationDetail
 
 ```csharp
-public virtual string LocationDetail { get; }
+public string LocationDetail { get; }
 ```
 
 #### Property Value

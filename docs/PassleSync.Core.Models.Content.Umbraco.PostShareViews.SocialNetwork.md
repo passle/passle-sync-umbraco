@@ -6,7 +6,7 @@
 SocialNetwork
 
 ```csharp
-public virtual string SocialNetwork { get; }
+public string SocialNetwork { get; }
 ```
 
 #### Property Value

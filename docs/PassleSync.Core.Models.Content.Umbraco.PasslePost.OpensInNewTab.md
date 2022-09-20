@@ -6,7 +6,7 @@
 OpensInNewTab
 
 ```csharp
-public virtual bool OpensInNewTab { get; }
+public bool OpensInNewTab { get; }
 ```
 
 #### Property Value

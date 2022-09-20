@@ -6,7 +6,7 @@
 YouTubeProfileLink
 
 ```csharp
-public virtual string YouTubeProfileLink { get; }
+public string YouTubeProfileLink { get; }
 ```
 
 #### Property Value

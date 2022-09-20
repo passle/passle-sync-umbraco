@@ -6,7 +6,7 @@
 IsFeaturedOnPostPage
 
 ```csharp
-public virtual bool IsFeaturedOnPostPage { get; }
+public bool IsFeaturedOnPostPage { get; }
 ```
 
 #### Property Value

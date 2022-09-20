@@ -6,7 +6,7 @@
 PassleShortcode
 
 ```csharp
-public virtual string PassleShortcode { get; }
+public string PassleShortcode { get; }
 ```
 
 #### Property Value
