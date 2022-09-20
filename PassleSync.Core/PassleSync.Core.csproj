@@ -726,7 +726,6 @@
     <Compile Include="Models\Content\PassleApi\SubModels\AuthorLink.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostShareViews.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostTweet.cs" />
-    <Compile Include="Models\Content\Umbraco\Tag.generated.cs" />
     <Compile Include="Models\Content\Umbraco\IgnoredContentTypes.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ConfigService.cs" />

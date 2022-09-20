@@ -6,7 +6,7 @@
 ScreenName
 
 ```csharp
-public virtual string ScreenName { get; }
+public string ScreenName { get; }
 ```
 
 #### Property Value

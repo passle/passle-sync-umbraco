@@ -6,7 +6,7 @@
 TagLineCompany
 
 ```csharp
-public virtual string TagLineCompany { get; }
+public string TagLineCompany { get; }
 ```
 
 #### Property Value

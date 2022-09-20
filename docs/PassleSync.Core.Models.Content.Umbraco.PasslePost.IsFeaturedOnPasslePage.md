@@ -6,7 +6,7 @@
 IsFeaturedOnPasslePage
 
 ```csharp
-public virtual bool IsFeaturedOnPasslePage { get; }
+public bool IsFeaturedOnPasslePage { get; }
 ```
 
 #### Property Value

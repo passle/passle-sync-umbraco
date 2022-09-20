@@ -6,7 +6,7 @@
 InstagramProfileLink
 
 ```csharp
-public virtual string InstagramProfileLink { get; }
+public string InstagramProfileLink { get; }
 ```
 
 #### Property Value

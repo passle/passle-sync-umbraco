@@ -6,7 +6,7 @@
 RoleInfo
 
 ```csharp
-public virtual string RoleInfo { get; }
+public string RoleInfo { get; }
 ```
 
 Implements [RoleInfo](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.API.Models.IBasicAuthorDetails.RoleInfo 'PassleSync.Core.API.Models.IBasicAuthorDetails.RoleInfo')

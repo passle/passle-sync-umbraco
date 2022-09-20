@@ -68,7 +68,7 @@ namespace PassleSync.Core.Helpers.Queries
         /// <returns></returns>
         public QueryResult<P> Execute()
         {
-            var searchResults = _query.Execute();
+            var searchResults = _query.Execute(int.MaxValue);
             var ids = searchResults
                 .Skip((CurrentPage - 1) * ItemsPerPage)
                 .Take(ItemsPerPage)

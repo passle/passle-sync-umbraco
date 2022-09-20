@@ -6,7 +6,7 @@
 LocationCountry
 
 ```csharp
-public virtual string LocationCountry { get; }
+public string LocationCountry { get; }
 ```
 
 #### Property Value

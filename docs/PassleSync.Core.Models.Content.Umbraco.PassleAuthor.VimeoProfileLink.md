@@ -6,7 +6,7 @@
 VimeoProfileLink
 
 ```csharp
-public virtual string VimeoProfileLink { get; }
+public string VimeoProfileLink { get; }
 ```
 
 #### Property Value

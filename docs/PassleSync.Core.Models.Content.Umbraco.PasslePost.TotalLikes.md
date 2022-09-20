@@ -6,7 +6,7 @@
 TotalLikes
 
 ```csharp
-public virtual int TotalLikes { get; }
+public int TotalLikes { get; }
 ```
 
 #### Property Value

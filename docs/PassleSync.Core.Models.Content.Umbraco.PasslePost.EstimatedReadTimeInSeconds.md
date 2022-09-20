@@ -6,7 +6,7 @@
 EstimatedReadTimeInSeconds
 
 ```csharp
-public virtual int EstimatedReadTimeInSeconds { get; }
+public int EstimatedReadTimeInSeconds { get; }
 ```
 
 #### Property Value

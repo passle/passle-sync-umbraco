@@ -12,26 +12,36 @@
     }
 }
 
-<div class="flex justify-center">
-    @if (Model.CurrentPage > 1)
-    {
-        <a class="prev page-numbers" href="@LinkUrl(Model.CurrentPage - 1)">« Previous</a>
-    }
-
-    @for (var i = 1; i <= Model.TotalPages; i++)
-    {
-        if (i == Model.CurrentPage)
+@if (Model.TotalPages > 1)
+ {
+    <div class="flex justify-center">
+        @if (Model.CurrentPage > 1)
         {
-            <span aria-current="page" class="page-numbers current">@i</span>
+            <a class="prev page-numbers" href="@LinkUrl(Model.CurrentPage - 1)">« Previous</a>
         }
-        else
-        {
-            <a class="page-numbers" href="@LinkUrl(i)">@i</a>
-        }
-    }
 
-    @if (Model.CurrentPage < Model.TotalPages)
-    {
-        <a class="next page-numbers" href="@LinkUrl(Model.CurrentPage + 1)">Next »</a>
-    }
-</div>
+        @foreach (var link in Model.Links)
+        {
+            if (link.IsCurrent)
+            {
+                <span aria-current="page" class="page-numbers current">@link.Label</span>
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(link.Url))
+                {
+                    <span class="page-numbers">@link.Label</span>
+                }
+                else
+                {
+                    <a class="page-numbers" href="@link.Url">@link.Label</a>
+                }
+            }
+        }
+
+        @if (Model.CurrentPage < Model.TotalPages)
+        {
+            <a class="next page-numbers" href="@LinkUrl(Model.CurrentPage + 1)">Next »</a>
+        }
+    </div>
+ }

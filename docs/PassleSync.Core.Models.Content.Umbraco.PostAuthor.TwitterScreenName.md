@@ -6,7 +6,7 @@
 TwitterScreenName
 
 ```csharp
-public virtual string TwitterScreenName { get; }
+public string TwitterScreenName { get; }
 ```
 
 Implements [TwitterScreenName](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.API.Models.IBasicAuthorDetails.TwitterScreenName 'PassleSync.Core.API.Models.IBasicAuthorDetails.TwitterScreenName')

@@ -6,7 +6,7 @@
 TweetId
 
 ```csharp
-public virtual string TweetId { get; }
+public string TweetId { get; }
 ```
 
 #### Property Value
