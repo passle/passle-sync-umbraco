@@ -11,8 +11,10 @@
 
             passleSettingsResource.get().then((response) => {
                 vm.settings = response;
-                vm.loading = false;
-                initPenpalConnection();
+                const connection = initPenpalConnection();
+                connection.promise.then(() => {
+                    vm.loading = false;
+                });
             }, (error) => {
                 console.error(error);
                 notificationsService.error("Error", error);
@@ -38,9 +40,7 @@
                 },
             });
 
-            connection.promise.then(() => {
-                vm.loading = false;
-            });
+            return connection;
         }
     }
 );
