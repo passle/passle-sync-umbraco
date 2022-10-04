@@ -5,17 +5,6 @@
             <tbody>
                 <tr>
                     <th ng-class="row">
-                        <label htmlFor="plugin-api-key">Sync API Key</label>
-                    </th>
-                    <td>
-                        <input type="text"
-                               id="plugin-api-key"
-                               class="regular-text code"
-                               ng-model="vm.settings['PluginApiKey']" />
-                    </td>
-                </tr>
-                <tr>
-                    <th ng-class="row">
                         <label htmlFor="client-api-key">Passle API Key</label>
                     </th>
                     <td>
@@ -23,6 +12,17 @@
                                id="client-api-key"
                                class="regular-text code"
                                ng-model="vm.settings['ClientApiKey']" />
+                    </td>
+                </tr>
+                <tr>
+                    <th ng-class="row">
+                        <label htmlFor="plugin-api-key">Plugin API Key</label>
+                    </th>
+                    <td>
+                        <input type="text"
+                               id="plugin-api-key"
+                               class="regular-text code"
+                               ng-model="vm.settings['PluginApiKey']" />
                     </td>
                 </tr>
                 <tr>

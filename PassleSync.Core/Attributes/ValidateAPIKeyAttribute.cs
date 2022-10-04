@@ -11,21 +11,17 @@ namespace PassleSync.Core.Attributes
 {
     public class ValidateAPIKeyAttribute : ActionFilterAttribute, IActionFilter
     {
-        private readonly string _apiKey;
         private const string _apiKeyParamName = "APIKey";
-
-        public ValidateAPIKeyAttribute()
-        {
-            var configService = Current.Factory.GetInstance<ConfigService>();
-            _apiKey = configService.PluginApiKey;
-        }
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
+            var configService = Current.Factory.GetInstance<ConfigService>();
+            var apiKey = configService.PluginApiKey;
+
             if (actionContext.Request.Headers.Contains(_apiKeyParamName))
             {
-                var apiKey = (string)actionContext.Request.Headers.GetValues(_apiKeyParamName).FirstOrDefault();
-                if (string.IsNullOrEmpty(apiKey) || apiKey != _apiKey)
+                var requestApiKey = (string)actionContext.Request.Headers.GetValues(_apiKeyParamName).FirstOrDefault();
+                if (string.IsNullOrEmpty(requestApiKey) || requestApiKey != apiKey)
                 {
                     actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden);
                     return;
