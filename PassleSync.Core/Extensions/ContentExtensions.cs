@@ -58,6 +58,10 @@ namespace PassleSync.Core.Extensions
                     {
                         AddEnumToNode(node, entity, property.Name);
                     }
+                    else if (propertyTypeInfo == typeof(DateTime))
+                    {
+                        AddDateToNode(node, entity, property.Name);
+                    }
                     else
                     {
                         AddPropertyToNode(node, entity, property.Name);
@@ -76,6 +80,12 @@ namespace PassleSync.Core.Extensions
             node.SetValue(propertyName.ToPropertyAlias(), value);
         }
 
+        public static void AddDateToNode<T>(this IContent node, T entity, string propertyName)
+        {
+            var value = entity.GetType().GetProperty(propertyName).GetValue(entity, null);
+            var formattedDate = ((DateTime)value).ToString("M/d/yyyy hh:mm:ss tt");
+            node.SetValue(propertyName.ToPropertyAlias(), formattedDate);
+        }
         public static void AddRepeatableTextstringsToNode<T>(this IContent node, T entity, string propertyName)
         {
             var items = (IEnumerable<string>)entity.GetType().GetProperty(propertyName).GetValue(entity, null);
