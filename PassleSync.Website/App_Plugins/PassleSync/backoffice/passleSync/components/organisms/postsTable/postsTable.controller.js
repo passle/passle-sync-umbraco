@@ -11,6 +11,14 @@
         vm.syncedCount = 0;
         vm.unsyncedCount = 0;
         vm.selectedCount = 0;
+        vm.posts = [];
+        vm.postsOnShow = [];
+
+        vm.pagination = {
+            pageSize: 10,
+            pageNumber: 1,
+            totalPages: 1
+        };
 
         function getPostDataObject(post, deletedOverride = false) {
             // Convert the returned model to the format the table needs
@@ -33,6 +41,21 @@
             treeService.clearCache({ section: "content" });
         }
 
+        function UpdatePagination() {
+            vm.pagination = {
+                ...vm.pagination,
+                pageNumber: 1,
+                totalPages: Math.ceil(vm.posts.length / vm.pagination.pageSize)
+            };
+        }
+
+        function UpdateItemsOnShow() {
+            vm.postsOnShow = vm.posts.slice(
+                (vm.pagination.pageNumber - 1) * vm.pagination.pageSize,
+                Math.min(vm.pagination.pageNumber * vm.pagination.pageSize, vm.posts.length)
+            );
+        }
+
         function onload() {
             vm.isLoading = true;
 
@@ -42,6 +65,10 @@
                 vm.unsyncedCount = vm.posts.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
+
+                UpdatePagination();
+                UpdateItemsOnShow();
+
                 vm.isLoading = false;
             }, (error) => {
                 console.error(error);
@@ -61,6 +88,10 @@
                 vm.unsyncedCount = vm.posts.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
+
+                UpdatePagination();
+                UpdateItemsOnShow();
+
                 vm.isUpdating = false;
 
                 syncTree();
@@ -77,18 +108,15 @@
 
             let syncProm;
             let shortcodes = [];
-            if (vm.isSelectedAll) {
+
+            if (vm.selectedCount == 0) {
                 syncProm = passlePostsResource.syncAll();
+            } else if (vm.selectedCount == 1) {
+                shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
+                syncProm = passlePostsResource.syncOne(shortcodes);
             } else {
-                if (vm.selectedCount == 0) {
-                    syncProm = passlePostsResource.syncAll();
-                } else if (vm.selectedCount == 1) {
-                    shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
-                    syncProm = passlePostsResource.syncOne(shortcodes);
-                } else {
-                    shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
-                    syncProm = passlePostsResource.syncMany(shortcodes);
-                }
+                shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
+                syncProm = passlePostsResource.syncMany(shortcodes);
             }
 
             syncProm.then((response) => {
@@ -103,6 +131,9 @@
                 vm.unsyncedCount = vm.posts.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
+
+                UpdatePagination();
+                UpdateItemsOnShow();
 
                 vm.isUpdating = false;
 
@@ -122,18 +153,14 @@
 
             let deleteProm;
             let shortcodes = [];
-            if (vm.isSelectedAll) {
+            if (vm.selectedCount == 0) {
                 deleteProm = passlePostsResource.deleteAll();
+            } else if (vm.selectedCount == 1) {
+                shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
+                deleteProm = passlePostsResource.deleteOne(shortcodes);
             } else {
-                if (vm.selectedCount == 0) {
-                    deleteProm = passlePostsResource.deleteAll();
-                } else if (vm.selectedCount == 1) {
-                    shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
-                    deleteProm = passlePostsResource.deleteOne(shortcodes);
-                } else {
-                    shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
-                    deleteProm = passlePostsResource.deleteMany(shortcodes);
-                }
+                shortcodes = vm.posts.filter((post) => post.selected).map((post) => post.shortcode);
+                deleteProm = passlePostsResource.deleteMany(shortcodes);
             }
 
             deleteProm.then((response) => {
@@ -147,6 +174,10 @@
                 vm.unsyncedCount = vm.posts.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
+
+                UpdatePagination();
+                UpdateItemsOnShow();
+
                 vm.isUpdating = false;
 
                 notificationsService.success("Success", "Posts have been deleted");
@@ -173,7 +204,7 @@
         }
         vm.onSelectAll = function () {
             vm.isSelectedAll = !vm.isSelectedAll;
-            vm.posts.forEach((post) => post.selected = vm.isSelectedAll);
+            vm.postsOnShow.forEach((post) => post.selected = vm.isSelectedAll);
             vm.selectedCount = vm.isSelectedAll ? vm.posts.length : 0;
         }
         vm.onSelectedAll = function () {
@@ -197,6 +228,42 @@
 
                 vm.posts.sort((a, b) => (a[currentSortCol] > b[currentSortCol] && currentSortDir === "desc") ? 1 : -1);
             }
+        }
+
+        vm.nextPage = function () {
+            vm.pagination = {
+                ...vm.pagination,
+                pageNumber: vm.pagination.pageNumber + 1,
+            };
+
+            UpdateItemsOnShow();
+        }
+
+        vm.prevPage = function () {
+            vm.pagination = {
+                ...vm.pagination,
+                pageNumber: vm.pagination.pageNumber - 1,
+            };
+
+            UpdateItemsOnShow();
+        }
+
+        vm.changePage = function (pageNo) {
+            vm.pagination = {
+                ...vm.pagination,
+                pageNumber: pageNo,
+            };
+
+            UpdateItemsOnShow();
+        }
+
+        vm.goToPage = function (pageNo) {
+            vm.pagination = {
+                ...vm.pagination,
+                pageNumber: pageNo,
+            };
+
+            UpdateItemsOnShow();
         }
     }
 );

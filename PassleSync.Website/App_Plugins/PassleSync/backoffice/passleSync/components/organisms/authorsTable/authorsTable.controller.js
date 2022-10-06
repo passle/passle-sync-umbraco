@@ -10,6 +10,14 @@
         vm.syncedCount = 0;
         vm.unsyncedCount = 0;
         vm.selectedCount = 0;
+        vm.authors = [];
+        vm.authorsOnShow = [];
+
+        vm.pagination = {
+            pageSize: 10,
+            pageNumber: 1,
+            totalPages: 1
+        };
 
         function getAuthorDataObject(author, deletedOverride = null) {
             // Convert the returned model to the format the table needs
@@ -32,6 +40,21 @@
             treeService.clearCache({ section: "content" });
         }
 
+        function UpdatePagination() {
+            vm.pagination = {
+                ...vm.pagination,
+                pageNumber: 1,
+                totalPages: Math.ceil(vm.authors.length / vm.pagination.pageSize)
+            };
+        }
+
+        function UpdateItemsOnShow() {
+            vm.authorsOnShow = vm.authors.slice(
+                (vm.pagination.pageNumber - 1) * vm.pagination.pageSize,
+                Math.min(vm.pagination.pageNumber * vm.pagination.pageSize, vm.authors.length)
+            );
+        }
+
         function onload() {
             vm.isLoading = true;
 
@@ -41,6 +64,10 @@
                 vm.unsyncedCount = vm.authors.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
+
+                UpdatePagination();
+                UpdateItemsOnShow();
+
                 vm.isLoading = false;
             }, (error) => {
                 console.error(error);
@@ -60,6 +87,10 @@
                 vm.unsyncedCount = vm.authors.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
+
+                UpdatePagination();
+                UpdateItemsOnShow();
+
                 vm.isUpdating = false;
 
                 syncTree();
@@ -76,18 +107,15 @@
 
             let syncProm;
             let shortcodes;
-            if (vm.isSelectedAll) {
+
+            if (vm.selectedCount == 0) {
                 syncProm = passleAuthorsResource.syncAll();
+            } else if (vm.selectedCount == 1) {
+                shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
+                syncProm = passleAuthorsResource.syncOne(shortcodes);
             } else {
-                if (vm.selectedCount == 0) {
-                    syncProm = passleAuthorsResource.syncAll();
-                } else if (vm.selectedCount == 1) {
-                    shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
-                    syncProm = passleAuthorsResource.syncOne(shortcodes);
-                } else {
-                    shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
-                    syncProm = passleAuthorsResource.syncMany(shortcodes);
-                }
+                shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
+                syncProm = passleAuthorsResource.syncMany(shortcodes);
             }
 
             syncProm.then((response) => {
@@ -102,6 +130,9 @@
                 vm.unsyncedCount = vm.authors.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
+
+                UpdatePagination();
+                UpdateItemsOnShow();
 
                 vm.isUpdating = false;
 
@@ -121,18 +152,15 @@
 
             let deleteProm;
             let shortcodes;
-            if (vm.isSelectedAll) {
+
+            if (vm.selectedCount == 0) {
                 deleteProm = passleAuthorsResource.deleteAll();
+            } else if (vm.selectedCount == 1) {
+                shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
+                deleteProm = passleAuthorsResource.deleteOne(shortcodes);
             } else {
-                if (vm.selectedCount == 0) {
-                    deleteProm = passleAuthorsResource.deleteAll();
-                } else if (vm.selectedCount == 1) {
-                    shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
-                    deleteProm = passleAuthorsResource.deleteOne(shortcodes);
-                } else {
-                    shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
-                    deleteProm = passleAuthorsResource.deleteMany(shortcodes);
-                }
+                shortcodes = vm.authors.filter((author) => author.selected).map((author) => author.shortcode);
+                deleteProm = passleAuthorsResource.deleteMany(shortcodes);
             }
 
             deleteProm.then((response) => {
@@ -147,6 +175,10 @@
                 vm.unsyncedCount = vm.authors.length - vm.syncedCount;
                 vm.isSelectedAll = false;
                 vm.selectedCount = 0;
+
+                UpdatePagination();
+                UpdateItemsOnShow();
+
                 vm.isUpdating = false;
 
                 notificationsService.success("Success", "Authors have been deleted");
@@ -173,7 +205,7 @@
         }
         vm.onSelectAll = function () {
             vm.isSelectedAll = !vm.isSelectedAll;
-            vm.authors.forEach((author) => author.selected = vm.isSelectedAll);
+            vm.authorsOnShow.forEach((author) => author.selected = vm.isSelectedAll);
             vm.selectedCount = vm.isSelectedAll ? vm.authors.length : 0;
         }
         vm.onSelectedAll = function () {
@@ -197,6 +229,42 @@
 
                 vm.authors.sort((a, b) => (a[currentSortCol] > b[currentSortCol] && currentSortDir === "desc") ? 1 : -1);
             }
+        }
+
+        vm.nextPage = function () {
+            vm.pagination = {
+                ...vm.pagination,
+                pageNumber: vm.pagination.pageNumber + 1,
+            };
+
+            UpdateItemsOnShow();
+        }
+
+        vm.prevPage = function () {
+            vm.pagination = {
+                ...vm.pagination,
+                pageNumber: vm.pagination.pageNumber - 1,
+            };
+
+            UpdateItemsOnShow();
+        }
+
+        vm.changePage = function (pageNo) {
+            vm.pagination = {
+                ...vm.pagination,
+                pageNumber: pageNo,
+            };
+
+            UpdateItemsOnShow();
+        }
+
+        vm.goToPage = function (pageNo) {
+            vm.pagination = {
+                ...vm.pagination,
+                pageNumber: pageNo,
+            };
+
+            UpdateItemsOnShow();
         }
     }
 );

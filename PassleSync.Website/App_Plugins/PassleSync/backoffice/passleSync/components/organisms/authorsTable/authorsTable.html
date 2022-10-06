@@ -8,7 +8,7 @@
         </div>
 
         <umb-table ng-if="vm.authors.length > 0 && !vm.isUpdating"
-                   items="vm.authors"
+                   items="vm.authorsOnShow"
                    item-properties="vm.rowProperties"
                    allow-select-all="vm.allowSelectAll"
                    on-select="vm.onSelectItem(item)"
@@ -17,6 +17,15 @@
                    on-sorting-direction="vm.onSortDirection(col, direction)"
                    on-sort="vm.onSort(field, allow)">
         </umb-table>
+
+        <umb-pagination ng-if="vm.authors.length > vm.pagination.pageSize && !vm.isUpdating"
+                        page-number="vm.pagination.pageNumber"
+                        total-pages="vm.pagination.totalPages"
+                        on-next="vm.nextPage"
+                        on-prev="vm.prevPage"
+                        on-change="vm.changePage"
+                        on-go-to-page="vm.goToPage">
+        </umb-pagination>
 
         <umb-empty-state ng-if="vm.authors.length == 0 && !vm.isUpdating" position="center">
             <div>No passle authors have been synced</div>
