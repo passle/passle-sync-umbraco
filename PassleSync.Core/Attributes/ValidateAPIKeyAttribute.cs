@@ -12,11 +12,16 @@ namespace PassleSync.Core.Attributes
     public class ValidateAPIKeyAttribute : ActionFilterAttribute, IActionFilter
     {
         private const string _apiKeyParamName = "APIKey";
+        private ConfigService _configService;
+
+        public ValidateAPIKeyAttribute()
+        {
+            _configService = Current.Factory.GetInstance<ConfigService>();
+        }
 
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            var configService = Current.Factory.GetInstance<ConfigService>();
-            var apiKey = configService.PluginApiKey;
+            var apiKey = _configService.PluginApiKey;
 
             if (actionContext.Request.Headers.Contains(_apiKeyParamName))
             {
