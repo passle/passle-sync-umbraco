@@ -14,6 +14,10 @@
                 const connection = initPenpalConnection();
                 connection.promise.then(() => {
                     vm.loading = false;
+                }, (error) => {
+                    console.error(error);
+                    notificationsService.error("Error", error);
+                    vm.loading = false;
                 });
             }, (error) => {
                 console.error(error);
