@@ -1,8 +1,10 @@
-﻿namespace PassleSync.Core.Controllers.ResponseModels
+﻿using PassleSync.Core.Constants;
+
+namespace PassleSync.Core.Controllers.ResponseModels
 {
     public class PingResponseModel
     {
-        public int RemoteHostingType = 1;
+        public int RemoteHostingType = PassleRemoteHostingType.UMBRACO;
         public string PostPermalinkPrefix;
         public string PersonPermalinkPrefix;
 

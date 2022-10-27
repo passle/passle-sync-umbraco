@@ -674,6 +674,7 @@
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
     <Compile Include="Constants\PassleContentType.cs" />
     <Compile Include="Constants\PassleDataType.cs" />
+    <Compile Include="Constants\PassleRemoteHostingType.cs" />
     <Compile Include="Constants\PassleStrings.cs" />
     <Compile Include="ContentFinders\BaseContentFinder.cs" />
     <Compile Include="ContentFinders\PassleAuthorContentFinder.cs" />
