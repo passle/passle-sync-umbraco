@@ -689,6 +689,7 @@
     <Compile Include="Controllers\RequestModels\SettingsModel.cs" />
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
     <Compile Include="Controllers\Webhooks\FeaturedPostController.cs" />
+    <Compile Include="Controllers\Webhooks\HealthCheckController.cs" />
     <Compile Include="Controllers\Webhooks\PeopleController.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />

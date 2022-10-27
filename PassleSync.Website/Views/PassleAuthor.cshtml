@@ -113,11 +113,7 @@
                         }
                     </div>
 
-                    @Html.Partial("Pagination", new PaginationViewModel()
-                    {
-                        CurrentPage = postsQuery.CurrentPage,
-                        TotalPages = postsQuery.TotalPages,
-                    })
+                    @Html.Partial("Pagination", new PaginationViewModel(postsQuery.CurrentPage, postsQuery.TotalPages, Request.Url))
                 </div>
 		    </div>
         }

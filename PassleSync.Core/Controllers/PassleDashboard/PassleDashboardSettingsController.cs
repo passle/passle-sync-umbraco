@@ -34,6 +34,7 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                 AuthorPermalinkPrefix = _configService.AuthorPermalinkPrefix,
                 PostsParentNodeId = _configService.PostsParentNodeId,
                 AuthorsParentNodeId = _configService.AuthorsParentNodeId,
+                DomainExt = _configService.PassleDomain,
             };
         }
 
