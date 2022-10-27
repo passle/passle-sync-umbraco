@@ -7,6 +7,8 @@ using Umbraco.Core.Services;
 using PassleSync.Core.Services;
 using Umbraco.Core.Logging;
 using PassleSync.Core.Services.Content;
+using PassleSync.Core.Extensions;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace PassleSync.Core.SyncHandlers
 {
@@ -60,6 +62,12 @@ namespace PassleSync.Core.SyncHandlers
         public override string Shortcode(PasslePost item)
         {
             return item.PostShortcode;
+        }
+
+        public override void UpdateFeaturedContent(string shortcode, bool isFeaturedOnPasslePage, bool isFeaturedOnPostPage)
+        {
+            _umbracoContentService.ClearFeaturedContent();
+            _umbracoContentService.SetFeaturedContent(shortcode, isFeaturedOnPasslePage, isFeaturedOnPostPage);
         }
     }
 }

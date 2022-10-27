@@ -20,5 +20,6 @@ namespace PassleSync.Core.API.SyncHandlers
         SyncTaskResult CreateOne(T entity);
         IEnumerable<SyncTaskResult> CreateMany(IEnumerable<T> entities, string[] shortcodes);
         IEnumerable<SyncTaskResult> CreateAll(IEnumerable<T> entities);
+        void UpdateFeaturedContent(string shortcode, bool isFeaturedOnPasslePage, bool isFeaturedOnPostPage);
     }
 }
