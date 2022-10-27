@@ -26,7 +26,7 @@ namespace PassleSync.Core.Models.Content.Umbraco
         /// <summary>
         /// Get posts that the author has written.
         /// </summary>
-        public QueryResult<PasslePost> GetPosts(int currentPage = 1, int itemsPerPage = 10)
+        public QueryResult<PasslePost> GetPosts(int currentPage = 1, int itemsPerPage = 4)
         {
             var passleHelperService = Current.Factory.GetInstance<IPassleHelperService>();
             return passleHelperService.GetPosts().ByAuthorShortcode(Shortcode).WithCurrentPage(currentPage).WithItemsPerPage(itemsPerPage).Execute();
