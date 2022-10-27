@@ -31,7 +31,7 @@ namespace PassleSync.Core.Controllers
 
         [HttpPost]
         [ValidateAPIKey]
-        public IHttpActionResult Webhook(WebhookModel model)
+        public IHttpActionResult Handle(WebhookModel model)
         {
             try
             {
@@ -66,6 +66,4 @@ namespace PassleSync.Core.Controllers
             }
         }
     }
-
-
 }
