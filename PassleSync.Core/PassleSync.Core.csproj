@@ -687,7 +687,6 @@
     <Compile Include="Controllers\RequestModels\FeaturedPostModel.cs" />
     <Compile Include="Controllers\RequestModels\PostShortcodeModel.cs" />
     <Compile Include="Controllers\RequestModels\SettingsModel.cs" />
-    <Compile Include="Controllers\RequestModels\WebhookData.cs" />
     <Compile Include="Controllers\RequestModels\WebhookAction.cs" />
     <Compile Include="Controllers\ResponseModels\PingResponseModel.cs" />
     <Compile Include="Controllers\RequestModels\WebhookModel.cs" />

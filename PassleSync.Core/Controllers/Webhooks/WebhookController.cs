@@ -38,19 +38,19 @@ namespace PassleSync.Core.Controllers
                 switch (model.Action)
                 {
                     case WebhookAction.SYNC_POST:
-                        _postHandler.SyncOne(model.Data.Shortcode);
+                        _postHandler.SyncOne(model.Data["Shortcode"]);
                         return Ok();
                     case WebhookAction.DELETE_POST:
-                        _postHandler.DeleteOne(model.Data.Shortcode);
+                        _postHandler.DeleteOne(model.Data["Shortcode"]);
                         return Ok();
                     case WebhookAction.SYNC_AUTHOR:
-                        _authorHandler.SyncOne(model.Data.Shortcode);
+                        _authorHandler.SyncOne(model.Data["Shortcode"]);
                         return Ok();
                     case WebhookAction.DELETE_AUTHOR:
-                        _authorHandler.DeleteOne(model.Data.Shortcode);
+                        _authorHandler.DeleteOne(model.Data["Shortcode"]);
                         return Ok();
                     case WebhookAction.UPDATE_FEATURED_POST:
-                        _postHandler.UpdateFeaturedContent(model.Data.Shortcode, model.Data.IsFeaturedOnPasslePage, model.Data.IsFeaturedOnPostPage);
+                        _postHandler.UpdateFeaturedContent(model.Data["Shortcode"], model.Data["IsFeaturedOnPasslePage"] == "True", model.Data["IsFeaturedOnPostPage"] == "True");
                         return Ok();
                     case WebhookAction.PING:
                         var postPrefix = _configService.PostPermalinkPrefix;
