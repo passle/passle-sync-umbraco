@@ -57,7 +57,7 @@ namespace PassleSync.Core.Controllers
                         var authorPrefix = _configService.AuthorPermalinkPrefix;
                         return Ok(new PingResponseModel(postPrefix, authorPrefix));
                     default:
-                        return BadRequest();
+                        return BadRequest("The action specified is not supported");
                 }
             }
             catch (Exception)
