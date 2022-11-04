@@ -33,36 +33,29 @@ namespace PassleSync.Core.Controllers
         [ValidateAPIKey]
         public IHttpActionResult Handle(WebhookModel model)
         {
-            try
+            switch (model.Action)
             {
-                switch (model.Action)
-                {
-                    case WebhookAction.SYNC_POST:
-                        _postHandler.SyncOne(model.Data["Shortcode"]);
-                        return Ok();
-                    case WebhookAction.DELETE_POST:
-                        _postHandler.DeleteOne(model.Data["Shortcode"]);
-                        return Ok();
-                    case WebhookAction.SYNC_AUTHOR:
-                        _authorHandler.SyncOne(model.Data["Shortcode"]);
-                        return Ok();
-                    case WebhookAction.DELETE_AUTHOR:
-                        _authorHandler.DeleteOne(model.Data["Shortcode"]);
-                        return Ok();
-                    case WebhookAction.UPDATE_FEATURED_POST:
-                        _postHandler.UpdateFeaturedContent(model.Data["Shortcode"], model.Data["IsFeaturedOnPasslePage"] == "True", model.Data["IsFeaturedOnPostPage"] == "True");
-                        return Ok();
-                    case WebhookAction.PING:
-                        var postPrefix = _configService.PostPermalinkPrefix;
-                        var authorPrefix = _configService.AuthorPermalinkPrefix;
-                        return Ok(new PingResponseModel(postPrefix, authorPrefix));
-                    default:
-                        return BadRequest("The action specified is not supported");
-                }
-            }
-            catch (Exception)
-            {
-                return BadRequest();
+                case WebhookAction.SYNC_POST:
+                    _postHandler.SyncOne(model.Data["Shortcode"]);
+                    return Ok();
+                case WebhookAction.DELETE_POST:
+                    _postHandler.DeleteOne(model.Data["Shortcode"]);
+                    return Ok();
+                case WebhookAction.SYNC_AUTHOR:
+                    _authorHandler.SyncOne(model.Data["Shortcode"]);
+                    return Ok();
+                case WebhookAction.DELETE_AUTHOR:
+                    _authorHandler.DeleteOne(model.Data["Shortcode"]);
+                    return Ok();
+                case WebhookAction.UPDATE_FEATURED_POST:
+                    _postHandler.UpdateFeaturedContent(model.Data["Shortcode"], model.Data["IsFeaturedOnPasslePage"] == "True", model.Data["IsFeaturedOnPostPage"] == "True");
+                    return Ok();
+                case WebhookAction.PING:
+                    var postPrefix = _configService.PostPermalinkPrefix;
+                    var authorPrefix = _configService.AuthorPermalinkPrefix;
+                    return Ok(new PingResponseModel(postPrefix, authorPrefix));
+                default:
+                    return BadRequest("The action specified is not supported");
             }
         }
     }
