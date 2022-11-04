@@ -1,0 +1,36 @@
+﻿<div>
+    <umb-load-indicator ng-if="vm.loading"></umb-load-indicator>
+    <div ng-if="!vm.isLoading">
+        <div class="table-actions">
+            <button class="left-button btn-primary" ng-class="{'disabled': vm.isUpdating}" ng-click="vm.update()">Update</button>
+            <button class="left-button btn-primary" ng-class="{'disabled': vm.isUpdating || vm.unsyncedCount == 0}" ng-click="vm.sync()">Sync {{vm.selectedCount == 0 ? "all" : "selected"}}</button>
+            <button class="right-button btn-danger" ng-class="{'disabled': vm.isUpdating || vm.syncedCount == 0}" ng-click="vm.delete()">Delete {{vm.selectedCount == 0 ? "all" : "selected"}}</button>
+        </div>
+
+        <umb-table ng-if="vm.entities.length > 0 && !vm.isUpdating"
+                   items="vm.entitiesOnShow"
+                   item-properties="vm.rowProperties"
+                   allow-select-all="vm.allowSelectAll"
+                   on-select="vm.onSelectItem(item)"
+                   on-select-all="vm.onSelectAll()"
+                   on-selected-all="vm.onSelectedAll()"
+                   on-sorting-direction="vm.onSortDirection(col, direction)"
+                   on-sort="vm.onSort(field, allow)">
+        </umb-table>
+
+        <umb-pagination ng-if="vm.entities.length > vm.pagination.pageSize && !vm.isUpdating"
+                        page-number="vm.pagination.pageNumber"
+                        total-pages="vm.pagination.totalPages"
+                        on-next="vm.nextPage"
+                        on-prev="vm.prevPage"
+                        on-change="vm.goToPage"
+                        on-go-to-page="vm.goToPage">
+        </umb-pagination>
+
+        <umb-empty-state ng-if="vm.entities.length == 0 && !vm.isUpdating" position="center">
+            <div>No passle {{entityInfo.namePlural.toLowerCase()}} have been synced</div>
+        </umb-empty-state>
+
+        <umb-load-indicator ng-if="vm.isUpdating" position="center"></umb-load-indicator>
+    </div>
+</div>
