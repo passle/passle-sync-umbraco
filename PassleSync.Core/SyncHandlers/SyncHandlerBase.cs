@@ -138,8 +138,5 @@ namespace PassleSync.Core.SyncHandlers
         {
             return _umbracoContentService.UpdateOne(node, item);
         }
-
-        public virtual void UpdateFeaturedContent(string shortcode, bool isFeaturedOnPasslePage, bool isFeaturedOnPostPage)
-        {  }
     }
 }

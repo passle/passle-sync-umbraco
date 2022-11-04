@@ -9,6 +9,7 @@ using Umbraco.Web.Mvc;
 using Umbraco.Web.WebApi;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 using PassleSync.Core.Controllers.ResponseModels;
+using PassleSync.Core.Actions;
 
 namespace PassleSync.Core.Controllers
 {
@@ -17,15 +18,18 @@ namespace PassleSync.Core.Controllers
     {
         public ISyncHandler<PasslePost> _postHandler;
         public ISyncHandler<PassleAuthor> _authorHandler;
+        public UpdateFeaturedPostAction _updateFeaturedPostAction;
         protected readonly ConfigService _configService;
 
         public WebhookController(
             ISyncHandler<PasslePost> postHandler,
             ISyncHandler<PassleAuthor> authorHandler,
+            UpdateFeaturedPostAction updateFeaturedPostAction,
             ConfigService configService)
         {
             _postHandler = postHandler;
             _authorHandler = authorHandler;
+            _updateFeaturedPostAction = updateFeaturedPostAction;
             _configService = configService;
         }
 
@@ -48,7 +52,8 @@ namespace PassleSync.Core.Controllers
                     _authorHandler.DeleteOne(model.Data["Shortcode"]);
                     return Ok();
                 case WebhookAction.UPDATE_FEATURED_POST:
-                    _postHandler.UpdateFeaturedContent(model.Data["Shortcode"], model.Data["IsFeaturedOnPasslePage"] == "True", model.Data["IsFeaturedOnPostPage"] == "True");
+                    var actionModel = new UpdateFeaturedPostActionModel(model.Data["Shortcode"], model.Data["IsFeaturedOnPasslePage"], model.Data["IsFeaturedOnPostPage"]);
+                    _updateFeaturedPostAction.Execute(actionModel);
                     return Ok();
                 case WebhookAction.PING:
                     var postPrefix = _configService.PostPermalinkPrefix;

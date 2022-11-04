@@ -63,11 +63,5 @@ namespace PassleSync.Core.SyncHandlers
         {
             return item.PostShortcode;
         }
-
-        public override void UpdateFeaturedContent(string shortcode, bool isFeaturedOnPasslePage, bool isFeaturedOnPostPage)
-        {
-            _umbracoContentService.ClearFeaturedContent();
-            _umbracoContentService.SetFeaturedContent(shortcode, isFeaturedOnPasslePage, isFeaturedOnPostPage);
-        }
     }
 }
