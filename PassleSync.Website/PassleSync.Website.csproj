@@ -320,6 +320,9 @@
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.resource.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\entitiesTable\entitiesTable.html" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\entitiesTable\entitiesTable.directive.js" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.controller.js" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.directive.js" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.html" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.controller.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.directive.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.html" />
@@ -363,6 +366,7 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\lib\penpal.min.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\package.manifest">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>

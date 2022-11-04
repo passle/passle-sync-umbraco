@@ -25,7 +25,14 @@ namespace PassleSync.Core.Models.Content.Umbraco
         /// <seealso href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings"/>
         public string GetDate(string format)
         {
-            return DateTime.Parse(PublishedDate).ToString(format);
+            try
+            {
+                return DateTime.Parse(PublishedDate).ToString(format);
+            }
+            catch (FormatException)
+            {
+                return PublishedDate;
+            }
         }
 
         /// <summary>
