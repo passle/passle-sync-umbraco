@@ -27,10 +27,11 @@
                                          tab="tab">
 
                             <div ng-switch="tab.label">
+                                <sync-settings ng-switch-when="Settings"></sync-settings>
                                 <posts-table ng-switch-when="Posts"></posts-table>
                                 <authors-table ng-switch-when="Authors"></authors-table>
                                 <tags-table ng-switch-when="Tags"></tags-table>
-                                <sync-settings ng-switch-when="Settings"></sync-settings>
+                                <health-check ng-switch-when="Health Check"></health-check>
                             </div>
 
                         </umb-tab-content>

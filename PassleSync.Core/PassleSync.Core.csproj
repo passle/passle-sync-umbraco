@@ -697,6 +697,7 @@
     <Compile Include="Controllers\RequestModels\WebhookModel.cs" />
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
     <Compile Include="Controllers\Webhooks\WebhookController.cs" />
+    <Compile Include="Controllers\Webhooks\HealthCheckController.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
