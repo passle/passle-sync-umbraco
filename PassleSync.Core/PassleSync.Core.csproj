@@ -656,6 +656,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\UpdateFeaturedPostActionModel.cs" />
+    <Compile Include="Actions\UpdateFeaturedPostAction.cs" />
+    <Compile Include="API\Actions\IActionModel.cs" />
+    <Compile Include="API\Actions\IActionBase.cs" />
     <Compile Include="API\Models\IBasicAuthorDetails.cs" />
     <Compile Include="API\Services\IPassleHelperService.cs" />
     <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
