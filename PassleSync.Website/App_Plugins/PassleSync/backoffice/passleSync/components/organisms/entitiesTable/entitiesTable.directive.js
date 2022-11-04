@@ -15,7 +15,7 @@
             this.entitiesOnShow = [];
 
             this.pagination = {
-                pageSize: 10,
+                pageSize: 20,
                 pageNumber: 1,
                 totalPages: 1
             };
