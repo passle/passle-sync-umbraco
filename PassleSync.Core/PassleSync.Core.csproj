@@ -656,6 +656,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\UpdateFeaturedPostActionModel.cs" />
+    <Compile Include="Actions\UpdateFeaturedPostAction.cs" />
+    <Compile Include="API\Actions\IActionModel.cs" />
+    <Compile Include="API\Actions\IActionBase.cs" />
     <Compile Include="API\Models\IBasicAuthorDetails.cs" />
     <Compile Include="API\Services\IPassleHelperService.cs" />
     <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
@@ -674,6 +678,7 @@
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
     <Compile Include="Constants\PassleContentType.cs" />
     <Compile Include="Constants\PassleDataType.cs" />
+    <Compile Include="Constants\PassleRemoteHostingType.cs" />
     <Compile Include="Constants\PassleStrings.cs" />
     <Compile Include="ContentFinders\BaseContentFinder.cs" />
     <Compile Include="ContentFinders\PassleAuthorContentFinder.cs" />
@@ -687,16 +692,17 @@
     <Compile Include="Controllers\RequestModels\FeaturedPostModel.cs" />
     <Compile Include="Controllers\RequestModels\PostShortcodeModel.cs" />
     <Compile Include="Controllers\RequestModels\SettingsModel.cs" />
+    <Compile Include="Controllers\RequestModels\WebhookAction.cs" />
+    <Compile Include="Controllers\ResponseModels\PingResponseModel.cs" />
+    <Compile Include="Controllers\RequestModels\WebhookModel.cs" />
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
-    <Compile Include="Controllers\Webhooks\FeaturedPostController.cs" />
+    <Compile Include="Controllers\Webhooks\WebhookController.cs" />
     <Compile Include="Controllers\Webhooks\HealthCheckController.cs" />
-    <Compile Include="Controllers\Webhooks\PeopleController.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Controllers\Webhooks\PostsController.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Helpers\PostHelper.cs" />
     <Compile Include="Helpers\Queries\PassleAuthorQuery.cs" />

@@ -201,5 +201,10 @@ namespace PassleSync.Core.Services.Content
             }
             return false;
         }
+
+        public virtual void ClearFeaturedContent()
+        { }
+        public virtual void SetFeaturedContent(string shortcode, bool isFeaturedOnPasslePage, bool isFeaturedOnPostPage)
+        { }
     }
 }

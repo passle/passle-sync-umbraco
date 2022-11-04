@@ -1,6 +1,8 @@
 ﻿using Examine;
+using PassleSync.Core.Extensions;
 using PassleSync.Core.Models.Content.PassleApi;
 using System;
+using System.Linq;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
@@ -50,6 +52,37 @@ namespace PassleSync.Core.Services.Content
             node.CreateDate = item.PublishedDate;
             node.PublishDate = item.PublishedDate;
             node.UpdateDate = item.PublishedDate;
+        }
+        public override void ClearFeaturedContent()
+        {
+            var existingFeaturedContent = GetPublishedContent()
+                .Where(x => x.GetValueOrDefault<bool>("IsFeaturedOnPasslePage") || x.GetValueOrDefault<bool>("IsFeaturedOnPostPage"));
+
+            foreach (var contentItem in existingFeaturedContent)
+            {
+                var editableContentItem = _contentService.GetById(contentItem.Id);
+
+                editableContentItem.SetValue("IsFeaturedOnPasslePage", false);
+                editableContentItem.SetValue("IsFeaturedOnPostPage", false);
+
+                _contentService.SaveAndPublish(editableContentItem, raiseEvents: false);
+            }
+        }
+        public override void SetFeaturedContent(string shortcode, bool isFeaturedOnPasslePage, bool isFeaturedOnPostPage)
+        {
+            var newFeaturedPost = GetContentByShortcode(shortcode);
+            if (newFeaturedPost == null)
+            {
+                return;
+            }
+
+            // Set the new post as featured on the Passle page/post page
+            var editableContent = _contentService.GetById(newFeaturedPost.Id);
+
+            editableContent.SetValue("IsFeaturedOnPasslePage", isFeaturedOnPasslePage);
+            editableContent.SetValue("IsFeaturedOnPostPage", isFeaturedOnPostPage);
+
+            _contentService.SaveAndPublish(editableContent, raiseEvents: false);
         }
     }
 }
