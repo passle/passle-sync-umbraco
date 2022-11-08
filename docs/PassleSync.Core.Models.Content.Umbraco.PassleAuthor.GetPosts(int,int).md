@@ -6,7 +6,7 @@
 Get posts that the author has written.
 
 ```csharp
-public PassleSync.Core.Helpers.Queries.QueryResult<PassleSync.Core.Models.Content.Umbraco.PasslePost> GetPosts(int currentPage=1, int itemsPerPage=10);
+public PassleSync.Core.Helpers.Queries.QueryResult<PassleSync.Core.Models.Content.Umbraco.PasslePost> GetPosts(int currentPage=1, int itemsPerPage=4);
 ```
 #### Parameters
 

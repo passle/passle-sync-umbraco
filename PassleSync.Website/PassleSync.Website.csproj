@@ -318,6 +318,8 @@
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.controller.js" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.html" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.resource.js" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\entitiesTable\entitiesTable.html" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\entitiesTable\entitiesTable.directive.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.controller.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.directive.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.html" />
