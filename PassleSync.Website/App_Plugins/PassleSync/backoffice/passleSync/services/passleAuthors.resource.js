@@ -2,39 +2,53 @@
     function ($q, $http, umbRequestHelper) {
         var baseUrl = "backoffice/PassleSync/PassleDashboardAuthors/";
         return {
-            refreshAll: function () {
+            updateAll: function () {
                 return umbRequestHelper.resourcePromise(
                     $http.get(baseUrl + "RefreshAll"),
-                    "Failed to refresh the list of all posts");
+                    "Failed to refresh the list of all authors");
             },
-            getAll: function () {
+            getExisting: function () {
                 return umbRequestHelper.resourcePromise(
-                    $http.get(baseUrl + "GetAll"),
-                    "Failed to retrieve a list of all posts");
+                    $http.get(baseUrl + "GetExisting"),
+                    "Failed to retrieve a list of all authors");
             },
             syncAll: function () {
                 return umbRequestHelper.resourcePromise(
                     $http.post(baseUrl + "SyncAll"),
-                    "Failed to sync all posts");
+                    "Failed to sync all authors");
             },
             deleteAll: function () {
                 return umbRequestHelper.resourcePromise(
                     $http.post(baseUrl + "DeleteAll"),
-                    "Failed to delete all posts");
+                    "Failed to delete all authors");
             },
             syncMany: function (shortcodes) {
                 return umbRequestHelper.resourcePromise(
                     $http.post(baseUrl + "SyncMany", {
                         "shortcodes": shortcodes
                     }),
-                    "Failed to sync selected posts");
+                    "Failed to sync selected authors");
             },
             deleteMany: function (shortcodes) {
                 return umbRequestHelper.resourcePromise(
                     $http.post(baseUrl + "DeleteMany", {
                         "shortcodes": shortcodes
                     }),
-                    "Failed to delete selected posts");
+                    "Failed to delete selected authors");
+            },
+            syncOne: function (shortcodes) {
+                return umbRequestHelper.resourcePromise(
+                    $http.post(baseUrl + "SyncOne", {
+                        "shortcodes": shortcodes
+                    }),
+                    "Failed to sync selected author");
+            },
+            deleteOne: function (shortcodes) {
+                return umbRequestHelper.resourcePromise(
+                    $http.post(baseUrl + "DeleteOne", {
+                        "shortcodes": shortcodes
+                    }),
+                    "Failed to delete selected author");
             },
         };
     }

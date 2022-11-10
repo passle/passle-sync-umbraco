@@ -6,7 +6,7 @@
 QuoteText
 
 ```csharp
-public virtual string QuoteText { get; }
+public string QuoteText { get; }
 ```
 
 #### Property Value

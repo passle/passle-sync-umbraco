@@ -6,7 +6,7 @@
 IsRepost
 
 ```csharp
-public virtual bool IsRepost { get; }
+public bool IsRepost { get; }
 ```
 
 #### Property Value

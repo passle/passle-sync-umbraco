@@ -1,6 +1,7 @@
 ﻿using PassleSync.Core.Models.Content.Umbraco;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Umbraco.Core.Services;
 
 namespace PassleSync.Core.Services
@@ -31,8 +32,7 @@ namespace PassleSync.Core.Services
         public string ApiUrl
         {
             get => string.Format(
-                "http{0}://clientwebapi.passle.${1}/",
-                PassleDomain == "localhost" ? "" : "s",
+                "clientwebapi.passle.{0}",
                 PassleDomain
             );
         }
@@ -54,7 +54,7 @@ namespace PassleSync.Core.Services
         }
         public IEnumerable<string> PassleShortcodes
         {
-            get => PassleShortcodesString.Split(','); 
+            get => PassleShortcodesString?.Split(',') ?? Enumerable.Empty<string>(); 
         }
         public string PostPermalinkPrefix
         {

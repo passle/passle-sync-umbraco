@@ -59,6 +59,7 @@ namespace PassleSync.Core.Components
         private readonly IContentTypeService _contentTypeService;
         private readonly IDataTypeService _dataTypeService;
         private readonly ConfigService _configService;
+        private readonly IFileService _fileService;
 
         private int _passleContainerId;
         private int _elementsContainerId;
@@ -67,11 +68,13 @@ namespace PassleSync.Core.Components
             IMigrationContext context,
             IContentTypeService contentTypeService,
             IDataTypeService dataTypeService,
-            ConfigService configService) : base(context)
+            ConfigService configService,
+            IFileService fileService) : base(context)
         {
             _contentTypeService = contentTypeService;
             _dataTypeService = dataTypeService;
             _configService = configService;
+            _fileService = fileService;
         }
 
         public override void Migrate()
@@ -152,6 +155,8 @@ namespace PassleSync.Core.Components
                 ParentId = _passleContainerId,
             };
 
+            AssignTemplateForContentType(passlePostContentType, PassleContentType.PASSLE_POST, "Passle Post");
+
             AddAllPropertiesOfTypeToContentType(passlePostContentType, typeof(PasslePost));
 
             _contentTypeService.Save(passlePostContentType);
@@ -159,7 +164,7 @@ namespace PassleSync.Core.Components
 
         private void CreatePassleAuthorContentType()
         {
-            if (_contentTypeService.Get(_configService.PassleAuthorContentTypeAlias) != null)
+            if (_contentTypeService.Get(PassleContentType.PASSLE_AUTHOR) != null)
             {
                 return;
             }
@@ -167,15 +172,43 @@ namespace PassleSync.Core.Components
             var passleAuthorContentType = new ContentType(-1)
             {
                 Name = "Passle Author",
-                Alias = _configService.PassleAuthorContentTypeAlias,
+                Alias = PassleContentType.PASSLE_AUTHOR,
                 Description = "A Passle author synced to your Umbraco instance.",
                 Icon = "icon-user color-deep-orange",
                 ParentId = _passleContainerId,
             };
 
+            AssignTemplateForContentType(passleAuthorContentType, PassleContentType.PASSLE_AUTHOR, "Passle Author");
+
             AddAllPropertiesOfTypeToContentType(passleAuthorContentType, typeof(PassleAuthor));
 
             _contentTypeService.Save(passleAuthorContentType);
+        }
+
+        private void AssignTemplateForContentType(IContentType contentType, string contentTypeAlias, string contentTypeName)
+        {
+            var layoutTemplate = _fileService.GetTemplate("Layout");
+            if (layoutTemplate == null)
+            {
+                layoutTemplate = _fileService.CreateTemplateWithIdentity("Layout", "Layout", "");
+            }
+
+
+            var template = _fileService.GetTemplate(contentTypeAlias.ToFirstUpper());
+            if (template == null)
+            {
+                var createTemplateAttempt = _fileService.CreateTemplateForContentType(contentTypeAlias, contentTypeName);
+                if (createTemplateAttempt.Success)
+                {
+                    template = createTemplateAttempt.Result.Entity;
+                    template.SetMasterTemplate(layoutTemplate);
+                    _fileService.SaveTemplate(template);
+                }
+            }
+            if (template != null)
+            {
+                contentType.SetDefaultTemplate(template);
+            }
         }
 
         private string CreateElementTypeForType(Type type)
@@ -294,7 +327,14 @@ namespace PassleSync.Core.Components
 
                     if (isEnumerable)
                     {
-                        dataTypeName = PassleDataType.PASSLE_REPEATABLE_TEXTSTRINGS;
+                        if (property.Name == "Tags")
+                        {
+                            dataTypeName = "Tags";
+                        }
+                        else
+                        {
+                            dataTypeName = PassleDataType.PASSLE_REPEATABLE_TEXTSTRINGS;
+                        }
                     }
                     else if (property.IsDefined(typeof(LongStringAttribute), false))
                     {

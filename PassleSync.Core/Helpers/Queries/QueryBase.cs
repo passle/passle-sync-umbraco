@@ -10,6 +10,9 @@ using UmbracoConstants = Umbraco.Core.Constants;
 
 namespace PassleSync.Core.Helpers.Queries
 {
+    /// <summary>
+    /// The base class used by all query classes.
+    /// </summary>
     public abstract class QueryBase<T, P>
         where T : QueryBase<T, P>
         where P : PublishedContentModel
@@ -32,27 +35,40 @@ namespace PassleSync.Core.Helpers.Queries
             _query = CreateQuery(ContentType);
         }
 
+        /// <summary>
+        /// Filter content using a text-based search.
+        /// </summary>
         public T Search(string searchQuery)
         {
             _query = _query.And().GroupedOr(SearchFields, searchQuery);
             return (T) this;
         }
 
+        /// <summary>
+        /// Specify the current page that should be used for pagination.
+        /// </summary>
         public T WithCurrentPage(int currentPage)
         {
             CurrentPage = currentPage;
             return (T) this;
         }
 
+        /// <summary>
+        /// Specify the items per page that should be used for pagination.
+        /// </summary>
         public T WithItemsPerPage(int itemsPerPage)
         {
             ItemsPerPage = itemsPerPage;
             return (T) this;
         }
 
+        /// <summary>
+        /// Execute the query, returning a <see cref="QueryResult{P}"/>
+        /// </summary>
+        /// <returns></returns>
         public QueryResult<P> Execute()
         {
-            var searchResults = _query.Execute();
+            var searchResults = _query.Execute(int.MaxValue);
             var ids = searchResults
                 .Skip((CurrentPage - 1) * ItemsPerPage)
                 .Take(ItemsPerPage)

@@ -3,7 +3,7 @@
 
 ## PassleHelperService.GetAuthors() Method
 
-Creates a new [PassleSync.Core.Helpers.Queries.PassleAuthorQuery](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.Helpers.Queries.PassleAuthorQuery 'PassleSync.Core.Helpers.Queries.PassleAuthorQuery') instance.
+Creates a new [PassleAuthorQuery](PassleSync.Core.Helpers.Queries.PassleAuthorQuery.md 'PassleSync.Core.Helpers.Queries.PassleAuthorQuery') instance.
 
 ```csharp
 public PassleSync.Core.Helpers.Queries.PassleAuthorQuery GetAuthors();
@@ -12,4 +12,4 @@ public PassleSync.Core.Helpers.Queries.PassleAuthorQuery GetAuthors();
 Implements [GetAuthors()](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.API.Services.IPassleHelperService.GetAuthors 'PassleSync.Core.API.Services.IPassleHelperService.GetAuthors')
 
 #### Returns
-[PassleSync.Core.Helpers.Queries.PassleAuthorQuery](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.Helpers.Queries.PassleAuthorQuery 'PassleSync.Core.Helpers.Queries.PassleAuthorQuery')
+[PassleAuthorQuery](PassleSync.Core.Helpers.Queries.PassleAuthorQuery.md 'PassleSync.Core.Helpers.Queries.PassleAuthorQuery')

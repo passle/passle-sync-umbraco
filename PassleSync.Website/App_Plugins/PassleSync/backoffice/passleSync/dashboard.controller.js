@@ -13,11 +13,19 @@
             },
             {
                 "label": "Posts",
-                "alias": "Posts",
+                "alias": "Posts"
             },
             {
                 "label": "Authors",
-                "alias": "Authors",
+                "alias": "Authors"
+            },
+            {
+                "label": "Tags",
+                "alias": "Tags"
+            },
+            {
+                "label": "Health Check",
+                "alias": "Health Check"
             }
         ];
 

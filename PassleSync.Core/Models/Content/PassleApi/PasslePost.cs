@@ -24,6 +24,7 @@ namespace PassleSync.Core.Models.Content.PassleApi
         public bool IsFeaturedOnPasslePage { get; set; }
         public bool IsFeaturedOnPostPage { get; set; }
         public int? EstimatedReadTimeInSeconds { get; set; }
+        [LongString]
         public string FeaturedItemHtml { get; set; }
         public PostFeaturedItemPosition FeaturedItemPosition { get; set; }
         public PostMediaType FeaturedItemMediaType { get; set; }

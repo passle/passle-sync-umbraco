@@ -6,7 +6,7 @@
 LinkedInProfileLink
 
 ```csharp
-public virtual string LinkedInProfileLink { get; }
+public string LinkedInProfileLink { get; }
 ```
 
 #### Property Value

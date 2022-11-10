@@ -2,14 +2,14 @@
     function ($q, $http, umbRequestHelper) {
         var baseUrl = "backoffice/PassleSync/PassleDashboardPosts/";
         return {
-            refreshAll: function () {
+            updateAll: function () {
                 return umbRequestHelper.resourcePromise(
                     $http.get(baseUrl + "RefreshAll"),
                     "Failed to refresh the list of all posts");
             },
-            getAll: function () {
+            getExisting: function () {
                 return umbRequestHelper.resourcePromise(
-                    $http.get(baseUrl + "GetAll"),
+                    $http.get(baseUrl + "GetExisting"),
                     "Failed to retrieve a list of all posts");
             },
             syncAll: function () {
@@ -35,6 +35,20 @@
                         "shortcodes": shortcodes
                     }),
                     "Failed to delete selected posts");
+            },
+            syncOne: function (shortcodes) {
+                return umbRequestHelper.resourcePromise(
+                    $http.post(baseUrl + "SyncOne", {
+                        "shortcodes": shortcodes
+                    }),
+                    "Failed to sync selected post");
+            },
+            deleteOne: function (shortcodes) {
+                return umbRequestHelper.resourcePromise(
+                    $http.post(baseUrl + "DeleteOne", {
+                        "shortcodes": shortcodes
+                    }),
+                    "Failed to delete selected post");
             },
         };
     }

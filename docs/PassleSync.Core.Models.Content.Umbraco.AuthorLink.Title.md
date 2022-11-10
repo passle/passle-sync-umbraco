@@ -6,7 +6,7 @@
 Title
 
 ```csharp
-public virtual string Title { get; }
+public string Title { get; }
 ```
 
 #### Property Value

@@ -6,7 +6,7 @@
 SubscribeLink
 
 ```csharp
-public virtual string SubscribeLink { get; }
+public string SubscribeLink { get; }
 ```
 
 #### Property Value

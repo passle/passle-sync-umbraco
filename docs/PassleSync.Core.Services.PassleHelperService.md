@@ -14,5 +14,5 @@ Implements [PassleSync.Core.API.Services.IPassleHelperService](https://docs.micr
 
 | Methods | |
 | :--- | :--- |
-| [GetAuthors()](PassleSync.Core.Services.PassleHelperService.GetAuthors().md 'PassleSync.Core.Services.PassleHelperService.GetAuthors()') | Creates a new [PassleSync.Core.Helpers.Queries.PassleAuthorQuery](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.Helpers.Queries.PassleAuthorQuery 'PassleSync.Core.Helpers.Queries.PassleAuthorQuery') instance. |
-| [GetPosts()](PassleSync.Core.Services.PassleHelperService.GetPosts().md 'PassleSync.Core.Services.PassleHelperService.GetPosts()') | Creates a new [PassleSync.Core.Helpers.Queries.PasslePostQuery](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.Helpers.Queries.PasslePostQuery 'PassleSync.Core.Helpers.Queries.PasslePostQuery') instance. |
+| [GetAuthors()](PassleSync.Core.Services.PassleHelperService.GetAuthors().md 'PassleSync.Core.Services.PassleHelperService.GetAuthors()') | Creates a new [PassleAuthorQuery](PassleSync.Core.Helpers.Queries.PassleAuthorQuery.md 'PassleSync.Core.Helpers.Queries.PassleAuthorQuery') instance. |
+| [GetPosts()](PassleSync.Core.Services.PassleHelperService.GetPosts().md 'PassleSync.Core.Services.PassleHelperService.GetPosts()') | Creates a new [PasslePostQuery](PassleSync.Core.Helpers.Queries.PasslePostQuery.md 'PassleSync.Core.Helpers.Queries.PasslePostQuery') instance. |

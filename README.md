@@ -92,7 +92,7 @@ var authorAvatar = postAuthor.GetAvatarUrl();
 
 ## 🔧 Requirements
 
-- Umbraco 8
+- Umbraco 8, using an SQL db.
 
 ## 👨‍💻 Development
 
@@ -120,6 +120,8 @@ npm install
 npm run build
 ```
 
+Then, ensure the `umbracoDbDSN` credentials in `PassleSync.Website/Web.config` match your Umbraco SQL db credentials.
+
 Finally, once you have built the solution and logged into the Umbraco backoffice, you will need to create a few document types and nodes for the demo site to work.
 
 Create the following document types:
@@ -137,6 +139,8 @@ Once you've created the document types, create the following root nodes, using t
 - Insights
 - Passle Posts
 - Passle Authors
+
+Once the nodes are updated, please update the node IDs under **Settings > Passle Sync**.
 
 </details>
 

@@ -6,7 +6,7 @@
 XingProfileLink
 
 ```csharp
-public virtual string XingProfileLink { get; }
+public string XingProfileLink { get; }
 ```
 
 #### Property Value

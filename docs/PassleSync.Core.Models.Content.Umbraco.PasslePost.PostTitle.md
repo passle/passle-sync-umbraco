@@ -6,7 +6,7 @@
 PostTitle
 
 ```csharp
-public virtual string PostTitle { get; }
+public string PostTitle { get; }
 ```
 
 #### Property Value

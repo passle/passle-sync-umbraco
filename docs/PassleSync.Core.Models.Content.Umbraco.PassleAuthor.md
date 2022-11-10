@@ -24,6 +24,7 @@ Implements [PassleSync.Core.API.Models.IBasicAuthorDetails](https://docs.microso
 | [LinkedInProfileLink](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.LinkedInProfileLink.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.LinkedInProfileLink') | LinkedInProfileLink |
 | [LocationCountry](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.LocationCountry.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.LocationCountry') | LocationCountry |
 | [LocationDetail](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.LocationDetail.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.LocationDetail') | LocationDetail |
+| [LocationFull](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.LocationFull.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.LocationFull') | LocationFull |
 | [PassleName](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.PassleName.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.PassleName') | Name |
 | [PersonalLinks](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.PersonalLinks.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.PersonalLinks') | PersonalLinks |
 | [PhoneNumber](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.PhoneNumber.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.PhoneNumber') | PhoneNumber |
@@ -39,3 +40,8 @@ Implements [PassleSync.Core.API.Models.IBasicAuthorDetails](https://docs.microso
 | [VimeoProfileLink](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.VimeoProfileLink.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.VimeoProfileLink') | VimeoProfileLink |
 | [XingProfileLink](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.XingProfileLink.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.XingProfileLink') | XingProfileLink |
 | [YouTubeProfileLink](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.YouTubeProfileLink.md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.YouTubeProfileLink') | YouTubeProfileLink |
+
+| Methods | |
+| :--- | :--- |
+| [GetAvatarUrl(string)](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.GetAvatarUrl(string).md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.GetAvatarUrl(string)') | Get the URL of the author avatar, with a fallback URL if the author doesn't have an avatar. |
+| [GetPosts(int, int)](PassleSync.Core.Models.Content.Umbraco.PassleAuthor.GetPosts(int,int).md 'PassleSync.Core.Models.Content.Umbraco.PassleAuthor.GetPosts(int, int)') | Get posts that the author has written. |

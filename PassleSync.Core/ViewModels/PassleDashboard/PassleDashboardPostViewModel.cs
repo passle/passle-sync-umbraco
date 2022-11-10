@@ -1,5 +1,4 @@
-﻿using PassleSync.Core.Extensions;
-using PassleSync.Core.Models.Content.PassleApi;
+﻿using PassleSync.Core.Models.Content.PassleApi;
 using System;
 using System.Linq;
 using Umbraco.Core.Models;
@@ -25,15 +24,15 @@ namespace PassleSync.Core.ViewModels.PassleDashboard
             // TODO: Can we use reflection or constants to make this more robust than magic strings?
 
             Id = from?.Id ?? 0;
-            Title = from.GetValueOrDefault<string>("postTitle");
-            Shortcode = from.GetValueOrDefault<string>("postShortcode");
-            PassleShortcode = from.GetValueOrDefault<string>("passleShortcode");
-            Excerpt = from.GetValueOrDefault<string>("contentTextSnippet");
-            PostUrl = from.GetValueOrDefault<string>("postUrl");
-            ImageUrl = from.GetValueOrDefault<string>("imageUrl");
-            PublishedDate = DateTime.Parse(from.GetValueOrDefault<string>("publishedDate"));
-            Authors = from.GetValueOrDefault<string>("authors");
-            Tags = from.GetValueOrDefault<string>("tags");
+            Title = from.GetValue<string>("postTitle");
+            Shortcode = from.GetValue<string>("postShortcode");
+            PassleShortcode = from.GetValue<string>("passleShortcode");
+            Excerpt = from.GetValue<string>("contentTextSnippet");
+            PostUrl = from.GetValue<string>("postUrl");
+            ImageUrl = from.GetValue<string>("imageUrl");
+            PublishedDate = from.GetValue<DateTime>("publishedDate");
+            Authors = from.GetValue<string>("authors");
+            Tags = from.GetValue<string>("tags");
             Synced = true;
         }
 

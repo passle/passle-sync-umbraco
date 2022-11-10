@@ -7,9 +7,6 @@
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="DefaultDocumentation" Version="0.8.0" PrivateAssets="all" />
-  </ItemGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -659,6 +656,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\UpdateFeaturedPostActionModel.cs" />
+    <Compile Include="Actions\UpdateFeaturedPostAction.cs" />
+    <Compile Include="API\Actions\IActionModel.cs" />
+    <Compile Include="API\Actions\IActionBase.cs" />
     <Compile Include="API\Models\IBasicAuthorDetails.cs" />
     <Compile Include="API\Services\IPassleHelperService.cs" />
     <Compile Include="API\SyncHandlers\ISyncHandler.cs" />
@@ -677,10 +678,12 @@
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
     <Compile Include="Constants\PassleContentType.cs" />
     <Compile Include="Constants\PassleDataType.cs" />
+    <Compile Include="Constants\PassleRemoteHostingType.cs" />
     <Compile Include="Constants\PassleStrings.cs" />
     <Compile Include="ContentFinders\BaseContentFinder.cs" />
     <Compile Include="ContentFinders\PassleAuthorContentFinder.cs" />
     <Compile Include="ContentFinders\PasslePostContentFinder.cs" />
+    <Compile Include="Controllers\PassleDashboard\PassleDashboardTagsController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardAuthorsController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardPostsController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardSettingsController.cs" />
@@ -689,21 +692,24 @@
     <Compile Include="Controllers\RequestModels\FeaturedPostModel.cs" />
     <Compile Include="Controllers\RequestModels\PostShortcodeModel.cs" />
     <Compile Include="Controllers\RequestModels\SettingsModel.cs" />
+    <Compile Include="Controllers\RequestModels\WebhookAction.cs" />
+    <Compile Include="Controllers\ResponseModels\PingResponseModel.cs" />
+    <Compile Include="Controllers\RequestModels\WebhookModel.cs" />
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
-    <Compile Include="Controllers\Webhooks\FeaturedPostController.cs" />
-    <Compile Include="Controllers\Webhooks\PeopleController.cs" />
+    <Compile Include="Controllers\Webhooks\WebhookController.cs" />
+    <Compile Include="Controllers\Webhooks\HealthCheckController.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Controllers\Webhooks\PostsController.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Helpers\PostHelper.cs" />
     <Compile Include="Helpers\Queries\PassleAuthorQuery.cs" />
     <Compile Include="Helpers\Queries\PasslePostQuery.cs" />
-    <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="Helpers\Queries\QueryBase.cs" />
     <Compile Include="Helpers\Queries\QueryResult.cs" />
+    <Compile Include="Models\Content\PassleApi\PassleTags.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostMediaType.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostFeaturedItemPosition.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostIframelyObjectType.cs" />
@@ -711,10 +717,8 @@
     <Compile Include="Models\Content\Umbraco\AuthorLink.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PassleAuthor.cs" />
     <Compile Include="Models\Content\Umbraco\PassleAuthor.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\PassleAuthors.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PasslePost.cs" />
     <Compile Include="Models\Content\Umbraco\PasslePost.generated.cs" />
-    <Compile Include="Models\Content\Umbraco\PasslePosts.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PostAuthor.cs" />
     <Compile Include="Models\Content\Umbraco\PostAuthor.generated.cs" />
     <Compile Include="Models\Content\Umbraco\PostShareViews.generated.cs" />
@@ -732,10 +736,16 @@
     <Compile Include="Models\Content\Umbraco\IgnoredContentTypes.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ConfigService.cs" />
-    <Compile Include="Services\PassleContentService.cs" />
+    <Compile Include="Services\Content\PassleAuthorsContentService.cs" />
+    <Compile Include="Services\Content\PassleTagsContentService.cs" />
+    <Compile Include="Services\Content\PasslePostsContentService.cs" />
+    <Compile Include="Services\Content\PassleContentService.cs" />
+    <Compile Include="Services\Content\UmbracoAuthorsContentService.cs" />
+    <Compile Include="Services\Content\UmbracoPostsContentService.cs" />
+    <Compile Include="Services\Content\UmbracoContentService.cs" />
     <Compile Include="Services\PassleHelperService.cs" />
-    <Compile Include="Services\UmbracoContentService.cs" />
     <Compile Include="SyncHandlers\AuthorHandler.cs" />
+    <Compile Include="SyncHandlers\SyncTaskResult.cs" />
     <Compile Include="SyncHandlers\PostHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncHandlers\SyncHandlerBase.cs" />
@@ -747,6 +757,8 @@
     <Compile Include="ViewModels\PassleAuthorViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardAuthorsViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardAuthorViewModel.cs" />
+    <Compile Include="ViewModels\PassleDashboard\PassleDashboardTagViewModel.cs" />
+    <Compile Include="ViewModels\PassleDashboard\PassleDashboardTagsViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardPostsViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardPostViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardSettingsViewModel.cs" />

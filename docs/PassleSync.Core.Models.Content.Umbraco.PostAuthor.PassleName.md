@@ -6,7 +6,7 @@
 Name
 
 ```csharp
-public virtual string PassleName { get; }
+public string PassleName { get; }
 ```
 
 Implements [PassleName](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.API.Models.IBasicAuthorDetails.PassleName 'PassleSync.Core.API.Models.IBasicAuthorDetails.PassleName')

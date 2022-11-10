@@ -91,9 +91,10 @@
         @{
             var currentPage = int.Parse(Request.QueryString.GetValueOrDefault("page", "1"));
             var postsQuery = Model.GetPosts(currentPage);
+            var posts = postsQuery.Items.ToList();
         }
 
-        @if (postsQuery.Items.Any())
+        @if (posts.Any())
         {
 		    <div class="px-20 py-12 max-w-6xl mx-auto w-full bg-white">
                 <div class="flex flex-col items-center gap-8">
@@ -106,17 +107,13 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-6 w-full">
-                        @foreach (var post in postsQuery.Items)
+                        @foreach (var post in posts)
                         {
                             @Html.Partial("Partials/PasslePost", post)
                         }
                     </div>
 
-                    @Html.Partial("Pagination", new PaginationViewModel()
-                    {
-                        CurrentPage = postsQuery.CurrentPage,
-                        TotalPages = postsQuery.TotalPages,
-                    })
+                    @Html.Partial("Pagination", new PaginationViewModel(postsQuery.CurrentPage, postsQuery.TotalPages, Request.Url))
                 </div>
 		    </div>
         }
