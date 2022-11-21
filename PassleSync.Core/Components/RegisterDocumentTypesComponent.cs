@@ -268,7 +268,7 @@ namespace PassleSync.Core.Components
                 contentType.Template = nameTemplate;
             }
 
-            var editor = Current.Factory.GetInstance<NestedContentPropertyEditor>();
+            var editor = Current.Factory.GetInstance<PassleNestedContentPropertyEditor>();
             var dataType = new DataType(editor)
             {
                 Name = name,

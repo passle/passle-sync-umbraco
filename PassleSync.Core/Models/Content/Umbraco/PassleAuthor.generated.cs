@@ -113,7 +113,7 @@ namespace PassleSync.Core.Models.Content.Umbraco
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("personalLinks")]
-		public IEnumerable<AuthorLink> PersonalLinks => this.Value<IEnumerable<AuthorLink>>("personalLinks");
+		public Newtonsoft.Json.Linq.JToken PersonalLinks => this.Value<Newtonsoft.Json.Linq.JToken>("personalLinks");
 
 		///<summary>
 		/// PhoneNumber

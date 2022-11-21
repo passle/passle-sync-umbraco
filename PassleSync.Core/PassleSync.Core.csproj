@@ -734,6 +734,7 @@
     <Compile Include="Models\Content\PassleApi\SubModels\PostShareViews.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostTweet.cs" />
     <Compile Include="Models\Content\Umbraco\IgnoredContentTypes.cs" />
+    <Compile Include="PropertyEditors\PassleNestedContentPropertyEditor.cs" />
     <Compile Include="PropertyEditors\PassleBooleanPropertyEditor.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ConfigService.cs" />

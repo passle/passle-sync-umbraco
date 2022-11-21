@@ -50,14 +50,14 @@ namespace PassleSync.Core.Models.Content.Umbraco
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("authors")]
-		public IEnumerable<PostAuthor> Authors => this.Value<IEnumerable<PostAuthor>>("authors");
+		public Newtonsoft.Json.Linq.JToken Authors => this.Value<Newtonsoft.Json.Linq.JToken>("authors");
 
 		///<summary>
 		/// CoAuthors
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("coAuthors")]
-		public IEnumerable<PostAuthor> CoAuthors => this.Value<IEnumerable<PostAuthor>>("coAuthors");
+		public Newtonsoft.Json.Linq.JToken CoAuthors => this.Value<Newtonsoft.Json.Linq.JToken>("coAuthors");
 
 		///<summary>
 		/// ContentTextSnippet
@@ -120,28 +120,28 @@ namespace PassleSync.Core.Models.Content.Umbraco
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("isFeaturedOnPasslePage")]
-		public bool IsFeaturedOnPasslePage => this.Value<bool>("isFeaturedOnPasslePage");
+		public string IsFeaturedOnPasslePage => this.Value<string>("isFeaturedOnPasslePage");
 
 		///<summary>
 		/// IsFeaturedOnPostPage
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("isFeaturedOnPostPage")]
-		public bool IsFeaturedOnPostPage => this.Value<bool>("isFeaturedOnPostPage");
+		public string IsFeaturedOnPostPage => this.Value<string>("isFeaturedOnPostPage");
 
 		///<summary>
 		/// IsRepost
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("isRepost")]
-		public bool IsRepost => this.Value<bool>("isRepost");
+		public string IsRepost => this.Value<string>("isRepost");
 
 		///<summary>
 		/// OpensInNewTab
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("opensInNewTab")]
-		public bool OpensInNewTab => this.Value<bool>("opensInNewTab");
+		public string OpensInNewTab => this.Value<string>("opensInNewTab");
 
 		///<summary>
 		/// PassleShortcode
@@ -204,7 +204,7 @@ namespace PassleSync.Core.Models.Content.Umbraco
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("shareViews")]
-		public IEnumerable<PostShareViews> ShareViews => this.Value<IEnumerable<PostShareViews>>("shareViews");
+		public Newtonsoft.Json.Linq.JToken ShareViews => this.Value<Newtonsoft.Json.Linq.JToken>("shareViews");
 
 		///<summary>
 		/// Tags
@@ -232,6 +232,6 @@ namespace PassleSync.Core.Models.Content.Umbraco
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder", "8.1.0")]
 		[ImplementPropertyType("tweets")]
-		public IEnumerable<PostTweet> Tweets => this.Value<IEnumerable<PostTweet>>("tweets");
+		public Newtonsoft.Json.Linq.JToken Tweets => this.Value<Newtonsoft.Json.Linq.JToken>("tweets");
 	}
 }
