@@ -667,12 +667,14 @@
     <Compile Include="Attributes\NestedContentNameTemplateAttribute.cs" />
     <Compile Include="Attributes\ValidateAPIKeyAttribute.cs" />
     <Compile Include="Components\IndexNestedContentComponent.cs" />
+    <Compile Include="Components\GenerateAPIKeyComponent.cs" />
     <Compile Include="Components\RegisterDocumentTypesComponent.cs" />
     <Compile Include="Components\SubscribeToPublishEventComponent.cs" />
     <Compile Include="Components\TaskRunnerComponent.cs" />
     <Compile Include="Composers\IndexNestedContentComposer.cs" />
     <Compile Include="Composers\IOCComposer.cs" />
     <Compile Include="Composers\RegisterContentFindersComposer.cs" />
+    <Compile Include="Composers\GenerateAPIKeyComposer.cs" />
     <Compile Include="Composers\RegisterDocumentTypesComposer.cs" />
     <Compile Include="Composers\RegisterUrlProvidersComposer.cs" />
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
