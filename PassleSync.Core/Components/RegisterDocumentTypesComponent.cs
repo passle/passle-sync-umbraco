@@ -2,6 +2,7 @@
 using PassleSync.Core.Constants;
 using PassleSync.Core.Extensions;
 using PassleSync.Core.Models.Content.PassleApi;
+using PassleSync.Core.PropertyEditors;
 using PassleSync.Core.Services;
 using System;
 using System.Collections;
@@ -110,6 +111,17 @@ namespace PassleSync.Core.Components
                     {
                         ValueType = ValueTypes.Text,
                     },
+                };
+
+                _dataTypeService.Save(dataType);
+            }
+
+            if (_dataTypeService.GetDataType(PassleDataType.BOOLEAN) == null)
+            {
+                var editor = Current.Factory.GetInstance<PassleBooleanPropertyEditor>();
+                var dataType = new DataType(editor)
+                {
+                    Name = PassleDataType.BOOLEAN,
                 };
 
                 _dataTypeService.Save(dataType);

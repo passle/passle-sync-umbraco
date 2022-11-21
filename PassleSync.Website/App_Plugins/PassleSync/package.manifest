@@ -1,0 +1,8 @@
+{
+    "css": [
+        "~/App_Plugins/PassleSync/propertyEditors/boolean/boolean.css"
+    ],
+    "javascript": [
+        "~/App_Plugins/PassleSync/propertyEditors/boolean/boolean.controller.js"
+    ]
+}
