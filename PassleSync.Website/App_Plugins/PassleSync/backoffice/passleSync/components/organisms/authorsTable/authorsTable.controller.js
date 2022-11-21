@@ -14,7 +14,6 @@
                 return Object.assign({}, {
                     "name": author.Name,
                     "role": author.RoleInfo,
-                    "editPath": (author.Synced && !deletedOverride) ? ("/content/content/edit/" + author.Id) : author.ProfileUrl,
                     "shortcode": author.Shortcode,
                     "synced": author.Synced && !deletedOverride
                 });

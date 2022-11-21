@@ -185,11 +185,7 @@
             this.onSort = (field, allow) => {
                 if (allow) {
                     if (field === currentSortCol) {
-                        if (currentSortDir === "asc") {
-                            currentSortDir = "desc";
-                        } else {
-                            currentSortDir = "asc";
-                        }
+                        currentSortDir = currentSortDir === "asc" ? "desc" : "asc";
                     } else {
                         currentSortCol = field;
                         currentSortDir = "desc";

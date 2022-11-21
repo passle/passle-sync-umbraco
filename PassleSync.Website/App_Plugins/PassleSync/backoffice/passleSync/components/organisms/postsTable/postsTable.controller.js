@@ -14,7 +14,6 @@
                 return Object.assign({}, {
                     "name": post.Title,
                     "excerpt": post.Excerpt,
-                    "editPath": (post.Synced && !deletedOverride) ? ("/content/content/edit/" + post.Id) : post.PostUrl,
                     "shortcode": post.Shortcode,
                     "synced": post.Synced && !deletedOverride
                 });
