@@ -736,6 +736,10 @@
     <Compile Include="Models\Content\Umbraco\IgnoredContentTypes.cs" />
     <Compile Include="PropertyEditors\PassleNestedContentPropertyEditor.cs" />
     <Compile Include="PropertyEditors\PassleBooleanPropertyEditor.cs" />
+    <Compile Include="PropertyValueConverters\AuthorPropertyValueConverter.cs" />
+    <Compile Include="PropertyValueConverters\PostShareViewsPropertyValueConverter.cs" />
+    <Compile Include="PropertyValueConverters\PostTweetPropertyValueConverter.cs" />
+    <Compile Include="PropertyValueConverters\PostAuthorPropertyValueConverter.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\Content\PassleAuthorsContentService.cs" />
