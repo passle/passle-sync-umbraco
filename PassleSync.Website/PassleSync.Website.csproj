@@ -397,6 +397,8 @@
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
     <Content Include="App_Data\Models\*.generated.cs" />
+    <Content Include="App_Plugins\PassleSync\propertyEditors\tags\tags.controller.js" />
+    <Content Include="App_Plugins\PassleSync\propertyEditors\tags\tags.html" />
     <Content Include="App_Plugins\PassleSync\propertyEditors\nestedContent\nestedContent.controller.js" />
     <Content Include="App_Plugins\PassleSync\propertyEditors\nestedContent\nestedContent.css" />
     <Content Include="App_Plugins\PassleSync\propertyEditors\nestedContent\nestedContent.html" />

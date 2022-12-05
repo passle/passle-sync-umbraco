@@ -8,5 +8,6 @@
         public const string BOOLEAN = "Passle Boolean";
         public const string LABEL_INTEGER = "Label (integer)";
         public const string NESTED_CONTENT = "Passle Nested Content";
+        public const string TAGS = "Passle Tags";
     }
 }

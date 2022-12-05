@@ -126,6 +126,17 @@ namespace PassleSync.Core.Components
 
                 _dataTypeService.Save(dataType);
             }
+
+            if (_dataTypeService.GetDataType(PassleDataType.TAGS) == null)
+            {
+                var editor = Current.Factory.GetInstance<PassleTagsPropertyEditor>();
+                var dataType = new DataType(editor)
+                {
+                    Name = PassleDataType.TAGS,
+                };
+
+                _dataTypeService.Save(dataType);
+            }
         }
 
         private void CreateContentTypeFolders()
@@ -341,7 +352,7 @@ namespace PassleSync.Core.Components
                     {
                         if (property.Name == "Tags")
                         {
-                            dataTypeName = "Tags";
+                            dataTypeName = PassleDataType.TAGS;
                         }
                         else
                         {
