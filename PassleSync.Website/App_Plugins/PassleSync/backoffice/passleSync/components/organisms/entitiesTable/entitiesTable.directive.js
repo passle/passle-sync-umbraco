@@ -95,6 +95,12 @@
                 }
 
                 syncProm.then((response) => {
+                    if (!response[this.entityReponseParam].length) {
+                        this.isUpdating = false;
+                        notificationsService.error("Error", $scope.entityInfo.namePlural + " failed to sync");
+                        return;
+                    }
+
                     this.entities.forEach((entity, ii) => {
                         let matchingEntities = response[this.entityReponseParam].filter(x => x.Shortcode === entity.shortcode);
                         if (matchingEntities.length > 0) {
@@ -106,6 +112,7 @@
                     this.unsyncedCount = this.entities.length - this.syncedCount;
                     this.isSelectedAll = false;
                     this.selectedCount = 0;
+                    this.entitiesOnShow.forEach((entity) => entity.selected = false);
 
                     updatePagination();
                     updateItemsOnShow();
@@ -139,6 +146,12 @@
                 }
 
                 deleteProm.then((response) => {
+                    if (!response[this.entityReponseParam].length) {
+                        this.isUpdating = false;
+                        notificationsService.error("Error", $scope.entityInfo.namePlural + " failed to sync");
+                        return;
+                    }
+
                     this.entities.forEach((entity, ii) => {
                         let matchingEntities = response[this.entityReponseParam].filter(x => x.Shortcode === entity.shortcode);
                         if (matchingEntities.length > 0) {
@@ -149,6 +162,7 @@
                     this.unsyncedCount = this.entities.length - this.syncedCount;
                     this.isSelectedAll = false;
                     this.selectedCount = 0;
+                    this.entitiesOnShow.forEach((entity) => entity.selected = false);
 
                     updatePagination();
                     updateItemsOnShow();

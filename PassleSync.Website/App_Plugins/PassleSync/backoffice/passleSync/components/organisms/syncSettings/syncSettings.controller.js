@@ -32,7 +32,7 @@
                 notificationsService.success("Success", "Settings have been saved");
             }, (error) => {
                 console.error(error);
-                notificationsService.error("Error", error);
+                notificationsService.error("Error", error.data.Message);
 
                 vm.isSaving = false;
                 vm.buttonState = 'init';
