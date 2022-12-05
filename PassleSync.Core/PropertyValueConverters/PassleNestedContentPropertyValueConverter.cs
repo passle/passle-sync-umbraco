@@ -1,4 +1,5 @@
-﻿using Umbraco.Core;
+﻿using PassleSync.Core.Constants;
+using Umbraco.Core;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web.PropertyEditors.ValueConverters;
@@ -17,7 +18,7 @@ namespace PassleSync.Core.PropertyValueConverters
 
         public override bool IsConverter(IPublishedPropertyType propertyType)
         {
-            return propertyType.EditorAlias.InvariantEquals("PassleSync.NestedContent");
+            return propertyType.EditorAlias.InvariantEquals(PassleDataType.NESTED_CONTENT);
         }
     }
 }
