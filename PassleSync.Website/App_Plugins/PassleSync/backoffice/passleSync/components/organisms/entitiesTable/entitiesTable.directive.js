@@ -95,33 +95,33 @@
                 }
 
                 syncProm.then((response) => {
-                    if (response[this.entityReponseParam].length > 0) {
-                        this.entities.forEach((entity, ii) => {
-                            let matchingEntities = response[this.entityReponseParam].filter(x => x.Shortcode === entity.shortcode);
-                            if (matchingEntities.length > 0) {
-                                this.entities[ii] = getRowData(matchingEntities[0]);
-                            }
-                        });
-
-                        this.syncedCount = this.entities.filter((entity) => entity.synced).length;
-                        this.unsyncedCount = this.entities.length - this.syncedCount;
-                        this.isSelectedAll = false;
-                        this.selectedCount = 0;
-                        this.entitiesOnShow.forEach((entity) => entity.selected = false);
-
-                        updatePagination();
-                        updateItemsOnShow();
-
+                    if (!response[this.entityReponseParam].length) {
                         this.isUpdating = false;
-
-                        notificationsService.success("Success", $scope.entityInfo.namePlural + " have been synced");
-
-                        syncTree();
-                    } else {
-                        this.isUpdating = false;
-
                         notificationsService.error("Error", $scope.entityInfo.namePlural + " failed to sync");
+                        return;
                     }
+
+                    this.entities.forEach((entity, ii) => {
+                        let matchingEntities = response[this.entityReponseParam].filter(x => x.Shortcode === entity.shortcode);
+                        if (matchingEntities.length > 0) {
+                            this.entities[ii] = getRowData(matchingEntities[0]);
+                        }
+                    });
+
+                    this.syncedCount = this.entities.filter((entity) => entity.synced).length;
+                    this.unsyncedCount = this.entities.length - this.syncedCount;
+                    this.isSelectedAll = false;
+                    this.selectedCount = 0;
+                    this.entitiesOnShow.forEach((entity) => entity.selected = false);
+
+                    updatePagination();
+                    updateItemsOnShow();
+
+                    this.isUpdating = false;
+
+                    notificationsService.success("Success", $scope.entityInfo.namePlural + " have been synced");
+
+                    syncTree();
                 }, (error) => {
                     console.error(error);
                     notificationsService.error("Error", error);
@@ -146,32 +146,32 @@
                 }
 
                 deleteProm.then((response) => {
-                    if (response[this.entityReponseParam].length > 0) {
-                        this.entities.forEach((entity, ii) => {
-                            let matchingEntities = response[this.entityReponseParam].filter(x => x.Shortcode === entity.shortcode);
-                            if (matchingEntities.length > 0) {
-                                this.entities[ii] = getRowData(matchingEntities[0], true);
-                            }
-                        });
-                        this.syncedCount = this.entities.filter((entity) => entity.synced).length;
-                        this.unsyncedCount = this.entities.length - this.syncedCount;
-                        this.isSelectedAll = false;
-                        this.selectedCount = 0;
-                        this.entitiesOnShow.forEach((entity) => entity.selected = false);
-
-                        updatePagination();
-                        updateItemsOnShow();
-
+                    if (!response[this.entityReponseParam].length) {
                         this.isUpdating = false;
-
-                        notificationsService.success("Success", $scope.entityInfo.namePlural + " have been deleted");
-
-                        syncTree();
-                    } else {
-                        this.isUpdating = false;
-
                         notificationsService.error("Error", $scope.entityInfo.namePlural + " failed to sync");
+                        return;
                     }
+
+                    this.entities.forEach((entity, ii) => {
+                        let matchingEntities = response[this.entityReponseParam].filter(x => x.Shortcode === entity.shortcode);
+                        if (matchingEntities.length > 0) {
+                            this.entities[ii] = getRowData(matchingEntities[0], true);
+                        }
+                    });
+                    this.syncedCount = this.entities.filter((entity) => entity.synced).length;
+                    this.unsyncedCount = this.entities.length - this.syncedCount;
+                    this.isSelectedAll = false;
+                    this.selectedCount = 0;
+                    this.entitiesOnShow.forEach((entity) => entity.selected = false);
+
+                    updatePagination();
+                    updateItemsOnShow();
+
+                    this.isUpdating = false;
+
+                    notificationsService.success("Success", $scope.entityInfo.namePlural + " have been deleted");
+
+                    syncTree();
                 }, (error) => {
                     console.error(error);
                     notificationsService.error("Error", error);
