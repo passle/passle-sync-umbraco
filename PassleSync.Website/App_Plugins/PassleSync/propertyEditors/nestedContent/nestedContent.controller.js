@@ -2,7 +2,7 @@
 
 app.requires.push('ngSanitize');
 
-app.controller("PassleReadOnlyBooleanController",
+app.controller("PassleNestedContentController",
     function ($scope, $interpolate) {
         var template = "";
         $scope.values = [];
