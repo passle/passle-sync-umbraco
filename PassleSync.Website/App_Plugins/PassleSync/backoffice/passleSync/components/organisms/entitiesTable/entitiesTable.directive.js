@@ -13,6 +13,12 @@
             this.selectedCount = 0;
             this.entities = [];
             this.entitiesOnShow = [];
+            this.pendingSync = 0;
+            this.pendingDelete = 0;
+            this.previousPending = {
+                ToSync: [],
+                ToDelete: []
+            };
 
             this.pagination = {
                 pageSize: 20,
@@ -24,6 +30,7 @@
             this.entityReponseParam = $scope.entityInfo.entityReponseParam;
             const getRowData = $scope.entityInfo.getRowData;
             const getExisting = $scope.entityInfo.resource.getExisting;
+            const getPending = $scope.entityInfo.resource.getPending;
             const updateAll = $scope.entityInfo.resource.updateAll;
             const syncAll = $scope.entityInfo.resource.syncAll;
             const syncOne = $scope.entityInfo.resource.syncOne;
@@ -32,44 +39,67 @@
             const deleteOne = $scope.entityInfo.resource.deleteOne;
             const deleteMany = $scope.entityInfo.resource.deleteMany;
 
-            this.onload = () => {
-                this.isLoading = true;
+            const entityActionTriplet = (singleAct, manyAct, allAct, defaultStatus, verb, verbPast) => {
+                if (this.isUpdating) return;
 
-                getExisting().then((response) => {
-                    this.entities = response[this.entityReponseParam].map((entity) => getRowData(entity));
-                    this.syncedCount = this.entities.filter((entity) => entity.synced).length;
-                    this.unsyncedCount = this.entities.length - this.syncedCount;
-                    this.isSelectedAll = false;
-                    this.selectedCount = 0;
+                // As the Sync/Delete flows are so similar, create a base method...
+                this.isUpdating = true;
 
-                    updatePagination();
-                    updateItemsOnShow();
+                let prom;
+                let shortcodes = [];
+                let manyAtOnce = false;
 
-                    this.isLoading = false;
+                if (this.selectedCount == 0) {
+                    shortcodes = this.entities.filter((entity) => entity.synced !== 'pending').map((entity) => entity.shortcode);
+                    prom = allAct();
+                    manyAtOnce = true;
+                } else if (this.selectedCount == 1) {
+                    shortcodes = this.entities.filter((entity) => entity.selected && entity.synced !== 'pending').map((entity) => entity.shortcode);
+                    prom = singleAct(shortcodes);
+                } else {
+                    shortcodes = this.entities.filter((entity) => entity.selected && entity.synced !== 'pending').map((entity) => entity.shortcode);
+                    prom = manyAct(shortcodes);
+                    manyAtOnce = true;
+                }
+
+                prom.then(() => {
+                    updateEntityStatuses(shortcodes, manyAtOnce, defaultStatus);
+
+                    updateView();
+                    this.isUpdating = false;
+
+                    if (manyAtOnce) {
+                        notificationsService.success("Success", $scope.entityInfo.namePlural + " have been queued to " + verb);
+                    } else {
+                        notificationsService.success("Success", $scope.entityInfo.namePlural + " have been " + verbPast);
+                    }
                 }, (error) => {
                     console.error(error);
                     notificationsService.error("Error", error);
-                    this.isLoading = false;
+
+                    this.isUpdating = false;
                 });
             }
 
+            // ... and then define specific instances
+            this.sync = () => entityActionTriplet(syncOne, syncMany, syncAll, 'true', 'sync', 'synced');
+            this.delete = () => entityActionTriplet(deleteOne, deleteMany, deleteAll, 'false', 'delete', 'deleted');
+
             this.update = () => {
+                if (this.isUpdating) return;
+
+                // Update the list of items from the backend
                 this.isUpdating = true;
 
                 updateAll().then((response) => {
                     this.entities = response[this.entityReponseParam].map((entity) => getRowData(entity));
 
-                    this.syncedCount = this.entities.filter((entity) => entity.synced).length;
-                    this.unsyncedCount = this.entities.length - this.syncedCount;
-                    this.isSelectedAll = false;
-                    this.selectedCount = 0;
+                    // If there are any items pending sync/delete, ensure they remain so after the data has been refreshed
+                    this.entities.filter(x => this.previousPending.ToSync.includes(x.shortcode) || this.previousPending.ToDelete.includes(x.shortcode))
+                        .forEach(x => x.synced = 'pending');
 
-                    updatePagination();
-                    updateItemsOnShow();
-
+                    updateView();
                     this.isUpdating = false;
-
-                    syncTree();
                 }, (error) => {
                     console.error(error);
                     notificationsService.error("Error", error);
@@ -78,92 +108,81 @@
                 });
             }
 
-            this.sync = () => {
-                this.isUpdating = true;
+            const updatePending = () => {
+                getPending().then((response) => {
+                    // Check which items are pending sync / delete
+                    // Then diff the changes to update the Synced column without reloading the data
+                    var wasPendingSync = this.previousPending.ToSync.filter(x => !response.ToSync.includes(x));
+                    var wasPendingDelete = this.previousPending.ToDelete.filter(x => !response.ToDelete.includes(x));
 
-                let syncProm;
-                let shortcodes = [];
+                    var newPendingSync = response.ToSync.filter(x => !this.previousPending.ToSync.includes(x));
+                    var newPendingDelete = response.ToDelete.filter(x => !this.previousPending.ToDelete.includes(x));
 
-                if (this.selectedCount == 0) {
-                    syncProm = syncAll();
-                } else if (this.selectedCount == 1) {
-                    shortcodes = this.entities.filter((entity) => entity.selected).map((entity) => entity.shortcode);
-                    syncProm = syncOne(shortcodes);
-                } else {
-                    shortcodes = this.entities.filter((entity) => entity.selected).map((entity) => entity.shortcode);
-                    syncProm = syncMany(shortcodes);
-                }
+                    this.pendingSync = response.ToSync?.length ?? 0;
+                    this.pendingDelete = response.ToDelete?.length ?? 0;
 
-                syncProm.then((response) => {
-                    this.entities.forEach((entity, ii) => {
-                        let matchingEntities = response[this.entityReponseParam].filter(x => x.Shortcode === entity.shortcode);
-                        if (matchingEntities.length > 0) {
-                            this.entities[ii] = getRowData(matchingEntities[0]);
-                        }
-                    });
+                    this.entities.filter(x => newPendingSync.includes(x.shortcode) || newPendingDelete.includes(x.shortcode))
+                        .forEach(x => x.synced = 'pending');
 
-                    this.syncedCount = this.entities.filter((entity) => entity.synced).length;
-                    this.unsyncedCount = this.entities.length - this.syncedCount;
-                    this.isSelectedAll = false;
-                    this.selectedCount = 0;
+                    this.entities.filter(x => wasPendingSync.includes(x.shortcode))
+                        .forEach(x => x.synced = 'true');
 
-                    updatePagination();
-                    updateItemsOnShow();
+                    this.entities.filter(x => wasPendingDelete.includes(x.shortcode))
+                        .forEach(x => x.synced = 'false');
 
-                    this.isUpdating = false;
+                    this.previousPending = response;
 
-                    notificationsService.success("Success", $scope.entityInfo.namePlural + " have been synced");
-
-                    syncTree();
+                    updateSyncedCount();
                 }, (error) => {
                     console.error(error);
                     notificationsService.error("Error", error);
-
-                    this.isUpdating = false;
                 });
             }
 
-            this.delete = () => {
-                this.isUpdating = true;
+            this.onload = () => {
+                this.isLoading = true;
 
-                let deleteProm;
-                let shortcodes = [];
-                if (this.selectedCount == 0) {
-                    deleteProm = deleteAll();
-                } else if (this.selectedCount == 1) {
-                    shortcodes = this.entities.filter((entity) => entity.selected).map((entity) => entity.shortcode);
-                    deleteProm = deleteOne(shortcodes);
-                } else {
-                    shortcodes = this.entities.filter((entity) => entity.selected).map((entity) => entity.shortcode);
-                    deleteProm = deleteMany(shortcodes);
-                }
+                getExisting().then((response) => {
+                    this.entities = response[this.entityReponseParam].map((entity) => getRowData(entity));
 
-                deleteProm.then((response) => {
-                    this.entities.forEach((entity, ii) => {
-                        let matchingEntities = response[this.entityReponseParam].filter(x => x.Shortcode === entity.shortcode);
-                        if (matchingEntities.length > 0) {
-                            this.entities[ii] = getRowData(matchingEntities[0], true);
-                        }
-                    });
-                    this.syncedCount = this.entities.filter((entity) => entity.synced).length;
-                    this.unsyncedCount = this.entities.length - this.syncedCount;
-                    this.isSelectedAll = false;
-                    this.selectedCount = 0;
+                    updatePending();
 
-                    updatePagination();
-                    updateItemsOnShow();
-
-                    this.isUpdating = false;
-
-                    notificationsService.success("Success", $scope.entityInfo.namePlural + " have been deleted");
-
-                    syncTree();
+                    updateView();
+                    this.isLoading = false;
                 }, (error) => {
                     console.error(error);
                     notificationsService.error("Error", error);
-
-                    this.isUpdating = false;
+                    this.isLoading = false;
                 });
+
+                setInterval(() => updatePending(), 5000);
+            }
+
+            const updateSyncedCount = () => {
+                this.syncedCount = this.entities.filter((entity) => entity.synced === 'true').length;
+                let pendingCount = this.entities.filter((entity) => entity.synced === 'pending').length;
+                this.unsyncedCount = this.entities.length - this.syncedCount - pendingCount;
+            }
+
+            const deselectAll = () => {
+                this.isSelectedAll = false;
+                this.selectedCount = 0;
+                this.entities.forEach(x => x.selected = false);
+            }
+
+            const updateView = () => {
+                updateSyncedCount();
+                deselectAll();
+                updatePagination();
+                updateItemsOnShow();
+                syncTree();
+            }
+
+            const updateEntityStatuses = (shortcodes, manyAtOnce, defaultVal) => {
+                // Update the selected items to show the correct synced status
+                // If many were selected at once, show as 'pending' while the Background runner does its thing
+                this.entities.filter(x => shortcodes.includes(x.shortcode))
+                    .forEach(x => x.synced = manyAtOnce ? 'pending' : defaultVal);
             }
 
             this.allowSelectAll = true;

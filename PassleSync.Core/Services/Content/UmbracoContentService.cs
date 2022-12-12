@@ -10,6 +10,7 @@ using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.Services;
 using Umbraco.Examine;
 using Umbraco.Web;
+using Umbraco.Web.PublishedCache;
 using UmbracoConstants = Umbraco.Core.Constants;
 
 namespace PassleSync.Core.Services.Content
@@ -20,7 +21,7 @@ namespace PassleSync.Core.Services.Content
         protected readonly IContentService _contentService;
         protected readonly ConfigService _configService;
         protected readonly ILogger _logger;
-        protected readonly IPublishedContentQuery _publishedContentQuery;
+        private readonly IUmbracoContextFactory _umbracoContextFactory;
 
         protected int _parentNodeId;
         protected string _contentTypeAlias;
@@ -32,13 +33,13 @@ namespace PassleSync.Core.Services.Content
             IContentService contentService,
             ConfigService configService,
             ILogger logger,
-            IPublishedContentQuery publishedContentQuery)
+            IUmbracoContextFactory umbracoContextFactory)
         {
             _examineManager = examineManager;
             _contentService = contentService;
             _configService = configService;
             _logger = logger;
-            _publishedContentQuery = publishedContentQuery;
+            _umbracoContextFactory = umbracoContextFactory;
         }
 
         public abstract string Name(T item);
@@ -51,8 +52,16 @@ namespace PassleSync.Core.Services.Content
         {
             var ids = GetContent(UmbracoConstants.UmbracoIndexes.ExternalIndexName);
 
-            // Call ToList to formalise the result now and avoid errors about 'expired snapshot' when enumerating later
-            return _publishedContentQuery.Content(ids).ToList();
+            IEnumerable<IPublishedContent> content = new List<IPublishedContent>();
+
+            // We need to use _umbracoContextFactory here as we can't inject _publishedContentQuery and use this service in a background task
+            using (UmbracoContextReference umbracoContextReference = _umbracoContextFactory.EnsureUmbracoContext())
+            {
+                IPublishedContentCache contentCache = umbracoContextReference.UmbracoContext.Content;
+                // Call ToList to formalise the result now and avoid errors about 'expired snapshot' when enumerating laters
+                content = ids.Select(x => contentCache.GetById(x)).ToList();
+            }
+            return content;
         }
 
         public IEnumerable<IContent> GetAllContent()

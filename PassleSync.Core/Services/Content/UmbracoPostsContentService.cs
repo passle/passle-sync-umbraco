@@ -1,7 +1,6 @@
 ﻿using Examine;
 using PassleSync.Core.Extensions;
 using PassleSync.Core.Models.Content.PassleApi;
-using System;
 using System.Linq;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
@@ -18,13 +17,13 @@ namespace PassleSync.Core.Services.Content
             IContentService contentService,
             ConfigService configService,
             ILogger logger,
-            IPublishedContentQuery publishedContentQuery
+            IUmbracoContextFactory umbracoContextFactory
         ) : base (
             examineManager,
             contentService,
             configService,
             logger,
-            publishedContentQuery
+            umbracoContextFactory
         )
         {
             _parentNodeId = configService.PostsParentNodeId;

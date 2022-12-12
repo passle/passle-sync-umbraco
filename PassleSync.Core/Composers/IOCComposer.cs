@@ -27,6 +27,8 @@ namespace PassleSync.Core.Composers
             composition.Register<IPassleHelperService, PassleHelperService>(Lifetime.Request);
             composition.Register<PasslePostQuery>(Lifetime.Request);
             composition.Register<PassleAuthorQuery>(Lifetime.Request);
+            composition.Register<BackgroundSyncServiceBase<PasslePost>, PasslePostBackgroundSyncService>(Lifetime.Singleton);
+            composition.Register<BackgroundSyncServiceBase<PassleAuthor>, PassleAuthorBackgroundSyncService>(Lifetime.Singleton);
         }
     }
 }
