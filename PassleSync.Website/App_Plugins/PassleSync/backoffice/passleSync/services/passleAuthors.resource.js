@@ -12,6 +12,11 @@
                     $http.get(baseUrl + "GetExisting"),
                     "Failed to retrieve a list of all authors");
             },
+            getPending: function () {
+                return umbRequestHelper.resourcePromise(
+                    $http.get(baseUrl + "GetPending"),
+                    "Failed to retrieve a list of all pending authors");
+            },
             syncAll: function () {
                 return umbRequestHelper.resourcePromise(
                     $http.post(baseUrl + "SyncAll"),

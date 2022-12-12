@@ -6,6 +6,12 @@
                 <button class="btn-primary" ng-class="{'disabled': vm.isUpdating}" ng-click="vm.update()">Fetch Passle {{entityInfo.namePlural}}</button>
                 <button class="btn-primary" ng-class="{'disabled': vm.isUpdating || vm.unsyncedCount == 0}" ng-click="vm.sync()">Sync {{vm.selectedCount == 0 ? "All" : "Selected"}} {{entityInfo.namePlural}}</button>
             </div>
+            <div ng-if="vm.pendingSync + vm.pendingDelete > 0">
+                <div class="pending-notice">
+                    <span>{{vm.pendingSync + vm.pendingDelete}} pending item{{vm.pendingSync + vm.pendingDelete > 1 ? 's' : ''}} </span>
+                    <span>({{vm.pendingSync > 0 ? vm.pendingSync + ' to be synced' : ''}}{{vm.pendingSync > 0 && vm.pendingDelete > 0 ? '; ' : ''}}{{vm.pendingDelete > 0 ? vm.pendingDelete + ' to be deleted' : ''}}).</span>
+                </div>
+            </div>
             <div>
                 <button class="btn-danger" ng-class="{'disabled': vm.isUpdating || vm.syncedCount == 0}" ng-click="vm.delete()">Delete {{vm.selectedCount == 0 ? "All Synced" : "Selected"}} {{entityInfo.namePlural}}</button>
             </div>

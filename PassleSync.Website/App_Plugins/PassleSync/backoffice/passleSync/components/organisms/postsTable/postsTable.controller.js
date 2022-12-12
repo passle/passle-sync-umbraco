@@ -6,16 +6,13 @@
         vm.entityInfo = {
             nameSingle: "Post",
             namePlural: "Posts",
-            getRowData: function getRowData(post, deletedOverride = false) {
+            getRowData: function getRowData(post) {
                 // Convert the returned model to the format the table needs
-                // The override is used when deleting data:
-                // - we return the last state of the content before it was deleted, so we need to override the synced and url values
-
                 return Object.assign({}, {
                     "name": post.Title,
                     "excerpt": post.Excerpt,
                     "shortcode": post.Shortcode,
-                    "synced": post.Synced && !deletedOverride
+                    "synced": post.Synced.toString()
                 });
             },
             resource: passlePostsResource,

@@ -4,6 +4,7 @@ using PassleSync.Core.Services.API;
 using PassleSync.Core.SyncHandlers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using Umbraco.Core;
 using Umbraco.Core.Composing;
 using Umbraco.Core.Logging;
@@ -121,8 +122,6 @@ namespace PassleSync.Core.Components
             _logger.Info<CheckForItemsToSync<T>>(string.Format("You have {0} {1} to sync", itemsToSync.Count(), typeof(T).Name));
             _logger.Info<CheckForItemsToSync<T>>(string.Format("You have {0} {1} to delete", itemsToDelete.Count(), typeof(T).Name));
 
-            var results = new List<SyncTaskResult>();
-
             if (itemsToSync.Count() > 0)
             {
                 using (_logger.TraceDuration<CheckForItemsToSync<T>>("Syncing content...", "Finished syncing."))
@@ -140,10 +139,9 @@ namespace PassleSync.Core.Components
                             _logger.Info<CheckForItemsToSync<T>>(string.Format("Failed to sync {0} with shortcode {1}", typeof(T).Name, syncResult.Shortcode));
                         }
                     }
-                    _backgroundSyncService.RemoveItemsToSync(syncResults.Where(x => x.Success).Select(x => x.Shortcode));
-                    results.AddRange(syncResults);
                 }
             }
+            _backgroundSyncService.RemoveItemsToSync(itemsToSync);
 
             if (itemsToDelete.Count() > 0)
             {
@@ -162,10 +160,9 @@ namespace PassleSync.Core.Components
                             _logger.Info<CheckForItemsToSync<T>>(string.Format("Failed to delete {0} with shortcode {1}", typeof(T).Name, deleteResult.Shortcode));
                         }
                     }
-                    _backgroundSyncService.RemoveItemsToDelete(deleteResults.Where(x => x.Success).Select(x => x.Shortcode));
-                    results.AddRange(deleteResults);
                 }
             }
+            _backgroundSyncService.RemoveItemsToDelete(itemsToDelete);
 
             // If we want to keep repeating - we need to return true
             // But if we run into a problem/error & want to stop repeating - return false
