@@ -15,13 +15,13 @@ namespace PassleSync.Core.Services.Content
             IContentService contentService,
             ConfigService configService,
             ILogger logger,
-            IPublishedContentQuery publishedContentQuery
+            IUmbracoContextFactory umbracoContextFactory
         ) : base (
             examineManager,
             contentService,
             configService,
             logger,
-            publishedContentQuery
+            umbracoContextFactory
         )
         {
             _parentNodeId = configService.AuthorsParentNodeId;

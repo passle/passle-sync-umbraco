@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Core.Services;
 
 namespace PassleSync.Core.SyncHandlers
 {
@@ -16,20 +15,17 @@ namespace PassleSync.Core.SyncHandlers
         where TPlural : PaginatedResponseBase
         where TSingular : class
     {
-        protected readonly IContentService _contentService;
         protected readonly ConfigService _configService;
         protected readonly PassleContentService<TPlural, TSingular> _passleContentService;
         protected readonly UmbracoContentService<TSingular> _umbracoContentService;
         protected readonly ILogger _logger;
 
         public SyncHandlerBase(
-            IContentService contentService,
             ConfigService configService,
             PassleContentService<TPlural, TSingular> passleContentService,
             UmbracoContentService<TSingular> umbracoContentService,
             ILogger logger)
         {
-            _contentService = contentService;
             _configService = configService;
             _passleContentService = passleContentService;
             _umbracoContentService = umbracoContentService;

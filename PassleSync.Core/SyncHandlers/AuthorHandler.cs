@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Umbraco.Core.Services;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using Umbraco.Core.Logging;
 using PassleSync.Core.API.ViewModels;
@@ -13,13 +12,11 @@ namespace PassleSync.Core.SyncHandlers
     public class AuthorHandler : SyncHandlerBase<PassleAuthors, PassleAuthor>
     {
         public AuthorHandler(
-            IContentService contentService,
             ConfigService configService,
             PassleContentService<PassleAuthors, PassleAuthor> passleContentService,
             UmbracoContentService<PassleAuthor> umbracoContentService,
             ILogger logger
         ) : base(
-            contentService,
             configService,
             passleContentService,
             umbracoContentService,

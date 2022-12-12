@@ -675,6 +675,7 @@
     <Compile Include="Composers\IOCComposer.cs" />
     <Compile Include="Composers\RegisterContentFindersComposer.cs" />
     <Compile Include="Composers\GenerateAPIKeyComposer.cs" />
+    <Compile Include="Composers\RegisterTaskRunnerComposer.cs" />
     <Compile Include="Composers\RegisterDocumentTypesComposer.cs" />
     <Compile Include="Composers\RegisterUrlProvidersComposer.cs" />
     <Compile Include="Composers\SubscribeToPublishEventComposer.cs" />
@@ -695,6 +696,7 @@
     <Compile Include="Controllers\RequestModels\PostShortcodeModel.cs" />
     <Compile Include="Controllers\RequestModels\SettingsModel.cs" />
     <Compile Include="Controllers\RequestModels\WebhookAction.cs" />
+    <Compile Include="Controllers\ResponseModels\SyncStatusResponseModel.cs" />
     <Compile Include="Controllers\ResponseModels\PingResponseModel.cs" />
     <Compile Include="Controllers\RequestModels\WebhookModel.cs" />
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
@@ -736,6 +738,9 @@
     <Compile Include="Models\Content\PassleApi\SubModels\PostShareViews.cs" />
     <Compile Include="Models\Content\PassleApi\SubModels\PostTweet.cs" />
     <Compile Include="Models\Content\Umbraco\IgnoredContentTypes.cs" />
+    <Compile Include="Services\BackgroundSync\PassleAuthorBackgroundSyncService.cs" />
+    <Compile Include="Services\BackgroundSync\PasslePostBackgroundSyncService.cs" />
+    <Compile Include="Services\BackgroundSync\BackgroundSyncServiceBase.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\Content\PassleAuthorsContentService.cs" />

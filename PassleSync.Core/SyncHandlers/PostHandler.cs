@@ -3,25 +3,20 @@ using System.Linq;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Models.Content.PassleApi;
-using Umbraco.Core.Services;
 using PassleSync.Core.Services;
 using Umbraco.Core.Logging;
 using PassleSync.Core.Services.Content;
-using PassleSync.Core.Extensions;
-using Umbraco.Core.Models.PublishedContent;
 
 namespace PassleSync.Core.SyncHandlers
 {
     public class PostHandler : SyncHandlerBase<PasslePosts, PasslePost>
     {
         public PostHandler(
-            IContentService contentService,
             ConfigService configService,
             PassleContentService<PasslePosts, PasslePost> passleContentService,
             UmbracoContentService<PasslePost> umbracoContentService,
             ILogger logger
         ) : base(
-            contentService,
             configService,
             passleContentService,
             umbracoContentService,
