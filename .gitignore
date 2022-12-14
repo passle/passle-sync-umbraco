@@ -454,8 +454,9 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/umbraco,visualstudio
 
-# Include local nupkg
-!PassleSync.Core/PassleSync.Core.*.*.*.nupkg
+# Ignore plugin files that are copied across with Gulp
 PassleSync.Website/App_Plugins/PassleSync/*
+# No need to track the plugin versions that we've built
 PassleSync.Website/App_Data/packages/createdPackages.config
+# Ensure built plugins aren't added to source control
 PassleSync_*.zip

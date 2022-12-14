@@ -851,7 +851,6 @@
     <None Include="DefaultDocumentation.json" />
     <None Include="Models\GeneratedModels.mb" />
     <None Include="packages.config" />
-    <None Include="PassleSync.Core.nuspec" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
