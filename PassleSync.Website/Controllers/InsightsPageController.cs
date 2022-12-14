@@ -19,16 +19,12 @@ namespace PassleSync.Website.Controllers
         public override ActionResult Index(ContentModel model)
         {
             var currentPage = int.Parse(Request.QueryString.GetValueOrDefault("page", "1"));
-            var query = _passleHelperService.GetPosts().WithCurrentPage(currentPage).WithItemsPerPage(10).Execute();
+            var queryResult = _passleHelperService.GetPosts().WithCurrentPage(currentPage).WithItemsPerPage(10).Execute();
 
             var viewModel = new InsightsPageViewModel(model.Content)
             {
-                Posts = query.Items,
-                Pagination = new PaginationViewModel()
-                {
-                    CurrentPage = query.CurrentPage,
-                    TotalPages = query.TotalPages,
-                }
+                Posts = queryResult.Items,
+                Pagination = new PaginationViewModel(queryResult.CurrentPage, queryResult.TotalPages, Request.Url),
             };
 
             return CurrentTemplate(viewModel);

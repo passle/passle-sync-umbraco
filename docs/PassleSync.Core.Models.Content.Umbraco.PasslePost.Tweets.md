@@ -6,7 +6,7 @@
 Tweets
 
 ```csharp
-public virtual System.Collections.Generic.IEnumerable<PassleSync.Core.Models.Content.Umbraco.PostTweet> Tweets { get; }
+public System.Collections.Generic.IEnumerable<PassleSync.Core.Models.Content.Umbraco.PostTweet> Tweets { get; }
 ```
 
 #### Property Value

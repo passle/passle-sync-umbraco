@@ -6,7 +6,7 @@
 Url
 
 ```csharp
-public virtual string Url { get; }
+public string Url { get; }
 ```
 
 #### Property Value

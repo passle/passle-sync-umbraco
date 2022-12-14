@@ -6,7 +6,7 @@
 FeaturedItemHtml
 
 ```csharp
-public virtual string FeaturedItemHtml { get; }
+public string FeaturedItemHtml { get; }
 ```
 
 #### Property Value

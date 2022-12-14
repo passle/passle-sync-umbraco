@@ -12,3 +12,32 @@ code {
 .umb-tabs-nav {
     margin-bottom: 0;
 }
+
+.table-actions {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.umb-panel,
+.umb-panel .umb-panel-body,
+.umb-panel .umb-pane,
+.umb-panel .umb-pane > div,
+.umb-panel .umb-box,
+.umb-panel .umb-box .umb-box-content,
+.umb-panel umb-tab-content,
+.umb-panel umb-tab-content > div,
+.umb-panel umb-tab-content > div > ng-transclude,
+.umb-panel umb-tab-content > div > ng-transclude > div,
+health-check,
+health-check > div,
+#health-check-iframe-container,
+#health-check-iframe-container > iframe {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#health-check-iframe-container > iframe {
+    background: none;
+}

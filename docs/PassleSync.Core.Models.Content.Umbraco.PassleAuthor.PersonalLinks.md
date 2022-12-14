@@ -6,7 +6,7 @@
 PersonalLinks
 
 ```csharp
-public virtual System.Collections.Generic.IEnumerable<PassleSync.Core.Models.Content.Umbraco.AuthorLink> PersonalLinks { get; }
+public System.Collections.Generic.IEnumerable<PassleSync.Core.Models.Content.Umbraco.AuthorLink> PersonalLinks { get; }
 ```
 
 #### Property Value

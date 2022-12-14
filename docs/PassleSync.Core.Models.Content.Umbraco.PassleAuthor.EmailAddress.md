@@ -6,7 +6,7 @@
 EmailAddress
 
 ```csharp
-public virtual string EmailAddress { get; }
+public string EmailAddress { get; }
 ```
 
 #### Property Value

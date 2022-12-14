@@ -6,7 +6,7 @@
 PhoneNumber
 
 ```csharp
-public virtual string PhoneNumber { get; }
+public string PhoneNumber { get; }
 ```
 
 #### Property Value

@@ -45,6 +45,7 @@ namespace PassleSync.Core.Services.API
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("apiKey", _configService.ClientApiKey);
+            client.DefaultRequestHeaders.Add("X-PassleSimulateRemoteHosting", "true");
 
             var response = client.GetAsync(url).Result;
             var result = response.Content.ReadAsAsync<T>().Result;

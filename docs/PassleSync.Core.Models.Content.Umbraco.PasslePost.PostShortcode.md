@@ -6,7 +6,7 @@
 PostShortcode
 
 ```csharp
-public virtual string PostShortcode { get; }
+public string PostShortcode { get; }
 ```
 
 #### Property Value

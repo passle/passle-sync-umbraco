@@ -6,7 +6,7 @@
 TotalShares
 
 ```csharp
-public virtual int TotalShares { get; }
+public int TotalShares { get; }
 ```
 
 #### Property Value

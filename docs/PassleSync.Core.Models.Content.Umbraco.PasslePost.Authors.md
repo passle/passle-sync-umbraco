@@ -6,7 +6,7 @@
 Authors
 
 ```csharp
-public virtual System.Collections.Generic.IEnumerable<PassleSync.Core.Models.Content.Umbraco.PostAuthor> Authors { get; }
+public System.Collections.Generic.IEnumerable<PassleSync.Core.Models.Content.Umbraco.PostAuthor> Authors { get; }
 ```
 
 #### Property Value

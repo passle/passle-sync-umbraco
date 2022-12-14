@@ -49,11 +49,7 @@ namespace PassleSync.Website.Controllers
                 FeaturedPost = featuredPost,
                 SearchQuery = searchQuery,
                 TagFilter = tagFilter,
-                Pagination = new PaginationViewModel()
-                {
-                    CurrentPage = queryResult.CurrentPage,
-                    TotalPages = queryResult.TotalPages,
-                },
+                Pagination = new PaginationViewModel(queryResult.CurrentPage, queryResult.TotalPages, Request.Url),
             };
 
             return CurrentTemplate(viewModel);

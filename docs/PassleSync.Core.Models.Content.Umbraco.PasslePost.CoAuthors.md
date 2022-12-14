@@ -6,7 +6,7 @@
 CoAuthors
 
 ```csharp
-public virtual System.Collections.Generic.IEnumerable<PassleSync.Core.Models.Content.Umbraco.PostAuthor> CoAuthors { get; }
+public System.Collections.Generic.IEnumerable<PassleSync.Core.Models.Content.Umbraco.PostAuthor> CoAuthors { get; }
 ```
 
 #### Property Value

@@ -6,7 +6,7 @@
 EmbedCode
 
 ```csharp
-public virtual string EmbedCode { get; }
+public string EmbedCode { get; }
 ```
 
 #### Property Value

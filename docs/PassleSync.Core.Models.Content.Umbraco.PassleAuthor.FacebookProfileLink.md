@@ -6,7 +6,7 @@
 FacebookProfileLink
 
 ```csharp
-public virtual string FacebookProfileLink { get; }
+public string FacebookProfileLink { get; }
 ```
 
 #### Property Value

@@ -6,7 +6,7 @@
 Role
 
 ```csharp
-public virtual string Role { get; }
+public string Role { get; }
 ```
 
 #### Property Value

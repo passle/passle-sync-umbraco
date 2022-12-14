@@ -6,7 +6,7 @@
 ProfileUrl
 
 ```csharp
-public virtual string ProfileUrl { get; }
+public string ProfileUrl { get; }
 ```
 
 Implements [ProfileUrl](https://docs.microsoft.com/en-us/dotnet/api/PassleSync.Core.API.Models.IBasicAuthorDetails.ProfileUrl 'PassleSync.Core.API.Models.IBasicAuthorDetails.ProfileUrl')

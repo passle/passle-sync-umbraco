@@ -6,7 +6,7 @@
 ShareViews
 
 ```csharp
-public virtual System.Collections.Generic.IEnumerable<PassleSync.Core.Models.Content.Umbraco.PostShareViews> ShareViews { get; }
+public System.Collections.Generic.IEnumerable<PassleSync.Core.Models.Content.Umbraco.PostShareViews> ShareViews { get; }
 ```
 
 #### Property Value

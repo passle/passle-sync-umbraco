@@ -6,7 +6,7 @@
 PostContentHtml
 
 ```csharp
-public virtual string PostContentHtml { get; }
+public string PostContentHtml { get; }
 ```
 
 #### Property Value

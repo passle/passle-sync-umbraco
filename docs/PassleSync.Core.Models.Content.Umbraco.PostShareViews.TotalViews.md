@@ -6,8 +6,8 @@
 TotalViews
 
 ```csharp
-public virtual string TotalViews { get; }
+public int TotalViews { get; }
 ```
 
 #### Property Value
-[System.String](https://docs.microsoft.com/en-us/dotnet/api/System.String 'System.String')
+[System.Int32](https://docs.microsoft.com/en-us/dotnet/api/System.Int32 'System.Int32')

@@ -7,6 +7,8 @@ using Umbraco.Core.Services;
 using PassleSync.Core.Services;
 using Umbraco.Core.Logging;
 using PassleSync.Core.Services.Content;
+using PassleSync.Core.Extensions;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace PassleSync.Core.SyncHandlers
 {

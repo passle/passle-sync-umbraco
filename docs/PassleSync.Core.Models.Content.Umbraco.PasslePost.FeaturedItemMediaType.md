@@ -6,7 +6,7 @@
 FeaturedItemMediaType
 
 ```csharp
-public virtual string FeaturedItemMediaType { get; }
+public string FeaturedItemMediaType { get; }
 ```
 
 #### Property Value
