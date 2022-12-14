@@ -457,3 +457,5 @@ FodyWeavers.xsd
 # Include local nupkg
 !PassleSync.Core/PassleSync.Core.*.*.*.nupkg
 PassleSync.Website/App_Plugins/PassleSync/*
+PassleSync.Website/App_Data/packages/createdPackages.config
+PassleSync_*.zip
