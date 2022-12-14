@@ -11,6 +11,9 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/line-clamp": "^0.4.1",
+    "gulp": "^4.0.2",
+    "gulp-clean-dest": "^0.2.0",
+    "gulp-watch": "^5.0.1",
     "postcss": "^8.4.16",
     "postcss-import": "^15.0.0",
     "postcss-nested": "^5.0.6",
