@@ -1,0 +1,1068 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<umbPackage>
+  <files>
+    <folder path="PassleSync.Website/App_Plugins/PassleSync" orgPath="App_Plugins/PassleSync" />
+    <file path="PassleSync.Website/Assets/css/index.css" orgPath="Assets/css/index.css" />
+    <file path="PassleSync.Website/bin/PassleSync.Core.dll" orgPath="bin/PassleSync.Core.dll" />
+    <folder path="PassleSync.Website/Controllers" orgPath="Controllers" />
+    <folder path="PassleSync.Website/Extensions" orgPath="Extensions" />
+    <folder path="PassleSync.Website/ViewModels" orgPath="ViewModels" />
+    <folder path="PassleSync.Website/Views" orgPath="Views" />
+  </files>
+  <info>
+    <package>
+      <name>PassleSync</name>
+      <version>PASSLESYNC_VERSION</version>
+      <iconUrl>https://home.passle.net/wp-content/uploads/2016/03/passle-octopus-orange.png</iconUrl>
+      <license url="http://opensource.org/licenses/MIT">MIT License</license>
+      <url>https://home.passle.net</url>
+      <requirements type="Strict">
+        <major>8</major>
+        <minor>18</minor>
+        <patch>5</patch>
+      </requirements>
+    </package>
+    <author>
+      <name>Passle</name>
+      <website>https://home.passle.net</website>
+    </author>
+    <contributors></contributors>
+    <readme><![CDATA[README]]></readme>
+  </info>
+  <DocumentTypes>
+    <DocumentType Folders="Passle/Elements">
+      <Info>
+        <Name>Author Link</Name>
+        <Alias>authorLink</Alias>
+        <Key>8113250e-3b87-4531-a189-b105fa165b40</Key>
+        <Icon>icon-science color-deep-orange</Icon>
+        <Thumbnail>folder.png</Thumbnail>
+        <Description />
+        <AllowAtRoot>False</AllowAtRoot>
+        <IsListView>False</IsListView>
+        <IsElement>True</IsElement>
+        <Variations>Nothing</Variations>
+        <Compositions />
+        <AllowedTemplates />
+        <DefaultTemplate></DefaultTemplate>
+      </Info>
+      <Structure />
+      <GenericProperties>
+        <GenericProperty>
+          <Name>Title</Name>
+          <Alias>title</Alias>
+          <Key>98505a2a-64b4-4472-a9e6-ccf604fdf34e</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>0</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Url</Name>
+          <Alias>url</Alias>
+          <Key>aa47314b-6af8-4963-9795-67276882fa6c</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>1</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+      </GenericProperties>
+      <Tabs>
+        <Tab>
+          <Id>173</Id>
+          <Key>a87833e3-fd4f-4f0e-8bcd-456513401d08</Key>
+          <Type>Group</Type>
+          <Caption>Content</Caption>
+          <Alias>content</Alias>
+          <SortOrder>0</SortOrder>
+        </Tab>
+      </Tabs>
+      <HistoryCleanupPolicy preventCleanup="false" />
+    </DocumentType>
+    <DocumentType>
+      <Info>
+        <Name>Home Page</Name>
+        <Alias>homePage</Alias>
+        <Key>d3d52ab3-b9ec-4a56-9691-50e8eb04ac73</Key>
+        <Icon>icon-document</Icon>
+        <Thumbnail>folder.png</Thumbnail>
+        <Description />
+        <AllowAtRoot>True</AllowAtRoot>
+        <IsListView>False</IsListView>
+        <IsElement>False</IsElement>
+        <Variations>Nothing</Variations>
+        <Compositions />
+        <AllowedTemplates>
+          <Template>HomePage</Template>
+        </AllowedTemplates>
+        <DefaultTemplate>HomePage</DefaultTemplate>
+      </Info>
+      <Structure>
+        <DocumentType>post</DocumentType>
+      </Structure>
+      <GenericProperties />
+      <Tabs />
+      <HistoryCleanupPolicy preventCleanup="false" />
+    </DocumentType>
+    <DocumentType>
+      <Info>
+        <Name>Insights Page</Name>
+        <Alias>insightsPage</Alias>
+        <Key>7163fd6b-7752-49b7-b115-1225d6bc73c6</Key>
+        <Icon>icon-document</Icon>
+        <Thumbnail>folder.png</Thumbnail>
+        <Description />
+        <AllowAtRoot>True</AllowAtRoot>
+        <IsListView>False</IsListView>
+        <IsElement>False</IsElement>
+        <Variations>Nothing</Variations>
+        <Compositions />
+        <AllowedTemplates>
+          <Template>InsightsPage</Template>
+        </AllowedTemplates>
+        <DefaultTemplate>InsightsPage</DefaultTemplate>
+      </Info>
+      <Structure />
+      <GenericProperties />
+      <Tabs />
+      <HistoryCleanupPolicy preventCleanup="false" />
+    </DocumentType>
+    <DocumentType Folders="Passle">
+      <Info>
+        <Name>Passle Author</Name>
+        <Alias>passleAuthor</Alias>
+        <Key>c9b920be-90d9-4bcc-88b4-5e8de35e0935</Key>
+        <Icon>icon-user color-deep-orange</Icon>
+        <Thumbnail>folder.png</Thumbnail>
+        <Description>A Passle author synced to your Umbraco instance.</Description>
+        <AllowAtRoot>False</AllowAtRoot>
+        <IsListView>False</IsListView>
+        <IsElement>False</IsElement>
+        <Variations>Nothing</Variations>
+        <Compositions />
+        <AllowedTemplates>
+          <Template>PassleAuthor</Template>
+        </AllowedTemplates>
+        <DefaultTemplate>PassleAuthor</DefaultTemplate>
+      </Info>
+      <Structure />
+      <GenericProperties>
+        <GenericProperty>
+          <Name>Name</Name>
+          <Alias>passleName</Alias>
+          <Key>52bb9827-ad82-4fbd-b7c8-97e3bcbbaa27</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>0</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Shortcode</Name>
+          <Alias>shortcode</Alias>
+          <Key>018e1d8e-4627-4a90-907e-ab8a823ba0b9</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>1</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>ProfileUrl</Name>
+          <Alias>profileUrl</Alias>
+          <Key>c0cd1f01-91c0-43b7-a0a0-dc909c17ca48</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>2</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>AvatarUrl</Name>
+          <Alias>avatarUrl</Alias>
+          <Key>4baf0b3e-fa6e-43d9-9eef-1098696106e2</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>3</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>RoleInfo</Name>
+          <Alias>roleInfo</Alias>
+          <Key>9e23a521-60b1-4bf1-98e6-b7070ecb5d50</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>4</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Description</Name>
+          <Alias>description</Alias>
+          <Key>ccdbe54a-4689-4580-96bd-bb06fb2dd7b1</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>a19fd09e-0d3b-4f93-b97a-c865cb98397d</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>5</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>EmailAddress</Name>
+          <Alias>emailAddress</Alias>
+          <Key>b06c786c-1d93-40a4-8c34-82868e822a33</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>6</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>PhoneNumber</Name>
+          <Alias>phoneNumber</Alias>
+          <Key>47c7530d-3093-4d72-8236-a2eda1d3e9f4</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>7</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>LinkedInProfileLink</Name>
+          <Alias>linkedInProfileLink</Alias>
+          <Key>8a834fb0-3ce1-4f47-a438-23d8b74eed19</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>8</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>FacebookProfileLink</Name>
+          <Alias>facebookProfileLink</Alias>
+          <Key>722ea74c-7702-416a-9301-14269691c536</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>9</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>TwitterScreenName</Name>
+          <Alias>twitterScreenName</Alias>
+          <Key>d28da580-e3f5-4047-90b1-93d58d8e6fa4</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>10</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>XingProfileLink</Name>
+          <Alias>xingProfileLink</Alias>
+          <Key>96f4d564-2a07-4eb2-8389-7d754994f682</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>11</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>SkypeProfileLink</Name>
+          <Alias>skypeProfileLink</Alias>
+          <Key>15090988-66de-4761-b128-f115733d176c</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>12</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>VimeoProfileLink</Name>
+          <Alias>vimeoProfileLink</Alias>
+          <Key>a3450d51-f09d-4a12-a407-e2dd9e644a59</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>13</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>YouTubeProfileLink</Name>
+          <Alias>youTubeProfileLink</Alias>
+          <Key>120da474-98e9-4858-bbc3-c528e2d58742</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>14</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>StumbleUponProfileLink</Name>
+          <Alias>stumbleUponProfileLink</Alias>
+          <Key>6d0fcd7b-3848-4bf4-8ad2-c82c92f7d180</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>15</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>PinterestProfileLink</Name>
+          <Alias>pinterestProfileLink</Alias>
+          <Key>62132720-628f-44aa-a034-c84cd957e6f3</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>16</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>InstagramProfileLink</Name>
+          <Alias>instagramProfileLink</Alias>
+          <Key>5cf2f02c-f149-445a-ae0d-8b23b1ce3742</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>17</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>PersonalLinks</Name>
+          <Alias>personalLinks</Alias>
+          <Key>d28923be-6326-4f90-830e-34e81a94b187</Key>
+          <Type>Umbraco.NestedContent</Type>
+          <Definition>07b898d1-ce3b-4876-9bda-e19b61ce579a</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>18</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>LocationDetail</Name>
+          <Alias>locationDetail</Alias>
+          <Key>45567377-f9e9-40c5-8bd1-52c1d1e05cfd</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>19</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>LocationCountry</Name>
+          <Alias>locationCountry</Alias>
+          <Key>172ff9c3-be5f-4916-9b06-8b1684b7075f</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>20</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>TagLineCompany</Name>
+          <Alias>tagLineCompany</Alias>
+          <Key>7caa4225-dfe8-44c6-acdb-747699da5e87</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>21</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>SubscribeLink</Name>
+          <Alias>subscribeLink</Alias>
+          <Key>82691308-5166-43de-bb0f-f1ea05f9ce89</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>22</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+      </GenericProperties>
+      <Tabs>
+        <Tab>
+          <Id>174</Id>
+          <Key>aa0e9c8f-34c4-44a3-8427-12b03bf0568d</Key>
+          <Type>Group</Type>
+          <Caption>Content</Caption>
+          <Alias>content</Alias>
+          <SortOrder>0</SortOrder>
+        </Tab>
+      </Tabs>
+      <HistoryCleanupPolicy preventCleanup="false" />
+    </DocumentType>
+    <DocumentType Folders="Passle">
+      <Info>
+        <Name>Passle Post</Name>
+        <Alias>passlePost</Alias>
+        <Key>80c10348-4969-4cbe-84a0-80aa100a5252</Key>
+        <Icon>icon-newspaper color-deep-orange</Icon>
+        <Thumbnail>folder.png</Thumbnail>
+        <Description>A Passle post synced to your Umbraco instance.</Description>
+        <AllowAtRoot>False</AllowAtRoot>
+        <IsListView>False</IsListView>
+        <IsElement>False</IsElement>
+        <Variations>Nothing</Variations>
+        <Compositions />
+        <AllowedTemplates>
+          <Template>PasslePost</Template>
+        </AllowedTemplates>
+        <DefaultTemplate>PasslePost</DefaultTemplate>
+      </Info>
+      <Structure />
+      <GenericProperties>
+        <GenericProperty>
+          <Name>PostTitle</Name>
+          <Alias>postTitle</Alias>
+          <Key>bf056990-993c-4f15-b9fe-34ba217d422d</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>0</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>PostShortcode</Name>
+          <Alias>postShortcode</Alias>
+          <Key>d102bc38-7add-4257-9d33-a3590fe5c936</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>1</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>PassleShortcode</Name>
+          <Alias>passleShortcode</Alias>
+          <Key>4f263026-d785-4c13-8f46-7068c3b026a3</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>2</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>PublishedDate</Name>
+          <Alias>publishedDate</Alias>
+          <Key>af995569-5bd7-4c21-a75c-7948a2773fdb</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>3</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>PostUrl</Name>
+          <Alias>postUrl</Alias>
+          <Key>89701b64-27d3-4d9d-8e7e-bc16f79044f8</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>4</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>ImageUrl</Name>
+          <Alias>imageUrl</Alias>
+          <Key>a3bec640-e394-49b5-8d8b-8fe399556a47</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>5</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Authors</Name>
+          <Alias>authors</Alias>
+          <Key>26009968-3557-427f-9ed9-53b751998281</Key>
+          <Type>Umbraco.NestedContent</Type>
+          <Definition>f3c1277b-510c-47fc-b6b3-fcd309f35d3d</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>6</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>CoAuthors</Name>
+          <Alias>coAuthors</Alias>
+          <Key>ec6e2a82-d2bd-400f-bdb2-85ee0b8735b5</Key>
+          <Type>Umbraco.NestedContent</Type>
+          <Definition>f3c1277b-510c-47fc-b6b3-fcd309f35d3d</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>7</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>PostContentHtml</Name>
+          <Alias>postContentHtml</Alias>
+          <Key>dd6b2bbe-08b5-40a2-837e-e541eaae93b5</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>a19fd09e-0d3b-4f93-b97a-c865cb98397d</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>8</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>ContentTextSnippet</Name>
+          <Alias>contentTextSnippet</Alias>
+          <Key>b9e6cfaa-6348-4247-9383-4d60041421c1</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>9</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>QuoteText</Name>
+          <Alias>quoteText</Alias>
+          <Key>2999ac71-589e-4c85-866a-6ead950af4f9</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>a19fd09e-0d3b-4f93-b97a-c865cb98397d</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>10</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>QuoteUrl</Name>
+          <Alias>quoteUrl</Alias>
+          <Key>a51b1f79-4d06-4f62-b237-f74fc16a3223</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>11</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>IsRepost</Name>
+          <Alias>isRepost</Alias>
+          <Key>2440e124-b580-4499-8037-dab971f5627a</Key>
+          <Type>Umbraco.TrueFalse</Type>
+          <Definition>92897bc6-a5f3-4ffe-ae27-f2e7e33dda49</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>12</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>IsFeaturedOnPasslePage</Name>
+          <Alias>isFeaturedOnPasslePage</Alias>
+          <Key>7884d71b-c6c0-48f0-a133-09e357e79215</Key>
+          <Type>Umbraco.TrueFalse</Type>
+          <Definition>92897bc6-a5f3-4ffe-ae27-f2e7e33dda49</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>13</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>IsFeaturedOnPostPage</Name>
+          <Alias>isFeaturedOnPostPage</Alias>
+          <Key>dd26cf2d-908c-4b8f-82ce-e15b560b53fb</Key>
+          <Type>Umbraco.TrueFalse</Type>
+          <Definition>92897bc6-a5f3-4ffe-ae27-f2e7e33dda49</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>14</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>EstimatedReadTimeInSeconds</Name>
+          <Alias>estimatedReadTimeInSeconds</Alias>
+          <Key>96992265-67b1-4b45-8b2e-6be783d8a222</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>8e7f995c-bd81-4627-9932-c40e568ec788</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>15</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>FeaturedItemHtml</Name>
+          <Alias>featuredItemHtml</Alias>
+          <Key>4c8cdfbd-5665-4320-86c7-099b6d251324</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>a19fd09e-0d3b-4f93-b97a-c865cb98397d</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>16</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>FeaturedItemPosition</Name>
+          <Alias>featuredItemPosition</Alias>
+          <Key>80c35194-f72c-4491-a5a0-008709ddd304</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>17</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>FeaturedItemMediaType</Name>
+          <Alias>featuredItemMediaType</Alias>
+          <Key>fba33de8-ab6e-4fc2-9a45-87d2fb9f1d1d</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>18</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>FeaturedItemEmbedType</Name>
+          <Alias>featuredItemEmbedType</Alias>
+          <Key>104a661a-c470-40ec-b0f1-cd6837dafd32</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>19</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>FeaturedItemEmbedProvider</Name>
+          <Alias>featuredItemEmbedProvider</Alias>
+          <Key>0062cd0d-6372-47b7-8830-2230a6e3df9e</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>20</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Tags</Name>
+          <Alias>tags</Alias>
+          <Key>f1a818ac-e4b9-49cc-9b42-8cdd8a81922c</Key>
+          <Type>Umbraco.Tags</Type>
+          <Definition>b6b73142-b9c1-4bf8-a16d-e1c23320b549</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>21</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Tweets</Name>
+          <Alias>tweets</Alias>
+          <Key>135685c8-dad7-4826-b4c7-d1bd72321236</Key>
+          <Type>Umbraco.NestedContent</Type>
+          <Definition>6886f0e5-026a-41ba-82ec-4b1fed9946ab</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>22</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>ShareViews</Name>
+          <Alias>shareViews</Alias>
+          <Key>547aadaa-8f4a-4c21-a1e4-b1d8e935ab97</Key>
+          <Type>Umbraco.NestedContent</Type>
+          <Definition>416f916c-8e66-4dee-9a1a-aab47656db72</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>23</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>TotalShares</Name>
+          <Alias>totalShares</Alias>
+          <Key>e8857beb-2d44-435e-8e06-2c7c4003981f</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>8e7f995c-bd81-4627-9932-c40e568ec788</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>24</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>TotalLikes</Name>
+          <Alias>totalLikes</Alias>
+          <Key>9ad9633a-1c81-45e2-96b7-acc2503b6d52</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>8e7f995c-bd81-4627-9932-c40e568ec788</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>25</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>OpensInNewTab</Name>
+          <Alias>opensInNewTab</Alias>
+          <Key>ac706d81-4633-409e-9087-018a890b9b85</Key>
+          <Type>Umbraco.TrueFalse</Type>
+          <Definition>92897bc6-a5f3-4ffe-ae27-f2e7e33dda49</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>26</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+      </GenericProperties>
+      <Tabs>
+        <Tab>
+          <Id>172</Id>
+          <Key>31dd9489-bc40-4083-a4fb-598cd197f3c9</Key>
+          <Type>Group</Type>
+          <Caption>Content</Caption>
+          <Alias>content</Alias>
+          <SortOrder>0</SortOrder>
+        </Tab>
+      </Tabs>
+      <HistoryCleanupPolicy preventCleanup="false" />
+    </DocumentType>
+    <DocumentType Folders="Passle/Elements">
+      <Info>
+        <Name>Post Author</Name>
+        <Alias>postAuthor</Alias>
+        <Key>7321ba66-dd1f-4244-955a-aa709469faf5</Key>
+        <Icon>icon-science color-deep-orange</Icon>
+        <Thumbnail>folder.png</Thumbnail>
+        <Description />
+        <AllowAtRoot>False</AllowAtRoot>
+        <IsListView>False</IsListView>
+        <IsElement>True</IsElement>
+        <Variations>Nothing</Variations>
+        <Compositions />
+        <AllowedTemplates />
+        <DefaultTemplate></DefaultTemplate>
+      </Info>
+      <Structure />
+      <GenericProperties>
+        <GenericProperty>
+          <Name>Shortcode</Name>
+          <Alias>shortcode</Alias>
+          <Key>de310710-bb54-4e9e-ad86-4d9f810583c7</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>0</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Name</Name>
+          <Alias>passleName</Alias>
+          <Key>c972d3db-0df9-4c57-b997-639c5c24632d</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>1</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>ImageUrl</Name>
+          <Alias>imageUrl</Alias>
+          <Key>41da6cff-3f97-4bea-8bd8-7e63b549c611</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>2</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>ProfileUrl</Name>
+          <Alias>profileUrl</Alias>
+          <Key>bfc843af-8e09-45f4-a4ec-a26b91bf6f63</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>3</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>Role</Name>
+          <Alias>role</Alias>
+          <Key>10bc002e-6aae-4c0f-94db-65ada2555113</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>4</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>TwitterScreenName</Name>
+          <Alias>twitterScreenName</Alias>
+          <Key>f2d6399c-2eed-4dd3-9e07-13193ddd09e2</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>5</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+      </GenericProperties>
+      <Tabs>
+        <Tab>
+          <Id>169</Id>
+          <Key>c335c95f-b7d3-4028-97f4-fd3bdc1289c3</Key>
+          <Type>Group</Type>
+          <Caption>Content</Caption>
+          <Alias>content</Alias>
+          <SortOrder>0</SortOrder>
+        </Tab>
+      </Tabs>
+      <HistoryCleanupPolicy preventCleanup="false" />
+    </DocumentType>
+    <DocumentType Folders="Passle/Elements">
+      <Info>
+        <Name>Post Share Views</Name>
+        <Alias>postShareViews</Alias>
+        <Key>c8b215a5-6b17-4afa-8c5e-ed1cdfe7d5f8</Key>
+        <Icon>icon-science color-deep-orange</Icon>
+        <Thumbnail>folder.png</Thumbnail>
+        <Description />
+        <AllowAtRoot>False</AllowAtRoot>
+        <IsListView>False</IsListView>
+        <IsElement>True</IsElement>
+        <Variations>Nothing</Variations>
+        <Compositions />
+        <AllowedTemplates />
+        <DefaultTemplate></DefaultTemplate>
+      </Info>
+      <Structure />
+      <GenericProperties>
+        <GenericProperty>
+          <Name>SocialNetwork</Name>
+          <Alias>socialNetwork</Alias>
+          <Key>35a78722-12dc-44de-9fbe-d4663bb76051</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>0</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>TotalViews</Name>
+          <Alias>totalViews</Alias>
+          <Key>71bc21d2-ea0e-4c89-9cae-45597c318636</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>8e7f995c-bd81-4627-9932-c40e568ec788</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>1</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+      </GenericProperties>
+      <Tabs>
+        <Tab>
+          <Id>171</Id>
+          <Key>d991f848-553a-42a8-a5cf-5d5893ac6c9f</Key>
+          <Type>Group</Type>
+          <Caption>Content</Caption>
+          <Alias>content</Alias>
+          <SortOrder>0</SortOrder>
+        </Tab>
+      </Tabs>
+      <HistoryCleanupPolicy preventCleanup="false" />
+    </DocumentType>
+    <DocumentType Folders="Passle/Elements">
+      <Info>
+        <Name>Post Tweet</Name>
+        <Alias>postTweet</Alias>
+        <Key>1a8963ed-472c-47f8-9500-1eea82058046</Key>
+        <Icon>icon-science color-deep-orange</Icon>
+        <Thumbnail>folder.png</Thumbnail>
+        <Description />
+        <AllowAtRoot>False</AllowAtRoot>
+        <IsListView>False</IsListView>
+        <IsElement>True</IsElement>
+        <Variations>Nothing</Variations>
+        <Compositions />
+        <AllowedTemplates />
+        <DefaultTemplate></DefaultTemplate>
+      </Info>
+      <Structure />
+      <GenericProperties>
+        <GenericProperty>
+          <Name>EmbedCode</Name>
+          <Alias>embedCode</Alias>
+          <Key>f43446b8-6436-4a21-a42d-702c7a994341</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>0</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>TweetId</Name>
+          <Alias>tweetId</Alias>
+          <Key>dcb6bc4d-48f7-4fa7-9e9e-04e6d054c421</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>1</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+        <GenericProperty>
+          <Name>ScreenName</Name>
+          <Alias>screenName</Alias>
+          <Key>b5bd3fef-866a-4e6e-a8f4-809a0f96efc1</Key>
+          <Type>Umbraco.Label</Type>
+          <Definition>f0bc4bfb-b499-40d6-ba86-058885a5178c</Definition>
+          <Tab Alias="content">Content</Tab>
+          <SortOrder>2</SortOrder>
+          <Mandatory>False</Mandatory>
+          <LabelOnTop>False</LabelOnTop>
+          <Variations>Nothing</Variations>
+        </GenericProperty>
+      </GenericProperties>
+      <Tabs>
+        <Tab>
+          <Id>170</Id>
+          <Key>5d6129f0-b642-4b2a-b84e-dd98d8c169d1</Key>
+          <Type>Group</Type>
+          <Caption>Content</Caption>
+          <Alias>content</Alias>
+          <SortOrder>0</SortOrder>
+        </Tab>
+      </Tabs>
+      <HistoryCleanupPolicy preventCleanup="false" />
+    </DocumentType>
+  </DocumentTypes>
+  <Templates>
+    <Template>
+      <Name>Home Page</Name>
+      <Alias>HomePage</Alias>
+      <Design><![CDATA[HOMEPAGE_TEMPLATE]]></Design>
+    </Template>
+    <Template>
+      <Name>Insights Page</Name>
+      <Alias>InsightsPage</Alias>
+      <Design><![CDATA[INSIGHTSPAGE_TEMPLATE]]></Design>
+    </Template>
+    <Template>
+      <Name>Layout</Name>
+      <Alias>Layout</Alias>
+      <Design><![CDATA[LAYOUT_TEMPLATE]]></Design>
+    </Template>
+    <Template>
+      <Name>Passle Author</Name>
+      <Alias>PassleAuthor</Alias>
+      <Design><![CDATA[AUTHOR_TEMPLATE]]></Design>
+    </Template>
+    <Template>
+      <Name>Passle Post</Name>
+      <Alias>PasslePost</Alias>
+      <Design><![CDATA[POST_TEMPLATE]]></Design>
+    </Template>
+  </Templates>
+  <Stylesheets />
+  <Macros />
+  <DictionaryItems />
+  <Languages />
+  <DataTypes>
+    <DataType Name="Passle Label (long string)" Id="Umbraco.Label" Definition="a19fd09e-0d3b-4f93-b97a-c865cb98397d" DatabaseType="Ntext" Configuration="{&quot;umbracoDataValueType&quot;:&quot;TEXT&quot;}" />
+    <DataType Name="Passle Nested Content - AuthorLink" Id="Umbraco.NestedContent" Definition="07b898d1-ce3b-4876-9bda-e19b61ce579a" DatabaseType="Ntext" Configuration="{&quot;contentTypes&quot;:[{&quot;ncAlias&quot;:&quot;authorLink&quot;,&quot;ncTabAlias&quot;:&quot;Content&quot;,&quot;nameTemplate&quot;:&quot;{{title}}&quot;}],&quot;confirmDeletes&quot;:true,&quot;showIcons&quot;:true,&quot;hideLabel&quot;:false}" />
+    <DataType Name="Passle Nested Content - PostShareViews" Id="Umbraco.NestedContent" Definition="416f916c-8e66-4dee-9a1a-aab47656db72" DatabaseType="Ntext" Configuration="{&quot;contentTypes&quot;:[{&quot;ncAlias&quot;:&quot;postShareViews&quot;,&quot;ncTabAlias&quot;:&quot;Content&quot;,&quot;nameTemplate&quot;:&quot;{{socialNetwork}}&quot;}],&quot;confirmDeletes&quot;:true,&quot;showIcons&quot;:true,&quot;hideLabel&quot;:false}" />
+    <DataType Name="Passle Nested Content - PostAuthor" Id="Umbraco.NestedContent" Definition="f3c1277b-510c-47fc-b6b3-fcd309f35d3d" DatabaseType="Ntext" Configuration="{&quot;contentTypes&quot;:[{&quot;ncAlias&quot;:&quot;postAuthor&quot;,&quot;ncTabAlias&quot;:&quot;Content&quot;,&quot;nameTemplate&quot;:&quot;{{passleName}}&quot;}],&quot;confirmDeletes&quot;:true,&quot;showIcons&quot;:true,&quot;hideLabel&quot;:false}" />
+    <DataType Name="Passle Nested Content - PostTweet" Id="Umbraco.NestedContent" Definition="6886f0e5-026a-41ba-82ec-4b1fed9946ab" DatabaseType="Ntext" Configuration="{&quot;contentTypes&quot;:[{&quot;ncAlias&quot;:&quot;postTweet&quot;,&quot;ncTabAlias&quot;:&quot;Content&quot;,&quot;nameTemplate&quot;:&quot;Tweet by @{{screenName}}&quot;}],&quot;confirmDeletes&quot;:true,&quot;showIcons&quot;:true,&quot;hideLabel&quot;:false}" />
+    <DataType Name="Passle Repeatable Textstrings" Id="Umbraco.MultipleTextstring" Definition="96685b19-1e2a-4d4f-b76e-589f741db0f2" DatabaseType="Ntext" Configuration="{&quot;Minimum&quot;:0,&quot;Maximum&quot;:0}" />
+  </DataTypes>
+  <Actions />
+</umbPackage>
