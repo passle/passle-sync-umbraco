@@ -76,6 +76,26 @@ namespace PassleSync.Core.Services
             get => _keyValueService.GetValue("PassleSync.PeopleParentNodeId");
             set => _keyValueService.SetValue("PassleSync.PeopleParentNodeId", value);
         }
+        public bool SimulateRemoteHosting
+        {
+            get => _keyValueService.GetValue("PassleSync.SimulateRemoteHosting") == "True";
+            set => _keyValueService.SetValue("PassleSync.SimulateRemoteHosting", value.ToString());
+        }
+        public bool UseHttps
+        {
+            get => _keyValueService.GetValue("PassleSync.UseHttps") == "True";
+            set => _keyValueService.SetValue("PassleSync.UseHttps", value.ToString());
+        }
+        public string CustomDomain
+        {
+            get => _keyValueService.GetValue("PassleSync.CustomDomain");
+            set => _keyValueService.SetValue("PassleSync.CustomDomain", value);
+        }
+        public string PasslePermalinkPrefix
+        {
+            get => _keyValueService.GetValue("PassleSync.PasslePermalinkPrefix");
+            set => _keyValueService.SetValue("PassleSync.PasslePermalinkPrefix", value);
+        }
         public int PostsParentNodeId
         {
             get
@@ -114,6 +134,10 @@ namespace PassleSync.Core.Services
             AuthorPermalinkPrefix = settings.AuthorPermalinkPrefix;
             PostsParentNode = settings.PostsParentNodeId.ToString();
             AuthorsParentNode = settings.AuthorsParentNodeId.ToString();
+            SimulateRemoteHosting = settings.SimulateRemoteHosting;
+            UseHttps = settings.UseHttps;
+            CustomDomain = settings.CustomDomain;
+            PasslePermalinkPrefix = settings.PasslePermalinkPrefix;
         }
     }
 }

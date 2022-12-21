@@ -323,6 +323,9 @@
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.controller.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.directive.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.html" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\remoteHostingSetup\remoteHostingSetup.controller.js" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\remoteHostingSetup\remoteHostingSetup.directive.js" />
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\remoteHostingSetup\remoteHostingSetup.html" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.controller.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.directive.js" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.html" />
@@ -362,6 +365,7 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
+    <Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\remoteHostingSetup\remoteHostingSetup.css" />
     <Content Include="App_Plugins\PassleSync\backoffice\passleSync\lang\en-US.xml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>

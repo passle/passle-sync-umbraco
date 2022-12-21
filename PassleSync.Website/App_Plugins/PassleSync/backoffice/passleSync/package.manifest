@@ -16,9 +16,12 @@
     "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/tagsTable/tagsTable.directive.js",
     "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/healthCheck/healthCheck.controller.js",
     "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/healthCheck/healthCheck.directive.js",
-    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/entitiesTable/entitiesTable.directive.js"
+    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/entitiesTable/entitiesTable.directive.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/remoteHostingSetup/remoteHostingSetup.controller.js",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/remoteHostingSetup/remoteHostingSetup.directive.js"
   ],
   "css": [
-    "~/App_Plugins/PassleSync/backoffice/passleSync/dashboard.css"
+    "~/App_Plugins/PassleSync/backoffice/passleSync/dashboard.css",
+    "~/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/remoteHostingSetup/remoteHostingSetup.css"
   ]
 }
