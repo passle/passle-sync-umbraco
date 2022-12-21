@@ -1,6 +1,6 @@
 ﻿angular.module("umbraco").controller(
     "SyncSettingsController",
-    function (passleSettingsResource, notificationsService) {
+    function (passleSettingsResource, notificationsService, $scope) {
         var vm = this;
         vm.loading = false;
 
@@ -28,6 +28,9 @@
             passleSettingsResource.save(vm.settings).then(() => {
                 vm.isSaving = false;
                 vm.buttonState = 'init';
+
+                // 'tabsForm' is in the parent 'dashboard' scope, but accessible here because `scope: true` in the 'syncSettings' directive
+                $scope.tabsForm.$setPristine();
 
                 notificationsService.success("Success", "Settings have been saved");
             }, (error) => {
