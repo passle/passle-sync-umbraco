@@ -4,7 +4,7 @@
         return {
             restrict: 'E',
             templateUrl: '/App_Plugins/PassleSync/backoffice/passleSync/components/organisms/remoteHostingSetup/remoteHostingSetup.html',
-            scope: {}
+            scope: true
         }
     }
 );
