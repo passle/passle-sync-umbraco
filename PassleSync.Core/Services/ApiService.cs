@@ -24,6 +24,11 @@ namespace PassleSync.Core.Services.API
             while (nextUrl != null)
             {
                 var response = GetAsync<T>(nextUrl);
+                if (response == null)
+                {
+                    break;
+                }
+
                 result.Add(response);
 
                 var moreDataAvailable = response.TotalCount > (response.PageSize * response.PageNumber);
