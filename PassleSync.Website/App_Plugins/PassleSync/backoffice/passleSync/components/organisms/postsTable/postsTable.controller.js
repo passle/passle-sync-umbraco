@@ -15,6 +15,7 @@
                     "name": post.Title,
                     "excerpt": post.Excerpt,
                     "shortcode": post.Shortcode,
+                    "passle": post.PassleShortcode,
                     "synced": post.Synced && !deletedOverride
                 });
             },
@@ -22,6 +23,7 @@
             entityReponseParam: 'Posts',
             rowProperties: [
                 { alias: "excerpt", header: "Excerpt", allowSorting: false },
+                { alias: "passle", header: "Passle", allowSorting: false },
                 { alias: "synced", header: "Synced?", allowSorting: true }
             ]
         };

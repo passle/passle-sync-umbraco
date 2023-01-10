@@ -14,6 +14,7 @@ Inheritance [System.Object](https://docs.microsoft.com/en-us/dotnet/api/System.O
 | Methods | |
 | :--- | :--- |
 | [ByAuthorShortcode(string)](PassleSync.Core.Helpers.Queries.PasslePostQuery.ByAuthorShortcode(string).md 'PassleSync.Core.Helpers.Queries.PasslePostQuery.ByAuthorShortcode(string)') | Filter posts by the the shortcode of a particular author. |
+| [ByPassle(string)](PassleSync.Core.Helpers.Queries.PasslePostQuery.ByPassle(string).md 'PassleSync.Core.Helpers.Queries.PasslePostQuery.ByPassle(string)') | Filter to posts that from a particular Passle. |
 | [ByTag(string)](PassleSync.Core.Helpers.Queries.PasslePostQuery.ByTag(string).md 'PassleSync.Core.Helpers.Queries.PasslePostQuery.ByTag(string)') | Filter to posts that include a particular tag. |
 | [FeaturedOnPasslePage(bool)](PassleSync.Core.Helpers.Queries.PasslePostQuery.FeaturedOnPasslePage(bool).md 'PassleSync.Core.Helpers.Queries.PasslePostQuery.FeaturedOnPasslePage(bool)') | Filter based on whether the post should be featured on the Passle page. |
 | [FeaturedOnPostPage(bool)](PassleSync.Core.Helpers.Queries.PasslePostQuery.FeaturedOnPostPage(bool).md 'PassleSync.Core.Helpers.Queries.PasslePostQuery.FeaturedOnPostPage(bool)') | Filter based on whether the post should be featured on the post page. |
