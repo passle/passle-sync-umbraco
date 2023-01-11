@@ -26,17 +26,24 @@
 
         function getAll() {
             passleTagsResource.getAll().then((response) => {
+                if ('ErrorMsg' in response) {
+                    handleError(response['ErrorMsg']);
+                    return;
+                }
+
                 vm.tags = response.Tags.map(t => getTagDataObject(t));
                 sortTags();
 
                 vm.isLoading = false;
                 vm.isRefreshing = false;
-            }, (error) => {
-                console.error(error);
-                notificationsService.error("Error", error);
-                vm.isLoading = false;
-                vm.isRefreshing = false;
-            });
+            }, (error) => handleError(error));
+        }
+
+        const handleError = (error) => {
+            console.error(error);
+            notificationsService.error("Error", error);
+            vm.isLoading = false;
+            vm.isRefreshing = false;
         }
 
         vm.refresh = function () {

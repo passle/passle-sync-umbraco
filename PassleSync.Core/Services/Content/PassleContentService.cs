@@ -1,4 +1,5 @@
-﻿using PassleSync.Core.Models.Content.PassleApi;
+﻿using PassleSync.Core.Exceptions;
+using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services.API;
 using PassleSync.Core.Utils;
 using System;
@@ -83,11 +84,24 @@ namespace PassleSync.Core.Services.Content
                 .Build();
 
             var responses = _apiService.GetAllPaginatedAsync<TPlural>(url);
-            var items = responses.SelectMany(_responseSelector);
 
-            if (items.Contains(default))
+            IEnumerable<TSingular> items;
+            try
             {
-                throw new Exception("Failed to get data from the API");
+                items = responses.SelectMany(_responseSelector);
+
+                if (items.Contains(default))
+                {
+                    throw new PassleException(typeof(TSingular), PassleExceptionEnum.DEFAULT_FROM_API);
+                }
+            } 
+            catch (PassleException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new PassleException(typeof(TSingular), PassleExceptionEnum.NULL_FROM_API);
             }
 
             return items;

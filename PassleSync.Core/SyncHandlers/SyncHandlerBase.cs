@@ -1,11 +1,13 @@
 ﻿using PassleSync.Core.API.SyncHandlers;
 using PassleSync.Core.API.ViewModels;
+using PassleSync.Core.Exceptions;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using PassleSync.Core.Services.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.Services;
@@ -42,10 +44,23 @@ namespace PassleSync.Core.SyncHandlers
 
         public virtual IEnumerable<SyncTaskResult> SyncAll()
         {
-            var apiItems = _passleContentService.GetAll();
+            IEnumerable<TSingular> apiItems;
+            try
+            {
+                apiItems = _passleContentService.GetAll();
+            }
+            catch (PassleException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new PassleException(typeof(TSingular), PassleExceptionEnum.UNKNOWN);
+            }
+
             if (apiItems == null)
             {
-                throw new Exception("Failed to get items from the API");
+                throw new PassleException(typeof(TSingular), PassleExceptionEnum.NULL_FROM_API);
             }
 
             DeleteAll();
@@ -54,10 +69,23 @@ namespace PassleSync.Core.SyncHandlers
 
         public virtual IEnumerable<SyncTaskResult> SyncMany(string[] shortcodes)
         {
-            var apiItems = _passleContentService.GetMany(shortcodes);
+            IEnumerable<TSingular> apiItems;
+            try
+            {
+                apiItems = _passleContentService.GetMany(shortcodes);
+            }
+            catch (PassleException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new PassleException(typeof(TSingular), PassleExceptionEnum.UNKNOWN);
+            }
+
             if (apiItems == null)
             {
-                throw new Exception("Failed to get items from the API");
+                throw new PassleException(typeof(TSingular), PassleExceptionEnum.NULL_FROM_API);
             }
 
             var results = new List<SyncTaskResult>();
@@ -70,11 +98,25 @@ namespace PassleSync.Core.SyncHandlers
 
         public virtual SyncTaskResult SyncOne(string shortcode)
         {
-            var apiItem = _passleContentService.GetOne(shortcode);
+            TSingular apiItem;
+            try
+            {
+                apiItem = _passleContentService.GetOne(shortcode);
+            }
+            catch (PassleException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new PassleException(typeof(TSingular), PassleExceptionEnum.UNKNOWN);
+            }
+
             if (apiItem == null)
             {
-                throw new Exception("Failed to get item from the API");
+                throw new PassleException(typeof(TSingular), PassleExceptionEnum.NULL_FROM_API);
             }
+
             return UpdateOrCreateOne(apiItem);
         }
 

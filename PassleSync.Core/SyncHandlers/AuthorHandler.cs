@@ -7,6 +7,9 @@ using PassleSync.Core.API.ViewModels;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services;
 using PassleSync.Core.Services.Content;
+using System.Collections.Generic;
+using System.Net.Http;
+using PassleSync.Core.Exceptions;
 
 namespace PassleSync.Core.SyncHandlers
 {
@@ -30,11 +33,24 @@ namespace PassleSync.Core.SyncHandlers
 
         public override IPassleDashboardViewModel GetAll()
         {
-            var peopleFromApi = _passleContentService.GetAll();
+            IEnumerable<PassleAuthor> peopleFromApi;
+            try
+            {
+                peopleFromApi = _passleContentService.GetAll();
+            }
+            catch (PassleException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new PassleException(typeof(PassleAuthor), PassleExceptionEnum.UNKNOWN);
+            }
+
             if (peopleFromApi == null)
             {
-                // Failed to get posts from the API
-                return new PassleDashboardAuthorsViewModel(Enumerable.Empty<PassleDashboardAuthorViewModel>());
+                // Failed to get people from the API
+                throw new PassleException(typeof(PassleAuthor), PassleExceptionEnum.NULL_FROM_API);
             }
 
             var umbracoAuthors = _umbracoContentService.GetAllContent();

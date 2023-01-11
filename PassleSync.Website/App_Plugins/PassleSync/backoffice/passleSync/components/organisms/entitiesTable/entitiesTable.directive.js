@@ -36,6 +36,11 @@
                 this.isLoading = true;
 
                 getExisting().then((response) => {
+                    if ('ErrorMsg' in response) {
+                        handleError(response['ErrorMsg']);
+                        return;
+                    }
+
                     this.entities = response[this.entityReponseParam].map((entity) => getRowData(entity));
                     this.syncedCount = this.entities.filter((entity) => entity.synced).length;
                     this.unsyncedCount = this.entities.length - this.syncedCount;
@@ -46,17 +51,18 @@
                     updateItemsOnShow();
 
                     this.isLoading = false;
-                }, (error) => {
-                    console.error(error);
-                    notificationsService.error("Error", error);
-                    this.isLoading = false;
-                });
+                }, (error) => handleError(error));
             }
 
             this.update = () => {
                 this.isUpdating = true;
 
                 updateAll().then((response) => {
+                    if ('ErrorMsg' in response) {
+                        handleError(response['ErrorMsg']);
+                        return;
+                    }
+
                     this.entities = response[this.entityReponseParam].map((entity) => getRowData(entity));
 
                     this.syncedCount = this.entities.filter((entity) => entity.synced).length;
@@ -70,12 +76,7 @@
                     this.isUpdating = false;
 
                     syncTree();
-                }, (error) => {
-                    console.error(error);
-                    notificationsService.error("Error", error);
-
-                    this.isUpdating = false;
-                });
+                }, (error) => handleError(error));
             }
 
             this.sync = () => {
@@ -95,6 +96,11 @@
                 }
 
                 syncProm.then((response) => {
+                    if ('ErrorMsg' in response) {
+                        handleError(response['ErrorMsg']);
+                        return;
+                    }
+
                     this.entities.forEach((entity, ii) => {
                         let matchingEntities = response[this.entityReponseParam].filter(x => x.Shortcode === entity.shortcode);
                         if (matchingEntities.length > 0) {
@@ -115,12 +121,7 @@
                     notificationsService.success("Success", $scope.entityInfo.namePlural + " have been synced");
 
                     syncTree();
-                }, (error) => {
-                    console.error(error);
-                    notificationsService.error("Error", error);
-
-                    this.isUpdating = false;
-                });
+                }, (error) => handleError(error));
             }
 
             this.delete = () => {
@@ -139,6 +140,11 @@
                 }
 
                 deleteProm.then((response) => {
+                    if ('ErrorMsg' in response) {
+                        handleError(response['ErrorMsg']);
+                        return;
+                    }
+
                     this.entities.forEach((entity, ii) => {
                         let matchingEntities = response[this.entityReponseParam].filter(x => x.Shortcode === entity.shortcode);
                         if (matchingEntities.length > 0) {
@@ -158,12 +164,14 @@
                     notificationsService.success("Success", $scope.entityInfo.namePlural + " have been deleted");
 
                     syncTree();
-                }, (error) => {
-                    console.error(error);
-                    notificationsService.error("Error", error);
+                }, (error) => handleError(error));
+            }
 
-                    this.isUpdating = false;
-                });
+            const handleError = (error) => {
+                console.error(error);
+                notificationsService.error("Error", error);
+                this.isUpdating = false;
+                this.isLoading = false;
             }
 
             this.allowSelectAll = true;

@@ -9,6 +9,7 @@ using PassleSync.Core.Models.Content.PassleApi;
 using System;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using System.Collections.Generic;
+using PassleSync.Core.SyncHandlers;
 
 namespace PassleSync.Core.Controllers.PassleDashboard
 {
@@ -25,13 +26,27 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         [HttpGet]
         public IPassleDashboardViewModel RefreshAll()
         {
-            return _authorHandler.GetAll();
+            try
+            {
+                return _authorHandler.GetAll();
+            }
+            catch (Exception ex)
+            {
+                return new PassleDashboardErrorViewModel(ex);
+            }
         }
 
         [HttpGet]
         public IPassleDashboardViewModel GetExisting()
         {
-            return _authorHandler.GetExisting();
+            try
+            {
+                return _authorHandler.GetExisting();
+            }
+            catch (Exception ex)
+            {
+                return new PassleDashboardErrorViewModel(ex);
+            }
         }
 
         [HttpPost]
