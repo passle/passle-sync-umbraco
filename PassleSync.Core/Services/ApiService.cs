@@ -1,4 +1,5 @@
-﻿using PassleSync.Core.Models.Content.PassleApi;
+﻿using PassleSync.Core.Exceptions;
+using PassleSync.Core.Models.Content.PassleApi;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -24,6 +25,11 @@ namespace PassleSync.Core.Services.API
             while (nextUrl != null)
             {
                 var response = GetAsync<T>(nextUrl);
+                if (response == null)
+                {
+                    break;
+                }
+
                 result.Add(response);
 
                 var moreDataAvailable = response.TotalCount > (response.PageSize * response.PageNumber);
@@ -48,7 +54,16 @@ namespace PassleSync.Core.Services.API
             client.DefaultRequestHeaders.Add("X-PassleSimulateRemoteHosting", "true");
 
             var response = client.GetAsync(url).Result;
-            var result = response.Content.ReadAsAsync<T>().Result;
+
+            T result;
+            try
+            {
+                result = response.Content.ReadAsAsync<T>().Result;
+            }
+            catch (UnsupportedMediaTypeException)
+            {
+                throw new PassleException(typeof(T), PassleExceptionEnum.UNSUPPORTED_MEDIA_TYPE);
+            }
 
             return result;
         }

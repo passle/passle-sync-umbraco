@@ -700,6 +700,8 @@
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
     <Compile Include="Controllers\Webhooks\WebhookController.cs" />
     <Compile Include="Controllers\Webhooks\HealthCheckController.cs" />
+    <Compile Include="Exceptions\PassleExceptionEnum.cs" />
+    <Compile Include="Exceptions\PassleException.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
@@ -759,6 +761,7 @@
     <Compile Include="ViewModels\PassleAuthorViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardAuthorsViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardAuthorViewModel.cs" />
+    <Compile Include="ViewModels\PassleDashboard\PassleDashboardErrorViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardTagViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardTagsViewModel.cs" />
     <Compile Include="ViewModels\PassleDashboard\PassleDashboardPostsViewModel.cs" />

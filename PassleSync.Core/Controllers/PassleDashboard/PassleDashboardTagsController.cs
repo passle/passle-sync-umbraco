@@ -12,6 +12,7 @@ using Umbraco.Web;
 using System;
 using Umbraco.Core.Models.PublishedContent;
 using PassleSync.Core.Constants;
+using System.Net.Http;
 
 namespace PassleSync.Core.Controllers.PassleDashboard
 {
@@ -41,33 +42,40 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         [HttpGet]
         public IPassleDashboardViewModel GetAll()
         {
-            var umbracoTags = _tagService.GetAllContentTags().Select(x => x.Text);
+            try
+            {
+                var umbracoTags = _tagService.GetAllContentTags().Select(x => x.Text);
 
-            Func<string, int> umbracoNonPassleContentCount = x => _publishedContentQuery.Content(_tagService.GetTaggedContentByTag(x).Select(y => y.EntityId))
-                .Count(y => y.ContentType.Alias != PassleContentType.PASSLE_POST);
+                Func<string, int> umbracoNonPassleContentCount = x => _publishedContentQuery.Content(_tagService.GetTaggedContentByTag(x).Select(y => y.EntityId))
+                    .Count(y => y.ContentType.Alias != PassleContentType.PASSLE_POST);
 
-            var passleTags = _passleTagsContentService.GetAll();
-            var passlePosts = _passlePostsContentService.GetAll();
+                var passleTags = _passleTagsContentService.GetAll();
+                var passlePosts = _passlePostsContentService.GetAll();
 
-            var syncedPasslePosts = _umbracoPostsContentService.GetPublishedContent();
-            var syncedPasslePostTags = syncedPasslePosts.Select(x => x.Value<IEnumerable<string>>("tags"));
-            var syncedPasslePostShortcodes = syncedPasslePosts.Select(x => x.Value<string>("postShortcode"));
-            var unsyncedPasslePosts = passlePosts.Where(x => !syncedPasslePostShortcodes.Contains(x.PostShortcode));
+                var syncedPasslePosts = _umbracoPostsContentService.GetPublishedContent();
+                var syncedPasslePostTags = syncedPasslePosts.Select(x => x.Value<IEnumerable<string>>("tags"));
+                var syncedPasslePostShortcodes = syncedPasslePosts.Select(x => x.Value<string>("postShortcode"));
+                var unsyncedPasslePosts = passlePosts.Where(x => !syncedPasslePostShortcodes.Contains(x.PostShortcode));
 
-            var allTags = umbracoTags.Union(passleTags)
-                .Select(
-                    x => new PassleDashboardTagViewModel()
-                    {
-                        Title = x,
-                        NonPasslePostCount = umbracoNonPassleContentCount(x),
-                        SyncedPasslePostCount = syncedPasslePostTags.Count(y => y.Contains(x)),
-                        UnsyncedPasslePostCount = unsyncedPasslePosts.Count(y => y.Tags.Contains(x))
-                    }
-                );
+                var allTags = umbracoTags.Union(passleTags)
+                    .Select(
+                        x => new PassleDashboardTagViewModel()
+                        {
+                            Title = x,
+                            NonPasslePostCount = umbracoNonPassleContentCount(x),
+                            SyncedPasslePostCount = syncedPasslePostTags.Count(y => y.Contains(x)),
+                            UnsyncedPasslePostCount = unsyncedPasslePosts.Count(y => y.Tags.Contains(x))
+                        }
+                    );
 
-            var viewModel = new PassleDashboardTagsViewModel(allTags);
+                var viewModel = new PassleDashboardTagsViewModel(allTags);
 
-            return viewModel;
+                return viewModel;
+            }
+            catch (Exception ex)
+            {
+                return new PassleDashboardErrorViewModel(ex);
+            }
         }
     }
 }

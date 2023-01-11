@@ -32,13 +32,27 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         [HttpGet]
         public IPassleDashboardViewModel RefreshAll()
         {
-            return _postHandler.GetAll();
+            try
+            {
+                return _postHandler.GetAll();
+            }
+            catch (Exception ex)
+            {
+                return new PassleDashboardErrorViewModel(ex);
+            }
         }
 
         [HttpGet]
         public IPassleDashboardViewModel GetExisting()
         {
-            return _postHandler.GetExisting();
+            try
+            {
+                return _postHandler.GetExisting();
+            }
+            catch (Exception ex)
+            {
+                return new PassleDashboardErrorViewModel(ex);
+            }
         }
 
         [HttpPost]

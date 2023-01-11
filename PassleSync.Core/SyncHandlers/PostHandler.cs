@@ -9,6 +9,9 @@ using Umbraco.Core.Logging;
 using PassleSync.Core.Services.Content;
 using PassleSync.Core.Extensions;
 using Umbraco.Core.Models.PublishedContent;
+using System.Collections.Generic;
+using System.Net.Http;
+using PassleSync.Core.Exceptions;
 
 namespace PassleSync.Core.SyncHandlers
 {
@@ -32,11 +35,24 @@ namespace PassleSync.Core.SyncHandlers
 
         public override IPassleDashboardViewModel GetAll()
         {
-            var postsFromApi = _passleContentService.GetAll();
+            IEnumerable<PasslePost> postsFromApi;
+            try
+            {
+                postsFromApi = _passleContentService.GetAll();
+            }
+            catch (PassleException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw new PassleException(typeof(PasslePost), PassleExceptionEnum.UNKNOWN);
+            }
+
             if (postsFromApi == null)
             {
                 // Failed to get posts from the API
-                return new PassleDashboardPostsViewModel(Enumerable.Empty<PassleDashboardPostViewModel>());
+                throw new PassleException(typeof(PasslePost), PassleExceptionEnum.NULL_FROM_API);
             }
 
             var umbracoPosts = _umbracoContentService.GetAllContent();
