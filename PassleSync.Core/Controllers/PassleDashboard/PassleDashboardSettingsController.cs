@@ -40,6 +40,10 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                 PostsParentNodeId = _configService.PostsParentNodeId,
                 AuthorsParentNodeId = _configService.AuthorsParentNodeId,
                 DomainExt = _configService.PassleDomain,
+                SimulateRemoteHosting = _configService.SimulateRemoteHosting,
+                UseHttps = _configService.UseHttps,
+                CustomDomain = _configService.CustomDomain,
+                PasslePermalinkPrefix = _configService.PasslePermalinkPrefix,
             };
         }
 
@@ -67,7 +71,11 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                     PostPermalinkPrefix = settings.PostPermalinkPrefix,
                     AuthorPermalinkPrefix = settings.AuthorPermalinkPrefix,
                     PostsParentNodeId = settings.PostsParentNodeId,
-                    AuthorsParentNodeId = settings.AuthorsParentNodeId
+                    AuthorsParentNodeId = settings.AuthorsParentNodeId,
+                    SimulateRemoteHosting = settings.SimulateRemoteHosting,
+                    UseHttps = settings.UseHttps,
+                    CustomDomain = settings.CustomDomain,
+                    PasslePermalinkPrefix = settings.PasslePermalinkPrefix,
                 }
             );
 

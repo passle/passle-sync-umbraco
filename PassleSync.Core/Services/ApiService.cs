@@ -45,7 +45,29 @@ namespace PassleSync.Core.Services.API
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("apiKey", _configService.ClientApiKey);
-            client.DefaultRequestHeaders.Add("X-PassleSimulateRemoteHosting", "true");
+            client.DefaultRequestHeaders.Add("X-PassleSimulateRemoteHosting", _configService.SimulateRemoteHosting.ToString());
+
+            if (_configService.SimulateRemoteHosting)
+            {
+                client.DefaultRequestHeaders.Add("X-PassleRemoteHostingUseHttps", _configService.UseHttps.ToString());
+
+                if (!string.IsNullOrEmpty(_configService.CustomDomain))
+                {
+                    client.DefaultRequestHeaders.Add("X-PassleRemoteHostingCustomDomain", _configService.CustomDomain);
+                }
+                if (!string.IsNullOrEmpty(_configService.PasslePermalinkPrefix))
+                {
+                    client.DefaultRequestHeaders.Add("X-PassleRemoteHostingPasslePath", _configService.PasslePermalinkPrefix);
+                }
+                if (!string.IsNullOrEmpty(_configService.PostPermalinkPrefix))
+                {
+                    client.DefaultRequestHeaders.Add("X-PassleRemoteHostingPostPath", _configService.PostPermalinkPrefix);
+                }
+                if (!string.IsNullOrEmpty(_configService.AuthorPermalinkPrefix))
+                {
+                    client.DefaultRequestHeaders.Add("X-PassleRemoteHostingProfilePath", _configService.AuthorPermalinkPrefix);
+                }
+            }
 
             var response = client.GetAsync(url).Result;
             var result = response.Content.ReadAsAsync<T>().Result;
