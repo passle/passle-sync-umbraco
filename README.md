@@ -106,7 +106,7 @@ var authorAvatar = postAuthor.GetAvatarUrl();
 To develop this plugin, first clone the repository:
 
 ```
-git clone https://github.com/passle/passle-sync-umbraco-v2
+git clone https://github.com/passle/passle-sync-umbraco
 ```
 
 Next, install all dependencies and build the frontend with the following commands:
