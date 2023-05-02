@@ -1,55 +1,112 @@
 ﻿.page-numbers {
-  @apply mr-4 text-primary;
+    @apply mr-4 text-primary;
 
-  &.current {
-    @apply font-extrabold;
-  }
+    &.current {
+        @apply font-extrabold;
+    }
 }
 
 .post-content {
-  p {
-    @apply mb-4;
-  }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-bold mb-4;
+    }
 
-  a {
-    @apply text-primary;
-  }
+    h1 {
+        @apply text-2xl;
+    }
 
-  blockquote {
-    @apply border-l-4 border-gray-200 pl-4 mb-4;
-  }
+    h2 {
+        @apply text-xl;
+    }
+
+    h3 {
+        @apply text-lg;
+    }
+
+    h4 {
+        @apply text-base;
+    }
+
+    h5 {
+        @apply text-sm;
+    }
+
+    h6 {
+        @apply text-xs;
+    }
+
+    p {
+        @apply mb-4;
+    }
+
+    a {
+        @apply text-primary;
+    }
+
+    blockquote {
+        @apply border-l-4 border-gray-200 pl-4 mb-4;
+    }
+
+    li {
+        @apply list-inside list-disc;
+    }
+
+    .fr-accordion {
+        @apply flex flex-col gap-4 mb-4;
+
+        details {
+            @apply border-t-4 border-solid border-gray-400 bg-gray-100 box-border;
+
+            &[open] {
+                @apply border-t-4 border-solid border-primary;
+            }
+
+            > summary {
+                @apply cursor-pointer p-4 font-bold outline-none bg-gray-200;
+            }
+
+            > :not(summary) {
+                @apply m-4;
+            }
+        }
+    }
 }
 
 .section {
-  @apply bg-white p-8 border-t-4 border-primary flex flex-col gap-6 relative w-full;
+    @apply bg-white p-8 border-t-4 border-primary flex flex-col gap-6 relative w-full;
 
-  &__heading {
-    @apply font-bodoni font-bold uppercase tracking-widest;
-  }
+    &__heading {
+        @apply font-bodoni font-bold uppercase tracking-widest;
+    }
 
-  &__decoration {
-    @apply absolute top-full -rotate-90 font-bodoni uppercase text-right origin-bottom-left left-2 -translate-y-20 leading-none text-7xl text-gray-300 select-none whitespace-nowrap;
-  }
+    &__decoration {
+        @apply absolute top-full -rotate-90 font-bodoni uppercase text-right origin-bottom-left left-2 -translate-y-20 leading-none text-7xl text-gray-300 select-none whitespace-nowrap;
+    }
 
-  &__button {
-    @apply border border-primary text-primary font-bodoni py-2 px-6 hover:bg-primary hover:text-white transition-colors;
-  }
+    &__button {
+        @apply border border-primary text-primary font-bodoni py-2 px-6 hover:bg-primary hover:text-white transition-colors;
+    }
 }
 
 ::selection {
-  @apply bg-primary-light text-white;
+    @apply bg-primary-light text-white;
 }
 
 .featured-item--audio,
 .featured-item--video {
-  height: 100%;
-
-  .psl-media-player-iframe-container {
     height: 100%;
-  }
 
-  #psl-media-player-iframe {
-    height: 100%;
-    width: 100%;
-  }
+    .psl-media-player-iframe-container {
+        height: 100%;
+    }
+
+    #psl-media-player-iframe {
+        height: 100%;
+        width: 100%;
+    }
 }
