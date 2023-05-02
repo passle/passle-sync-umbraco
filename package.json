@@ -1,8 +1,13 @@
 {
   "name": "passle-sync-umbraco",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Passle integration with Umbraco CMS",
   "scripts": {
+    "bump:patch": "npm --no-git-tag-version version patch",
+    "bump:minor": "npm --no-git-tag-version version minor",
+    "bump:major": "npm --no-git-tag-version version major",
+    "package:full": "gulp packageAndZip",
+    "package": "gulp package",
     "build": "tailwindcss --postcss -i PassleSync.Website\\Css\\app.css -o PassleSync.Website\\Assets\\css\\index.css"
   },
   "keywords": [],
@@ -12,8 +17,8 @@
     "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/line-clamp": "^0.4.1",
     "gulp": "^4.0.2",
-    "gulp-clean-dest": "^0.2.0",
-    "gulp-watch": "^5.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-replace": "^1.1.4",
     "postcss": "^8.4.16",
     "postcss-import": "^15.0.0",
     "postcss-nested": "^5.0.6",

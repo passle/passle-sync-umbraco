@@ -3,15 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Services;
+using System.Configuration;
 
 namespace PassleSync.Core.Services
 {
     public class ConfigService
     {
         private IKeyValueService _keyValueService;
+        private string _domain;
 
         public ConfigService(IKeyValueService keyValueService)
         {
+            _domain = ConfigurationManager.AppSettings.Get("PASSLESYNC_DOMAIN") ?? "net";
             _keyValueService = keyValueService;
         }
 
@@ -26,7 +29,7 @@ namespace PassleSync.Core.Services
 
         public string PassleDomain
         {
-            get => "localhost";
+            get => _domain;
         }
 
         public string ApiUrl
