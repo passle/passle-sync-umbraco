@@ -4,6 +4,8 @@ using PassleSync.Core.Services;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using System.Web.Http;
 using Umbraco.Core.Logging;
+using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Core.Services;
 using Umbraco.Web.Editors;
 using Umbraco.Web.Mvc;
 
@@ -13,13 +15,16 @@ namespace PassleSync.Core.Controllers.PassleDashboard
     public class PassleDashboardSettingsController : UmbracoAuthorizedJsonController
     {
         private readonly ConfigService _configService;
+        private readonly IContentService _contentService;
         protected readonly ILogger _logger;
 
         public PassleDashboardSettingsController(
+            IContentService contentService,
             ConfigService configService,
             ILogger logger)
         {
             _configService = configService;
+            _contentService = contentService;
             _logger = logger;
         }
 
@@ -41,6 +46,18 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         [HttpPost]
         public IHttpActionResult Save([FromBody] SettingsModel settings)
         {
+            var postParentNode = _contentService.GetById(settings.PostsParentNodeId);
+            if (postParentNode == null)
+            {
+                return BadRequest("Post Parent Node doesn't exist");
+            }
+
+            var authorsParentNode = _contentService.GetById(settings.AuthorsParentNodeId);
+            if (authorsParentNode == null)
+            {
+                return BadRequest("Author Parent Node doesn't exist");
+            }
+
             _configService.Update(
                 new SettingsData()
                 {
