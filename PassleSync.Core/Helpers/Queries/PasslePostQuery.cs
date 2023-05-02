@@ -53,5 +53,14 @@ namespace PassleSync.Core.Helpers.Queries
             _query = _query.And().Field("tags", tag);
             return this;
         }
+
+        /// <summary>
+        /// Filter to posts that from a particular Passle.
+        /// </summary>
+        public PasslePostQuery ByPassle(string shortcode)
+        {
+            _query = _query.And().Field("passleShortcode", shortcode);
+            return this;
+        }
     }
 }
