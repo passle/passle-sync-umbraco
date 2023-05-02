@@ -655,6 +655,86 @@
       <HintPath>..\packages\UmbracoCms.Web.8.6.1\lib\net472\Umbraco.Web.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
+<ItemGroup>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\entitiesTable\entitiesTable.html" />
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\entitiesTable\entitiesTable.directive.js" />
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.controller.js" />
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.directive.js" />
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\healthCheck\healthCheck.html" />
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.controller.js" />
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.directive.js" />
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\tagsTable\tagsTable.html" />
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\authorsTable\authorsTable.controller.js">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\authorsTable\authorsTable.directive.js">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\authorsTable\authorsTable.html">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\postsTable\postsTable.controller.js">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\postsTable\postsTable.directive.js">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\postsTable\postsTable.html">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\syncSettings\syncSettings.controller.js">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\syncSettings\syncSettings.directive.js">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\components\organisms\syncSettings\syncSettings.html">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\lang\en-US.xml">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\lib\penpal.min.js" />
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\package.manifest">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\dashboard.controller.js">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\dashboard.css">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\dashboard.html">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\services\passleTags.resource.js" />
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\services\passleAuthors.resource.js">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\services\passlePosts.resource.js">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+	<Content Include="App_Plugins\PassleSync\backoffice\passleSync\services\passleSettings.resource.js">
+		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	</Content>
+</ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\UpdateFeaturedPostActionModel.cs" />
     <Compile Include="Actions\UpdateFeaturedPostAction.cs" />
