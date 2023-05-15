@@ -21,7 +21,7 @@ namespace PassleSync.Core.Components
         private readonly IUmbracoContextFactory _umbracoContextFactory;
 
         const int START_DELAY = 10 * 1000;
-        const int REPEAT_DELAY = 30 * 1000;
+        const int REPEAT_INTERVAL = 30 * 1000;
 
         public TaskRunnerComponent(IProfilingLogger logger, IUmbracoContextFactory umbracoContextFactory)
         {
@@ -42,7 +42,7 @@ namespace PassleSync.Core.Components
             var _backgroundSyncService = Current.Factory.GetInstance<BackgroundSyncServiceBase<T>>();
             var _syncHandler = Current.Factory.GetInstance<ISyncHandler<T>>();
 
-            var task = new CheckForItemsToSync<T>(runner, START_DELAY, REPEAT_DELAY, _logger, _umbracoContextFactory, _backgroundSyncService, _syncHandler);
+            var task = new CheckForItemsToSync<T>(runner, START_DELAY, REPEAT_INTERVAL, _logger, _umbracoContextFactory, _backgroundSyncService, _syncHandler);
 
             //declare the events
             runner.TaskCompleted += Task_Completed<T>;
@@ -98,13 +98,13 @@ namespace PassleSync.Core.Components
 
         public CheckForItemsToSync(
             IBackgroundTaskRunner<RecurringTaskBase> runner,
-            int delayBeforeWeStart,
-            int howOftenWeRepeat,
+            int startDelay,
+            int repeatInterval,
             IProfilingLogger logger,
             IUmbracoContextFactory umbracoContextFactory,
             BackgroundSyncServiceBase<T> backgroundSyncService,
             ISyncHandler<T> syncHandler
-        ) : base(runner, delayBeforeWeStart, howOftenWeRepeat)
+        ) : base(runner, startDelay, repeatInterval)
         {
             _logger = logger;
             _backgroundSyncService = backgroundSyncService;

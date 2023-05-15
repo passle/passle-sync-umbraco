@@ -45,30 +45,30 @@
                 // As the Sync/Delete flows are so similar, create a base method...
                 this.isUpdating = true;
 
-                let prom;
+                let promise;
                 let shortcodes = [];
-                let manyAtOnce = false;
+                let updateMultiple = false;
 
                 if (this.selectedCount == 0) {
                     shortcodes = this.entities.filter((entity) => entity.synced !== 'pending').map((entity) => entity.shortcode);
-                    prom = allAct();
-                    manyAtOnce = true;
+                    promise = allAct();
+                    updateMultiple = true;
                 } else if (this.selectedCount == 1) {
                     shortcodes = this.entities.filter((entity) => entity.selected && entity.synced !== 'pending').map((entity) => entity.shortcode);
-                    prom = singleAct(shortcodes);
+                    promise = singleAct(shortcodes);
                 } else {
                     shortcodes = this.entities.filter((entity) => entity.selected && entity.synced !== 'pending').map((entity) => entity.shortcode);
-                    prom = manyAct(shortcodes);
-                    manyAtOnce = true;
+                    promise = manyAct(shortcodes);
+                    updateMultiple = true;
                 }
 
-                prom.then(() => {
-                    updateEntityStatuses(shortcodes, manyAtOnce, defaultStatus);
+                promise.then(() => {
+                    updateEntityStatuses(shortcodes, updateMultiple, defaultStatus);
 
                     updateView();
                     this.isUpdating = false;
 
-                    if (manyAtOnce) {
+                    if (updateMultiple) {
                         notificationsService.success("Success", $scope.entityInfo.namePlural + " have been queued to " + verb);
                     } else {
                         notificationsService.success("Success", $scope.entityInfo.namePlural + " have been " + verbPast);
@@ -178,11 +178,11 @@
                 syncTree();
             }
 
-            const updateEntityStatuses = (shortcodes, manyAtOnce, defaultVal) => {
+            const updateEntityStatuses = (shortcodes, updateMultiple, defaultVal) => {
                 // Update the selected items to show the correct synced status
                 // If many were selected at once, show as 'pending' while the Background runner does its thing
                 this.entities.filter(x => shortcodes.includes(x.shortcode))
-                    .forEach(x => x.synced = manyAtOnce ? 'pending' : defaultVal);
+                    .forEach(x => x.synced = updateMultiple ? 'pending' : defaultVal);
             }
 
             this.allowSelectAll = true;
