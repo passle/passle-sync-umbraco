@@ -38,19 +38,19 @@ namespace PassleSync.Core.SyncHandlers
             {
                 peopleFromApi = _passleContentService.GetAll();
             }
-            catch (PassleException)
+            catch (PassleExceptionBase)
             {
                 throw;
             }
             catch (Exception)
             {
-                throw new PassleException(typeof(PassleAuthor), PassleExceptionEnum.UNKNOWN);
+                throw new PassleUnknownException(typeof(PassleAuthor));
             }
 
             if (peopleFromApi == null)
             {
                 // Failed to get people from the API
-                throw new PassleException(typeof(PassleAuthor), PassleExceptionEnum.NULL_FROM_API);
+                throw new PassleUnknownException(typeof(PassleAuthor));
             }
 
             var umbracoAuthors = _umbracoContentService.GetAllContent();

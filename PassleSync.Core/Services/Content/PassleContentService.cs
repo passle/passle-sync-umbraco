@@ -92,16 +92,16 @@ namespace PassleSync.Core.Services.Content
 
                 if (items.Contains(default))
                 {
-                    throw new PassleException(typeof(TSingular), PassleExceptionEnum.DEFAULT_FROM_API);
+                    throw new PassleAPIDefaultException(typeof(TSingular));
                 }
             } 
-            catch (PassleException)
+            catch (PassleExceptionBase)
             {
                 throw;
             }
             catch (Exception)
             {
-                throw new PassleException(typeof(TSingular), PassleExceptionEnum.NULL_FROM_API);
+                throw new PassleAPINullException(typeof(TSingular));
             }
 
             return items;

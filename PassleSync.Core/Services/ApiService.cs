@@ -62,7 +62,7 @@ namespace PassleSync.Core.Services.API
             }
             catch (UnsupportedMediaTypeException)
             {
-                throw new PassleException(typeof(T), PassleExceptionEnum.UNSUPPORTED_MEDIA_TYPE);
+                throw new PassleUnsupportedMediaTypeException(typeof(T));
             }
 
             return result;

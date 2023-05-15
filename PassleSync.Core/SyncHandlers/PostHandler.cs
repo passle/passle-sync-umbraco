@@ -40,19 +40,19 @@ namespace PassleSync.Core.SyncHandlers
             {
                 postsFromApi = _passleContentService.GetAll();
             }
-            catch (PassleException)
+            catch (PassleExceptionBase)
             {
                 throw;
             }
             catch (Exception)
             {
-                throw new PassleException(typeof(PasslePost), PassleExceptionEnum.UNKNOWN);
+                throw new PassleUnknownException(typeof(PasslePost));
             }
 
             if (postsFromApi == null)
             {
                 // Failed to get posts from the API
-                throw new PassleException(typeof(PasslePost), PassleExceptionEnum.NULL_FROM_API);
+                throw new PassleAPINullException(typeof(PasslePost));
             }
 
             var umbracoPosts = _umbracoContentService.GetAllContent();

@@ -700,8 +700,12 @@
     <Compile Include="Controllers\RequestModels\ShortcodesModel.cs" />
     <Compile Include="Controllers\Webhooks\WebhookController.cs" />
     <Compile Include="Controllers\Webhooks\HealthCheckController.cs" />
-    <Compile Include="Exceptions\PassleExceptionEnum.cs" />
-    <Compile Include="Exceptions\PassleException.cs" />
+    <Compile Include="Exceptions\PassleAPIDefaultException.cs" />
+    <Compile Include="Exceptions\PassleAPINullException.cs" />
+    <Compile Include="Exceptions\PassleExceptionBase.cs" />
+    <Compile Include="Exceptions\PassleExceptionCode.cs" />
+    <Compile Include="Exceptions\PassleUnknownException.cs" />
+    <Compile Include="Exceptions\PassleUnsupportedMediaTypeException.cs" />
     <Compile Include="Extensions\ContentExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\NameValueCollectionExtensions.cs" />

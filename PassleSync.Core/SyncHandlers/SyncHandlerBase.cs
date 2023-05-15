@@ -49,18 +49,18 @@ namespace PassleSync.Core.SyncHandlers
             {
                 apiItems = _passleContentService.GetAll();
             }
-            catch (PassleException)
+            catch (PassleExceptionBase)
             {
                 throw;
             }
             catch (Exception)
             {
-                throw new PassleException(typeof(TSingular), PassleExceptionEnum.UNKNOWN);
+                throw new PassleUnknownException(typeof(TSingular));
             }
 
             if (apiItems == null)
             {
-                throw new PassleException(typeof(TSingular), PassleExceptionEnum.NULL_FROM_API);
+                throw new PassleAPINullException(typeof(TSingular));
             }
 
             DeleteAll();
@@ -74,18 +74,18 @@ namespace PassleSync.Core.SyncHandlers
             {
                 apiItems = _passleContentService.GetMany(shortcodes);
             }
-            catch (PassleException)
+            catch (PassleExceptionBase)
             {
                 throw;
             }
             catch (Exception)
             {
-                throw new PassleException(typeof(TSingular), PassleExceptionEnum.UNKNOWN);
+                throw new PassleUnknownException(typeof(TSingular));
             }
 
             if (apiItems == null)
             {
-                throw new PassleException(typeof(TSingular), PassleExceptionEnum.NULL_FROM_API);
+                throw new PassleAPINullException(typeof(TSingular));
             }
 
             var results = new List<SyncTaskResult>();
@@ -103,18 +103,18 @@ namespace PassleSync.Core.SyncHandlers
             {
                 apiItem = _passleContentService.GetOne(shortcode);
             }
-            catch (PassleException)
+            catch (PassleExceptionBase)
             {
                 throw;
             }
             catch (Exception)
             {
-                throw new PassleException(typeof(TSingular), PassleExceptionEnum.UNKNOWN);
+                throw new PassleUnknownException(typeof(TSingular));
             }
 
             if (apiItem == null)
             {
-                throw new PassleException(typeof(TSingular), PassleExceptionEnum.NULL_FROM_API);
+                throw new PassleAPINullException(typeof(TSingular));
             }
 
             return UpdateOrCreateOne(apiItem);
