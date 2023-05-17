@@ -5,11 +5,8 @@ using PassleSync.Core.Controllers.ResponseModels;
 using PassleSync.Core.Models.Content.PassleApi;
 using PassleSync.Core.Services.API;
 using PassleSync.Core.Services.Content;
-using PassleSync.Core.SyncHandlers;
 using PassleSync.Core.ViewModels.PassleDashboard;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using Umbraco.Web.Editors;
@@ -97,10 +94,8 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                 {
                     return Ok();
                 }
-                else
-                {
-                    return BadRequest();
-                }
+
+                return BadRequest();
             }
             catch (Exception ex)
             {
@@ -151,10 +146,8 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                 {
                     return Ok();
                 }
-                else
-                {
-                    return BadRequest();
-                }
+
+                return BadRequest();
             }
             catch (Exception ex)
             {

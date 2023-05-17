@@ -95,10 +95,8 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                 {
                     return Ok();
                 }
-                else
-                {
-                    return BadRequest();
-                }
+
+                return BadRequest();
             }
             catch (Exception ex)
             {
@@ -149,10 +147,8 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                 {
                     return Ok();
                 }
-                else
-                {
-                    return BadRequest();
-                }
+
+                return BadRequest();
             }
             catch (Exception ex)
             {
