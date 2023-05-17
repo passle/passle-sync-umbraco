@@ -686,6 +686,7 @@
     <Compile Include="ContentFinders\BaseContentFinder.cs" />
     <Compile Include="ContentFinders\PassleAuthorContentFinder.cs" />
     <Compile Include="ContentFinders\PasslePostContentFinder.cs" />
+    <Compile Include="Controllers\PassleDashboard\PassleDashboardBaseSyncController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardTagsController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardAuthorsController.cs" />
     <Compile Include="Controllers\PassleDashboard\PassleDashboardPostsController.cs" />
