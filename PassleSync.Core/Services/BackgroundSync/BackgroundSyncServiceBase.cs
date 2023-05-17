@@ -5,8 +5,8 @@ namespace PassleSync.Core.Services.API
 {
     public class BackgroundSyncServiceBase<T> where T : class
     {
-        IEnumerable<string> _itemsToSync = new List<string>();
-        IEnumerable<string> _itemsToDelete = new List<string>();
+        private IEnumerable<string> _itemsToSync = new List<string>();
+        private IEnumerable<string> _itemsToDelete = new List<string>();
 
         public void AddItemsToSync(IEnumerable<string> itemsToAdd)
         {
