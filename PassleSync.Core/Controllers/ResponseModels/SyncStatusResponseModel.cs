@@ -1,14 +1,13 @@
-﻿using PassleSync.Core.Constants;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PassleSync.Core.Controllers.ResponseModels
 {
     public class SyncStatusResponseModel
     {
-        public List<string> ToSync;
-        public List<string> ToDelete;
+        public IEnumerable<string> ToSync;
+        public IEnumerable<string> ToDelete;
 
-        public SyncStatusResponseModel(List<string> toSync, List<string> toDelete)
+        public SyncStatusResponseModel(IEnumerable<string> toSync, IEnumerable<string> toDelete)
         {
             ToSync = toSync;
             ToDelete = toDelete;
