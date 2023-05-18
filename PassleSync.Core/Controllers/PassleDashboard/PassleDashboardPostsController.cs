@@ -9,12 +9,19 @@ namespace PassleSync.Core.Controllers.PassleDashboard
     [PluginController("passleSync")]
     public class PassleDashboardPostsController : PassleDashboardBaseSyncController<PasslePost>
     {
+        protected override ISyncHandler<PasslePost> SyncHandler { get; set; }
+        protected override UmbracoContentService<PasslePost> UmbracoContentService { get; set; }
+        protected override BackgroundSyncServiceBase<PasslePost> BackgroundSyncService { get; set; }
+
         public PassleDashboardPostsController(
             ISyncHandler<PasslePost> postHandler,
             UmbracoContentService<PasslePost> umbracoContentService,
             BackgroundSyncServiceBase<PasslePost> backgroundSyncService
         )
-            :base(postHandler, umbracoContentService, backgroundSyncService)
-        { }
+        {
+            SyncHandler = postHandler;
+            UmbracoContentService = umbracoContentService;
+            BackgroundSyncService = backgroundSyncService;
+        }
     }
 }

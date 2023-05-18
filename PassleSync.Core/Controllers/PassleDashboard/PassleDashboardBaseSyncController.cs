@@ -20,40 +20,29 @@ using Umbraco.Web.Mvc;
 namespace PassleSync.Core.Controllers.PassleDashboard
 {
     [PluginController("passleSync")]
-    public class PassleDashboardBaseSyncController<T> : UmbracoAuthorizedJsonController where T: class 
+    public abstract class PassleDashboardBaseSyncController<T>: UmbracoAuthorizedJsonController where T : class
     {
-        protected readonly ISyncHandler<T> _syncHandler;
-        protected readonly UmbracoContentService<T> _umbracoContentService;
-        protected readonly BackgroundSyncServiceBase<T> _backgroundSyncService;
-
-        public PassleDashboardBaseSyncController(
-            ISyncHandler<T> syncHandler,
-            UmbracoContentService<T> umbracoContentService,
-            BackgroundSyncServiceBase<T> backgroundSyncService
-        )
-        {
-            _syncHandler = syncHandler;
-            _umbracoContentService = umbracoContentService;
-            _backgroundSyncService = backgroundSyncService;
-        }
+        protected abstract ISyncHandler<T> SyncHandler { get; set; }
+        protected abstract UmbracoContentService<T> UmbracoContentService { get; set; }
+        protected abstract BackgroundSyncServiceBase<T> BackgroundSyncService { get; set; }
 
         [HttpGet]
         public IPassleDashboardViewModel RefreshAll()
         {
-            return _syncHandler.GetAll();
+            return SyncHandler.GetAll();
         }
 
         [HttpGet]
         public IPassleDashboardViewModel GetExisting()
         {
-            return _syncHandler.GetExisting();
+            return SyncHandler.GetExisting();
         }
 
         [HttpGet]
         public SyncStatusResponseModel GetPending()
         {
-            var toSync = _backgroundSyncService.GetItemsToSync().ToList();
-            var toDelete = _backgroundSyncService.GetItemsToDelete().ToList();
+            var toSync = BackgroundSyncService.GetItemsToSync().ToList();
+            var toDelete = BackgroundSyncService.GetItemsToDelete().ToList();
             return new SyncStatusResponseModel(toSync, toDelete);
         }
 
@@ -62,7 +51,7 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         {
             try
             {
-                var syncResult = _syncHandler.SyncOne(model.Shortcodes.FirstOrDefault());
+                var syncResult = SyncHandler.SyncOne(model.Shortcodes.FirstOrDefault());
 
                 if (syncResult.Success)
                 {
@@ -82,7 +71,7 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         {
             try
             {
-                _backgroundSyncService.AddItemsToSync(model.Shortcodes);
+                BackgroundSyncService.AddItemsToSync(model.Shortcodes);
 
                 return Ok();
             }
@@ -99,13 +88,13 @@ namespace PassleSync.Core.Controllers.PassleDashboard
             {
                 if (typeof(T) == typeof(PasslePost))
                 {
-                    var umbracoPosts = (PassleDashboardPostsViewModel)_syncHandler.GetAll();
-                    _backgroundSyncService.AddItemsToSync(umbracoPosts.Posts.Select(x => x.Shortcode));
+                    var umbracoPosts = (PassleDashboardPostsViewModel)SyncHandler.GetAll();
+                    BackgroundSyncService.AddItemsToSync(umbracoPosts.Posts.Select(x => x.Shortcode));
                 } 
                 else if (typeof(T) == typeof(PassleAuthor))
                 {
-                    var umbracoAuthors = (PassleDashboardAuthorsViewModel)_syncHandler.GetAll();
-                    _backgroundSyncService.AddItemsToSync(umbracoAuthors.Authors.Select(x => x.Shortcode));
+                    var umbracoAuthors = (PassleDashboardAuthorsViewModel)SyncHandler.GetAll();
+                    BackgroundSyncService.AddItemsToSync(umbracoAuthors.Authors.Select(x => x.Shortcode));
                 }
                 else
                 {
@@ -125,7 +114,7 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         {
             try
             {
-                var syncResult = _syncHandler.DeleteOne(model.Shortcodes.FirstOrDefault());
+                var syncResult = SyncHandler.DeleteOne(model.Shortcodes.FirstOrDefault());
 
                 if (syncResult.Success)
                 {
@@ -145,7 +134,7 @@ namespace PassleSync.Core.Controllers.PassleDashboard
         {
             try
             {
-                _backgroundSyncService.AddItemsToDelete(model.Shortcodes);
+                BackgroundSyncService.AddItemsToDelete(model.Shortcodes);
 
                 return Ok();
 
@@ -163,13 +152,13 @@ namespace PassleSync.Core.Controllers.PassleDashboard
             {
                 if (typeof(T) == typeof(PasslePost))
                 {
-                    var umbracoPosts = _umbracoContentService.GetAllContent();
-                    _backgroundSyncService.AddItemsToDelete(umbracoPosts.Select(x => x.GetValue<string>("postShortcode")));
+                    var umbracoPosts = UmbracoContentService.GetAllContent();
+                    BackgroundSyncService.AddItemsToDelete(umbracoPosts.Select(x => x.GetValue<string>("postShortcode")));
                 }
                 else if (typeof(T) == typeof(PassleAuthor))
                 {
-                    var umbracoAuthors = _umbracoContentService.GetAllContent();
-                    _backgroundSyncService.AddItemsToDelete(umbracoAuthors.Select(x => x.GetValue<string>("shortcode")));
+                    var umbracoAuthors = UmbracoContentService.GetAllContent();
+                    BackgroundSyncService.AddItemsToDelete(umbracoAuthors.Select(x => x.GetValue<string>("shortcode")));
                 }
                 else
                 {
