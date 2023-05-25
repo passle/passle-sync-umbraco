@@ -10,8 +10,6 @@
         public int PostsParentNodeId { get; set; }
         public int AuthorsParentNodeId { get; set; }
         public bool SimulateRemoteHosting { get; set; }
-        public bool UseHttps { get; set; }
-        public string CustomDomain { get; set; }
         public string PasslePermalinkPrefix { get; set; }
     }
 }

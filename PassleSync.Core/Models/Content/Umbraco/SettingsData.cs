@@ -12,8 +12,8 @@ namespace PassleSync.Core.Models.Content.Umbraco
         public int PostsParentNodeId { get; set; }
         public int AuthorsParentNodeId { get; set; }
         public bool SimulateRemoteHosting { get; set; }
+        public string PasslePermalinkPrefix { get; set; }
         public bool UseHttps { get; set; }
         public string CustomDomain { get; set; }
-        public string PasslePermalinkPrefix { get; set; }
     }
 }

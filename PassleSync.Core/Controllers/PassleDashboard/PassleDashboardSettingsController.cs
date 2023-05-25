@@ -2,6 +2,7 @@
 using PassleSync.Core.Models.Content.Umbraco;
 using PassleSync.Core.Services;
 using PassleSync.Core.ViewModels.PassleDashboard;
+using System.Web;
 using System.Web.Http;
 using Umbraco.Core.Logging;
 using Umbraco.Web.Editors;
@@ -36,9 +37,9 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                 AuthorsParentNodeId = _configService.AuthorsParentNodeId,
                 DomainExt = _configService.PassleDomain,
                 SimulateRemoteHosting = _configService.SimulateRemoteHosting,
+                PasslePermalinkPrefix = _configService.PasslePermalinkPrefix,
                 UseHttps = _configService.UseHttps,
                 CustomDomain = _configService.CustomDomain,
-                PasslePermalinkPrefix = _configService.PasslePermalinkPrefix,
             };
         }
 
@@ -56,9 +57,9 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                     PostsParentNodeId = settings.PostsParentNodeId,
                     AuthorsParentNodeId = settings.AuthorsParentNodeId,
                     SimulateRemoteHosting = settings.SimulateRemoteHosting,
-                    UseHttps = settings.UseHttps,
-                    CustomDomain = settings.CustomDomain,
                     PasslePermalinkPrefix = settings.PasslePermalinkPrefix,
+                    UseHttps = HttpContext.Current.Request.Url.Scheme == "https",
+                    CustomDomain = HttpContext.Current.Request.Url.Host,
                 }
             );
 
