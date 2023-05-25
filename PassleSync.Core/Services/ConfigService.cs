@@ -78,8 +78,7 @@ namespace PassleSync.Core.Services
         }
         public bool SimulateRemoteHosting
         {
-            get => _keyValueService.GetValue("PassleSync.SimulateRemoteHosting") == "True";
-            set => _keyValueService.SetValue("PassleSync.SimulateRemoteHosting", value.ToString());
+            get => true;
         }
         public bool UseHttps
         {
@@ -134,7 +133,6 @@ namespace PassleSync.Core.Services
             AuthorPermalinkPrefix = settings.AuthorPermalinkPrefix;
             PostsParentNode = settings.PostsParentNodeId.ToString();
             AuthorsParentNode = settings.AuthorsParentNodeId.ToString();
-            SimulateRemoteHosting = settings.SimulateRemoteHosting;
             UseHttps = settings.UseHttps;
             CustomDomain = settings.CustomDomain;
             PasslePermalinkPrefix = settings.PasslePermalinkPrefix;
