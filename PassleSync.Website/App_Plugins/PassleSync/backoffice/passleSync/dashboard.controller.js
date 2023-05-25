@@ -26,10 +26,6 @@
             {
                 "label": "Health Check",
                 "alias": "Health Check"
-            },
-            {
-                "label": "Setup",
-                "alias": "Setup"
             }
         ];
 
