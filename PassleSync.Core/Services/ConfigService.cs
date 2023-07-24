@@ -59,15 +59,20 @@ namespace PassleSync.Core.Services
         {
             get => PassleShortcodesString?.Split(',') ?? Enumerable.Empty<string>(); 
         }
-        public string PostPermalinkPrefix
+        public string PostPermalinkTemplate
         {
-            get => _keyValueService.GetValue("PassleSync.PostPermalinkPrefix");
-            set => _keyValueService.SetValue("PassleSync.PostPermalinkPrefix", value);
+            get => _keyValueService.GetValue("PassleSync.PostPermalinkTemplate");
+            set => _keyValueService.SetValue("PassleSync.PostPermalinkTemplate", value);
         }
-        public string AuthorPermalinkPrefix
+        public string PersonPermalinkTemplate
         {
-            get => _keyValueService.GetValue("PassleSync.PersonPermalinkPrefix");
-            set => _keyValueService.SetValue("PassleSync.PersonPermalinkPrefix", value);
+            get => _keyValueService.GetValue("PassleSync.PersonPermalinkTemplate");
+            set => _keyValueService.SetValue("PassleSync.PersonPermalinkTemplate", value);
+        }
+        public string PreviewPermalinkTemplate
+        {
+            get => _keyValueService.GetValue("PassleSync.PreviewPermalinkTemplate");
+            set => _keyValueService.SetValue("PassleSync.PreviewPermalinkTemplate", value);
         }
         public string PostsParentNode
         {
@@ -113,8 +118,9 @@ namespace PassleSync.Core.Services
             PassleShortcodesString = string.Join(",", settings.PassleShortcodes);
             ClientApiKey = settings.ClientApiKey;
             PluginApiKey = settings.PluginApiKey;
-            PostPermalinkPrefix = settings.PostPermalinkPrefix;
-            AuthorPermalinkPrefix = settings.AuthorPermalinkPrefix;
+            PostPermalinkTemplate = settings.PostPermalinkTemplate;
+            PersonPermalinkTemplate = settings.PersonPermalinkTemplate;
+            PreviewPermalinkTemplate = settings.PreviewPermalinkTemplate;
             PostsParentNode = settings.PostsParentNodeId.ToString();
             AuthorsParentNode = settings.AuthorsParentNodeId.ToString();
         }

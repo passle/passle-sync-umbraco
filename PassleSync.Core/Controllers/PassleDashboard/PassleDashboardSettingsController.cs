@@ -35,9 +35,10 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                 PassleShortcodes = _configService.PassleShortcodesString,
                 ClientApiKey = _configService.ClientApiKey,
                 PluginApiKey = _configService.PluginApiKey,
-                PostPermalinkPrefix = _configService.PostPermalinkPrefix,
-                AuthorPermalinkPrefix = _configService.AuthorPermalinkPrefix,
+                PostPermalinkTemplate = _configService.PostPermalinkTemplate,
+                PersonPermalinkTemplate = _configService.PersonPermalinkTemplate,
                 PostsParentNodeId = _configService.PostsParentNodeId,
+                PreviewPermalinkTemplate = _configService.PreviewPermalinkTemplate,
                 AuthorsParentNodeId = _configService.AuthorsParentNodeId,
                 DomainExt = _configService.PassleDomain,
             };
@@ -64,8 +65,9 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                     PassleShortcodes = settings.PassleShortcodes.Split(','),
                     ClientApiKey = settings.ClientApiKey,
                     PluginApiKey = settings.PluginApiKey,
-                    PostPermalinkPrefix = settings.PostPermalinkPrefix,
-                    AuthorPermalinkPrefix = settings.AuthorPermalinkPrefix,
+                    PostPermalinkTemplate = settings.PostPermalinkTemplate,
+                    PersonPermalinkTemplate = settings.PersonPermalinkTemplate,
+                    PreviewPermalinkTemplate = settings.PreviewPermalinkTemplate,
                     PostsParentNodeId = settings.PostsParentNodeId,
                     AuthorsParentNodeId = settings.AuthorsParentNodeId
                 }
