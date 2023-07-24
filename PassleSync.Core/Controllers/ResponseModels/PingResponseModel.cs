@@ -5,13 +5,13 @@ namespace PassleSync.Core.Controllers.ResponseModels
     public class PingResponseModel
     {
         public int RemoteHostingType = PassleRemoteHostingType.UMBRACO;
-        public string PostPermalinkPrefix;
-        public string PersonPermalinkPrefix;
+        public string PostPermalinkTemplate;
+        public string PersonPermalinkTemplate;
 
-        public PingResponseModel(string postPrefix, string authorPrefix)
+        public PingResponseModel(string postTemplate, string personTemplate)
         {
-            PostPermalinkPrefix = postPrefix;
-            PersonPermalinkPrefix = authorPrefix;
+            PostPermalinkTemplate = postTemplate;
+            PersonPermalinkTemplate = personTemplate;
         }
     }
 }

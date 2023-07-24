@@ -8,6 +8,7 @@
         public string PostPermalinkTemplate { get; set; }
         public string PersonPermalinkTemplate { get; set; }
         public string PreviewPermalinkTemplate { get; set; }
+        public bool SimulateRemoteHosting { get; set; }
         public int PostsParentNodeId { get; set; }
         public int AuthorsParentNodeId { get; set; }
     }
