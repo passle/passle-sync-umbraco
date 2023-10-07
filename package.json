@@ -11,7 +11,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/line-clamp": "^0.4.1",
-    "postcss": "^8.4.16",
+    "postcss": "^8.4.31",
     "postcss-import": "^15.0.0",
     "postcss-nested": "^5.0.6",
     "postcss-nested-ancestors": "^3.0.0",
