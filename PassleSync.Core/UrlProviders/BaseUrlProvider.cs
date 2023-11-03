@@ -43,6 +43,7 @@ namespace PassleSync.Core.UrlProviders
                 var shortcode = content.GetValueOrDefault<string>(ShortcodeName);
                 var url = content.GetValueOrDefault<string>(UrlName);
                 Dictionary<string, string> templateVariables = new Dictionary<string, string>();
+                var slug = url.Split('/').Last();
 
                 string path;
                 if (content.ContentType.Alias == PassleContentType.PASSLE_POST)
@@ -61,7 +62,6 @@ namespace PassleSync.Core.UrlProviders
                 }
                 else
                 {
-                    var slug = url.Split('/').Last();
                     path = string.Join("/", shortcode, slug);
                 }
 
