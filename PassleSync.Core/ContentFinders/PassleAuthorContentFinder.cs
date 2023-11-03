@@ -9,8 +9,8 @@ namespace PassleSync.Core.ContentFinders
         {
         }
 
-        protected override string UrlPrefix => _configService.PersonPermalinkTemplate;
-        protected override string ShortcodeName => "Shortcode";
+        protected override string UrlTemplate => _configService.PersonPermalinkTemplate;
+        protected override string ShortcodeName => "PersonShortcode";
         protected override string ContentType => PassleContentType.PASSLE_AUTHOR;
     }
 }

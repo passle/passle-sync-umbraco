@@ -13,7 +13,7 @@ namespace PassleSync.Core.UrlProviders
         {
         }
 
-        protected override string UrlPrefix => _configService.PostPermalinkTemplate;
+        protected override string UrlTemplate => _configService.PostPermalinkTemplate;
         protected override string ShortcodeName => "PostShortcode";
         protected override string UrlName => "PostUrl";
         protected override string ContentType => PassleContentType.PASSLE_POST;
