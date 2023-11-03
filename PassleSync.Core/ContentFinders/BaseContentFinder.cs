@@ -4,7 +4,6 @@ using PassleSync.Core.Services;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Umbraco.Core.Persistence;
 using Umbraco.Web;
 using Umbraco.Web.Routing;
 
@@ -21,6 +20,7 @@ namespace PassleSync.Core.ContentFinders
 
         protected abstract string UrlTemplate { get; }
         protected abstract string ShortcodeName { get; }
+        protected abstract string SlugName { get; }
         protected abstract string ContentType { get; }
 
         public bool TryFindContent(PublishedRequest request)
@@ -39,11 +39,12 @@ namespace PassleSync.Core.ContentFinders
             }
 
             string shortcode = string.Empty;
-            if (ContentType == PassleContentType.PASSLE_AUTHOR) 
+            if (ContentType == PassleContentType.PASSLE_AUTHOR || ContentType == PassleContentType.PASSLE_POST) 
             {
+                // Create the regex pattern using the shortcode name and slug name
                 string regexPattern = UrlTemplate
-                   .Replace("{{PersonShortcode}}", "(?<PersonShortcode>.+)")
-                   .Replace("{{PersonSlug}}", "(?<PersonSlug>.+)");
+                       .Replace($"{{{{{ShortcodeName}}}}}", $"(?<{ShortcodeName}>.+)")
+                       .Replace($"{{{{{SlugName}}}}}", $"(?<{SlugName}>.+)");
 
                 // Create a regular expression object and match it against the request URI
                 Regex regex = new Regex(regexPattern);
@@ -51,25 +52,12 @@ namespace PassleSync.Core.ContentFinders
 
                 if (match.Success)
                 {
-                    // Extract the PostShortcode value from the named group
+                    // Extract the shortcode value from the named group
                     shortcode = match.Groups[ShortcodeName].Value;
                 }
-
-            }
-            else if (ContentType == PassleContentType.PASSLE_POST)
-            {
-                string regexPattern = UrlTemplate
-                    .Replace("{{PostShortcode}}", "(?<PostShortcode>.+)")
-                    .Replace("{{PostSlug}}", "(?<PostSlug>.+)");
-
-                // Create a regular expression object and match it against the request URI
-                Regex regex = new Regex(regexPattern);
-                Match match = regex.Match(request.Uri.ToString());
-
-                if (match.Success)
+                else
                 {
-                    // Extract the PostShortcode value from the named group
-                    shortcode = match.Groups[ShortcodeName].Value;
+                    shortcode = request.Uri.Segments.Reverse().Skip(1).Take(1).SingleOrDefault().Trim('/');
                 }
             }
             else
@@ -78,7 +66,6 @@ namespace PassleSync.Core.ContentFinders
             }
 
             var content = virtualContent.FirstOrDefault(x => x.IsPublished() && x.GetValueOrDefault<string>(ShortcodeName) == shortcode);
-            
             if (content == null)
             {
                 return false;
