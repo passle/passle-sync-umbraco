@@ -61,12 +61,12 @@ namespace PassleSync.Core.Services
         }
         public string PostPermalinkTemplate
         {
-            get => _keyValueService.GetValue("PassleSync.PostPermalinkTemplate");
+            get => string.IsNullOrEmpty(_keyValueService.GetValue("PassleSync.PostPermalinkTemplate")) ? "p/{{PostShortcode}}/{{PostSlug}}" : _keyValueService.GetValue("PassleSync.PostPermalinkTemplate");
             set => _keyValueService.SetValue("PassleSync.PostPermalinkTemplate", value);
         }
         public string PersonPermalinkTemplate
         {
-            get => _keyValueService.GetValue("PassleSync.PersonPermalinkTemplate");
+            get => string.IsNullOrEmpty(_keyValueService.GetValue("PassleSync.PersonPermalinkTemplate")) ? "u/{{PersonShortcode}}/{{PersonSlug}}" : _keyValueService.GetValue("PassleSync.PersonPermalinkTemplate");
             set => _keyValueService.SetValue("PassleSync.PersonPermalinkTemplate", value);
         }
         public string PreviewPermalinkTemplate
