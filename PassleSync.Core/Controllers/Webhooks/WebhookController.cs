@@ -56,9 +56,9 @@ namespace PassleSync.Core.Controllers
                     _updateFeaturedPostAction.Execute(actionModel);
                     return Ok();
                 case WebhookAction.PING:
-                    var postPrefix = _configService.PostPermalinkPrefix;
-                    var authorPrefix = _configService.AuthorPermalinkPrefix;
-                    return Ok(new PingResponseModel(postPrefix, authorPrefix));
+                    var postTemplate = _configService.PostPermalinkTemplate;
+                    var personTemplate = _configService.PersonPermalinkTemplate;
+                    return Ok(new PingResponseModel(postTemplate, personTemplate));
                 default:
                     return BadRequest("The action specified is not supported");
             }

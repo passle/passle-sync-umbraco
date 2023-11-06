@@ -1,10 +1,14 @@
-﻿using PassleSync.Core.Extensions;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using PassleSync.Core.Constants;
+using PassleSync.Core.Extensions;
 using PassleSync.Core.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Configuration;
 using Umbraco.Core.Configuration.UmbracoSettings;
 using Umbraco.Core.Logging;
+using Umbraco.Core.Models.Entities;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.Web.Routing;
@@ -20,7 +24,7 @@ namespace PassleSync.Core.UrlProviders
             _configService = configService;
         }
 
-        protected abstract string UrlPrefix { get; }
+        protected abstract string UrlTemplate { get; }
         protected abstract string ShortcodeName { get; }
         protected abstract string UrlName { get; }
         protected abstract string ContentType { get; }
@@ -38,9 +42,28 @@ namespace PassleSync.Core.UrlProviders
             {
                 var shortcode = content.GetValueOrDefault<string>(ShortcodeName);
                 var url = content.GetValueOrDefault<string>(UrlName);
-
+                Dictionary<string, string> templateVariables = new Dictionary<string, string>();
                 var slug = url.Split('/').Last();
-                var path = $"/{string.Join("/", new string[] { UrlPrefix, shortcode, slug })}/";
+
+                string path;
+                if (content.ContentType.Alias == PassleContentType.PASSLE_POST)
+                {
+                    templateVariables.Add("{{PostShortcode}}", shortcode);
+                    templateVariables.Add("{{PostSlug}}", slug);
+                    path = Interpolate(url, templateVariables);
+
+                }
+                else if (content.ContentType.Alias == PassleContentType.PASSLE_AUTHOR)
+                {
+                    templateVariables.Add("{{PersonShortcode}}", shortcode);
+                    templateVariables.Add("{{PersonSlug}}", slug);
+                    path = Interpolate(url, templateVariables);
+
+                }
+                else
+                {
+                    path = string.Join("/", shortcode, slug);
+                }
 
                 return new UrlInfo(path, true, defaultUrlInfo.Culture);
             }
@@ -48,6 +71,12 @@ namespace PassleSync.Core.UrlProviders
             {
                 return defaultUrlInfo;
             }
+        }
+
+        private string Interpolate(string input, Dictionary<string, string> variables)
+        {
+            return variables.Aggregate(input, (current, value) =>
+                current.Replace(value.Key, value.Value));
         }
     }
 }
