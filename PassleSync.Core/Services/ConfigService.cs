@@ -74,10 +74,10 @@ namespace PassleSync.Core.Services
             get => _keyValueService.GetValue("PassleSync.PreviewPermalinkTemplate");
             set => _keyValueService.SetValue("PassleSync.PreviewPermalinkTemplate", value);
         }
-        public string SimulateRemoteHosting
+        public bool SimulateRemoteHosting
         {
-            get => _keyValueService.GetValue("PassleSync.SimulateRemoteHosting");
-            set => _keyValueService.SetValue("PassleSync.SimulateRemoteHosting", value);
+            get => _keyValueService.GetValue("PassleSync.SimulateRemoteHosting") == "True";
+            set => _keyValueService.SetValue("PassleSync.SimulateRemoteHosting", value.ToString());
         }
         public string PostsParentNode
         {
@@ -126,7 +126,7 @@ namespace PassleSync.Core.Services
             PostPermalinkTemplate = settings.PostPermalinkTemplate;
             PersonPermalinkTemplate = settings.PersonPermalinkTemplate;
             PreviewPermalinkTemplate = settings.PreviewPermalinkTemplate;
-            SimulateRemoteHosting = settings.SimulateRemoteHosting ? "True" : "False";
+            SimulateRemoteHosting = settings.SimulateRemoteHosting;
             PostsParentNode = settings.PostsParentNodeId.ToString();
             AuthorsParentNode = settings.AuthorsParentNodeId.ToString();
         }

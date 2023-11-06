@@ -41,7 +41,7 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                 PostPermalinkTemplate = _configService.PostPermalinkTemplate ?? "p/{{PostShortcode}}/{{PostSlug}}",
                 PersonPermalinkTemplate = _configService.PersonPermalinkTemplate ?? "u/{{PersonShortcode}}/{{PersonSlug}}",
                 PreviewPermalinkTemplate = _configService.PreviewPermalinkTemplate,
-                SimulateRemoteHosting = _configService.SimulateRemoteHosting == "True",
+                SimulateRemoteHosting = _configService.SimulateRemoteHosting,
                 PostsParentNodeId = _configService.PostsParentNodeId,
                 AuthorsParentNodeId = _configService.AuthorsParentNodeId,
                 DomainExt = _configService.PassleDomain,
