@@ -13,6 +13,10 @@ A great example of how to use the plugin is our demo website:
 - [📂 Website source](./PassleSync.Website/)
 - [🌍 Live demo](http://mercierandveleztalkingpoints.com/)
 
+## ⚠️ Before you start
+
+The plugins provided by Passle are designed to act as an example, and in some cases may be suitable to use as a starting point for your integration. They are not designed to be a ready-made solution and will often need further customisation to achieve your project goals. Please see our [API](https://api-docs.passle.net/) and [Remote Hosting](https://remote-hosting-documentation.passle.net) documentation to support this integration process. 
+
 ## 🚀 Getting started
 
 Get started by installing the plugin and activating it.
