@@ -319,6 +319,12 @@
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.html" />
     <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.resource.js" />
     <Content Include="App_Data\Models\*.generated.cs" />
+    <Content Include="App_Plugins\PassleSync\propertyEditors\tags\tags.controller.js" />
+    <Content Include="App_Plugins\PassleSync\propertyEditors\tags\tags.html" />
+    <Content Include="App_Plugins\PassleSync\propertyEditors\nestedContent\nestedContent.controller.js" />
+    <Content Include="App_Plugins\PassleSync\propertyEditors\nestedContent\nestedContent.css" />
+    <Content Include="App_Plugins\PassleSync\propertyEditors\nestedContent\nestedContent.html" />
+    <Content Include="App_Plugins\PassleSync\propertyEditors\boolean\boolean.controller.js" />
     <Content Include="Assets\css\.gitignore" />
     <Content Include="Assets\css\index.css" />
     <Content Include="config\grid.editors.config.js" />
@@ -378,6 +384,7 @@
     <Content Include="config\HealthChecks.config" />
     <Content Include="config\ClientDependency.config" />
     <Content Include="config\BackOfficeTours\getting-started.json" />
+    <None Include="App_Plugins\PassleSync\package.manifest" />
     <None Include="packages.config" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\HomePage.cshtml" />
@@ -411,6 +418,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\MacroPartials\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Plugins\PassleSync\propertyEditors\boolean\boolean.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

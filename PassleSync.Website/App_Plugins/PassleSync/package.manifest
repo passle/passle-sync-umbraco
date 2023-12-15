@@ -1,0 +1,10 @@
+{
+    "css": [
+        "~/App_Plugins/PassleSync/propertyEditors/nestedContent/nestedContent.css"
+    ],
+    "javascript": [
+        "~/App_Plugins/PassleSync/propertyEditors/boolean/boolean.controller.js",
+        "~/App_Plugins/PassleSync/propertyEditors/tags/tags.controller.js",
+        "~/App_Plugins/PassleSync/propertyEditors/nestedContent/nestedContent.controller.js"
+    ]
+}

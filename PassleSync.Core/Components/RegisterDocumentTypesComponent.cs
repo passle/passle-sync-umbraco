@@ -2,6 +2,7 @@
 using PassleSync.Core.Constants;
 using PassleSync.Core.Extensions;
 using PassleSync.Core.Models.Content.PassleApi;
+using PassleSync.Core.PropertyEditors;
 using PassleSync.Core.Services;
 using System;
 using System.Collections;
@@ -110,6 +111,28 @@ namespace PassleSync.Core.Components
                     {
                         ValueType = ValueTypes.Text,
                     },
+                };
+
+                _dataTypeService.Save(dataType);
+            }
+
+            if (_dataTypeService.GetDataType(PassleDataType.BOOLEAN) == null)
+            {
+                var editor = Current.Factory.GetInstance<PassleBooleanPropertyEditor>();
+                var dataType = new DataType(editor)
+                {
+                    Name = PassleDataType.BOOLEAN,
+                };
+
+                _dataTypeService.Save(dataType);
+            }
+
+            if (_dataTypeService.GetDataType(PassleDataType.TAGS) == null)
+            {
+                var editor = Current.Factory.GetInstance<PassleTagsPropertyEditor>();
+                var dataType = new DataType(editor)
+                {
+                    Name = PassleDataType.TAGS,
                 };
 
                 _dataTypeService.Save(dataType);
@@ -256,7 +279,7 @@ namespace PassleSync.Core.Components
                 contentType.Template = nameTemplate;
             }
 
-            var editor = Current.Factory.GetInstance<NestedContentPropertyEditor>();
+            var editor = Current.Factory.GetInstance<PassleNestedContentPropertyEditor>();
             var dataType = new DataType(editor)
             {
                 Name = name,
@@ -329,7 +352,7 @@ namespace PassleSync.Core.Components
                     {
                         if (property.Name == "Tags")
                         {
-                            dataTypeName = "Tags";
+                            dataTypeName = PassleDataType.TAGS;
                         }
                         else
                         {
