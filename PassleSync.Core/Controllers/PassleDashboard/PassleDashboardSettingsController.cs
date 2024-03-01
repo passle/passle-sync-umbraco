@@ -97,6 +97,7 @@ namespace PassleSync.Core.Controllers.PassleDashboard
                     PostPermalinkTemplate = settings.PostPermalinkTemplate,
                     PersonPermalinkTemplate = settings.PersonPermalinkTemplate,
                     PreviewPermalinkTemplate = settings.PreviewPermalinkTemplate,
+                    SimulateRemoteHosting = settings.SimulateRemoteHosting,
                     PostsParentNodeId = settings.PostsParentNodeId,
                     AuthorsParentNodeId = settings.AuthorsParentNodeId
                 }
