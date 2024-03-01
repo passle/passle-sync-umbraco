@@ -1,9 +1,5 @@
 # Passle Sync for Umbraco
 
-> **Warning**
->
-> There's a breaking change on the way. Once this change has been deployed to the Passle backend, the plugin won't auto-sync until you've updated to the latest version.
-
 Passle Sync is a plugin for Umbraco which syncs your [Passle](https://home.passle.net/) posts and authors into your Umbraco instance.
 
 Get started with the section below, or jump straight to the [API documentation](./docs/index.md).
@@ -114,7 +110,7 @@ var authorAvatar = postAuthor.GetAvatarUrl();
 To develop this plugin, first clone the repository:
 
 ```
-git clone https://github.com/passle/passle-sync-umbraco-v2
+git clone https://github.com/passle/passle-sync-umbraco
 ```
 
 Next, install all dependencies and build the frontend with the following commands:

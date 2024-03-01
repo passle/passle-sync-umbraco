@@ -12,6 +12,7 @@ using Umbraco.Web;
 using System;
 using Umbraco.Core.Models.PublishedContent;
 using PassleSync.Core.Constants;
+using System.Threading.Tasks;
 
 namespace PassleSync.Core.Controllers.PassleDashboard
 {
@@ -46,8 +47,13 @@ namespace PassleSync.Core.Controllers.PassleDashboard
             Func<string, int> umbracoNonPassleContentCount = x => _publishedContentQuery.Content(_tagService.GetTaggedContentByTag(x).Select(y => y.EntityId))
                 .Count(y => y.ContentType.Alias != PassleContentType.PASSLE_POST);
 
-            var passleTags = _passleTagsContentService.GetAll();
-            var passlePosts = _passlePostsContentService.GetAll();
+
+            var passleTagsTask = Task.Run(() => _passleTagsContentService.GetAll());
+            var passlePostsTask = Task.Run(() => _passlePostsContentService.GetAll());
+
+            var passleTags = passleTagsTask.Result;
+            var passlePosts = passlePostsTask.Result;
+
 
             var syncedPasslePosts = _umbracoPostsContentService.GetPublishedContent();
             var syncedPasslePostTags = syncedPasslePosts.Select(x => x.Value<IEnumerable<string>>("tags"));

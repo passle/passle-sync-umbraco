@@ -3,15 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Services;
+using System.Configuration;
 
 namespace PassleSync.Core.Services
 {
     public class ConfigService
     {
         private IKeyValueService _keyValueService;
+        private string _domain;
 
         public ConfigService(IKeyValueService keyValueService)
         {
+            _domain = ConfigurationManager.AppSettings.Get("PASSLESYNC_DOMAIN") ?? "net";
             _keyValueService = keyValueService;
         }
 
@@ -26,7 +29,7 @@ namespace PassleSync.Core.Services
 
         public string PassleDomain
         {
-            get => "localhost";
+            get => _domain;
         }
 
         public string ApiUrl
@@ -56,15 +59,25 @@ namespace PassleSync.Core.Services
         {
             get => PassleShortcodesString?.Split(',') ?? Enumerable.Empty<string>(); 
         }
-        public string PostPermalinkPrefix
+        public string PostPermalinkTemplate
         {
-            get => _keyValueService.GetValue("PassleSync.PostPermalinkPrefix");
-            set => _keyValueService.SetValue("PassleSync.PostPermalinkPrefix", value);
+            get => string.IsNullOrEmpty(_keyValueService.GetValue("PassleSync.PostPermalinkTemplate")) ? "p/{{PostShortcode}}/{{PostSlug}}" : _keyValueService.GetValue("PassleSync.PostPermalinkTemplate");
+            set => _keyValueService.SetValue("PassleSync.PostPermalinkTemplate", value);
         }
-        public string AuthorPermalinkPrefix
+        public string PersonPermalinkTemplate
         {
-            get => _keyValueService.GetValue("PassleSync.PersonPermalinkPrefix");
-            set => _keyValueService.SetValue("PassleSync.PersonPermalinkPrefix", value);
+            get => string.IsNullOrEmpty(_keyValueService.GetValue("PassleSync.PersonPermalinkTemplate")) ? "u/{{PersonShortcode}}/{{PersonSlug}}" : _keyValueService.GetValue("PassleSync.PersonPermalinkTemplate");
+            set => _keyValueService.SetValue("PassleSync.PersonPermalinkTemplate", value);
+        }
+        public string PreviewPermalinkTemplate
+        {
+            get => _keyValueService.GetValue("PassleSync.PreviewPermalinkTemplate");
+            set => _keyValueService.SetValue("PassleSync.PreviewPermalinkTemplate", value);
+        }
+        public bool SimulateRemoteHosting
+        {
+            get => _keyValueService.GetValue("PassleSync.SimulateRemoteHosting") == "True";
+            set => _keyValueService.SetValue("PassleSync.SimulateRemoteHosting", value.ToString());
         }
         public string PostsParentNode
         {
@@ -110,8 +123,10 @@ namespace PassleSync.Core.Services
             PassleShortcodesString = string.Join(",", settings.PassleShortcodes);
             ClientApiKey = settings.ClientApiKey;
             PluginApiKey = settings.PluginApiKey;
-            PostPermalinkPrefix = settings.PostPermalinkPrefix;
-            AuthorPermalinkPrefix = settings.AuthorPermalinkPrefix;
+            PostPermalinkTemplate = settings.PostPermalinkTemplate;
+            PersonPermalinkTemplate = settings.PersonPermalinkTemplate;
+            PreviewPermalinkTemplate = settings.PreviewPermalinkTemplate;
+            SimulateRemoteHosting = settings.SimulateRemoteHosting;
             PostsParentNode = settings.PostsParentNodeId.ToString();
             AuthorsParentNode = settings.AuthorsParentNodeId.ToString();
         }
