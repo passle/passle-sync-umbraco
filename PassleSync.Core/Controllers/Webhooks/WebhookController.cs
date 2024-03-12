@@ -10,6 +10,7 @@ using Umbraco.Web.WebApi;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 using PassleSync.Core.Controllers.ResponseModels;
 using PassleSync.Core.Actions;
+using PassleSync.Core.Services.Content;
 
 namespace PassleSync.Core.Controllers
 {
@@ -24,13 +25,13 @@ namespace PassleSync.Core.Controllers
         public WebhookController(
             ISyncHandler<PasslePost> postHandler,
             ISyncHandler<PassleAuthor> authorHandler,
-            UpdateFeaturedPostAction updateFeaturedPostAction,
+            UmbracoContentService<PasslePost> umbracoContentService,
             ConfigService configService)
         {
             _postHandler = postHandler;
             _authorHandler = authorHandler;
-            _updateFeaturedPostAction = updateFeaturedPostAction;
             _configService = configService;
+            _updateFeaturedPostAction = new UpdateFeaturedPostAction(umbracoContentService);
         }
 
         [HttpPost]
